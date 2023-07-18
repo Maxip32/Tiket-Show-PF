@@ -1,4 +1,4 @@
-//const { searchresults } = require('./src/utils/index.js');
+const { searchresults } = require('./src/utils/index.js');
 //                       _oo0oo_
 //                      o8888888o
 //                      88" . "88
@@ -18,14 +18,14 @@
 //     =====`-.____`.___ \_____/___.-`___.-'=====
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//const server = require('./src/app.js');
-// const { conn } = require('./src/db.js');
-// const port = process.env.PORT || 3001
+const server = require('./src/app.js');
+const { conn } = require('./src/db.js');
+const port = process.env.PORT || 3001
 
-// Syncing all the models at once.
-// conn.sync({ force: true }).then(() => {
-//   server.listen(port, () => {
-//     console.log(`servidor levantado en puerto ${port}`); // eslint-disable-line no-console
-//     searchresults()
-//   });
-// });
+//Syncing all the models at once.
+conn.sync({ force: true }).then(() => {
+  server.listen(port, () => {
+    console.log(`servidor levantado en puerto ${port}`); // eslint-disable-line no-console
+    searchresults()
+  });
+});
