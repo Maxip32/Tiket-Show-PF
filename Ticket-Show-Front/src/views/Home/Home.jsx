@@ -2,6 +2,7 @@
 import SearchBar from "../../components/SearchBar/SearchBar"
 //import { useDispatch, useSelector } from 'react-redux'
 
+
 const Home = () => {
 
   //const dispatch = useDispatch()
