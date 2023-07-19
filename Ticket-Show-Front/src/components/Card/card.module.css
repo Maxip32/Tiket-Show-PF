@@ -1,0 +1,74 @@
+.healtScoreContainer {
+    width: 130px;
+    height: 2rem;
+    border: 2px solid rgb(255, 243, 173);
+    position: absolute;
+    background-color: #fac21c;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    position: relative;
+    left: 7rem;
+    top: 3rem;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+  }
+  
+  .healtScore {
+    color: black;
+    font-size: small;
+    display: flex;
+    justify-content: center;
+    margin-right: 1rem;
+  }
+  .imageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image {
+    margin-top: 6rem;
+    width: 10%;
+    height: 16%;
+    position: absolute;
+    display: flex;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .card {
+    max-height: 10rem;
+  }
+  
+  .allContainer {
+    background-color: white;
+    width: 15rem;
+    margin: 1rem;
+    height: 20rem;
+  }
+  
+  .name {
+    display: flex;
+    text-align: left;
+    text-decoration: none;
+    color: black;
+    margin-left: 1rem;
+    font-size: 18px;
+  }
+  
+  .infoContainer {
+    margin-top: 6rem;
+  }
+  
+  .diets {
+    color: rgb(0, 0, 0);
+    text-align: left;
+    font-weight: lighter;
+    margin-left: 1rem;
+    display: flex;
+  }
+  
+  .link {
+    text-decoration: none;
+  }
+  
