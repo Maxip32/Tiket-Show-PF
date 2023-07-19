@@ -7,7 +7,10 @@ export default {
   theme: {
     extend: {
       colors: {
+        primaryColor: '#242565',
         secondaryColor: '#ed4690',
+        chryslerBlue: '#5522CC',
+        
       },
     },
   },

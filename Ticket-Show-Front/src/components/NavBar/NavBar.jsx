@@ -65,7 +65,7 @@ const NavBar = () => {
             className={({ isActive }) =>
               isActive ? activeStyle : ""}
           >
-            <button>
+            <button className='py-1 px-2 rounded-2xl bg-primaryColor'>
               Regístrate
             </button>
           </NavLink>
