@@ -7,6 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        primaryColor: '#242565',
         secondaryColor: '#ed4690',
         ChryslerBlue: "#5522CC",
         DarkTextPurple: "#7778B0",
@@ -20,8 +21,6 @@ export default {
         Color300: "#F9F9FF",
         Color200: "#F9F9FF",
         White: "#FFFFF"
-
-
       },
     },
   },

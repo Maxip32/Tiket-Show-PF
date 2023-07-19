@@ -36,6 +36,7 @@ const Home = () => {
      <select className="border-2 border-solid border-gray-500 rounded-lg " onChange={event => handleFiltroCiudades(event)} defaultValue='default'>
         <option value='default' disabled > Ciudades </option>
      </select>
+
       </div>
   )
 }
