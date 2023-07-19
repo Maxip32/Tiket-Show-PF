@@ -1,7 +1,7 @@
 const {Router} = require('express');
-const getAllArtist = require("../../src/handlers/artistHandlers/getAllArtist")
-const getANameArtist = require("../../src/handlers/artistHandlers/getANameArtist")
-const getIdArtist = require("../../src/handlers/artistHandlers/getIdArtist")
+const getAllArtist = require("../../handlers/artistHandlers/getAllArtist")
+const getANameArtist = require("../../handlers/artistHandlers/getANameArtist")
+const getIdArtist = require("../../handlers/artistHandlers/getIdArtist")
 
 const getArtistRouter = Router();
 
