@@ -1,7 +1,7 @@
 const {Router} = require('express');
-const createArtist = require('../../src/handlers/artistHandlers/createArtist')
+const createArtist = require('../../handlers/artistHandlers/createArtist')
 const validationCreate = require("../../middleware/validationArtist/validationCreate")
-const getArtistRouter = require("../artistRoutes/getArtistRoute")
+const getArtistRouter = require("./getArtistRoute")
 
 const artistRouter = Router();
 
