@@ -1,16 +1,17 @@
-const { idArtist } = require("../../db");
-const idArtist = require("../userControllers/users");
+const { User } = require("../../db");
+// const idArtist = require("../userControllers/users");
 
 module.exports = async (id)=>{
-    const idUsers = await idUsers.findOne({
+    const idUsers = await User.findOne({
         where:{
             id: id,
         }
     });
 
     if(!idUsers){
-        return("No existe un Artista con este id");
+        alert("No existe un Usuario con este id");
     }else{
-        return('Artista encontrado con éxito');
+        alert('Usuario encontrado con éxito');
+        return idUsers;
     }
 }

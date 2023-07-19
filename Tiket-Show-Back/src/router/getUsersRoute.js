@@ -1,10 +1,7 @@
-const express = require('express')
-const router = express.Router()
-const { Users } = require("../db")
+const { Router } = require('express')
+const getUsersById = require("../handlers/userHandler/getUsersById")
+const UserRouter = Router();
 
-router.get('/', async (req, res) => {             //????
-    const resultant = await Users.findAll()
-    res.status(200).json(resultant)
-})
+UserRouter.get("/:idUser", getUsersById)
 
-module.exports = router;
+module.exports = UserRouter;
