@@ -6,8 +6,6 @@ import Landing from "./Views/Landing/Landing";
 import Home from "./Views/Home/Home";
 
 
-
-
 function App() {
 
   const location = useLocation();
