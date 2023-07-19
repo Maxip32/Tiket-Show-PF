@@ -25,8 +25,8 @@ const SearchBar = () => {
 
     return (
         <div className="w-full max-w-xs m-auto">
-            <input className="border-2 border-solid border-gray-500 rounded-lg" type='text' placeholder="Search" onChange={(event) => handleChange(event)} />
-            <button className="border-2 border-solid border-gray-500 rounded-lg" type="submit" onClick={(event) => handleButton(event)} >Search</button>
+            <input className="border-2 border-solid border-gray-500 rounded-lg" type='text' placeholder="Buscar" onChange={(event) => handleChange(event)} />
+            <button className="border-2 border-solid border-gray-500 rounded-lg" type="submit" onClick={(event) => handleButton(event)} >Buscar </button>
         </div>
     )
 }
