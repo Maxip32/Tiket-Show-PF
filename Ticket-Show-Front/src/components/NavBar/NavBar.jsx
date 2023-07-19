@@ -55,7 +55,10 @@ const NavBar = () => {
             to="/singUp"
             className={({ isActive }) => (isActive ? activeStyle : "")}
           >
-            <button>Regístrate</button>
+            <button className='py-1 px-2 rounded-2xl bg-primaryColor'>
+              Regístrate
+            </button>
+
           </NavLink>
         </li>
         <li>🛒 0</li>
