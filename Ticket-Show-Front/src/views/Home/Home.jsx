@@ -1,4 +1,5 @@
 //import { useEffect } from "react"
+import CardsContainer from "../../components/CardContainer/CardsContainer"
 import SearchBar from "../../components/SearchBar/SearchBar"
 //import { useDispatch, useSelector } from 'react-redux'
 
@@ -27,6 +28,7 @@ const Home = () => {
   
   return (
     <div>
+     
       <SearchBar/>
 
       <select className="border-2 border-solid border-gray-500 rounded-lg " onChange={event => handleFiltroGeneros(event)} defaultValue='default' >
@@ -36,7 +38,7 @@ const Home = () => {
      <select className="border-2 border-solid border-gray-500 rounded-lg " onChange={event => handleFiltroCiudades(event)} defaultValue='default'>
         <option value='default' disabled > Ciudades </option>
      </select>
-
+      <CardsContainer />
       </div>
   )
 }

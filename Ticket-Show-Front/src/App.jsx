@@ -4,7 +4,7 @@ import Home from "./Views/Home/Home";
 import NavBar from "./components/NavBar/NavBar";
 import Detail from "./Views/Detail/Detail";
 import Landing from "./Views/Landing/Landing";
-import Home from "./Views/Home/Home";
+
 
 
 function App() {
