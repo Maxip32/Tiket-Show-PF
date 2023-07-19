@@ -18,24 +18,23 @@ const Home = () => {
   //}, [dispatch])
 
   // const handleFiltroGeneros = (event) => {
-  //   dispatch(filtrodegeneroenlasactions(event.target.value))
+  //   dispatch(filtroDeCiudadesEnActions(event.target.value))
   // }
   
   //const handleFiltroCiudades = (event) => {
-  //   dispatch(filtrodeciudadesenactions(event.target.value))
+  //   dispatch(filtroDeCiudadesEnActions(event.target.value))
   // }
   
   return (
     <div>
       <SearchBar/>
 
-      <select className="border-2 border-solid border-gray-500 rounded-lg " onChange={event => handleFiltroGeneros(event)} defaultValue='default' >
+      <select className="border-2 border-solid border-gray-500 rounded-lg " /* onChange={event => handleFiltroGeneros(event)} */ defaultValue='default' >
         <option value='default' disabled > Género musical </option>
       </select>
-     
-     <select className="border-2 border-solid border-gray-500 rounded-lg " onChange={event => handleFiltroCiudades(event)} defaultValue='default'>
+    <select className="border-2 border-solid border-gray-500 rounded-lg " /* onChange={event => handleFiltroCiudades(event)} */ defaultValue='default'>
         <option value='default' disabled > Ciudades </option>
-     </select>
+    </select>
 
       </div>
   )
