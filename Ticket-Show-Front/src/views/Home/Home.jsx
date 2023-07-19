@@ -1,4 +1,5 @@
 //import { useEffect } from "react"
+import Hero from "../../components/Hero/Hero"
 import SearchBar from "../../components/SearchBar/SearchBar"
 //import { useDispatch, useSelector } from 'react-redux'
 
@@ -27,6 +28,7 @@ const Home = () => {
   
   return (
     <div>
+      <Hero />
       <SearchBar/>
 
       <select className="border-2 border-solid border-gray-500 rounded-lg " /* onChange={event => handleFiltroGeneros(event)} */ defaultValue='default' >
