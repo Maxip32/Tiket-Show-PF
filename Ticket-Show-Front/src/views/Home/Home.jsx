@@ -30,24 +30,19 @@ const Home = () => {
   
   return (
     <div>
-        
-
       <Hero />
-       <SearchBar/>
+      <SearchBar/>
 
       <select className="border-2 border-solid border-gray-500 rounded-lg " /* onChange={event => handleFiltroGeneros(event)} */ defaultValue='default' >
         <option value='default' disabled > Género musical </option>
       </select>
-    <select className="border-2 border-solid border-gray-500 rounded-lg " /* onChange={event => handleFiltroCiudades(event)} */ defaultValue='default'>
-        <option value='default' disabled > Ciudades </option>
 
-     </select>
+      <select className="border-2 border-solid border-gray-500 rounded-lg " /* onChange={event => handleFiltroCiudades(event)} */ defaultValue='default'>
+        <option value='default' disabled > Ciudades </option>
+      </select>
       <CardsContainer />
 
-    </select>
-
-
-      </div>
+    </div>
   )
 }
 
