@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const GET_EVENTS = 'GET_EVENTS'
-
+//ayuda
 export const getEvents = () => {
     return async(dispatch) => {
         const apiData = await axios.get(`http://localhost:3001/event/getEvents`)
