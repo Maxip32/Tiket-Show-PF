@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        nickName: {
+        nickname: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
@@ -67,3 +67,4 @@ module.exports = (sequelize) => {
         },
     });
 };
+

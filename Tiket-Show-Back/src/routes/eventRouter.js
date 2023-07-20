@@ -5,8 +5,8 @@ const {
     getEvents
 } = require('../controllers/eventControllers/getControllers')
 
-const router = Router();
+const eventRouter = Router();
 
-router.get('/getEvents', getEvents);
+eventRouter.get('/getEvents', getEvents);
 
-router.get('/getEvent/:id', getEvent);
+eventRouter.get('/getEvent/:id', getEvent);
