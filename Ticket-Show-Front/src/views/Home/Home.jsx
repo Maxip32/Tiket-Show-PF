@@ -2,22 +2,22 @@ import { useEffect, useState } from "react"
 import CardsContainer from "../../components/CardContainer/CardsContainer"
 import Hero from "../../components/Hero/Hero"
 import SearchBar from "../../components/SearchBar/SearchBar"
-import { filterByGenres, getGenres } from "../../redux/actions"
+import { filterByGenres, getGenres, orderByDate } from "../../redux/actions"
 import { useDispatch, useSelector } from 'react-redux'
 
 
 const Home = () => {
 
 
-   const dispatch = useDispatch()
+  const dispatch = useDispatch()
   
   const genres = useSelector(state => state.genres)
   const [order, setOrder] = useState(true)
   //const ciudades = useSelector(state => state.ciudades)
   
-   useEffect(() => {
-     dispatch(getGenres())
-   }, [dispatch])
+  useEffect(() => {
+    dispatch(getGenres())
+  }, [dispatch])
 
 
   // useEffect(() => {
@@ -25,7 +25,7 @@ const Home = () => {
   //}, [dispatch])
 
 
-   const handleFilterGenres = (event) => {
+  const handleFilterGenres = (event) => {
       dispatch(filterByGenres(event.target.value))
     }
   
@@ -55,7 +55,7 @@ const Home = () => {
     <div>
       <Hero />
 
-       <SearchBar/>
+      <SearchBar/>
 
       <select className="border-2 border-solid border-gray-500 rounded-lg "  onChange={event => handleFilterGenres(event)}  defaultValue='default' >
         <option value='default' disabled > Género musical </option>
@@ -68,13 +68,13 @@ const Home = () => {
       </select>
     <select className="border-2 border-solid border-gray-500 rounded-lg " /* onChange={event => handleFiltroCiudades(event)} */ defaultValue='default'>
         <option value='default' disabled > Ciudades </option>
-     </select>
-       
-       <select onChange={event => handleOrderDate(event)} defaultValue='default'>
+    </select>
+
+      <select onChange={event => handleOrderDate(event)} defaultValue='default'>
                 <option value = 'default' disabled>Orden de Eventos</option>
                 <option value= 'desc'>Eventos más recientes</option>
                 <option value='asc'>Eventos más lejanos</option>
-       </select>
+      </select>
       <input type='date' value={date.dates} name='Fecha' onChange={event => handleInputChange(event)} /> 
       <CardsContainer />
 

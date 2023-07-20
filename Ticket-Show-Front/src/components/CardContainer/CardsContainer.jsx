@@ -1,4 +1,4 @@
-import React from 'react'
+//import React from 'react'
 import Card from '../Card/Card'
 
 
@@ -28,7 +28,7 @@ const CardsContainer = () => {
         email={evento.locationEmail}
         city={evento.eventCity}
         cost={evento.price}
-                />
+          />
       )
     })}</div>
   )
