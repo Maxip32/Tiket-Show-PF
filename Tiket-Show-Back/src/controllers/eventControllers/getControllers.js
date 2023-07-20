@@ -1,4 +1,5 @@
 const { Event, Artist, Genre } = require('../db');
+const { filterAllEvents } = require('../../handlers/filterEvents/filterAllEvents');
 
 const getEvents = async (req, res = response) => {
     const filter = req.query.filter || '';
