@@ -22,7 +22,7 @@ console.log(Events)
         summary={evento.description}
         date={evento.date}
         genre={evento.genre}
-        location={evento.locationName}
+
         direccion={evento.adress}
         phone={evento.locationPhone}
         email={evento.locationEmail}
