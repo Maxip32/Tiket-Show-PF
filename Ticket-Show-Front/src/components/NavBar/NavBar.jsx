@@ -1,24 +1,36 @@
 import { NavLink } from "react-router-dom";
 import logoTicketShow from "../../assets/logos/logoTicketShow.svg";
+import { useState } from "react";
 
 const NavBar = () => {
   const activeStyle = "underline-offset-5 border-b-2 border-secondaryColor";
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const closeDropdown = () => {
+    setIsDropdownOpen(false);
+  };
+
   return (
-    <nav className="flex justify-between items-center fixed z-10 bg-transparent w-full py-5 px-12 text-md font-light">
+    <nav className="flex justify-between items-center bg-transparent w-full py-5 px-12 text-md font-light">
       <ul className="flex items-center gap-3">
         <li>
           <NavLink to="/home">
             <img className="w-8" src={logoTicketShow} alt="logo" />
           </NavLink>
         </li>
-        <li className="font-semibold text-lg">TicketShow</li>
+        <li className='font-bold text-2xl tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-secondaryColor to-ChryslerBlue'>TicketShow</li>
       </ul>
 
       <ul className="flex items-center gap-3">
         <li>
           <NavLink
             to="/home"
+            onClick={closeDropdown}
             className={({ isActive }) => (isActive ? activeStyle : "")}
           >
             Home
@@ -27,6 +39,7 @@ const NavBar = () => {
         <li>
           <NavLink
             to="/about"
+            onClick={closeDropdown}
             className={({ isActive }) => (isActive ? activeStyle : "")}
           >
             Acerca de
@@ -35,28 +48,101 @@ const NavBar = () => {
         <li>
           <NavLink
             to="/contact"
+            onClick={closeDropdown}
             className={({ isActive }) => (isActive ? activeStyle : "")}
           >
             Contáctenos
           </NavLink>
         </li>
+
+        {/* //- login  */}
+        <li className="relative">
+          <div
+            className="items-center overflow-hidden rounded-md border-solid border-2 border-secondaryColor hover:text-primaryColor hover:bg-Color300"
+          >
+            <button
+              className="py-1 px-2 flex items-center"
+              onClick={toggleDropdown}
+            >
+              Regístrate
+              <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`h-4 w-4 transition-transform duration-200 ${
+                    isDropdownOpen ? 'rotate-180' : 'rotate-0'
+                  }`}
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
+        {/* //-Menu desplegable login -------- */}
+        {isDropdownOpen && (
+          <div
+            className="absolute end-0 z-10 mt-2 w-36 divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg"
+            role="menu"
+          >
+            <div className="p-2">
+              <NavLink
+                to="/registerUser"
+                className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
+                role="menuitem"
+                onClick={closeDropdown}
+              >
+                Usuario
+              </NavLink>
+
+              <NavLink
+                to="/registerArtist"
+                className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
+                role="menuitem"
+                onClick={closeDropdown}
+              >
+                Artista
+              </NavLink>
+            </div>
+
+            {/* <div className="p-2">
+              <form method="POST" action="#">
+                <button
+                  type="submit"
+                  className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
+                  role="menuitem"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    />
+                  </svg>
+
+                  Delete Product
+                </button>
+              </form>
+            </div> */}
+          </div>
+        )}
+        </li>
+        {/* //- fin login  */}
         <li>
           <NavLink
             to="/login"
-            className={({ isActive }) => (isActive ? activeStyle : "")}
           >
-            <button className="py-0.5 px-2 rounded-2xl border-solid border-2 border-secondaryColor">
+            <button className='py-1.5 px-3 rounded-md bg-primaryColor text-Color200 hover:text-black hover:bg-white'>
               Ingresa
-            </button>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/singUp"
-            className={({ isActive }) => (isActive ? activeStyle : "")}
-          >
-            <button className='py-1 px-2 rounded-2xl bg-primaryColor'>
-              Regístrate
             </button>
 
           </NavLink>

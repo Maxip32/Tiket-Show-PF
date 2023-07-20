@@ -2,7 +2,7 @@ module.exports = (req, res, next)=>{
     const {
         firstName,
         lastName,
-        nickName,
+        nickname,
         email,
         password,
         phone,
@@ -16,7 +16,7 @@ module.exports = (req, res, next)=>{
         confirmed
     }  = req.body;
 
-    if(![firstName, lastName, nickName, email, 
+    if(![firstName, lastName, nickname, email, 
         password, phone, decription, twitter, 
         instagram, spotify, image, google, 
         state, confirmed].every(Boolean)){
