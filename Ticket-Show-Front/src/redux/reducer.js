@@ -1,4 +1,4 @@
-import { FILTER_BY_GENRES, GET_EVENTS } from "./actions"
+import { FILTER_BY_GENRES, GET_EVENTS, GET_GENRES, ORDER_BY_DATE } from "./actions"
 
 const initialState = {
    Events: [  {
@@ -492,7 +492,7 @@ const initialState = {
     ],
 
    
-    genre: [],
+    genres: [],
 }
 const rootReducer = (state = initialState, action) => {
 
@@ -502,6 +502,10 @@ const rootReducer = (state = initialState, action) => {
             Events:action.payload,
             allEvents:action.payload
         }
+        case GET_GENRES:
+          return {
+            ...state, genres: action.payload
+          }
 
         case FILTER_BY_GENRES:
 
@@ -515,6 +519,23 @@ const rootReducer = (state = initialState, action) => {
             ...state,
             Events: EventsWithGenre,
 
+        }
+        case ORDER_BY_DATE:
+
+        const EventsByDate = action.payload === 'asc' ?
+        state.Events.sort((a,b) => {
+          if (a.even > b.even) return 1
+          if (b.even > a.even) return -1
+          return 0
+        }) : 
+        state.Events.sort((a,b) => {
+          if (a.even > b.even) return -1
+          if (b.even > a.even) return 1
+          return 0
+        })
+        return {
+          ...state,
+          Events: EventsByDate
         }
         default:
             return {...state}
