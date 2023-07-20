@@ -44,7 +44,7 @@ const Home = () => {
      </select>
       <CardsContainer />
 
-    </select>
+    
 
 
       </div>
