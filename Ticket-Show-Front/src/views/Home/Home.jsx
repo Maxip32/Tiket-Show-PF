@@ -5,7 +5,7 @@ import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import { filterByGenres, getEvents, getGenres } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-
+import Card from "../../components/Card/Card";
 const Home = () => {
   const dispatch = useDispatch();
 
