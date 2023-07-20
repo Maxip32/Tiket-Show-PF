@@ -1,5 +1,3 @@
-//import { useEffect } from "react"
-
 import { useEffect, useState } from "react"
 import CardsContainer from "../../components/CardContainer/CardsContainer"
 import Hero from "../../components/Hero/Hero"
@@ -9,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 
 const Home = () => {
+
 
    const dispatch = useDispatch()
   
@@ -20,17 +19,21 @@ const Home = () => {
      dispatch(getGenres())
    }, [dispatch])
 
+
   // useEffect(() => {
   // dispatch(getCiudades())
   //}, [dispatch])
+
 
    const handleFilterGenres = (event) => {
       dispatch(filterByGenres(event.target.value))
     }
   
+
   //const handleFiltroCiudades = (event) => {
   //   dispatch(filtroDeCiudadesEnActions(event.target.value))
   // }
+
 
   const [date, setDate] = useState({
     dates:'',
@@ -47,11 +50,11 @@ const Home = () => {
     dispatch(orderByDate(event.target.value))
     order ? setOrder(false) : setOrder(true)
   }
+
   return (
     <div>
-        
-
       <Hero />
+
        <SearchBar/>
 
       <select className="border-2 border-solid border-gray-500 rounded-lg "  onChange={event => handleFilterGenres(event)}  defaultValue='default' >
@@ -83,3 +86,4 @@ const Home = () => {
 
 }
 export default Home
+
