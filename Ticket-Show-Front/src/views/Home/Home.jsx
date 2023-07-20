@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import CardsContainer from "../../components/CardContainer/CardsContainer";
 import Hero from "../../components/Hero/Hero";
@@ -19,6 +20,7 @@ const Home = () => {
     dispatch(getGenres());
   }, [dispatch]);
 
+
   // useEffect(() => {
   // dispatch(getCiudades())
   //}, [dispatch])
@@ -27,9 +29,12 @@ const Home = () => {
     dispatch(filterByGenres(event.target.value));
   };
 
+
   //const handleFiltroCiudades = (event) => {
   //   dispatch(filtroDeCiudadesEnActions(event.target.value))
   // }
+
+
 
   const [date, setDate] = useState({
     dates: "",
@@ -56,6 +61,7 @@ const Home = () => {
         className="border-2 border-solid border-gray-500 rounded-lg "
         onChange={(event) => handleFilterGenres(event)}
         defaultValue="default"
+
       >
         <option value="default" disabled>
           {" "}
@@ -93,8 +99,10 @@ const Home = () => {
         name="Fecha"
         onChange={(event) => handleInputChange(event)}
       />
+
       <CardsContainer />
     </div>
   );
 };
+
 export default Home;
