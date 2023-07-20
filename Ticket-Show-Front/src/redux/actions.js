@@ -4,6 +4,9 @@ export const GET_EVENTS = 'GET_EVENTS'
 
 export const getEvents = () => {
     return async(dispatch) => {
+        const apiData = await axios.get(`http://localhost:3001/event/getEvents`)
+        
+        const Events = apiData.data
         dispatch({
             type:GET_EVENTS,
             payload: Events

@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { Event, Artist, Genre } = require('../db');
+const { Event, Artist, Genre } = require('../../db');
 
 const filterAllEvents = async ({
     name,
