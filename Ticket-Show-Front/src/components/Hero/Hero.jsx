@@ -4,11 +4,14 @@ import metallica from '../../assets/image/metallica.jpg'
 import taylorswift from '../../assets/image/taylor-swift.jpg'
 
 const Hero = () => {
+
+  //- aca debe llegar el estado con las imágenes 
   const images = [
     coldplay,
     metallica,
     taylorswift
   ]
+  
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedImage, setSelectedImage] = useState(images[0])
 

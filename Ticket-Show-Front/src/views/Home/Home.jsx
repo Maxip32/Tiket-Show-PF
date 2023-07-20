@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import CardsContainer from "../../components/CardContainer/CardsContainer";
 import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import { filterByGenres, getGenres } from "../../redux/actions";
+import { filterByGenres, getEvents, getGenres } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 
 const Home = () => {
@@ -12,6 +12,9 @@ const Home = () => {
   const [order, setOrder] = useState(true);
   //const ciudades = useSelector(state => state.ciudades)
 
+  useEffect(() => {
+    dispatch(getEvents())
+  }, [dispatch])
   useEffect(() => {
     dispatch(getGenres());
   }, [dispatch]);

@@ -1,4 +1,4 @@
-const { Event, Artist, Genre } = require('../db');
+const { Event, Artist, Genre } = require('../../db.js');
 const { filterAllEvents } = require('../../handlers/filterEvents/filterAllEvents');
 
 const getEvents = async (req, res = response) => {
