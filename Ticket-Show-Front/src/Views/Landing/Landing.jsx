@@ -22,7 +22,7 @@ const Landing = () => {
                 <span className="text-white text-"></span>
               </h1>
               <h1 className="mt-0 mb-12 text-5xl tracking-tight md:text-4xl xl:text-5xl text-white">
-              Compra fácil, Rápido y seguro. <br />
+                Compra fácil, Rápido y seguro. <br />
               </h1>
               <Link to="/home">
                 <a

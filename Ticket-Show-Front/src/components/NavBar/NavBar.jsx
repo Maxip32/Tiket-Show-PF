@@ -16,7 +16,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="flex justify-between items-center fixed z-10 bg-transparent w-full py-5 px-12 text-md font-light">
+    <nav className="flex justify-between items-center bg-transparent w-full py-5 px-12 text-md font-light">
       <ul className="flex items-center gap-3">
         <li>
           <NavLink to="/home">
