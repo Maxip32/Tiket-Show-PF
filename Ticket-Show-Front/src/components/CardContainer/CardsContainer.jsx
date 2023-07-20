@@ -24,8 +24,8 @@ console.log(Events)
         genre={evento.genre}
 
         direccion={evento.adress}
-        phone={evento.locationPhone}
-        email={evento.locationEmail}
+        
+                         
         city={evento.city}
         cost={evento.price}
           />
