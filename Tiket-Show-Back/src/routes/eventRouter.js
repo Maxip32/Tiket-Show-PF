@@ -4,7 +4,8 @@ const router = Router();
 
 const {
     getEvent,
-    getEvents
+    getEvents,
+    getEventByName,
 } = require('../controllers/eventControllers/getControllers')
 
 
@@ -12,5 +13,7 @@ const {
 router.get('/getEvents', getEvents);
 
 router.get('/getEvent/:id', getEvent);
+
+router.get('/getEvent/name/:name', getEventByName);
 
 module.exports = router;
