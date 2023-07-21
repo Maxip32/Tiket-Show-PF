@@ -109,32 +109,32 @@ const Home = () => {
       <section className=" mt-20 relative mb-2 flex w-full flex-wrap justify-around m-w-xl ">
         <h1 className="text-6xl">Proximos Eventos</h1>
         <div className=" flex h-12 ">
-        <select
-        className="border-white rounded-2xl "
-          onChange={(event) => handleOrderDate(event)}
-          defaultValue="default"
-        >
-          <option value="default" disabled>
-            Orden Alfabetico
-          </option>
-          <option value="desc">Desc</option>
-          <option value="asc">Asc</option>x
-        </select>
+          <select
+            className="border-white rounded-2xl "
+            onChange={(event) => handleOrderDate(event)}
+            defaultValue="default"
+          >
+            <option value="default" disabled>
+              Orden Alfabetico
+            </option>
+            <option value="desc">Desc</option>
+            <option value="asc">Asc</option>x
+          </select>
 
-        <select
-        className="border-white rounded-2xl"
-          onChange={(event) => handleOrderDate(event)}
-          defaultValue="default"
-        >
-          <option value="default" disabled>
-            Orden de Eventos
-          </option>
-          <option value="desc">Eventos más recientes</option>
-          <option value="asc">Eventos más lejanos</option>
-        </select>
+          <select
+            className="border-white rounded-2xl"
+            onChange={(event) => handleOrderDate(event)}
+            defaultValue="default"
+          >
+            <option value="default" disabled>
+              Orden de Eventos
+            </option>
+            <option value="desc">Eventos más recientes</option>
+            <option value="asc">Eventos más lejanos</option>
+          </select>
         </div>
       </section>
-            
+
       <section className="  w-full max-w-7xl p-28 flex justify-center flex-wrap items-center gap-2 md:gap-4">
         {currentEvents?.map((cu) => {
           return (
