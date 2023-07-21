@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CardsContainer from "../../components/CardContainer/CardsContainer";
+//import CardsContainer from "../../components/CardContainer/CardsContainer";
 import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import {
@@ -14,7 +14,7 @@ import Paginate from "../../components/Paginate/Paginate";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const allevents = useSelector((state) => state.Events);
+  const allEvents = useSelector((state) => state.Events);
   const genres = useSelector((state) => state.genres);
   const [order, setOrder] = useState(true);
   //const ciudades = useSelector(state => state.ciudades)
@@ -55,9 +55,9 @@ const Home = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [eventsPerPage] = useState(10);
-  const indexOfLastevents = currentPage * eventsPerPage;
-  const indexOfFirstevents = indexOfLastevents - eventsPerPage;
-  const currentEvents = allevents.slice(indexOfFirstevents, indexOfLastevents);
+  const indexOfLastEvents = currentPage * eventsPerPage;
+  const indexOfFirstEvents = indexOfLastEvents - eventsPerPage;
+  const currentEvents = allEvents.slice(indexOfFirstEvents, indexOfLastEvents);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -86,7 +86,7 @@ const Home = () => {
       {/* Filter by cities */}
       <select
         className="border-2 border-solid border-gray-500 rounded-lg "
-        onChange={(event) => handleFiltroCiudades(event)}
+        /* onChange={(event) => handleFiltroCiudades(event)} */
         defaultValue="default"
       >
         <option value="default" disabled>
@@ -119,25 +119,26 @@ const Home = () => {
       
       <Paginate
         eventsPerPage={eventsPerPage}
-        allevents={allevents.length}
+        allEvents={allEvents.length}
         paginate={paginate}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
       />
-
-      {currentEvents?.map((cu) => {
-        return (
-          <Card
-            id={cu.id}
-            name={cu.name}
-            image={cu.image}
-            genres={cu.genre}
-            date={cu.date}
-            location={cu.location}
-            key={cu.id}
-          />
-        );
-      })}
+      <section className=" w-full p-28 flex justify-center flex-wrap items-center gap-2 md:gap-4">
+        {currentEvents?.map((cu) => {
+          return (
+            <Card
+              id={cu.id}
+              name={cu.name}
+              image={cu.image}
+              genres={cu.genre}
+              date={cu.date}
+              location={cu.location}
+              key={cu.id}
+            />
+          );
+        })}
+      </section>
     </div>
   );
 };
