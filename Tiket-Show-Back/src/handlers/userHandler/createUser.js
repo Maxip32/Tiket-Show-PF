@@ -5,16 +5,14 @@ module.exports = async (req, res) => {
         const {
             firstName,
             lastName,
-            nickName,
             email,
             password,
+            birthDate,
             phone,
-            decription,
-            twitter,
-            instagram,
-            spotify,
-            image,
+            dni,
+            isAdmin,
             google,
+            image,
             state,
             confirmed
         } = req.body;
@@ -23,16 +21,14 @@ module.exports = async (req, res) => {
         const newUser = await createUser({
             firstName,
             lastName,
-            nickName,
             email,
             password,
+            birthDate,
             phone,
-            decription,
-            twitter,
-            instagram,
-            spotify,
-            image,
+            dni,
+            isAdmin,
             google,
+            image,
             state,
             confirmed
         });
