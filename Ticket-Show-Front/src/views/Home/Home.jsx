@@ -1,26 +1,30 @@
-
 import { useEffect, useState } from "react";
 import CardsContainer from "../../components/CardContainer/CardsContainer";
 import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import { filterByGenres, getEvents, getGenres } from "../../redux/actions";
+import {
+  filterByGenres,
+  getEvents,
+  getGenres,
+  orderByDate,
+} from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
 import Paginate from "../../components/Paginate/Paginate";
+
 const Home = () => {
   const dispatch = useDispatch();
-  const allevents = useSelector(state => state.Events)
+  const allevents = useSelector((state) => state.Events);
   const genres = useSelector((state) => state.genres);
   const [order, setOrder] = useState(true);
   //const ciudades = useSelector(state => state.ciudades)
 
   useEffect(() => {
-    dispatch(getEvents())
-  }, [dispatch])
+    dispatch(getEvents());
+  }, [dispatch]);
   useEffect(() => {
     dispatch(getGenres());
   }, [dispatch]);
-
 
   // useEffect(() => {
   // dispatch(getCiudades())
@@ -30,12 +34,9 @@ const Home = () => {
     dispatch(filterByGenres(event.target.value));
   };
 
-
   //const handleFiltroCiudades = (event) => {
   //   dispatch(filtroDeCiudadesEnActions(event.target.value))
   // }
-
-
 
   const [date, setDate] = useState({
     dates: "",
@@ -52,27 +53,25 @@ const Home = () => {
     order ? setOrder(false) : setOrder(true);
   };
 
-  const [currentPage, setCurrentPage] = useState(1)
-  const [eventsPerPage] = useState(10)
-  const indexOfLastevents = currentPage * eventsPerPage
-  const indexOfFirstevents = indexOfLastevents - eventsPerPage
-  const currentEvents = allevents.slice(indexOfFirstevents, indexOfLastevents)
-  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [eventsPerPage] = useState(10);
+  const indexOfLastevents = currentPage * eventsPerPage;
+  const indexOfFirstevents = indexOfLastevents - eventsPerPage;
+  const currentEvents = allevents.slice(indexOfFirstevents, indexOfLastevents);
+
   const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber)
-  }
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div>
       <Hero />
 
-      <SearchBar />
-
+      {/* Filter by genres */}
       <select
         className="border-2 border-solid border-gray-500 rounded-lg "
         onChange={(event) => handleFilterGenres(event)}
         defaultValue="default"
-
       >
         <option value="default" disabled>
           {" "}
@@ -84,9 +83,11 @@ const Home = () => {
           </option>
         ))}
       </select>
+      {/* Filter by cities */}
       <select
         className="border-2 border-solid border-gray-500 rounded-lg "
-         onChange={event => handleFiltroCiudades(event)}  defaultValue="default"
+        onChange={(event) => handleFiltroCiudades(event)}
+        defaultValue="default"
       >
         <option value="default" disabled>
           {" "}
@@ -94,6 +95,17 @@ const Home = () => {
         </option>
       </select>
 
+      {/* Select by dates */}
+      <input
+        type="date"
+        value={date.dates}
+        name="Fecha"
+        onChange={(event) => handleInputChange(event)}
+      />
+
+      <SearchBar />
+
+      {/* order by events */}
       <select
         onChange={(event) => handleOrderDate(event)}
         defaultValue="default"
@@ -104,29 +116,28 @@ const Home = () => {
         <option value="desc">Eventos más recientes</option>
         <option value="asc">Eventos más lejanos</option>
       </select>
-      <input
-        type="date"
-        value={date.dates}
-        name="Fecha"
-        onChange={(event) => handleInputChange(event)}
-      />
-      <Paginate 
-      eventsPerPage={eventsPerPage}
-      allevents= {allevents.length}
-      paginate={paginate}
-      currentPage={currentPage}
-      setCurrentPage={setCurrentPage}
+      
+      <Paginate
+        eventsPerPage={eventsPerPage}
+        allevents={allevents.length}
+        paginate={paginate}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
 
-    {currentEvents?.map((cu) =>{
-
-      return (
-
-        <Card id={cu.id} name={cu.name} image={cu.image} genres={cu.genre} date={cu.date} location={cu.location} key={cu.id}/>
-      )
-    })}
-
-
+      {currentEvents?.map((cu) => {
+        return (
+          <Card
+            id={cu.id}
+            name={cu.name}
+            image={cu.image}
+            genres={cu.genre}
+            date={cu.date}
+            location={cu.location}
+            key={cu.id}
+          />
+        );
+      })}
     </div>
   );
 };
