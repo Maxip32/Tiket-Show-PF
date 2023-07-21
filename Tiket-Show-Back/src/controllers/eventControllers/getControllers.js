@@ -15,11 +15,10 @@ const getEvents = async (req, res = response) => {
             });
         }
 
-        return res.status(200).json({
-            ok: true,
-            msg: 'Eventos encontrados',
+        return res.status(200).json(
+          
             events,
-        });
+        );
 
     } catch (error) {
         console.log(error);
