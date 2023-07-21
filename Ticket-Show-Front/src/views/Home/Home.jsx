@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
-import CardsContainer from "../../components/CardContainer/CardsContainer";
+//import CardsContainer from "../../components/CardContainer/CardsContainer";
 import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import { filterByGenres, getEvents, getGenres } from "../../redux/actions";
+import {
+  filterByGenres,
+  getEvents,
+  getGenres,
+  orderByDate,
+} from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
 import Paginate from "../../components/Paginate/Paginate";
+
 const Home = () => {
   const dispatch = useDispatch();
-  const allevents = useSelector((state) => state.Events);
+  const allEvents = useSelector((state) => state.Events);
   const genres = useSelector((state) => state.genres);
   const [order, setOrder] = useState(true);
   //const ciudades = useSelector(state => state.ciudades)
@@ -49,9 +55,9 @@ const Home = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [eventsPerPage] = useState(10);
-  const indexOfLastevents = currentPage * eventsPerPage;
-  const indexOfFirstevents = indexOfLastevents - eventsPerPage;
-  const currentEvents = allevents.slice(indexOfFirstevents, indexOfLastevents);
+  const indexOfLastEvents = currentPage * eventsPerPage;
+  const indexOfFirstEvents = indexOfLastEvents - eventsPerPage;
+  const currentEvents = allEvents.slice(indexOfFirstEvents, indexOfLastEvents);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -61,8 +67,7 @@ const Home = () => {
     <div>
       <Hero />
 
-      <SearchBar />
-
+      {/* Filter by genres */}
       <select
         className="border-2 border-solid border-gray-500 rounded-lg "
         onChange={(event) => handleFilterGenres(event)}
@@ -78,9 +83,10 @@ const Home = () => {
           </option>
         ))}
       </select>
+      {/* Filter by cities */}
       <select
         className="border-2 border-solid border-gray-500 rounded-lg "
-        onChange={(event) => handleFiltroCiudades(event)}
+        /* onChange={(event) => handleFiltroCiudades(event)} */
         defaultValue="default"
       >
         <option value="default" disabled>
@@ -89,30 +95,47 @@ const Home = () => {
         </option>
       </select>
 
-      <select
-        onChange={(event) => handleOrderDate(event)}
-        defaultValue="default"
-      >
-        <option value="default" disabled>
-          Orden de Eventos
-        </option>
-        <option value="desc">Eventos más recientes</option>
-        <option value="asc">Eventos más lejanos</option>
-      </select>
+      {/* Select by dates */}
       <input
         type="date"
         value={date.dates}
         name="Fecha"
         onChange={(event) => handleInputChange(event)}
       />
-      <Paginate
-        eventsPerPage={eventsPerPage}
-        allevents={allevents.length}
-        paginate={paginate}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
-      <section className=" w-full p-28 flex justify-center flex-wrap items-center gap-2 md:gap-4">
+
+      <SearchBar />
+
+      {/* order by events */}
+      <section className=" mt-20 relative mb-2 flex w-full flex-wrap justify-around m-w-xl ">
+        <h1 className="text-6xl">Proximos Eventos</h1>
+        <div className=" flex h-12 ">
+        <select
+        className="border-white rounded-2xl "
+          onChange={(event) => handleOrderDate(event)}
+          defaultValue="default"
+        >
+          <option value="default" disabled>
+            Orden Alfabetico
+          </option>
+          <option value="desc">Desc</option>
+          <option value="asc">Asc</option>x
+        </select>
+
+        <select
+        className="border-white rounded-2xl"
+          onChange={(event) => handleOrderDate(event)}
+          defaultValue="default"
+        >
+          <option value="default" disabled>
+            Orden de Eventos
+          </option>
+          <option value="desc">Eventos más recientes</option>
+          <option value="asc">Eventos más lejanos</option>
+        </select>
+        </div>
+      </section>
+            
+      <section className="  w-full max-w-7xl p-28 flex justify-center flex-wrap items-center gap-2 md:gap-4">
         {currentEvents?.map((cu) => {
           return (
             <Card
@@ -126,6 +149,15 @@ const Home = () => {
             />
           );
         })}
+      </section>
+      <section className="">
+        <Paginate
+          eventsPerPage={eventsPerPage}
+          allEvents={allEvents.length}
+          paginate={paginate}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </section>
     </div>
   );

@@ -1,15 +1,14 @@
-import React from "react";
 
 
-const Paginate = ({eventsPerPage, allevents,paginate, currentPage, setCurrentPage}) => {
+const Paginate = ({eventsPerPage, allEvents, paginate, currentPage, setCurrentPage}) => {
 
     const pageNumbers = []
 
-    for (let i=0; i < Math.ceil(allevents/eventsPerPage); i++) {
+    for (let i=0; i < Math.ceil(allEvents/eventsPerPage); i++) {
         pageNumbers.push(i+1)
     }
 
-    const totalPages = Math.ceil(allevents/eventsPerPage)
+    const totalPages = Math.ceil(allEvents/eventsPerPage)
 
     const handlePrevPage = () => {
         setCurrentPage((prevPage) => Math.max(prevPage -1, 1))
