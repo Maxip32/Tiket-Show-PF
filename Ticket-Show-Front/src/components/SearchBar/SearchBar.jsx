@@ -20,15 +20,15 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="mb-4 ">
+    <div className="mb-5 ">
       <div className="relative mb-2 flex w-full flex-wrap items-stretch  justify-center">
         <input
-          className="relative m-0 max-w-xs -mr-0.5 block w-[1px] min-w-0 flex-auto 
-            rounded-l border border-solid border-neutral-300 bg-transparent 
+          className="relative border-white rounded-s-2xl h-14 m-5 max-w-xl -mr-0.5 block w-[1px] min-w-0 flex-auto 
+            rounded-l border border-solid border-neutral-300 bg-white 
             bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] 
             text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] 
             focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] 
-            focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+            focus:outline-none white:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
           aria-label="Buscar"
           aria-describedby="button-addon1"
           type="text"
@@ -37,7 +37,11 @@ const SearchBar = () => {
         />
 
         <button
-          className="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
+          className="relative h-14 mt-5 z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 
+          text-xs font-medium uppercase leading-tight text-white shadow-md transition 
+          duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg 
+          focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0
+           active:bg-primary-800 active:shadow-lg"
           type="button"
           id="button-addon1"
           data-te-ripple-init
