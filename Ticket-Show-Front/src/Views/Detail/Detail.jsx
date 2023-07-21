@@ -1,14 +1,25 @@
-import React from 'react'
-
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getEventId } from "../../redux/actions";
 
 const Detail = () => {
+  const { id } = useParams();
 
-    return (
-        <div>
-           <h1>holis</h1>
-        </div>
-    )
-}
+  const {event} = useSelector((state) => state.detail);
 
 
-export default Detail
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getEventId(id));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <div>
+        <h1>{event.name}</h1>
+    </div>
+  );
+};
+
+export default Detail;
