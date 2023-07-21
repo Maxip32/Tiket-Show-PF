@@ -22,10 +22,7 @@ console.log(Events)
         summary={evento.description}
         date={evento.date}
         genre={evento.genre}
-
         direccion={evento.adress}
-        
-                         
         city={evento.city}
         cost={evento.price}
           />
