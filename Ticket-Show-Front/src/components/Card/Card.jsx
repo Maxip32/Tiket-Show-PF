@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 
 const Card = (props) => {
   return (
-    <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+   
+   <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <Link to={`detail/${props.id}`} className={style.link}>
-        <div className="p-5">
+        <div className="">
           <img
-            className="rounded-t-lg"
+            className="w-80 h-40 object-contain"
             src={props.image}
             alt="imagen no encontrada"
           />
@@ -24,6 +25,7 @@ const Card = (props) => {
         </div>
       </Link>
     </div>
+   
   );
 };
 
