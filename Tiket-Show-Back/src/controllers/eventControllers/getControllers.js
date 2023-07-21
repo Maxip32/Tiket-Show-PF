@@ -1,5 +1,6 @@
 const { Event, Artist, Genre } = require('../../db.js');
 const { filterAllEvents } = require('../../handlers/filterEvents/filterAllEvents');
+const { Op } = require("sequelize");
 
 const getEvents = async (req, res = response) => {
     const filter = req.query.filter || '';
@@ -57,7 +58,27 @@ const getEvent = async (req, res = response) => {
 };
 
 
+const getEventByName = async (req, res) => {
+    const { name } = req.params;
+    const event = await Event.findAll({
+      where: {
+        name: {
+          [Op.like]: name,
+        },
+      },
+    });
+  
+    if (event.length > 0) {
+       res.status(200).json(event);
+    } else {
+       res.status(404).send("Evento no encontrado");
+    }
+}
+
+
+
 module.exports = {
     getEvents,
     getEvent,
+    getEventByName,
 };
