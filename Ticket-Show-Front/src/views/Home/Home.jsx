@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import CardsContainer from "../../components/CardContainer/CardsContainer";
 import Hero from "../../components/Hero/Hero";
@@ -9,18 +8,17 @@ import Card from "../../components/Card/Card";
 import Paginate from "../../components/Paginate/Paginate";
 const Home = () => {
   const dispatch = useDispatch();
-  const allevents = useSelector(state => state.Events)
+  const allevents = useSelector((state) => state.Events);
   const genres = useSelector((state) => state.genres);
   const [order, setOrder] = useState(true);
   //const ciudades = useSelector(state => state.ciudades)
 
   useEffect(() => {
-    dispatch(getEvents())
-  }, [dispatch])
+    dispatch(getEvents());
+  }, [dispatch]);
   useEffect(() => {
     dispatch(getGenres());
   }, [dispatch]);
-
 
   // useEffect(() => {
   // dispatch(getCiudades())
@@ -30,12 +28,9 @@ const Home = () => {
     dispatch(filterByGenres(event.target.value));
   };
 
-
   //const handleFiltroCiudades = (event) => {
   //   dispatch(filtroDeCiudadesEnActions(event.target.value))
   // }
-
-
 
   const [date, setDate] = useState({
     dates: "",
@@ -52,15 +47,15 @@ const Home = () => {
     order ? setOrder(false) : setOrder(true);
   };
 
-  const [currentPage, setCurrentPage] = useState(1)
-  const [eventsPerPage] = useState(10)
-  const indexOfLastevents = currentPage * eventsPerPage
-  const indexOfFirstevents = indexOfLastevents - eventsPerPage
-  const currentEvents = allevents.slice(indexOfFirstevents, indexOfLastevents)
-  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [eventsPerPage] = useState(10);
+  const indexOfLastevents = currentPage * eventsPerPage;
+  const indexOfFirstevents = indexOfLastevents - eventsPerPage;
+  const currentEvents = allevents.slice(indexOfFirstevents, indexOfLastevents);
+
   const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber)
-  }
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div>
@@ -72,7 +67,6 @@ const Home = () => {
         className="border-2 border-solid border-gray-500 rounded-lg "
         onChange={(event) => handleFilterGenres(event)}
         defaultValue="default"
-
       >
         <option value="default" disabled>
           {" "}
@@ -86,7 +80,8 @@ const Home = () => {
       </select>
       <select
         className="border-2 border-solid border-gray-500 rounded-lg "
-         onChange={event => handleFiltroCiudades(event)}  defaultValue="default"
+        onChange={(event) => handleFiltroCiudades(event)}
+        defaultValue="default"
       >
         <option value="default" disabled>
           {" "}
@@ -110,23 +105,28 @@ const Home = () => {
         name="Fecha"
         onChange={(event) => handleInputChange(event)}
       />
-      <Paginate 
-      eventsPerPage={eventsPerPage}
-      allevents= {allevents.length}
-      paginate={paginate}
-      currentPage={currentPage}
-      setCurrentPage={setCurrentPage}
+      <Paginate
+        eventsPerPage={eventsPerPage}
+        allevents={allevents.length}
+        paginate={paginate}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
-
-    {currentEvents?.map((cu) =>{
-
-      return (
-
-        <Card id={cu.id} name={cu.name} image={cu.image} genres={cu.genre} date={cu.date} location={cu.location} key={cu.id}/>
-      )
-    })}
-
-
+      <section className=" w-full p-28 flex justify-center flex-wrap items-center gap-2 md:gap-4">
+        {currentEvents?.map((cu) => {
+          return (
+            <Card
+              id={cu.id}
+              name={cu.name}
+              image={cu.image}
+              genres={cu.genre}
+              date={cu.date}
+              location={cu.location}
+              key={cu.id}
+            />
+          );
+        })}
+      </section>
     </div>
   );
 };
