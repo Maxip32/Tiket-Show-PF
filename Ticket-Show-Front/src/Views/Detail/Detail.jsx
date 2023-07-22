@@ -30,7 +30,7 @@ const Detail = () => {
     dispatch(getEventId(id));
   }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [year, month, day] = event.date.split("-"); // Dividimos la fecha en año, mes y día
+  const [/* year */, month, day] = event.date.split("-"); // Dividimos la fecha en año, mes y día
   const formattedMonth = monthsMap[month];
 
   return (

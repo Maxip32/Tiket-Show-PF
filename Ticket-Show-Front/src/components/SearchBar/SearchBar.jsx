@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { searchByName } from "../../redux/actions";
+import Search from '../../assets/icons/Search.svg';
 
 
 // eslint-disable-next-line react/prop-types
@@ -10,43 +11,43 @@ const SearchBar = ({returnToFirstPage}) => {
   const [name, setName] = useState("");
 
   const handleChange = (event) => {
+    const value = event.target.value;
     event.preventDefault();
-    setName(event.target.value);
+    setName(value);
+
+    if (value.trim() !== '') {
+      dispatch(searchByName(value))
+      .then(() => {returnToFirstPage()})
+    }
   };
 
-  const handleButton = (event) => {
+  /* const handleButton = (event) => {
     event.preventDefault();
     if (name.trim() === "") {
       // El campo de entrada está vacío, no se realiza la búsqueda pa que sepan atte KennyG
       return;
     }
-
     dispatch(searchByName(name))
     .then(() => {returnToFirstPage()})
-
-  };
+  }; */
 
   return (
-    <div className="">
-      <div className="relative mb-2 flex w-full flex-wrap items-stretch  justify-center">
-        <input
-          className=""
-          type="text"
-          placeholder=" 🔍 Busca tu evento"
-          onChange={(event) => handleChange(event)}
-        />
+    <div className="mt-6 w-5/12 h-16 flex justify-evenly items-center rounded-full p-8 border border-secondaryColor" >
+      <img src={Search} alt="search" />
+      <input
+        className="w-full bg-transparent m-4 placeholder-DarkTextPurple/50 border border-none outline-none"
+        type="text"
+        placeholder="Busca tu evento"
+        value={name}
+        onChange={(event) => handleChange(event)}
+      />
 
-        <button
-          className="relative h-14 mt-5 z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 
-          text-xs font-medium uppercase leading-tight text-white shadow-md transition 
-          duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg 
-          focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0
-          active:bg-primary-800 active:shadow-lg"
+      {/*  <button
+          className=""
           type="submit"
           onClick={(event) => handleButton(event)}
         >
-        </button>
-      </div>
+        </button> */}
     </div>
   );
 };
