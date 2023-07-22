@@ -21,7 +21,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="mb-5 ">
+    <div className="mb-5">
       <div className="relative mb-2 flex w-full flex-wrap items-stretch  justify-center">
         <input
           className="relative border-white rounded-s-2xl h-14 m-5 max-w-xl -mr-0.5 block w-[1px] min-w-0 flex-auto 
