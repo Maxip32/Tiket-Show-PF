@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 //const routes = require('./routes/index.js');
 const event = require ('./routes/eventRouter')
+const artist = require ('./routes/artistRouter')
 
 require('./db.js');
 
@@ -25,6 +26,7 @@ server.use((req, res, next) => {
 
 //server.use('/', routes);
 server.use('/event', event);
+server.use('/artist', artist);
 
 
 server.use((err, req, res, next) => { 
