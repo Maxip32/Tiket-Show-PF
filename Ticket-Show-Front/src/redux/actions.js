@@ -16,14 +16,15 @@ export const getEvents = () => {
 };
 
 export const getEventId = (id) => {
-    console.log("soy api data")
+    
   return async function (dispatch) {
     try {
       const apiData = await axios.get(
         `http://localhost:3001/event/getEvent/${id}`
       );
-  
+     
       const detail = apiData.data;
+      console.log(apiData.data, "soy api data")
       dispatch({
         type: GET_EVENT_ID,
         payload: detail,
