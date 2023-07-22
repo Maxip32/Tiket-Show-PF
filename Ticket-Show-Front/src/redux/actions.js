@@ -63,3 +63,17 @@ export const orderByDate = (payload) => {
     payload,
   };
 };
+
+export const GET_SEARCH_BY_NAME = 'GET_SEARCH_BY_NAME'
+
+export const searchByName = (name) => {
+    return async (dispatch) => {
+        const apiData = await axios.get(`http://localhost:3001/event/getEvent/name/${name}`)
+        const Events = apiData.data
+        return dispatch({
+            type: GET_SEARCH_BY_NAME,
+            payload: Events
+        })
+    }
+
+}

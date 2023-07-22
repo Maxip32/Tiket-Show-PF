@@ -1,9 +1,9 @@
 import { useState } from "react";
-//import { useDispatch } from "react-redux";
-// importar la conexion en la action de redux cuando este lista
+import { useDispatch } from "react-redux";
+import { searchByName } from "../../redux/actions";
 
 const SearchBar = () => {
-  // const dispatch = useDispatch()
+   const dispatch = useDispatch()
   const [name, setName] = useState("");
 
   const handleChange = (event) => {
@@ -14,9 +14,10 @@ const SearchBar = () => {
   const handleButton = (event) => {
     event.preventDefault();
     if (name.trim() === "") {
+      // El campo de entrada está vacío, no se realiza la búsqueda pa que sepan atte KennyG
       return;
     }
-    //       dispatch(searchbyname(name))
+    dispatch(searchByName(name))
   };
 
   return (
@@ -42,7 +43,8 @@ const SearchBar = () => {
           duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg 
           focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0
            active:bg-primary-800 active:shadow-lg"
-          type="button"
+          type="submit"
+          onClick={(event) => handleButton(event)}
           id="button-addon1"
           data-te-ripple-init
           data-te-ripple-color="light"

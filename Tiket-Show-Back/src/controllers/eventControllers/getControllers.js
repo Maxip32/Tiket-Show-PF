@@ -63,7 +63,7 @@ const getEventByName = async (req, res) => {
     const event = await Event.findAll({
       where: {
         name: {
-          [Op.like]: name,
+            [Op.iLike]: `%${name}%`,
         },
       },
     });

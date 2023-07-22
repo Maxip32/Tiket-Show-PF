@@ -3,7 +3,8 @@ import {
   GET_EVENTS,
   GET_GENRES,
   ORDER_BY_DATE,
-  GET_EVENT_ID
+  GET_EVENT_ID,
+  GET_SEARCH_BY_NAME
 } from "./actions";
 
 const initialState = {
@@ -52,6 +53,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         Events: EventsByDate,
       };
+      case GET_SEARCH_BY_NAME:
+        return {
+          ...state,
+          Events: action.payload
+        }
     default:
       return { ...state };
   }
