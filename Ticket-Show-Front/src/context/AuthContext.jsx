@@ -11,10 +11,10 @@ import {
 } from "firebase/auth";
 import { ref, set } from "firebase/database";
 
-export const authContext = createContext();
+export const AuthContext = createContext();
 
 export const useAuth = () => {
-  const context = useContext(authContext);
+  const context = useContext(AuthContext);
   if (!context) {
     console.log("contexto no creado");
   }
@@ -22,25 +22,21 @@ export const useAuth = () => {
 };
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (!currentUser) {
-        console.log("no hay usuario suscrito");
-        setUser("");
+        console.log("No hay usuario suscrito");
+        setUser(null);
       } else {
         setUser(currentUser);
-
-        // Guardar datos del usuario en la base de datos
         const userData = {
           email: currentUser.email,
           displayName: currentUser.displayName,
-          // Otros datos que deseas guardar en la base de datos
         };
 
-        // Utilizar la referencia a la base de datos y la función set para guardar los datos del usuario
         set(ref(database, "usuarios/" + currentUser.uid), userData)
           .then(() => {
             console.log("Datos del usuario guardados en la base de datos.");
@@ -65,9 +61,10 @@ export function AuthProvider({ children }) {
         password
       );
       console.log(response);
+      setUser(response.user);
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
-      setError(error.message); // Guardar el mensaje de error en el estado
+      setError(error.message);
     }
   };
 
@@ -75,10 +72,11 @@ export function AuthProvider({ children }) {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
       console.log(response);
+      setUser(response.user);
       return response.operationType === "signIn" ? true : false;
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
-      setError(error.message); // Guardar el mensaje de error en el estado
+      setError(error.message);
       return false;
     }
   };
@@ -87,52 +85,53 @@ export function AuthProvider({ children }) {
     try {
       const provider = new GoogleAuthProvider();
       const response = await signInWithPopup(auth, provider);
-
-      // Guardar datos del usuario en la base de datos
+      setUser(response.user);
       const userData = {
         email: response.user.email,
         displayName: response.user.displayName,
-        // Otros datos que deseas guardar en la base de datos
       };
-
-      // Utilizar la referencia a la base de datos y la función set para guardar los datos del usuario
-      await set(ref(database, "usuarios/" + response.user.uid), userData);
-      console.log("Datos del usuario guardados en la base de datos.");
-
+      set(ref(database, "usuarios/" + response.user.uid), userData)
+        .then(() => {
+          console.log("Datos del usuario guardados en la base de datos.");
+        })
+        .catch((error) => {
+          console.error(
+            "Error al guardar los datos del usuario en la base de datos:",
+            error
+          );
+        });
       return response;
     } catch (error) {
       console.error("Error al iniciar sesión con Google:", error);
-      setError(error.message); // Guardar el mensaje de error en el estado
+      setError(error.message);
       return null;
     }
   };
 
   const logout = async () => {
     try {
-      const response = await signOut(auth);
-      console.log(response);
+      await signOut(auth);
+      setUser(null);
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
-      setError(error.message); // Guardar el mensaje de error en el estado
+      setError(error.message);
     }
   };
 
   return (
-    <authContext.Provider
+    <AuthContext.Provider
       value={{
         register,
         login,
         loginWithGoogle,
-        logout,
+        logout, // Agregamos la función logout al contexto
         user,
-        error, // Agregar el estado de error al contexto
+        error,
       }}
     >
       {children}
-    </authContext.Provider>
+    </AuthContext.Provider>
   );
 }
 
-
-
-
+export default AuthProvider;
