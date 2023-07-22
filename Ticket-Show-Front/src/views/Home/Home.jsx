@@ -141,6 +141,7 @@ const Home = () => {
             <Card
               id={cu.id}
               name={cu.name}
+              detail={cu.description}
               image={cu.image}
               genres={cu.genre}
               date={cu.date}
