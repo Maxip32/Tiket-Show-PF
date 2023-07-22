@@ -4,7 +4,8 @@ import {
   GET_GENRES,
   ORDER_BY_DATE,
   GET_EVENT_ID,
-  GET_SEARCH_BY_NAME
+  GET_SEARCH_BY_NAME,
+  GET_ORDER_BY_NAME
 } from "./actions";
 
 const initialState = {
@@ -40,13 +41,13 @@ const rootReducer = (state = initialState, action) => {
       const EventsByDate =
         action.payload === "asc"
           ? state.Events.sort((a, b) => {
-              if (a.even > b.even) return 1;
-              if (b.even > a.even) return -1;
+              if (a.date > b.date) return 1;
+              if (b.date > a.date) return -1;
               return 0;
             })
           : state.Events.sort((a, b) => {
-              if (a.even > b.even) return -1;
-              if (b.even > a.even) return 1;
+              if (a.date > b.date) return -1;
+              if (b.date > a.date) return 1;
               return 0;
             });
       return {
@@ -58,6 +59,22 @@ const rootReducer = (state = initialState, action) => {
           ...state,
           Events: action.payload
         }
+        case GET_ORDER_BY_NAME:
+          const EventsSorted = action.payload === 'asc'
+          ? state.Events.sort((a,b) => {
+            if (a.name > b.name) return 1
+            if (b.name > a.name) return -1
+            return 0
+          }) :
+          state.Events.sort((a,b) => {
+            if (a.name > b.name) return -1
+            if (b.name > a.name) return 1
+            return 0
+          })
+          return {
+            ...state,
+            Events: EventsSorted
+          }
     default:
       return { ...state };
   }

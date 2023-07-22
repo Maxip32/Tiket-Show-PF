@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { searchByName } from "../../redux/actions";
 
-const SearchBar = () => {
-  const dispatch = useDispatch();
+
+const SearchBar = ({returnToFirstPage}) => {
+   const dispatch = useDispatch()
+
   const [name, setName] = useState("");
 
   const handleChange = (event) => {
@@ -17,7 +19,10 @@ const SearchBar = () => {
       // El campo de entrada está vacío, no se realiza la búsqueda pa que sepan atte KennyG
       return;
     }
-    dispatch(searchByName(name));
+
+    dispatch(searchByName(name))
+    .then(() => {returnToFirstPage()})
+
   };
 
   return (
