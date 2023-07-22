@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 //import CardsContainer from "../../components/CardContainer/CardsContainer";
 import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/SearchBar/SearchBar";
+import Footer from "../../components/Footer/Footer";
 import {
   filterByGenres,
   getEvents,
@@ -123,36 +124,36 @@ const Home = () => {
 
       {/* order by events */}
       <section className="mt-20 relative mb-2 flex w-full flex-wrap justify-between max-w-xl">
-  <div> 
-    <h1>Próximos Eventos</h1>
-  </div>
-  <div className="flex">
-    <select
-      onChange={(event) => handleOrderDate(event)}
-      defaultValue="default"
-    >
-      <option value="default" disabled>
-        Orden Alfabético
-      </option>
-      <option value="desc">Desc</option>
-      <option value="asc">Asc</option>
-    </select>
-    <select
-      className="ml-4"
-      onChange={(event) => handleOrderDate(event)}
-      defaultValue="default"
-    >
-      <option value="default" disabled>
-        Orden de Eventos
-      </option>
-      <option value="desc">Eventos más recientes</option>
-      <option value="asc">Eventos más lejanos</option>
-    </select>
-  </div>
-</section>
+        <div>
+          <h1>Próximos Eventos</h1>
+        </div>
+        <div className="flex">
+          <select
+            onChange={(event) => handleOrderDate(event)}
+            defaultValue="default"
+          >
+            <option value="default" disabled>
+              Orden Alfabético
+            </option>
+            <option value="desc">Desc</option>
+            <option value="asc">Asc</option>
+          </select>
+          <select
+            className="ml-4"
+            onChange={(event) => handleOrderDate(event)}
+            defaultValue="default"
+          >
+            <option value="default" disabled>
+              Orden de Eventos
+            </option>
+            <option value="desc">Eventos más recientes</option>
+            <option value="asc">Eventos más lejanos</option>
+          </select>
+        </div>
+      </section>
 
       {/* //- cards section -------> */}
-      <section className="  w-full max-w-7xl p-28 flex justify-center flex-wrap items-center gap-2 md:gap-4">
+      <section className="  w-full max-w-7xl mt-10 mb-2 flex justify-center flex-wrap items-center gap-2 md:gap-4">
         {currentEvents?.map((cu) => {
           return (
             <Card
@@ -179,6 +180,7 @@ const Home = () => {
           setCurrentPage={setCurrentPage}
         />
       </section>
+      <div></div>
     </div>
   );
 };
