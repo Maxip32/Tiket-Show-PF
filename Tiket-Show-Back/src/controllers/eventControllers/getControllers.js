@@ -4,7 +4,7 @@ const { Op } = require("sequelize");
 
 const getEvents = async (req, res = response) => {
     const filter = req.query.filter || '';
-    // const options = req.query.options || '';
+    // const options = req.query.options git co|| '';
     try {
         const events = await filterAllEvents(filter);
 

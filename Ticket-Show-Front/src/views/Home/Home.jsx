@@ -67,47 +67,52 @@ const Home = () => {
     <div>
       <Hero />
 
-      {/* Filter by genres */}
-      <select
-        className="border-2 border-solid border-gray-500 rounded-lg "
-        onChange={(event) => handleFilterGenres(event)}
-        defaultValue="default"
-      >
-        <option value="default" disabled>
-          {" "}
-          Género musical{" "}
-        </option>
-        {genres?.map((gen) => (
-          <option value={gen.name} key={gen.id}>
-            {gen.name}
+      {/* //- Filter bar ---------> */}
+      <section className='border-solid border-2 border-secondaryColor'>
+        {/* Filter by genres */}
+        <select
+          className="border-2 border-solid border-gray-500 rounded-lg "
+          onChange={(event) => handleFilterGenres(event)}
+          defaultValue="default"
+        >
+          <option value="default" disabled>
+            {" "}
+            Género musical{" "}
           </option>
-        ))}
-      </select>
-      {/* Filter by cities */}
-      <select
-        className="border-2 border-solid border-gray-500 rounded-lg "
-        /* onChange={(event) => handleFiltroCiudades(event)} */
-        defaultValue="default"
-      >
-        <option value="default" disabled>
-          {" "}
-          Ciudades{" "}
-        </option>
-      </select>
+          {genres?.map((gen) => (
+            <option value={gen.name} key={gen.id}>
+              {gen.name}
+            </option>
+          ))}
+        </select>
 
-      {/* Select by dates */}
-      <input
-        type="date"
-        value={date.dates}
-        name="Fecha"
-        onChange={(event) => handleInputChange(event)}
-      />
+        {/* Filter by cities */}
+        <select
+          className="border-2 border-solid border-gray-500 rounded-lg "
+          /* onChange={(event) => handleFiltroCiudades(event)} */
+          defaultValue="default"
+        >
+          <option value="default" disabled>
+            {" "}
+            Ciudades{" "}
+          </option>
+        </select>
+
+        {/* Select by dates */}
+        <input
+          type="date"
+          value={date.dates}
+          name="Fecha"
+          onChange={(event) => handleInputChange(event)}
+        />
+        </section>
+      {/* //- Fin Filter bar ---------> */}
 
       <SearchBar />
 
       {/* order by events */}
       <section className=" mt-20 relative mb-2 flex w-full flex-wrap justify-around m-w-xl ">
-        <h1 className="text-6xl">Proximos Eventos</h1>
+        <h1 className="text-6xl">Próximos Eventos</h1>
         <div className=" flex h-12 ">
           <select
             className="border-white rounded-2xl "
@@ -115,7 +120,7 @@ const Home = () => {
             defaultValue="default"
           >
             <option value="default" disabled>
-              Orden Alfabetico
+              Orden Alfabético
             </option>
             <option value="desc">Desc</option>
             <option value="asc">Asc</option>x
@@ -134,13 +139,15 @@ const Home = () => {
           </select>
         </div>
       </section>
-
+      
+      {/* //- cards section -------> */}
       <section className="  w-full max-w-7xl p-28 flex justify-center flex-wrap items-center gap-2 md:gap-4">
         {currentEvents?.map((cu) => {
           return (
             <Card
               id={cu.id}
               name={cu.name}
+              detail={cu.description}
               image={cu.image}
               genres={cu.genre}
               date={cu.date}
@@ -150,6 +157,8 @@ const Home = () => {
           );
         })}
       </section>
+      {/* //- Fin cards section -------> */}
+
       <section className="">
         <Paginate
           eventsPerPage={eventsPerPage}
