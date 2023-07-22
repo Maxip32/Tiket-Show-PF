@@ -22,6 +22,9 @@ module.exports = async(
             email,
         },
         create:{
+            firstName,
+            lastName,
+            email,
             password,
             birthDate,
             phone,
