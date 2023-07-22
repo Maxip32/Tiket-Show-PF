@@ -3,12 +3,15 @@ import {
   GET_EVENTS,
   GET_GENRES,
   ORDER_BY_DATE,
+  GET_EVENT_ID,
+  GET_SEARCH_BY_NAME
 } from "./actions";
 
 const initialState = {
   Events: [],
   allEvents: [],
   genres: [],
+  detail: {},
 };
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -19,6 +22,9 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         genres: action.payload,
       };
+
+    case GET_EVENT_ID:
+      return { ...state, detail: action.payload };
 
     case FILTER_BY_GENRES:
       const allEvents = state.allEvents;
@@ -47,6 +53,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         Events: EventsByDate,
       };
+      case GET_SEARCH_BY_NAME:
+        return {
+          ...state,
+          Events: action.payload
+        }
     default:
       return { ...state };
   }
