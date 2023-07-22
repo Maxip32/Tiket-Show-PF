@@ -78,3 +78,12 @@ export const searchByName = (name) => {
     }
 
 }
+
+export const GET_ORDER_BY_NAME = 'GET_GET_ORDER_BY_NAME'
+
+export const orderByName = (payload) => {
+  return {
+    type: GET_ORDER_BY_NAME,
+    payload
+  }
+}

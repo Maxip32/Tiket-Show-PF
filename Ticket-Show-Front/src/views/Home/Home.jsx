@@ -8,6 +8,7 @@ import {
   getEvents,
   getGenres,
   orderByDate,
+  orderByName,
 } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
@@ -52,6 +53,13 @@ const Home = () => {
   const handleOrderDate = (event) => {
     dispatch(orderByDate(event.target.value));
     order ? setOrder(false) : setOrder(true);
+    setCurrentPage(1);
+  };
+
+  const handleOrderByName = (event) => {
+    dispatch(orderByName(event.target.value));
+    order ? setOrder(false) : setOrder(true);
+    setCurrentPage(1);
   };
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -62,6 +70,10 @@ const Home = () => {
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const returnToFirstPage = () => {
+    setCurrentPage(1);
   };
 
   return (
@@ -88,7 +100,6 @@ const Home = () => {
               </option>
             ))}
           </select>
-          {/*  <p className="underline-offset-1">______________</p> */}
         </div>
 
         {/* Filter by cities */}
@@ -120,46 +131,46 @@ const Home = () => {
       </section>
       {/* //- Fin Filter bar ---------> */}
 
-      <SearchBar />
+      <SearchBar returnToFirstPage={returnToFirstPage} />
 
       {/* order by events */}
-      <section className="mt-20 relative mb-2 flex w-full flex-wrap justify-between max-w-xl">
-        <div>
-          <h1>Próximos Eventos</h1>
-        </div>
-        <div className="flex">
+
+      <section className=" mt-20 relative mb-2 flex w-full flex-wrap justify-around m-w-xl ">
+        <h1 className="text-6xl">Proximos Eventos</h1>
+        <div className=" flex h-12 ">
           <select
-            onChange={(event) => handleOrderDate(event)}
+            className="border-white rounded-2xl "
+            onChange={(event) => handleOrderByName(event)}
             defaultValue="default"
           >
             <option value="default" disabled>
-              Orden Alfabético
+              Orden Alfabetico
             </option>
-            <option value="desc">Desc</option>
-            <option value="asc">Asc</option>
+            <option value="asc">A-Z</option>
+            <option value="desc">Z-A</option>x
           </select>
+
           <select
-            className="ml-4"
+            className="border-white rounded-2xl"
             onChange={(event) => handleOrderDate(event)}
             defaultValue="default"
           >
             <option value="default" disabled>
               Orden de Eventos
             </option>
-            <option value="desc">Eventos más recientes</option>
-            <option value="asc">Eventos más lejanos</option>
+
+            <option value="asc">Eventos más recientes</option>
+            <option value="desc">Eventos más lejanos</option>
           </select>
         </div>
       </section>
 
-      {/* //- cards section -------> */}
-      <section className="  w-full max-w-7xl mt-10 mb-2 flex justify-center flex-wrap items-center gap-2 md:gap-4">
+      <section className="  w-full max-w-7xl p-28 flex justify-center flex-wrap items-center gap-2 md:gap-4">
         {currentEvents?.map((cu) => {
           return (
             <Card
               id={cu.id}
               name={cu.name}
-              detail={cu.description}
               image={cu.image}
               genres={cu.genre}
               date={cu.date}
@@ -169,8 +180,6 @@ const Home = () => {
           );
         })}
       </section>
-      {/* //- Fin cards section -------> */}
-
       <section className="">
         <Paginate
           eventsPerPage={eventsPerPage}
