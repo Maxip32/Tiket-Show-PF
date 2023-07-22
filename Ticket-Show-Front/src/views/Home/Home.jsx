@@ -109,7 +109,7 @@ const Home = () => {
         <div className='flex flex-col m-1 gap-2 text-LightText w-44'>
           <span className='font-extralight text-xs'>Fechas</span>
           <input
-            className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700"
+            className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 text-LightText"
             type="date"
             value={date.dates}
             name="Fecha"
