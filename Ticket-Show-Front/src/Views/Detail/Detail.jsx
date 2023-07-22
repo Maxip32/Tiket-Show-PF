@@ -68,7 +68,7 @@ const Detail = () => {
           formó parte del supergrupo Modo Diablo junto a los raperos YSY A y Neo
           Pistea, cuyos sencillos «Quavo» y «Trap N' Export» ayudaron a
           popularizar y formar un masivo culto de seguidores alrededor del
-          género del trap en Sudamérica.{" "}
+          género del trap en Sudaméricsa.{" "}
         </p>
       </div>
       <div className="  items-center bg-primaryColor border-white h-40 m-5 max-w-4xl min-w-0 flex">
