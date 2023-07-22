@@ -22,8 +22,9 @@ export const getEventId = (id) => {
       const apiData = await axios.get(
         `http://localhost:3001/event/getEvent/${id}`
       );
-      console.log(apiData.data,"soy api data")
+     
       const detail = apiData.data;
+      console.log(apiData.data, "soy api data")
       dispatch({
         type: GET_EVENT_ID,
         payload: detail,
