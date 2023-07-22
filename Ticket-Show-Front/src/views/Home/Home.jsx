@@ -7,6 +7,7 @@ import {
   getEvents,
   getGenres,
   orderByDate,
+  orderByName
 } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
@@ -51,7 +52,14 @@ const Home = () => {
   const handleOrderDate = (event) => {
     dispatch(orderByDate(event.target.value));
     order ? setOrder(false) : setOrder(true);
+    setCurrentPage(1)
   };
+
+  const handleOrderByName = (event) => {
+    dispatch(orderByName(event.target.value))
+    order ? setOrder(false) : setOrder(true)
+    setCurrentPage(1)
+  }
 
   const [currentPage, setCurrentPage] = useState(1);
   const [eventsPerPage] = useState(10);
@@ -63,9 +71,14 @@ const Home = () => {
     setCurrentPage(pageNumber);
   };
 
+  const returnToFirstPage = () => {
+    setCurrentPage(1)
+  }
+
   return (
     <div className="flex flex-col items-center">
       <Hero />
+
 
       {/* //- Filter bar ---------> */}
       <section className="w-8/12 h-24 flex justify-evenly items-center mt-[-66px] z-10 bg-primaryColor/95 rounded-2xl">
@@ -75,17 +88,23 @@ const Home = () => {
           <select
             className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700"
             onChange={(event) => handleFilterGenres(event)}
+
             defaultValue="default"
           >
             <option value="default" disabled>
               {" "}
               Género musical{" "}
             </option>
+
+            <option value="asc">A-Z</option>
+            <option value="desc">Z-A</option>x
+
             {genres?.map((gen) => (
               <option value={gen.name} key={gen.id}>
                 {gen.name}
               </option>
             ))}
+
           </select>
           {/*  <p className="underline-offset-1">______________</p> */}
         </div>
@@ -102,6 +121,10 @@ const Home = () => {
               {" "}
               Ciudades{" "}
             </option>
+
+            <option value="asc">Eventos más recientes</option>
+            <option value="desc">Eventos más lejanos</option>
+
           </select>
         </div>
 
