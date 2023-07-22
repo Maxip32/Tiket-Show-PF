@@ -21,19 +21,12 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="mb-5">
+    <div className="">
       <div className="relative mb-2 flex w-full flex-wrap items-stretch  justify-center">
         <input
-          className="relative border-white rounded-s-2xl h-14 m-5 max-w-xl -mr-0.5 block w-[1px] min-w-0 flex-auto 
-            rounded-l border border-solid border-neutral-300 bg-white 
-            bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] 
-            text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] 
-            focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] 
-            focus:outline-none white:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
-          aria-label="Buscar"
-          aria-describedby="button-addon1"
+          className=""
           type="text"
-          placeholder="Buscar"
+          placeholder=" 🔍 Busca tu evento"
           onChange={(event) => handleChange(event)}
         />
 
@@ -42,14 +35,29 @@ const SearchBar = () => {
           text-xs font-medium uppercase leading-tight text-white shadow-md transition 
           duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg 
           focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0
-           active:bg-primary-800 active:shadow-lg"
+          active:bg-primary-800 active:shadow-lg"
           type="submit"
           onClick={(event) => handleButton(event)}
-          id="button-addon1"
-          data-te-ripple-init
-          data-te-ripple-color="light"
         >
-          <svg
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default SearchBar;
+
+
+/* --------------------------------
+  relative border-white rounded-s-2xl h-14 m-5 max-w-xl -mr-0.5 block w-[1px] min-w-0 flex-auto 
+            rounded-l border border-solid border-neutral-300 bg-white 
+            bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] 
+            text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] 
+            focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] 
+            focus:outline-none white:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary
+
+
+            <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -61,10 +69,5 @@ const SearchBar = () => {
               clip-rule="evenodd"
             />
           </svg>
-        </button>
-      </div>
-    </div>
-  );
-};
-
-export default SearchBar;
+FaSistrix
+*/

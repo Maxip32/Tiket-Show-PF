@@ -87,7 +87,6 @@ const Home = () => {
               </option>
             ))}
           </select>
-         {/*  <p className="underline-offset-1">______________</p> */}
         </div>
 
         {/* Filter by cities */}
