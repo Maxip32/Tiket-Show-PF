@@ -7,6 +7,7 @@ import {
   getEvents,
   getGenres,
   orderByDate,
+  orderByName
 } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
@@ -51,7 +52,14 @@ const Home = () => {
   const handleOrderDate = (event) => {
     dispatch(orderByDate(event.target.value));
     order ? setOrder(false) : setOrder(true);
+    setCurrentPage(1)
   };
+
+  const handleOrderByName = (event) => {
+    dispatch(orderByName(event.target.value))
+    order ? setOrder(false) : setOrder(true)
+    setCurrentPage(1)
+  }
 
   const [currentPage, setCurrentPage] = useState(1);
   const [eventsPerPage] = useState(10);
@@ -62,6 +70,10 @@ const Home = () => {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+  const returnToFirstPage = () => {
+    setCurrentPage(1)
+  }
 
   return (
     <div>
@@ -103,7 +115,7 @@ const Home = () => {
         onChange={(event) => handleInputChange(event)}
       />
 
-      <SearchBar />
+      <SearchBar returnToFirstPage={returnToFirstPage}/>
 
       {/* order by events */}
       <section className=" mt-20 relative mb-2 flex w-full flex-wrap justify-around m-w-xl ">
@@ -111,14 +123,14 @@ const Home = () => {
         <div className=" flex h-12 ">
           <select
             className="border-white rounded-2xl "
-            onChange={(event) => handleOrderDate(event)}
+            onChange={(event) => handleOrderByName(event)}
             defaultValue="default"
           >
             <option value="default" disabled>
               Orden Alfabetico
             </option>
-            <option value="desc">Desc</option>
-            <option value="asc">Asc</option>x
+            <option value="asc">A-Z</option>
+            <option value="desc">Z-A</option>x
           </select>
 
           <select
@@ -129,8 +141,8 @@ const Home = () => {
             <option value="default" disabled>
               Orden de Eventos
             </option>
-            <option value="desc">Eventos más recientes</option>
-            <option value="asc">Eventos más lejanos</option>
+            <option value="asc">Eventos más recientes</option>
+            <option value="desc">Eventos más lejanos</option>
           </select>
         </div>
       </section>

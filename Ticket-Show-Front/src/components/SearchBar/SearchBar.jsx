@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { searchByName } from "../../redux/actions";
 
-const SearchBar = () => {
+const SearchBar = ({returnToFirstPage}) => {
    const dispatch = useDispatch()
   const [name, setName] = useState("");
 
@@ -18,6 +18,7 @@ const SearchBar = () => {
       return;
     }
     dispatch(searchByName(name))
+    .then(() => {returnToFirstPage()})
   };
 
   return (
