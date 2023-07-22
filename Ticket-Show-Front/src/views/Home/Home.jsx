@@ -64,47 +64,58 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className='flex flex-col items-center'>
       <Hero />
 
       {/* //- Filter bar ---------> */}
-      <section className='border-solid border-2 border-secondaryColor'>
+      <section className='w-8/12 h-24 flex justify-evenly items-center mt-[-66px] z-10 bg-primaryColor/95 rounded-2xl'>
         {/* Filter by genres */}
-        <select
-          className="border-2 border-solid border-gray-500 rounded-lg "
-          onChange={(event) => handleFilterGenres(event)}
-          defaultValue="default"
-        >
-          <option value="default" disabled>
-            {" "}
-            Género musical{" "}
-          </option>
-          {genres?.map((gen) => (
-            <option value={gen.name} key={gen.id}>
-              {gen.name}
-            </option>
-          ))}
-        </select>
+        <div className='flex flex-col m-1 gap-2 text-LightText w-44'>
+          <span className='font-extralight text-xs'>Géneros</span>
+          <select
+            className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700"
+            onChange={(event) => handleFilterGenres(event)}
+            defaultValue="default"
+          >
+            <option value="default" disabled>
+              {" "}
+              Género musical{" "}
+            </option >
+            {genres?.map((gen) => (
+              <option value={gen.name} key={gen.id}>
+                {gen.name}
+              </option>
+            ))}
+          </select>
+         {/*  <p className="underline-offset-1">______________</p> */}
+        </div>
 
         {/* Filter by cities */}
-        <select
-          className="border-2 border-solid border-gray-500 rounded-lg "
-          /* onChange={(event) => handleFiltroCiudades(event)} */
-          defaultValue="default"
-        >
-          <option value="default" disabled>
-            {" "}
-            Ciudades{" "}
-          </option>
-        </select>
+        <div className='flex flex-col m-1 gap-2 text-LightText w-44'>
+        <span className='font-extralight text-xs'>Ciudades</span>
+          <select
+            className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700"
+            /* onChange={(event) => handleFiltroCiudades(event)} */
+            defaultValue="default"
+          >
+            <option value="default" disabled>
+              {" "}
+              Ciudades{" "}
+            </option>
+          </select>
+        </div>
 
         {/* Select by dates */}
-        <input
-          type="date"
-          value={date.dates}
-          name="Fecha"
-          onChange={(event) => handleInputChange(event)}
-        />
+        <div className='flex flex-col m-1 gap-2 text-LightText w-44'>
+          <span className='font-extralight text-xs'>Fechas</span>
+          <input
+            className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700"
+            type="date"
+            value={date.dates}
+            name="Fecha"
+            onChange={(event) => handleInputChange(event)}
+          />
+        </div>
         </section>
       {/* //- Fin Filter bar ---------> */}
 
