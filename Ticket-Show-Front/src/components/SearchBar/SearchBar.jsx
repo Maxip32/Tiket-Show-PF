@@ -3,8 +3,9 @@ import { useDispatch } from "react-redux";
 import { searchByName } from "../../redux/actions";
 
 
+// eslint-disable-next-line react/prop-types
 const SearchBar = ({returnToFirstPage}) => {
-   const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   const [name, setName] = useState("");
 

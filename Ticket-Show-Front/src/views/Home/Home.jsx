@@ -76,7 +76,7 @@ const Home = () => {
   }
 
   return (
-    <div>
+    <div className='flex flex-col items-center'>
       <Hero />
 
       {/* //- Filter bar ---------> */}
