@@ -1,4 +1,4 @@
-const {Artist} = require('../../db');
+const {Artist} = require('../../db.js');
 
 const artist = async ()=>{
     try {

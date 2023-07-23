@@ -41,7 +41,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 const CartItem = require("./models/cart");
 
 
-const { Artist, Event, Genre, Place,User, City} = sequelize.models;
+const { Artist, Event, Genre, Place,User, City, Date} = sequelize.models;
 
 
 Event.belongsToMany(Artist, { through: "events_artists" });
