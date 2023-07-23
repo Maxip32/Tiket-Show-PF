@@ -102,7 +102,7 @@ const Home = () => {
         <div className="flex flex-col m-1 gap-2 text-LightText w-44">
           <span className="font-extralight text-xs">Géneros</span>
           <select
-            className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700"
+            className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 "
             onChange={(event) => handleFilterGenres(event)}
             defaultValue="default"
           >
@@ -111,7 +111,7 @@ const Home = () => {
               Género musical{" "}
             </option>
             {genres?.map((gen) => (
-              <option value={gen.name} key={gen.id}>
+              <option value={gen.name} key={gen.id} className="text-black rounded-lg">
                 {gen.name}
               </option>
             ))}
@@ -131,7 +131,7 @@ const Home = () => {
               Ciudades{" "}
             </option>
             {ciudades?.map((cit) => (
-              <option value={cit.name} key={cit.id}>
+              <option value={cit.name} key={cit.id} className="text-black">
                 {cit.name}
               </option>
             ))}
