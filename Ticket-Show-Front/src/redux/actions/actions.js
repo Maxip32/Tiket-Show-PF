@@ -1,8 +1,8 @@
 /* eslint-disable no-unreachable */
-import axios from "axios";
+// import axios from "axios";
 
 
-import {GET_USER_PRODUCTS, GET_ALL_PRODUCTS, GET_ALL_CATEGORIES, GET_DETAIL, GET_PRODUCT_FILTER, ADD_FAV, DELETE_FAV, GET_CART,GET_BY_MONTH, ADD_CART, DELETE_CART,GET_STATS,GET_BY_YEAR, TOTAL_BUY, RESTORE_TOTAL_BUY, NEW_REVIEW, SET_LOADING, GET_USERS, GET_USER, TOTAL_TO_PAY, GET_FAVS, DELETE_ALL_FAVS, DELETE_ALL_CART, GET_USER_BY_MAIL, DELETE_THIS_ORDER, UPDATE_USER } from "./constants";
+// import {GET_USER_PRODUCTS, GET_ALL_PRODUCTS, GET_ALL_CATEGORIES, GET_DETAIL, GET_PRODUCT_FILTER, ADD_FAV, DELETE_FAV, GET_CART,GET_BY_MONTH, ADD_CART, DELETE_CART,GET_STATS,GET_BY_YEAR, TOTAL_BUY, RESTORE_TOTAL_BUY, NEW_REVIEW, SET_LOADING, GET_USERS, GET_USER, TOTAL_TO_PAY, GET_FAVS, DELETE_ALL_FAVS, DELETE_ALL_CART, GET_USER_BY_MAIL, DELETE_THIS_ORDER, UPDATE_USER } from "./constants";
 
 
 // export const getUserProducts = (userid) => {
@@ -131,49 +131,49 @@ import {GET_USER_PRODUCTS, GET_ALL_PRODUCTS, GET_ALL_CATEGORIES, GET_DETAIL, GET
 // 	};
 // };
 
-export const newUser = (user) => {
-	try {
-		return async function (dispatch) {
-			const newUser = await axios.post(`/users`, user)
-			return dispatch({
-				type: GET_USER,
-				payload: newUser.data
-			})
-		}
-	} catch (error) {
-		console.log((error, "Llena los campos pues"));
-	}
-};
+// export const newUser = (user) => {
+// 	try {
+// 		return async function (dispatch) {
+// 			const newUser = await axios.post(`/users`, user)
+// 			return dispatch({
+// 				type: GET_USER,
+// 				payload: newUser.data
+// 			})
+// 		}
+// 	} catch (error) {
+// 		console.log((error, "Llena los campos pues"));
+// 	}
+// };
 
-	export const loginUser = (infoLogin) => {
-		try {
-			return async function (dispatch) {
-				const logUser = await axios.post(`/users/login`, infoLogin)
-				return dispatch({
-					type: GET_USER,
-					payload: logUser.data
-				})
-			}
-		} catch (error) {
-			console.log((error, "Llena los campos pues"));
-		}
-	};
+// 	export const loginUser = (infoLogin) => {
+// 		try {
+// 			return async function (dispatch) {
+// 				const logUser = await axios.post(`/users/login`, infoLogin)
+// 				return dispatch({
+// 					type: GET_USER,
+// 					payload: logUser.data
+// 				})
+// 			}
+// 		} catch (error) {
+// 			console.log((error, "Llena los campos pues"));
+// 		}
+// 	};
 
 
 
-export const getUser = () => {
-	try {
-		return async function (dispatch) {
-			const user = await axios.get(`/users`)
-			return dispatch({
-				type: GET_USERS,
-				payload: user.data
-			})
-		}
-	} catch (error) {
-		console.log(error);
-	}
-}
+// export const getUser = () => {
+// 	try {
+// 		return async function (dispatch) {
+// 			const user = await axios.get(`/users`)
+// 			return dispatch({
+// 				type: GET_USERS,
+// 				payload: user.data
+// 			})
+// 		}
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// }
 
 // export const updateUser = (user) => {
 // 	try {

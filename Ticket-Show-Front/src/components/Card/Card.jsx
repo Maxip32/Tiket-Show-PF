@@ -1,7 +1,24 @@
-import style from "./Card.module.css";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/actions";
 import { Link } from "react-router-dom";
+import style from "./Card.module.css";
 
 const Card = (props) => {
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    // Aquí despachas la acción de agregar al carrito con la información del evento
+    dispatch(
+      addToCart({
+        id: props.id,
+        name: props.name,
+        cost: props.price, // Asegúrate de utilizar el nombre correcto de la propiedad del precio si es diferente
+        // Otros datos relevantes del evento si los tienes
+      })
+    );
+  };
+
   return (
     <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <Link to={`/detail/${props.id}`} className={style.link}>
@@ -28,8 +45,12 @@ const Card = (props) => {
           <h5>{props.genre} </h5>
         </div>
       </Link>
+      <button onClick={handleAddToCart} className={style.addToCartButton}>
+        Agregar al carrito
+      </button>
     </div>
   );
 };
 
 export default Card;
+

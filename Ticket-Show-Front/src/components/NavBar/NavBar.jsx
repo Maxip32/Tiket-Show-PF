@@ -2,13 +2,14 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import logoTicketShow from "../../assets/logos/logoTicketShow.svg";
 import { useAuth } from "../../context/AuthContext"; // Importa el useAuth del contexto
-
+import { useCart } from "../Shoppingcart/CartContext"; // Importa el useCart del contexto
+import CartPage from "../Shoppingcart/Shoppingcart";
 const NavBar = () => {
   const activeStyle = "underline-offset-5 border-b-2 border-secondaryColor";
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { user, logout } = useAuth(); // Extrae el usuario y la función de logout del contexto
-
+  const { cartItems } = useCart(); // Extrae la información del carrito del contexto
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -187,9 +188,18 @@ const NavBar = () => {
             )}
           </li>
         )}
+       {/* //- Botón de carrito (solo se muestra si el usuario está autenticado) */}
+  
+{/* Enlace del carrito */}
+{user && (
+          <li>
+            <NavLink to="/cart">
+              <span role="img" aria-label="Carrito">🛒</span> {cartItems !== undefined ? cartItems.length : 0}
+            </NavLink>
+          </li>
+        )}
 
-        {/* //- Botón de carrito */}
-        <li>🛒 0</li>
+        
       </ul>
     </nav>
   );
