@@ -1,7 +1,9 @@
 const {Genre} = require('../../db');
 
 
-module.exports = async()=>{
+const allGenres = async()=>{
     const findGenre = await Genre.findAll()
     return findGenre
 }
+
+module.exports = allGenres

@@ -1,6 +1,6 @@
 const { Artist } = require('../../db');
 
-module.exports = async(
+const newArtist = async(
     firstName,
     lastName,
     nickName,
@@ -52,3 +52,5 @@ module.exports = async(
     throw new Error(error.message)
 }
 }
+
+module.exports = newArtist

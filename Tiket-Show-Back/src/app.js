@@ -2,8 +2,10 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-//const routes = require('./routes/index.js');
+const artistRouter = require('./routes/artistRouter');
 const event = require ('./routes/eventRouter')
+const genrestRouter = require ('./routes/genrestRouter')
+const placetRouter = require ('./routes/placeRouter')
 
 require('./db.js');
 
@@ -23,8 +25,10 @@ server.use((req, res, next) => {
   next();
 });
 
-//server.use('/', routes);
+server.use('/artist', artistRouter);
+server.use('/genres', genrestRouter)
 server.use('/event', event);
+server.use('/place', placetRouter);
 
 
 server.use((err, req, res, next) => { 

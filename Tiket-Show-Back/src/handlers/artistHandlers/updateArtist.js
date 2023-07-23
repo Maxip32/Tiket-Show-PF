@@ -1,6 +1,6 @@
 const changeArtist = require('../../controllers/artistControllers/changeArtist');
 
-module.exports = async  (req, res)=> {
+ const updateArtist = async  (req, res)=> {
     const {id} = req.params 
     const {firstName, lastName, nickName, email, password, phone, decription} = req.body
 
@@ -11,3 +11,5 @@ module.exports = async  (req, res)=> {
         res.status(404).json({msg: error.message});
     }
 }
+
+module.exports = updateArtist

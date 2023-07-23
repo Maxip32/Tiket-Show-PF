@@ -33,12 +33,15 @@ let capsEntries = entries.map((entry) => [
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-const { Artist, Event, Genre } = sequelize.models;
+const { Artist, Event, Genre, Place,User } = sequelize.models;
 
 Event.belongsToMany(Artist, { through: "events_artists" });
 Artist.belongsToMany(Event, { through: "events_artists" });
 Artist.belongsToMany(Genre, { through: "artist_genres" });
 Genre.belongsToMany(Artist, { through: "artist_genres" });
+Place.belongsToMany(User, { through: "place_user", as: "places" });
+User.hasMany(Place, { as: "places", foreignKey: "userId" });
+
 
 module.exports = {
   ...sequelize.models,

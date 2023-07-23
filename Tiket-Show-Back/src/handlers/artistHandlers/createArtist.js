@@ -1,6 +1,6 @@
-const createArtist = require('../../controllers/artistControllers/createArtist')
+const newArtist = require('../../controllers/artistControllers/createArtist')
 
-module.exports = async (req, res) => {
+ const createArtist = async (req, res) => {
     try {
         const {
             firstName,
@@ -41,3 +41,5 @@ module.exports = async (req, res) => {
         res.status(400).json({ msg: error.message })
     }
 }
+
+module.exports = createArtist
