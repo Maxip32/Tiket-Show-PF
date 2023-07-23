@@ -11,6 +11,8 @@ import {
   filterByGenres,
   getEvents,
   getGenres,
+  getReset,
+  getResetOrder,
   orderByDate,
   orderByName,
 } from "../../redux/actions";
@@ -77,6 +79,12 @@ const Home = () => {
     order ? setOrder(false) : setOrder(true);
     setCurrentPage(1);
   };
+
+  const handleReset = () => {
+    dispatch(getReset())
+    dispatch(getResetOrder())
+    setCurrentPage(1)
+  }
 
   const [currentPage, setCurrentPage] = useState(1);
   const [eventsPerPage] = useState(12);
@@ -182,6 +190,7 @@ const Home = () => {
       <option value="asc">Eventos más recientes</option>
       <option value="desc">Eventos más lejanos</option>
     </select>
+      <button onClick={handleReset}>Resetear</button>
   </div>
 </section>
 
