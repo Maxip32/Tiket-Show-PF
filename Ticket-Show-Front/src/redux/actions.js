@@ -168,3 +168,16 @@ export const FilterByCity = (payload) => {
     payload
   }
 }
+
+export const GET_BY_DATE = 'GET_BY_DATE'
+
+export const GetByDate = () => {
+  return async (dispatch) => {
+    const apiData = await axios.get(`http://localhost:3001/date/allDate`)
+    const allDate = apiData.data
+    return dispatch({
+      type: GET_BY_DATE,
+      payload: allDate
+    })
+  }
+}

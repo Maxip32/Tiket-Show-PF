@@ -7,6 +7,7 @@ import {
   FilterByCity,
   FilterByDate,
   GetByCity,
+  GetByDate,
   filterByGenres,
   getEvents,
   getGenres,
@@ -22,7 +23,7 @@ const Home = () => {
   const allEvents = useSelector((state) => state.Events);
   const genres = useSelector((state) => state.genres);
   const [order, setOrder] = useState(true);
-
+  const dates = useSelector((state) => state.date)
   const ciudades = useSelector(state => state.city)
   
 
@@ -34,11 +35,13 @@ const Home = () => {
     dispatch(getGenres());
   }, [dispatch]);
 
-
-   useEffect(() => {
-   dispatch(GetByCity())
+  useEffect(() => {
+    dispatch(GetByCity())
   }, [dispatch])
 
+  useEffect(() => {
+    dispatch(GetByDate())
+  }, [dispatch])
 
   const handleFilterGenres = (event) => {
     dispatch(filterByGenres(event.target.value));
@@ -60,6 +63,7 @@ const Home = () => {
     setDate({
       dates: value,
     });
+    setCurrentPage(1)
   };
 
   const handleOrderDate = (event) => {
@@ -86,23 +90,6 @@ const Home = () => {
 
   const returnToFirstPage = () => {
     setCurrentPage(1);
-  };
-
-  const isDateDisabled = (date) => {
-    if (!date.dates) {
-      return true;
-    }
-  
-    // Obtener todas las fechas de eventos disponibles
-    const eventDates = new Set(allEvents.map((event) => event.date));
-  
-    const parsedDate = Date.parse(date.dates);
-    if (isNaN(parsedDate)) {
-      return true;
-    }
-  
-    const formattedDate = new Date(parsedDate).toISOString().slice(0, 10);
-    return !eventDates.has(formattedDate);
   };
 
   return (
@@ -157,10 +144,9 @@ const Home = () => {
           <input
             className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 text-LightText"
             type="date"
-            value={date.dates} min="2023-08-01" max="2023-10-28"
+            value={date.dates} min="2023-08-01" max="2023-10-28" 
             name="Fecha"
             onChange={(event) => handleInputChange(event)}
-            disabled={isDateDisabled(new Date(date.dates))}
           />
         </div>
       </section>
