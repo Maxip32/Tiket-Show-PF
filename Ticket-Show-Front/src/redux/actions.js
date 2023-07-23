@@ -136,12 +136,35 @@ export const orderByName = (payload) => {
   }
 }
 
-export const FILTER_BY_DATE = 'FILTER_DATE'
+export const FILTER_BY_DATE = 'FILTER_BY_DATE'
 
 export const FilterByDate = (payload) => {
 
   return {
     type: FILTER_BY_DATE,
+    payload
+  }
+}
+
+export const GET_BY_CITY = 'GET_BY_CITY'
+
+export const GetByCity = () => {
+  return async(dispatch) => {
+    const apiData = await axios.get(`http://localhost:3001/city/allCity`)
+    const city = apiData.data
+    return dispatch ({
+      type: GET_BY_CITY,
+      payload: city
+    })
+  }
+
+}
+
+export const FILTER_BY_CITY = 'FILTER_BY_CITY'
+
+export const FilterByCity = (payload) => {
+  return {
+    type: FILTER_BY_CITY,
     payload
   }
 }
