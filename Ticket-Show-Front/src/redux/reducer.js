@@ -5,7 +5,8 @@ import {
   ORDER_BY_DATE,
   GET_EVENT_ID,
   GET_SEARCH_BY_NAME,
-  GET_ORDER_BY_NAME
+  GET_ORDER_BY_NAME,
+  FILTER_BY_DATE
 } from "./actions";
 
 const initialState = {
@@ -75,6 +76,17 @@ const rootReducer = (state = initialState, action) => {
             ...state,
             Events: EventsSorted
           }
+          case FILTER_BY_DATE:
+            const allEventss = state.allEvents
+            const EventsWithDate = action.payload === 'all'
+
+            ? allEventss 
+
+            : allEventss.filter(even => even.date.includes(action.payload))
+            return {
+              ...state,
+              Events: EventsWithDate
+            }
     default:
       return { ...state };
   }
