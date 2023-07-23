@@ -7,6 +7,7 @@ const getANameArtist = require("../handlers/artistHandlers/getANameArtist");
 const getIdArtist = require("../handlers/artistHandlers/getIdArtist");
 const updateArtist = require("../handlers/artistHandlers/updateArtist");
 const deleteArtist = require("../handlers/artistHandlers/deleteArtist");
+const { allArtist } = require('../controllers/artistControllers/allArtist');
 
 const artistRouter = Router();
 
