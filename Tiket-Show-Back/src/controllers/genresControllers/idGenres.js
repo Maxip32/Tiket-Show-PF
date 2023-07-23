@@ -1,10 +1,12 @@
 const {Genre} = require('../../db');
 
-module.exports = async(id)=>{
-    const idGenre = await Genre.finOne({
+const getId = async(id)=>{
+    const idGenre = await Genre.findOne({
         where: {
             id: id,
         }
     });
     return idGenre;
 }
+
+module.exports = getId

@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
-//import CardsContainer from "../../components/CardContainer/CardsContainer";
 import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/SearchBar/SearchBar";
+import Footer from "../../components/Footer/Footer";
+import Landing from "../Landing/Landing";
 import {
+  FilterByCity,
+  FilterByDate,
+  GetByCity,
   filterByGenres,
   getEvents,
   getGenres,
   orderByDate,
+  orderByName,
 } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
@@ -17,32 +22,41 @@ const Home = () => {
   const allEvents = useSelector((state) => state.Events);
   const genres = useSelector((state) => state.genres);
   const [order, setOrder] = useState(true);
-  //const ciudades = useSelector(state => state.ciudades)
+
+  const ciudades = useSelector(state => state.city)
+  
 
   useEffect(() => {
     dispatch(getEvents());
   }, [dispatch]);
+
   useEffect(() => {
     dispatch(getGenres());
   }, [dispatch]);
 
-  // useEffect(() => {
-  // dispatch(getCiudades())
-  //}, [dispatch])
+
+   useEffect(() => {
+   dispatch(GetByCity())
+  }, [dispatch])
+
 
   const handleFilterGenres = (event) => {
     dispatch(filterByGenres(event.target.value));
+    setCurrentPage(1)
   };
 
-  //const handleFiltroCiudades = (event) => {
-  //   dispatch(filtroDeCiudadesEnActions(event.target.value))
-  // }
+  const handleFiltroCiudades = (event) => {
+     dispatch(FilterByCity(event.target.value))
+     setCurrentPage(1)
+   }
 
   const [date, setDate] = useState({
     dates: "",
   });
   const handleInputChange = (event) => {
     const { value } = event.target;
+    console.log("Fecha seleccionada:", value);
+    dispatch(FilterByDate(event.target.value));
     setDate({
       dates: value,
     });
@@ -51,16 +65,44 @@ const Home = () => {
   const handleOrderDate = (event) => {
     dispatch(orderByDate(event.target.value));
     order ? setOrder(false) : setOrder(true);
+    setCurrentPage(1);
+  };
+
+  const handleOrderByName = (event) => {
+    dispatch(orderByName(event.target.value));
+    order ? setOrder(false) : setOrder(true);
+    setCurrentPage(1);
   };
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [eventsPerPage] = useState(10);
+  const [eventsPerPage] = useState(12);
   const indexOfLastEvents = currentPage * eventsPerPage;
   const indexOfFirstEvents = indexOfLastEvents - eventsPerPage;
   const currentEvents = allEvents.slice(indexOfFirstEvents, indexOfLastEvents);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const returnToFirstPage = () => {
+    setCurrentPage(1);
+  };
+
+  const isDateDisabled = (date) => {
+    if (!date.dates) {
+      return true;
+    }
+  
+    // Obtener todas las fechas de eventos disponibles
+    const eventDates = new Set(allEvents.map((event) => event.date));
+  
+    const parsedDate = Date.parse(date.dates);
+    if (isNaN(parsedDate)) {
+      return true;
+    }
+  
+    const formattedDate = new Date(parsedDate).toISOString().slice(0, 10);
+    return !eventDates.has(formattedDate);
   };
 
   return (
@@ -87,7 +129,6 @@ const Home = () => {
               </option>
             ))}
           </select>
-          {/*  <p className="underline-offset-1">______________</p> */}
         </div>
 
         {/* Filter by cities */}
@@ -95,13 +136,18 @@ const Home = () => {
           <span className="font-extralight text-xs">Ciudades</span>
           <select
             className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700"
-            /* onChange={(event) => handleFiltroCiudades(event)} */
+            onChange={(event) => handleFiltroCiudades(event)} 
             defaultValue="default"
           >
             <option value="default" disabled>
               {" "}
               Ciudades{" "}
             </option>
+            {ciudades?.map((cit) => (
+              <option value={cit.name} key={cit.id}>
+                {cit.name}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -111,54 +157,54 @@ const Home = () => {
           <input
             className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 text-LightText"
             type="date"
-            value={date.dates}
+            value={date.dates} min="2023-08-01" max="2023-10-28"
             name="Fecha"
             onChange={(event) => handleInputChange(event)}
+            disabled={isDateDisabled(new Date(date.dates))}
           />
         </div>
       </section>
       {/* //- Fin Filter bar ---------> */}
 
-      <SearchBar />
+      <SearchBar returnToFirstPage={returnToFirstPage} />
 
       {/* order by events */}
-      <section className="mt-20 relative mb-2 flex w-full flex-wrap justify-between max-w-xl">
-  <div> 
-    <h1>Próximos Eventos</h1>
-  </div>
+
+      <section className=" mt-20 mb-1 flex flex-wrap items-center justify-between">
+  <h1 className="text-4xl mr-4 font-bold   font-primaryColor">Proximos Eventos</h1>
   <div className="flex">
     <select
-      onChange={(event) => handleOrderDate(event)}
+      className="border-secondaryColor  bg-red rounded-2xl"
+      onChange={(event) => handleOrderByName(event)}
       defaultValue="default"
     >
-      <option value="default" disabled>
-        Orden Alfabético
+      <option className="" value="default" disabled>
+        Orden Alfabetico
       </option>
-      <option value="desc">Desc</option>
-      <option value="asc">Asc</option>
+      <option value="asc">A-Z</option>
+      <option value="desc">Z-A</option>
     </select>
+
     <select
-      className="ml-4"
+      className="border-white rounded-2xl ml-2"
       onChange={(event) => handleOrderDate(event)}
       defaultValue="default"
     >
       <option value="default" disabled>
         Orden de Eventos
       </option>
-      <option value="desc">Eventos más recientes</option>
-      <option value="asc">Eventos más lejanos</option>
+      <option value="asc">Eventos más recientes</option>
+      <option value="desc">Eventos más lejanos</option>
     </select>
   </div>
 </section>
 
-      {/* //- cards section -------> */}
-      <section className="  w-full max-w-7xl p-28 flex justify-center flex-wrap items-center gap-2 md:gap-4">
+      <section className="w-3xl pb-5 p-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap- md:gap-4">
         {currentEvents?.map((cu) => {
           return (
             <Card
               id={cu.id}
               name={cu.name}
-              detail={cu.description}
               image={cu.image}
               genres={cu.genre}
               date={cu.date}
@@ -168,9 +214,7 @@ const Home = () => {
           );
         })}
       </section>
-      {/* //- Fin cards section -------> */}
-
-      <section className="">
+      <section className="mb-5">
         <Paginate
           eventsPerPage={eventsPerPage}
           allEvents={allEvents.length}
@@ -179,6 +223,8 @@ const Home = () => {
           setCurrentPage={setCurrentPage}
         />
       </section>
+      <Landing />
+      <Footer />
     </div>
   );
 };
