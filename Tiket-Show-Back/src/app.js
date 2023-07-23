@@ -9,6 +9,9 @@ const event = require ('./routes/eventRouter')
 const genrestRouter = require ('./routes/genrestRouter')
 const placetRouter = require ('./routes/placeRouter')
 const cartRouter = require ('./routes/cartRoutes')
+const findCityRoute = require ('./routes/cityRouter')
+
+
 require('./db.js');
 
 const server = express();
@@ -29,6 +32,9 @@ server.use('/genres', genrestRouter)
 server.use('/event', event);
 server.use('/place', placetRouter);
 server.use('/cart', cartRouter);
+server.use('/city', findCityRoute);
+
+
 
 server.use((err, req, res, next) => { 
   const status = err.status || 500;

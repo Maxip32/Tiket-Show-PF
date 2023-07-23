@@ -36,11 +36,13 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 
 
+
 // Agrega esta línea para importar el modelo del carrito
 const CartItem = require("./models/cart");
 
 
-const { Artist, Event, Genre, Place,User,} = sequelize.models;
+const { Artist, Event, Genre, Place,User, City} = sequelize.models;
+
 
 Event.belongsToMany(Artist, { through: "events_artists" });
 Artist.belongsToMany(Event, { through: "events_artists" });
