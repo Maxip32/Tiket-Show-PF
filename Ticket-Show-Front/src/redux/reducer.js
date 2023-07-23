@@ -4,7 +4,10 @@ import {
   GET_GENRES,
   ORDER_BY_DATE,
   GET_EVENT_ID,
-  GET_SEARCH_BY_NAME
+  GET_SEARCH_BY_NAME,
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+  UPDATE_CART,
 } from "./actions";
 
 const initialState = {
@@ -12,7 +15,9 @@ const initialState = {
   allEvents: [],
   genres: [],
   detail: {},
+  cart: [],
 };
+
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_EVENTS:
@@ -22,10 +27,8 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         genres: action.payload,
       };
-
     case GET_EVENT_ID:
       return { ...state, detail: action.payload };
-
     case FILTER_BY_GENRES:
       const allEvents = state.allEvents;
       const EventsWithGenre =
@@ -53,13 +56,33 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         Events: EventsByDate,
       };
-      case GET_SEARCH_BY_NAME:
-        return {
-          ...state,
-          Events: action.payload
-        }
+    case GET_SEARCH_BY_NAME:
+      return {
+        ...state,
+        Events: action.payload,
+      };
+
+
+      /////// CARRITO DE COMPRA //////
+
+    case ADD_TO_CART:
+      return {
+        ...state,
+        cart: [...state.cart, action.payload],
+      };
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        cart: state.cart.filter((item) => item.id !== action.payload),
+      };
+    case UPDATE_CART:
+      return {
+        ...state,
+        cart: [],
+      };
     default:
-      return { ...state };
+      return state;
   }
 };
+
 export default rootReducer;
