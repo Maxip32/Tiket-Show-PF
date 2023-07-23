@@ -9,7 +9,10 @@ GENEROS:
 
 CIUDADES:
 
-° Ciudades: http://localhost:3001/city/:nombreDeLaCiudad
+ Ciudades: 
+
+° Por Nombre: http://localhost:3001/city/:nombreDeLaCiudad --> el enrutador está comentado, si quieres usarla descomentalo
+° Todas las Ciudades: http://localhost:3001/city/allCity
 
 ARTISTAS:
 
