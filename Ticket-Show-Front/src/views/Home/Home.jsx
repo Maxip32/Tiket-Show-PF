@@ -55,6 +55,7 @@ const Home = () => {
   });
   const handleInputChange = (event) => {
     const { value } = event.target;
+    console.log("Fecha seleccionada:", value);
     dispatch(FilterByDate(event.target.value));
     setDate({
       dates: value,
@@ -85,6 +86,23 @@ const Home = () => {
 
   const returnToFirstPage = () => {
     setCurrentPage(1);
+  };
+
+  const isDateDisabled = (date) => {
+    if (!date.dates) {
+      return true;
+    }
+  
+    // Obtener todas las fechas de eventos disponibles
+    const eventDates = new Set(allEvents.map((event) => event.date));
+  
+    const parsedDate = Date.parse(date.dates);
+    if (isNaN(parsedDate)) {
+      return true;
+    }
+  
+    const formattedDate = new Date(parsedDate).toISOString().slice(0, 10);
+    return !eventDates.has(formattedDate);
   };
 
   return (
@@ -139,9 +157,10 @@ const Home = () => {
           <input
             className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 text-LightText"
             type="date"
-            value={date.dates}
+            value={date.dates} min="2023-08-01" max="2023-10-28"
             name="Fecha"
             onChange={(event) => handleInputChange(event)}
+            disabled={isDateDisabled(new Date(date.dates))}
           />
         </div>
       </section>

@@ -9,7 +9,8 @@ const event = require ('./routes/eventRouter')
 const genrestRouter = require ('./routes/genrestRouter')
 const placetRouter = require ('./routes/placeRouter')
 const cartRouter = require ('./routes/cartRoutes')
-const findCityRoute = require ('./routes/cityRouter')
+const findCityRoute = require ('./routes/cityRouter');
+const dateRouter = require('./routes/dateRouter');
 
 
 require('./db.js');
@@ -33,6 +34,7 @@ server.use('/event', event);
 server.use('/place', placetRouter);
 server.use('/cart', cartRouter);
 server.use('/city', findCityRoute);
+server.use('/date', dateRouter)
 
 
 
