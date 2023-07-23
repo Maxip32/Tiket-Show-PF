@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { auth, database } from "../../firebase/firebase.config";
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import registerPublic from '../../assets/image/registerPublic.jpg'
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -53,52 +54,63 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-500 to-pink-500">
-      <div className="bg-white p-8 rounded shadow-lg">
-        <h2 className="text-2xl font-bold mb-4 text-purple-600">Registrarse</h2>
-        <form className="flex flex-col space-y-4" onSubmit={handleRegister}>
-          <label>
-            <span className="text-purple-600">Nombre completo:</span>
+    <div className="flex justify-center items-center mt-20">
+      <div className="bg-white rounded-2xl shadow-lg flex w-3/4">
+      {/* image section */}
+        <section className='w-2/4'>
+          <img 
+            src={registerPublic} 
+            alt="Register image" 
+            className="rounded-l-2xl object-cover h-full"
+          />
+        </section>
+
+        <section className="p-6 flex flex-col justify-center items-center w-2/4 text-left">
+          <div className="my-4 text-base text-Color1000 flex flex-col gap-3" >
+            <h2 className="text-4xl font-bold text-primaryColor text-left">Regístrate</h2>
+            <p>Regístrate con nosotros y entérate de nuevos eventos.</p>
+          </div>
+          <form className="flex flex-col gap-6 w-full justify-center items-center" onSubmit={handleRegister}>
             <input
+              placeholder="Nombre completo"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="rounded border border-purple-400 px-4 py-2 focus:outline-none focus:border-purple-500"
+              className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-          </label>
-          <label>
-            <span className="text-purple-600">Correo electrónico:</span>
             <input
+              placeholder="Correo electrónico"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="rounded border border-purple-400 px-4 py-2 focus:outline-none focus:border-purple-500"
+              className="w-3/4 rounded-lg border border-none px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-          </label>
-          <label>
-            <span className="text-purple-600">Contraseña:</span>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="rounded border border-purple-400 px-4 py-2 focus:outline-none focus:border-purple-500"
-            />
-          </label>
-          <button
-            type="submit"
-            className="bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700 focus:outline-none"
-          >
-            Registrarse
-          </button>
-        </form>
-        <div className="mt-4">
-          <button
-            onClick={handleRegisterWithGoogle}
-            className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 focus:outline-none"
-          >
-            Registrarse con Google
-          </button>
-        </div>
+            <label>
+              <span className="text-purple-600">Contraseña:</span>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="rounded border border-purple-400 px-4 py-2 focus:outline-none focus:border-purple-500"
+              />
+            </label>
+            <button
+              type="submit"
+              className="bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700 focus:outline-none"
+            >
+              Registrarse
+            </button>
+          </form>
+          <div className="mt-4">
+            <button
+              onClick={handleRegisterWithGoogle}
+              className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 focus:outline-none"
+            >
+              Registrarse con Google
+            </button>
+          </div>
+
+        </section>
       </div>
     </div>
   );

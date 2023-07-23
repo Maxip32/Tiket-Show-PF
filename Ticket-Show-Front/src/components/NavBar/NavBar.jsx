@@ -4,7 +4,9 @@ import logoTicketShow from "../../assets/logos/logoTicketShow.svg";
 import { useAuth } from "../../context/AuthContext"; // Importa el useAuth del contexto
 import { useCart } from "../Shoppingcart/CartContext"; // Importa el useCart del contexto
 import CartPage from "../Shoppingcart/Shoppingcart";
+
 const NavBar = () => {
+
   const activeStyle = "underline-offset-5 border-b-2 border-secondaryColor";
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -97,7 +99,7 @@ const NavBar = () => {
                     role="menuitem"
                     onClick={closeDropdown}
                   >
-                    Usuario
+                    Publico
                   </NavLink>
 
                   <NavLink
@@ -190,14 +192,14 @@ const NavBar = () => {
         )}
        {/* //- Botón de carrito (solo se muestra si el usuario está autenticado) */}
   
-{/* Enlace del carrito */}
-{user && (
-          <li>
-            <NavLink to="/cart">
-              <span role="img" aria-label="Carrito">🛒</span> {cartItems !== undefined ? cartItems.length : 0}
-            </NavLink>
-          </li>
-        )}
+      {/* Enlace del carrito */}
+        {user && (
+                  <li>
+                    <NavLink to="/cart">
+                      <span role="img" aria-label="Carrito">🛒</span> {cartItems !== undefined ? cartItems.length : 0}
+                    </NavLink>
+                  </li>
+                )}
 
         
       </ul>
