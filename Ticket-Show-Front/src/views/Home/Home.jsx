@@ -82,13 +82,9 @@ const Home = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="flex flex-col items-center">
-=======
 
     <div className="flex flex-col items-center">
 
->>>>>>> 060682a6313fb6325b56055c9a49b2cb99465b5d
       <Hero />
 
       {/* //- Filter bar ---------> */}
@@ -111,10 +107,6 @@ const Home = () => {
               </option>
             ))}
           </select>
-<<<<<<< HEAD
-          {/*  <p className="underline-offset-1">______________</p> */}
-=======
->>>>>>> 060682a6313fb6325b56055c9a49b2cb99465b5d
         </div>
 
         {/* Filter by cities */}
@@ -146,42 +138,6 @@ const Home = () => {
       </section>
       {/* //- Fin Filter bar ---------> */}
 
-<<<<<<< HEAD
-      <SearchBar />
-
-      {/* order by events */}
-      <section className="mt-20 relative mb-2 flex w-full flex-wrap justify-between max-w-xl">
-  <div> 
-    <h1>Próximos Eventos</h1>
-  </div>
-  <div className="flex">
-    <select
-      onChange={(event) => handleOrderDate(event)}
-      defaultValue="default"
-    >
-      <option value="default" disabled>
-        Orden Alfabético
-      </option>
-      <option value="desc">Desc</option>
-      <option value="asc">Asc</option>
-    </select>
-    <select
-      className="ml-4"
-      onChange={(event) => handleOrderDate(event)}
-      defaultValue="default"
-    >
-      <option value="default" disabled>
-        Orden de Eventos
-      </option>
-      <option value="desc">Eventos más recientes</option>
-      <option value="asc">Eventos más lejanos</option>
-    </select>
-  </div>
-</section>
-
-      {/* //- cards section -------> */}
-      <section className="  w-full max-w-7xl p-28 flex justify-center flex-wrap items-center gap-2 md:gap-4">
-=======
       <SearchBar returnToFirstPage={returnToFirstPage} />
 
       {/* order by events */}
@@ -217,7 +173,6 @@ const Home = () => {
       </section>
 
       <section className="w-full pb-5 p-28 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
->>>>>>> 060682a6313fb6325b56055c9a49b2cb99465b5d
         {currentEvents?.map((cu) => {
           return (
             <Card

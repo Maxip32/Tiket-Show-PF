@@ -2,7 +2,6 @@ import "./App.css";
 import { Route, Routes, useLocation } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
 import Detail from "./Views/Detail/Detail";
-
 import Home from "./Views/Home/Home";
 import CartPage from "./components/Shoppingcart/Shoppingcart"
 import LoginForm from "./components/FormFirebase/FormLogin";
@@ -16,25 +15,12 @@ function App() {
   return (
     <AuthProvider>
     <div className="App">
-    {location.pathname !== "/" && <NavBar />}
+    <NavBar />
 
-      <Routes>
-        <Route path="/registerUser" element={<RegisterForm />} />
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/registerArtist" element={<Artist />} />
-        <Route path="/home" element={<Home />} />
-        <Route path='/detail/:id' element={<Detail/>} />
-        <Route path="/" element={<Landing />} />
-      </Routes>
-    </div>
-
-      <div className="App">
-       <NavBar />
-
-        <Routes>
+          <Routes>
           <Route path="/registerUser" element={<RegisterForm />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/cart" element={<CartPage />} />
           <Route path="/registerArtist" element={<Artist />} />
           <Route path="/" element={<Home />} />
           <Route path="/detail/:id" element={<Detail />} />

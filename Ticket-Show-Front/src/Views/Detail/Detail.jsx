@@ -22,11 +22,7 @@ const Detail = () => {
 
   const { id } = useParams();
 
-<<<<<<< HEAD
-  const {event}  = useSelector((state) => state.detail);
-=======
   const { event }  = useSelector((state) => state.detail);
->>>>>>> 060682a6313fb6325b56055c9a49b2cb99465b5d
 
   const dispatch = useDispatch();
 
