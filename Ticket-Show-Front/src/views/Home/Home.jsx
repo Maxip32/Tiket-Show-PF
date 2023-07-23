@@ -22,15 +22,13 @@ const Home = () => {
   const genres = useSelector((state) => state.genres);
   const [order, setOrder] = useState(true);
   //const ciudades = useSelector(state => state.ciudades)
-  const Date = useSelector((state) => state.allEvents)
+  const Date = useSelector((state) => state.allEvents);
   useEffect(() => {
     dispatch(getEvents());
   }, [dispatch]);
   useEffect(() => {
     dispatch(getGenres());
   }, [dispatch]);
-
-  
 
   // useEffect(() => {
   // dispatch(getCiudades())
@@ -49,7 +47,7 @@ const Home = () => {
   });
   const handleInputChange = (event) => {
     const { value } = event.target;
-    dispatch(FilterByDate(event.target.value))
+    dispatch(FilterByDate(event.target.value));
     setDate({
       dates: value,
     });
@@ -82,9 +80,7 @@ const Home = () => {
   };
 
   return (
-
     <div className="flex flex-col items-center">
-
       <Hero />
 
       {/* //- Filter bar ---------> */}
@@ -142,37 +138,36 @@ const Home = () => {
 
       {/* order by events */}
 
-      <section className=" mt-20 relative mb-2 flex w-full flex-wrap justify-around m-w-xl ">
-        <h1 className="text-6xl">Proximos Eventos</h1>
-        <div className=" flex h-12 ">
-          <select
-            className="border-white rounded-2xl "
-            onChange={(event) => handleOrderByName(event)}
-            defaultValue="default"
-          >
-            <option value="default" disabled>
-              Orden Alfabetico
-            </option>
-            <option value="asc">A-Z</option>
-            <option value="desc">Z-A</option>x
-          </select>
+      <section className=" mt-20 mb-1 flex flex-wrap items-center justify-between">
+  <h1 className="text-4xl mr-4 font-bold   font-primaryColor">Proximos Eventos</h1>
+  <div className="flex">
+    <select
+      className="border-secondaryColor  bg-red rounded-2xl"
+      onChange={(event) => handleOrderByName(event)}
+      defaultValue="default"
+    >
+      <option className="" value="default" disabled>
+        Orden Alfabetico
+      </option>
+      <option value="asc">A-Z</option>
+      <option value="desc">Z-A</option>
+    </select>
 
-          <select
-            className="border-white rounded-2xl"
-            onChange={(event) => handleOrderDate(event)}
-            defaultValue="default"
-          >
-            <option value="default" disabled>
-              Orden de Eventos
-            </option>
+    <select
+      className="border-white rounded-2xl ml-2"
+      onChange={(event) => handleOrderDate(event)}
+      defaultValue="default"
+    >
+      <option value="default" disabled>
+        Orden de Eventos
+      </option>
+      <option value="asc">Eventos más recientes</option>
+      <option value="desc">Eventos más lejanos</option>
+    </select>
+  </div>
+</section>
 
-            <option value="asc">Eventos más recientes</option>
-            <option value="desc">Eventos más lejanos</option>
-          </select>
-        </div>
-      </section>
-
-      <section className="w-full pb-5 p-28 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
+      <section className="w-3xl pb-5 p-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap- md:gap-4">
         {currentEvents?.map((cu) => {
           return (
             <Card
