@@ -6,6 +6,7 @@ const artistRouter = require('./routes/artistRouter');
 const event = require ('./routes/eventRouter')
 const genrestRouter = require ('./routes/genrestRouter')
 const placetRouter = require ('./routes/placeRouter')
+const findCityRoute = require ('./routes/cityRouter')
 
 require('./db.js');
 
@@ -29,6 +30,7 @@ server.use('/artist', artistRouter);
 server.use('/genres', genrestRouter)
 server.use('/event', event);
 server.use('/place', placetRouter);
+server.use('/city', findCityRoute);
 
 
 server.use((err, req, res, next) => { 

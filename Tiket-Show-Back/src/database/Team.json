@@ -1,11 +1,11 @@
 [
     {
-        "firstName": "darwin",
-        "lastName": "Uriarte",
+        "firstName": "Darwin",
+        "lastName": "Hernández",
         "tittle": "Full Stack Developer",
-        "image": "https://avatars.githubusercontent.com/u/96738027?v=4",
-        "urlGithub":"https://github.com/Auriarte20",
-        "urlLinkedin": "https://www.linkedin.com/in/aouriarte/",
+        "image": "https://media.licdn.com/dms/image/D4E03AQEYSz9XlWthBg/profile-displayphoto-shrink_800_800/0/1689810340402?e=1695859200&v=beta&t=Rqc5YZxmWW3EA485kUcy5IG40hJF7QOlj02cX1_oUoM",
+        "urlGithub":"https://github.com/Dhernan1007",
+        "urlLinkedin": "www.linkedin.com/in/darwin-hernández-9b0387244",
         "iconGithub": "https://cdn-icons-png.flaticon.com/128/5968/5968866.png",
         "iconLinkedin": "https://cdn-icons-png.flaticon.com/128/3536/3536505.png"
     },

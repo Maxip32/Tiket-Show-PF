@@ -7,6 +7,10 @@ GENEROS:
 ° Generos por Nombre: http://localhost:3001/genres
 ° Generos por id: http://localhost:3001/genres/getId
 
+CIUDADES:
+
+° Ciudades: http://localhost:3001/city/:nombreDeLaCiudad
+
 ARTISTAS:
 
 °
