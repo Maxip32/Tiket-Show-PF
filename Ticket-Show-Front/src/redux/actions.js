@@ -87,3 +87,13 @@ export const orderByName = (payload) => {
     payload
   }
 }
+
+export const FILTER_BY_DATE = 'FILTER_DATE'
+
+export const FilterByDate = (payload) => {
+
+  return {
+    type: FILTER_BY_DATE,
+    payload
+  }
+}

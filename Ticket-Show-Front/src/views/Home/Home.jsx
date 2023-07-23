@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import {
+  FilterByDate,
   filterByGenres,
   getEvents,
   getGenres,
@@ -19,13 +20,15 @@ const Home = () => {
   const genres = useSelector((state) => state.genres);
   const [order, setOrder] = useState(true);
   //const ciudades = useSelector(state => state.ciudades)
-
+  const Date = useSelector((state) => state.allEvents)
   useEffect(() => {
     dispatch(getEvents());
   }, [dispatch]);
   useEffect(() => {
     dispatch(getGenres());
   }, [dispatch]);
+
+  
 
   // useEffect(() => {
   // dispatch(getCiudades())
@@ -44,6 +47,7 @@ const Home = () => {
   });
   const handleInputChange = (event) => {
     const { value } = event.target;
+    dispatch(FilterByDate(event.target.value))
     setDate({
       dates: value,
     });
@@ -76,7 +80,7 @@ const Home = () => {
   }
 
   return (
-    <div>
+    <div className='flex flex-col items-center'>
       <Hero />
 
       {/* //- Filter bar ---------> */}
