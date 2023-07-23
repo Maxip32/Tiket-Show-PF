@@ -52,7 +52,8 @@ const Detail = () => {
             </div>
           </div>
           <div className=" mx-auto !mx-auto text-xl px-10 py-10 text-black  bg-white max-h-90 max-w-9xl shadow-lg p-4 overflow-y-auto  ">
-            <h2>{event.description}</h2>
+            <h2 style={{whiteSpace:"pre-line", textAlign:"justify"}}>{event.description}</h2>
+            {console.log(event.description)}
           </div>
           <div className="mx-auto !mx-auto items-center bg-primaryColor border-white h-40 m-5 max-w-4xl min-w-0 flex justify-center">
             <div className=" flex- text-4xl  h-40 text-white font-bold p-5 first:bg-secondaryColor">
