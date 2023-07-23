@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Footer from "../../components/Footer/Footer";
+import Landing from "../Landing/Landing";
 import {
   filterByGenres,
   getEvents,
@@ -63,7 +64,7 @@ const Home = () => {
   };
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [eventsPerPage] = useState(10);
+  const [eventsPerPage] = useState(12);
   const indexOfLastEvents = currentPage * eventsPerPage;
   const indexOfFirstEvents = indexOfLastEvents - eventsPerPage;
   const currentEvents = allEvents.slice(indexOfFirstEvents, indexOfLastEvents);
@@ -165,7 +166,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="  w-full max-w-7xl p-28 flex justify-center flex-wrap items-center gap-2 md:gap-4">
+      <section className="w-full pb-5 p-28 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
         {currentEvents?.map((cu) => {
           return (
             <Card
@@ -180,7 +181,7 @@ const Home = () => {
           );
         })}
       </section>
-      <section className="">
+      <section className="mb-5">
         <Paginate
           eventsPerPage={eventsPerPage}
           allEvents={allEvents.length}
@@ -189,7 +190,8 @@ const Home = () => {
           setCurrentPage={setCurrentPage}
         />
       </section>
-      <div></div>
+      <Landing />
+      <Footer />
     </div>
   );
 };
