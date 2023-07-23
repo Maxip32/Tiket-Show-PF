@@ -13,6 +13,8 @@ import {
   GET_BY_CITY,
   FILTER_BY_CITY,
   GET_BY_DATE,
+  GET_RESET,
+  GET_RESET_ORDER,
 } from "./actions";
 
 const initialState = {
@@ -133,6 +135,16 @@ const rootReducer = (state = initialState, action) => {
                 return {
                   ...state, date: action.payload
                 }
+                case GET_RESET:
+                  return {
+                    ...state,
+                    Events: state.allEvents
+                  }
+                  case GET_RESET_ORDER:
+                    return {
+                      ...state,
+                      allEvents: [...state.allEvents]
+                    }
     default:
       return state;
   }
