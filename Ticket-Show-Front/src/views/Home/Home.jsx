@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-//import CardsContainer from "../../components/CardContainer/CardsContainer";
 import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Footer from "../../components/Footer/Footer";
 import Landing from "../Landing/Landing";
 import {
+  FilterByCity,
   FilterByDate,
+  GetByCity,
   filterByGenres,
   getEvents,
   getGenres,
@@ -21,28 +22,29 @@ const Home = () => {
   const allEvents = useSelector((state) => state.Events);
   const genres = useSelector((state) => state.genres);
   const [order, setOrder] = useState(true);
-  //const ciudades = useSelector(state => state.ciudades)
-  const Date = useSelector((state) => state.allEvents)
+  const ciudades = useSelector(state => state.city)
+  
   useEffect(() => {
     dispatch(getEvents());
   }, [dispatch]);
+
   useEffect(() => {
     dispatch(getGenres());
   }, [dispatch]);
 
-  
-
-  // useEffect(() => {
-  // dispatch(getCiudades())
-  //}, [dispatch])
+   useEffect(() => {
+   dispatch(GetByCity())
+  }, [dispatch])
 
   const handleFilterGenres = (event) => {
     dispatch(filterByGenres(event.target.value));
+    setCurrentPage(1)
   };
 
-  //const handleFiltroCiudades = (event) => {
-  //   dispatch(filtroDeCiudadesEnActions(event.target.value))
-  // }
+  const handleFiltroCiudades = (event) => {
+     dispatch(FilterByCity(event.target.value))
+     setCurrentPage(1)
+   }
 
   const [date, setDate] = useState({
     dates: "",
@@ -114,13 +116,18 @@ const Home = () => {
           <span className="font-extralight text-xs">Ciudades</span>
           <select
             className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700"
-            /* onChange={(event) => handleFiltroCiudades(event)} */
+            onChange={(event) => handleFiltroCiudades(event)} 
             defaultValue="default"
           >
             <option value="default" disabled>
               {" "}
               Ciudades{" "}
             </option>
+            {ciudades?.map((cit) => (
+              <option value={cit.name} key={cit.id}>
+                {cit.name}
+              </option>
+            ))}
           </select>
         </div>
 
