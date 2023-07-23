@@ -27,7 +27,7 @@ const Hero = () => {
 
   // useEffect para controlar el autoplay
   useEffect(() => {
-    const intervalId = setInterval(next, 2000);
+    const intervalId = setInterval(next, 3000);
 
     return () => {
       clearInterval(intervalId);

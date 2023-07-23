@@ -127,3 +127,21 @@ export const updateCartItem = (itemId, quantity) => {
     }
   };
 };
+export const GET_ORDER_BY_NAME = 'GET_GET_ORDER_BY_NAME'
+
+export const orderByName = (payload) => {
+  return {
+    type: GET_ORDER_BY_NAME,
+    payload
+  }
+}
+
+export const FILTER_BY_DATE = 'FILTER_DATE'
+
+export const FilterByDate = (payload) => {
+
+  return {
+    type: FILTER_BY_DATE,
+    payload
+  }
+}

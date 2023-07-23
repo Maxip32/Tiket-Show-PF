@@ -1,11 +1,13 @@
-const allArtist = require("../../controllers/artistControllers/allArtist");
+const artist = require("../../controllers/artistControllers/allArtist");
 
-module.exports = async (req, res)=>{
+const allArtist = async (req, res)=>{
     try {
-        const getArtists = await allArtist();
+        const getArtists = await artist();
         res.status(200).json(getArtists);
     } catch (error) {
         res.status(400).json({msg: error.message})
     }
 
 }
+
+module.exports = allArtist

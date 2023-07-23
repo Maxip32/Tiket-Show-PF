@@ -1,6 +1,6 @@
 const { Artist } = require('../../db');
 
-module.exports = async (id, firstName = null, lastName = null, nickName = null, email = null, password = null, phone = null, decription = null) => {
+ const changeArtist = async (id, firstName = null, lastName = null, nickName = null, email = null, password = null, phone = null, decription = null) => {
 
         const updateArtist = await Artist.findByPk(id);
 
@@ -35,3 +35,5 @@ module.exports = async (id, firstName = null, lastName = null, nickName = null, 
         return updateArtist;
 
     } 
+    
+    module.exports = changeArtist

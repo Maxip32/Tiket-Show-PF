@@ -5,6 +5,8 @@ import {
   ORDER_BY_DATE,
   GET_EVENT_ID,
   GET_SEARCH_BY_NAME,
+  GET_ORDER_BY_NAME,
+  FILTER_BY_DATE,
   ADD_TO_CART,
   REMOVE_FROM_CART,
   UPDATE_CART,
@@ -43,13 +45,13 @@ const rootReducer = (state = initialState, action) => {
       const EventsByDate =
         action.payload === "asc"
           ? state.Events.sort((a, b) => {
-              if (a.even > b.even) return 1;
-              if (b.even > a.even) return -1;
+              if (a.date > b.date) return 1;
+              if (b.date > a.date) return -1;
               return 0;
             })
           : state.Events.sort((a, b) => {
-              if (a.even > b.even) return -1;
-              if (b.even > a.even) return 1;
+              if (a.date > b.date) return -1;
+              if (b.date > a.date) return 1;
               return 0;
             });
       return {
@@ -80,6 +82,33 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         cart: [],
       };
+        case GET_ORDER_BY_NAME:
+          const EventsSorted = action.payload === 'asc'
+          ? state.Events.sort((a,b) => {
+            if (a.name > b.name) return 1
+            if (b.name > a.name) return -1
+            return 0
+          }) :
+          state.Events.sort((a,b) => {
+            if (a.name > b.name) return -1
+            if (b.name > a.name) return 1
+            return 0
+          })
+          return {
+            ...state,
+            Events: EventsSorted
+          }
+          case FILTER_BY_DATE:
+            const allEventss = state.allEvents
+            const EventsWithDate = action.payload === 'all'
+
+            ? allEventss 
+
+            : allEventss.filter(even => even.date.includes(action.payload))
+            return {
+              ...state,
+              Events: EventsWithDate
+            }
     default:
       return state;
   }

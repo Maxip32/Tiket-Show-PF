@@ -1,6 +1,6 @@
 const getId = require('../../controllers/genresControllers/idGenres');
 
-module.exports = async (req, res)=>{
+const idGenres = async (req, res)=>{
     const {id} = req.params;
     try {
         const idGenre = await getId(id);
@@ -9,3 +9,5 @@ module.exports = async (req, res)=>{
         res.status(400).json({msg: error.message});
     }
 }
+
+module.exports = idGenres

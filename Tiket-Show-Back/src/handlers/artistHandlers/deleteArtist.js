@@ -1,6 +1,6 @@
 const unsuscribArtist = require('../../controllers/artistControllers/unsuscribArtist');
 
-module.exports = async(req, res)=>{
+ const deleteArtist = async(req, res)=>{
 
     const {id} = req.params;
     try {
@@ -11,3 +11,5 @@ module.exports = async(req, res)=>{
     }
 
 }
+
+module.exports = deleteArtist

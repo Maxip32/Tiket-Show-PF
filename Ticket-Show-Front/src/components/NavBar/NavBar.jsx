@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import logoTicketShow from "../../assets/logos/logoTicketShow.svg";
 import { useAuth } from "../../context/AuthContext"; // Importa el useAuth del contexto
@@ -22,7 +22,7 @@ const NavBar = () => {
     <nav className="flex justify-between items-center bg-transparent w-full py-5 px-12 text-md font-light">
       <ul className="flex items-center gap-3">
         <li>
-          <NavLink to="/home">
+          <NavLink to="/">
             <img className="w-8" src={logoTicketShow} alt="logo" />
           </NavLink>
         </li>
@@ -34,7 +34,7 @@ const NavBar = () => {
       <ul className="flex items-center gap-3">
         <li>
           <NavLink
-            to="/home"
+            to="/"
             onClick={closeDropdown}
             className={({ isActive }) => (isActive ? activeStyle : "")}
           >
