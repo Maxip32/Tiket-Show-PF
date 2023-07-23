@@ -10,6 +10,8 @@ import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
   UPDATE_CART,
+  GET_BY_CITY,
+  FILTER_BY_CITY,
 } from "./actions";
 
 const initialState = {
@@ -18,6 +20,7 @@ const initialState = {
   genres: [],
   detail: {},
   cart: [],
+  city: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -109,6 +112,21 @@ const rootReducer = (state = initialState, action) => {
               ...state,
               Events: EventsWithDate
             }
+          case GET_BY_CITY:
+            return {
+              ...state, city: action.payload
+            }
+            case FILTER_BY_CITY:
+              const Citys = state.allEvents
+              const EventsWithCity = action.payload === 'all'
+
+              ? Citys
+
+              : Citys.filter(cit => cit.city.includes(action.payload))
+              return {
+                ...state,
+                Events: EventsWithCity
+              }
     default:
       return state;
   }
