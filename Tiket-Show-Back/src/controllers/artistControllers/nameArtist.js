@@ -1,17 +1,25 @@
 const {Artist} = require("../../db");
 const {Op} = require("sequelize");
 
-module.exports = async (name)=>{
-    const nameArtist = await Artist.findOne({
+const artistByName = async (name) => {
+    try {
+      const nameArtist = await Artist.findOne({
         where: {
-            name: {
-                [Op.iLike]:[`%${name}%`]}
-        }
-    })
-
-    if(!nameArtist){
-        console.log("El artista buscado no existe en la base de datos")
-    }else{
-        return nameArtist
+          firstName: {
+            [Op.iLike]: `%${name}%`,
+          },
+        },
+      });
+  
+      if (!nameArtist) {
+        console.log("El artista buscado no existe en la base de datos");
+      } else {
+        return nameArtist;
+      }
+    } catch (error) {
+      throw new Error(error.message);
     }
-}
+  };
+  
+  module.exports = artistByName;
+  

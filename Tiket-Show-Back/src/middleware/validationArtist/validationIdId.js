@@ -1,4 +1,4 @@
-module.exports = async (req, res, next) => {
+ const validationId = async (req, res, next) => {
    const { id } = req.params;
    //regex para validar UUID
    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -9,3 +9,5 @@ module.exports = async (req, res, next) => {
        next();
    }
 }
+
+module.exports = validationId

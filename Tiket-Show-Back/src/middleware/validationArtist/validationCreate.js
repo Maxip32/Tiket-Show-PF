@@ -1,4 +1,4 @@
-module.exports = (req, res, next)=>{
+const validationCreate = (req, res, next)=>{
     const {
         firstName,
         lastName,
@@ -26,3 +26,5 @@ module.exports = (req, res, next)=>{
         next()
     }
 }
+
+module.exports = validationCreate;

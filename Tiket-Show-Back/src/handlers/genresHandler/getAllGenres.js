@@ -1,10 +1,12 @@
-const getGenres = require('../../controllers/genresControllers/allGenres');
+const allGenres = require('../../controllers/genresControllers/allGenres');
 
-module.exports = async (req, res)=>{
+ const getGenres = async (req, res)=>{
     try {
-const allGenres = await getGenres();
-res.status(200).json(allGenres)
+const genres = await allGenres();
+res.status(200).json(genres)
     } catch (error) {
         res.status(400).json({msg: error.message})
     }
 }
+
+module.exports = getGenres
