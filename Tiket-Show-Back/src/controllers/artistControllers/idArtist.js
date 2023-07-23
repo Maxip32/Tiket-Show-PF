@@ -1,6 +1,6 @@
 const {Artist} = require("../../db");
 
-module.exports = async (id)=>{
+ const idArtist = async (id)=>{
     const idArtist = await Artist.findOne({
         where:{
             id: id,
@@ -14,3 +14,5 @@ module.exports = async (id)=>{
         return idArtist
     }
 }
+
+module.exports = idArtist

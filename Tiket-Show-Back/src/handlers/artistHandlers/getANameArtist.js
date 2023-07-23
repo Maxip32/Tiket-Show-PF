@@ -1,11 +1,13 @@
-const nameArtist = require("../../controllers/artistControllers/nameArtist");
+ const artistByName = require("../../controllers/artistControllers/nameArtist");
 
-module.exports = async()=>{
+ const nameArtist = async(req, res)=>{
+     const {firstName} = req.params;
     try {
-        const {name} = req.query;
-        const getName = await nameArtist(name);
-        resizeBy.status(200).json(getName);
+        const getName = await artistByName(firstName);
+        res.status(200).json(getName);
     } catch (error) {
-        resizeBy.status(400).json({msg: error.message});
+        res.status(400).json({msg: error.message});
     }
 }
+
+module.exports = nameArtist

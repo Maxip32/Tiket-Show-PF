@@ -21,7 +21,7 @@ const NavBar = () => {
     <nav className="flex justify-between items-center bg-transparent w-full py-5 px-12 text-md font-light">
       <ul className="flex items-center gap-3">
         <li>
-          <NavLink to="/home">
+          <NavLink to="/">
             <img className="w-8" src={logoTicketShow} alt="logo" />
           </NavLink>
         </li>
@@ -33,7 +33,7 @@ const NavBar = () => {
       <ul className="flex items-center gap-3">
         <li>
           <NavLink
-            to="/home"
+            to="/"
             onClick={closeDropdown}
             className={({ isActive }) => (isActive ? activeStyle : "")}
           >
