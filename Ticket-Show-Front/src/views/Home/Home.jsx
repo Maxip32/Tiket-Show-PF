@@ -164,11 +164,13 @@ const Home = () => {
 
       {/* order by events */}
 
-      <section className=" mt-20 mb-1 flex flex-wrap items-center justify-between">
-  <h1 className="text-4xl mr-4 font-bold   font-primaryColor">Proximos Eventos</h1>
-  <div className="flex">
+      <section className=" mt-20 mb-1 flex flex-wrap items-center ">
+  <h1 style={{ textAlign: "start", color: "", backgroundColor: "", textDecoration: "underline pink" }} 
+  className="text-4xl mr-4   font-primaryColor">Proximos Eventos</h1>
+  <div className="fle text-red">
     <select
-      className="border-secondaryColor  bg-red rounded-2xl"
+      className="rounded-2xl"
+      style={{ textAlign: "center", color: "grey", backgroundColor: "whiteSmoke" }}
       onChange={(event) => handleOrderByName(event)}
       defaultValue="default"
     >
@@ -181,6 +183,7 @@ const Home = () => {
 
     <select
       className="border-white rounded-2xl ml-2"
+      style={{ textAlign: "center", color: "grey", backgroundColor: " whitesmoke" }}
       onChange={(event) => handleOrderDate(event)}
       defaultValue="default"
     >
@@ -190,25 +193,30 @@ const Home = () => {
       <option value="asc">Eventos más recientes</option>
       <option value="desc">Eventos más lejanos</option>
     </select>
-      <button onClick={handleReset}>Resetear</button>
+    <div className="flex flex-col bg-red justify-end text-sm">
+      <button
+      style={{ textAlign: "center", color: "pink", backgroundColor: "" }}
+      onClick={handleReset}>Resetear Filtros</button>
+      </div>
   </div>
 </section>
 
-      <section className="w-3xl pb-5 p-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap- md:gap-4">
-        {currentEvents?.map((cu) => {
-          return (
-            <Card
-              id={cu.id}
-              name={cu.name}
-              image={cu.image}
-              genres={cu.genre}
-              date={cu.date}
-              location={cu.location}
-              key={cu.id}
-            />
-          );
-        })}
-      </section>
+<section className="w-full pb-4 p-10 md:max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+  {currentEvents?.map((cu) => {
+    return (
+      <Card
+        id={cu.id}
+        name={cu.name}
+        image={cu.image}
+        genres={cu.genre}
+        date={cu.date}
+        location={cu.location}
+        key={cu.id}
+        className="w-full h-full md:h-[300px]" // Ajusta la altura deseada de las tarjetas aquí
+      />
+    );
+  })}
+</section>
       <section className="mb-5">
         <Paginate
           eventsPerPage={eventsPerPage}

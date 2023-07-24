@@ -29,7 +29,7 @@ const ArtistForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-500 to-pink-500">
+    <div className="flex flex-col items-center justify-center min-h-screen ">
       <div className="bg-white p-8 rounded shadow-lg">
         <h2 className="text-2xl font-bold mb-4 text-purple-600">Registrarse como Artista</h2>
         <form className="flex flex-col space-y-4" onSubmit={handleRegister}>

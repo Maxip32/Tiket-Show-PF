@@ -16,7 +16,7 @@ const CardsContainer = () => {
             summary={evento.description}
             date={evento.date}
             genre={evento.genre}
-            address={evento.adrress}
+            lugar={evento.address}
             city={evento.city}
             cost={evento.price}
           />
