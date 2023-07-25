@@ -19,13 +19,14 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
 import Paginate from "../../components/Paginate/Paginate";
-
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 const Home = () => {
   const dispatch = useDispatch();
   const allEvents = useSelector((state) => state.Events);
   const genres = useSelector((state) => state.genres);
   const [order, setOrder] = useState(true);
-  const dates = useSelector((state) => state.date)
+  const allEventsDates = useSelector((state) => state.date)
   const ciudades = useSelector(state => state.city)
   
 
@@ -55,19 +56,127 @@ const Home = () => {
      setCurrentPage(1)
    }
 
-  const [date, setDate] = useState({
-    dates: "",
-  });
-  const handleInputChange = (event) => {
-    const { value } = event.target;
-    console.log("Fecha seleccionada:", value);
-    dispatch(FilterByDate(event.target.value));
-    setDate({
-      dates: value,
-    });
-    setCurrentPage(1)
+  
+
+   const allowedDates = [
+    "2023-08-10",
+    "2023-08-16",
+    "2023-08-17",
+    "2023-08-18",
+    "2023-08-23",
+    "2023-08-26",
+    "2023-08-27",
+    "2023-09-01",
+    "2023-09-07",
+    "2023-09-09",
+    "2023-09-13",
+    "2023-09-15",
+    "2023-09-20",
+    "2023-09-23",
+    "2023-09-24",
+    "2023-09-26",
+    "2023-09-30",
+    "2023-10-03",
+    "2023-10-13",
+    "2023-10-17",
+    "2023-10-18",
+    "2023-10-20",
+    "2023-10-28",
+    "2023-11-04",
+    "2023-11-05",
+    "2023-11-07",
+    "2023-11-09",
+    "2023-11-13",
+    "2023-11-15",
+    "2023-11-21",
+    "2023-11-24",
+    "2023-11-28",
+    "2023-11-29"
+  ];
+  const [date, setDate] = useState(new Date());
+  const handleInputChange = (value) => {
+    setDate(value);
+    const selectedDate = value.toISOString().split("T")[0];
+    if (allowedDates.includes(selectedDate)) {
+      dispatch(FilterByDate(selectedDate));
+      setCurrentPage(1);
+    }
   };
 
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
+
+  const handleToggleCalendar = () => {
+    setIsCalendarOpen((prevIsCalendarOpen) => !prevIsCalendarOpen); // Cambia el estado al valor opuesto
+  };
+//   const alldates= [
+//     "2023-08-10",
+//     "2023-08-16"
+//     ,
+//     "2023-08-17",
+//     "2023-08-18"
+//     ,
+//     "2023-08-23"
+//     ,
+//     "2023-08-26"
+//     ,
+//     "2023-08-27"
+//     ,
+//     "2023-09-01"
+//     ,
+//     "2023-09-07"
+//     ,
+//     "2023-09-09"
+//     ,
+//     "2023-09-13"
+//     ,
+//      "2023-09-15"
+//     ,
+//     "2023-09-20"
+//     ,
+//     "2023-09-23"
+//     ,
+//     "2023-09-24"
+//     ,
+//    "2023-09-26"
+//     ,
+//    "2023-09-30"
+//     ,
+//    "2023-10-03"
+//     ,
+//     "2023-10-13"
+//     ,
+//     "2023-10-17"
+//     ,
+//     "2023-10-18"
+//     ,
+//     "2023-10-20"
+//     ,
+//     "2023-10-28"
+//     ,
+//     "2023-11-04"
+//     ,
+//     "2023-11-05"
+//     ,
+//     "2023-11-07"
+//     ,
+//     "2023-11-09"
+//     ,
+//    "2023-11-13"
+//     ,
+//     "2023-11-15"
+//     ,
+//     "2023-11-21"
+//     ,
+//    "2023-11-24"
+//     ,
+//     "2023-11-28"
+//     ,
+//     "2023-11-29"
+    
+
+
+// ]
+  
   const handleOrderDate = (event) => {
     dispatch(orderByDate(event.target.value));
     order ? setOrder(false) : setOrder(true);
@@ -99,6 +208,8 @@ const Home = () => {
   const returnToFirstPage = () => {
     setCurrentPage(1);
   };
+
+  
 
   return (
     <div className="flex flex-col items-center">
@@ -149,14 +260,51 @@ const Home = () => {
         {/* Select by dates */}
         <div className="flex flex-col m-1 gap-2 text-LightText w-44">
           <span className="font-extralight text-xs">Fechas</span>
-          <input
-            className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 text-LightText"
-            type="date"
-            value={date.dates} min="2023-08-01" max="2023-10-28" 
-            name="Fecha"
-            onChange={(event) => handleInputChange(event)}
+          <div className="relative inline-block">
+        <input
+          id="fecha"
+          className= 'bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 cursor-pointer'
+          type="text"
+          value={date.toISOString().split("T")[0]}
+          name="Fecha"
+          onChange={() => {}}
+          onClick={handleToggleCalendar}
+          readOnly
+          required
           />
-        </div>
+        {/* Icono de calendario al lado del input */}
+        <span className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+          <svg
+            className="h-5 w-5 text-gray-400"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            />
+          </svg>
+        </span>
+        {isCalendarOpen && (
+          <div className="absolute bg-white shadow-lg p-2 mt-2 ">
+            <Calendar
+              onChange={handleInputChange}
+              value={date}
+              minDate={new Date("2023-08-10")}
+              maxDate={new Date("2023-11-29")}
+              tileDisabled={({ activeStartDate, date, view }) => {
+                const dateString = date.toISOString().split("T")[0];
+                return !allowedDates.includes(dateString);
+              }}
+            />
+          </div>
+        )}
+    </div>
+    </div>
       </section>
       {/* //- Fin Filter bar ---------> */}
 
