@@ -1,8 +1,8 @@
 // models/user.js
 const { DataTypes } = require('sequelize');
-const CartItem = require('./cart');
+//const CartItem = require('./cart');
 module.exports = (sequelize) => {
-  const User = sequelize.define('user', {
+  sequelize.define('user', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    birthday: {
+    birthdate: {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
@@ -58,8 +58,22 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    
   });
+  // CartItem.associate = (models) => {
+  //   sequelize.models.User.hasMany(CartItem, {
+  //     foreignKey: 'user_id',
+  //     onDelete: 'CASCADE',
+  //     onUpdate: 'CASCADE',
+  //   });
+
+  //   CartItem.belongsTo(sequelize.models.User, {
+  //     foreignKey: 'user_id',
+  //     onDelete: 'CASCADE',
+  //     onUpdate: 'CASCADE',
+  //   });
+  // };
 
 //  
-  return User;
+  
 };
