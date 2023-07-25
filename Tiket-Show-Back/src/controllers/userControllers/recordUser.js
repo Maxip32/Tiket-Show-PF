@@ -4,14 +4,14 @@ const {Op} = require("sequelize");
 module.exports = async (name)=>{
     const nameUser = await User.findOne({
         where: {
-            name: {
+            firstName: {
                 [Op.iLike]:[`%${name}%`]}
         }
     })
 
     if(nameUser){
-        alert("El usuario ya existe en la base de datos")
+        console.log("El usuario ya existe en la base de datos")
     }else{
-        return alert("Usuario creado con exito")
+        return console.log("Usuario creado con exito")
     }
 }

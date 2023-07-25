@@ -4,8 +4,8 @@ const unsuscribArtist = require('../../controllers/artistControllers/unsuscribAr
 
     const {id} = req.params;
     try {
-        const deleteArtist = await unsuscribArtist(id);
-        res.status(204).json(deleteArtist);
+        await unsuscribArtist(id);
+       res.status(204).json({msg: 'Artista borrado con éxito'});
     } catch (error) {
         res.status(404).json({msg: error.message});
     }
