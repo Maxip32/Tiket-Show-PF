@@ -1,13 +1,13 @@
 const {Router} = require('express');
 const createArtist = require('../handlers/artistHandlers/createArtist');
-const validationCreate = require("../middleware/validationArtist/validationCreate");
+//const validationCreate = require("../middleware/validationArtist/validationCreate");
 //const validationId = require("../middleware/validationArtist/validationIdId");
 const getAllArtist = require("../handlers/artistHandlers/getAllArtist");
-const getANameArtist = require("../handlers/artistHandlers/getANameArtist");
+// const getANameArtist = require("../handlers/artistHandlers/getANameArtist");
 const getIdArtist = require("../handlers/artistHandlers/getIdArtist");
 const updateArtist = require("../handlers/artistHandlers/updateArtist");
 const deleteArtist = require("../handlers/artistHandlers/deleteArtist");
-const { allArtist } = require('../controllers/artistControllers/allArtist');
+// const { allArtist } = require('../controllers/artistControllers/allArtist');
 
 const artistRouter = Router();
 
@@ -25,12 +25,12 @@ name: name
 all: all artist
 */
 
-artistRouter.post('/createArtist', validationCreate, createArtist);
+artistRouter.post('/createArtist', createArtist);
 artistRouter.get('/allArtist', getAllArtist);
-artistRouter.get('/nameArtist/:firstName', getANameArtist);
-artistRouter.get('/:idArtist', getIdArtist);
-artistRouter.put('/update/:idArtist', updateArtist);
-artistRouter.delete('/delete/:idArtist', deleteArtist);
+artistRouter.get('/id/:id', getIdArtist);
+// artistRouter.get('/nameArtist/:firstName', getANameArtist);
+artistRouter.put('/update/:id', updateArtist);
+// artistRouter.delete('/delete/:idArtist', deleteArtist); --> falta
 
 
 
