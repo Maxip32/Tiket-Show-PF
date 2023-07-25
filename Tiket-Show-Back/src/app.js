@@ -11,7 +11,9 @@ const placetRouter = require ('./routes/placeRouter')
 const cartRouter = require ('./routes/cartRoutes')
 const findCityRoute = require ('./routes/cityRouter');
 const dateRouter = require('./routes/dateRouter');
-const userRouter = require("./routes/userRouter")
+
+const userRouter = require('./routes/userRouter');
+
 
 require('./db.js');
 

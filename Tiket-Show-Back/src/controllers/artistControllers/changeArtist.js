@@ -1,6 +1,6 @@
 const { Artist } = require('../../db');
 
- const changeArtist = async (id, firstName = null, lastName = null, nickName = null, email = null, password = null, phone = null, decription = null) => {
+ const changeArtist = async (id, firstName = null, lastName = null, nickname = null, email = null, password = null, phone = null, decription = null) => {
 
         const updateArtist = await Artist.findByPk(id);
 
@@ -14,8 +14,8 @@ const { Artist } = require('../../db');
         if(lastName){
             updateArtist.lastName = lastName;
         }
-        if(nickName){
-            updateArtist.nickName = nickName;
+        if(nickname){
+            updateArtist.nickname = nickname;
         }
         if(email){
             updateArtist.email = email;

@@ -106,16 +106,15 @@ const rootReducer = (state = initialState, action) => {
             Events: EventsSorted
           }
           case FILTER_BY_DATE:
-            const allEventss = state.allEvents
-            const EventsWithDate = action.payload === 'all'
-
-            ? allEventss 
-
-            : allEventss.filter(even => even.date.includes(action.payload))
-            return {
-              ...state,
-              Events: EventsWithDate
-            }
+            const eventsWithDate =
+        action.payload === "all"
+          ? state.allEvents
+          : state.allEvents.filter((event) => event.date.includes(action.payload));
+      return {
+        ...state,
+        Events: eventsWithDate,
+        
+      };
           case GET_BY_CITY:
             return {
               ...state, city: action.payload
@@ -145,9 +144,11 @@ const rootReducer = (state = initialState, action) => {
                       ...state,
                       allEvents: [...state.allEvents]
                     }
+                    
     default:
       return state;
   }
 };
+
 
 export default rootReducer;
