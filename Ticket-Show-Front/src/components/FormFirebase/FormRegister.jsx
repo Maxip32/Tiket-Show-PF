@@ -1,4 +1,4 @@
-import { useState } from "react";
+//import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, database } from "../../firebase/firebase.config";
 import {
@@ -8,18 +8,34 @@ import {
 } from "firebase/auth";
 import registerPublic from "../../assets/image/registerPublic.jpg";
 import { FcGoogle } from "react-icons/fc";
+import { useFormik } from "formik";
+import * as Yup from 'yup';
+import Swal from "sweetalert2";
+
+
+
+const schema = Yup.object().shape({
+  //aca se definen los nombre de nuestros inputs
+  name: Yup.string()
+    .min(2, 'El nombre debe tener Mínimo 2 caracteres')
+    .max(30, 'El nombre debe tener Máximo 30 caracteres')
+    .required('Debes completar tu nombre'),
+  email: Yup.string()
+    .email('Correo invalido')
+    .required('Debes colocar tu email'),
+  password: Yup.string()
+    .min(2, 'Debe tener al menos 4 caracteres')
+    .max(8, 'Debe tener máximo 8 caracteres')
+    .required('Es necesario crear una contraseña'),
+})
 
 const RegisterForm = () => {
+
   const navigate = useNavigate();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-
+  const handleRegister = async (values) => {
     try {
+      const { name, email, password } = values;
       // Registro con email y contraseña
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -34,13 +50,33 @@ const RegisterForm = () => {
         email: email,
       });
 
-      alert("Usuario registrado correctamente");
+      /* Modal */
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Te registraste correctamente',
+        showConfirmButton: false,
+        timer: 1500
+      })
+
+      /* alert("Usuario registrado correctamente"); */
       navigate("/login"); // Redireccionar al usuario al formulario de inicio de sesión
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
       // Manejar el error aquí
     }
   };
+
+  // Hook de Formik con la función de manejo de envío 'handleRegister'
+  const { handleSubmit, handleChange, errors } = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+    },
+    onSubmit: handleRegister,
+    validationSchema: schema, 
+  });
 
   const handleRegisterWithGoogle = async () => {
     try {
@@ -54,7 +90,16 @@ const RegisterForm = () => {
         email: user.email,
       });
 
-      alert("Registro con Google exitoso!");
+      /* Modal */
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Registro con Google exitoso!',
+        showConfirmButton: false,
+        timer: 1500
+      })
+
+      /* alert("Registro con Google exitoso!"); */
       navigate("/home"); // Redireccionar al usuario al formulario de inicio de sesión
     } catch (error) {
       console.error("Error al registrar con Google:", error);
@@ -63,7 +108,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center mt-20">
+    <div className="flex justify-center items-center mt-10">
       <div className="bg-white rounded-2xl shadow-lg flex w-3/4">
         {/* image section */}
         <section className="w-2/4">
@@ -83,34 +128,40 @@ const RegisterForm = () => {
               Regístrate con nosotros y entérate de nuevos eventos.
             </p>
           </div>
+
           <form
             className="flex flex-col gap-6 w-full justify-center items-center"
-            onSubmit={handleRegister}
+            onSubmit={handleSubmit}
           >
+            { errors.name && <span className='text-red-600 text-xs mb-[-8px] '>{errors.name}</span> }
             <input
               placeholder="Nombre completo"
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              name='name'
+              onChange={handleChange}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-            />
+              />
+
+            { errors.email && <span className='text-red-600 text-xs mb-[-8px] '>{errors.email}</span> }
             <input
               placeholder="Correo electrónico"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              onChange={handleChange}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-            />
+              />
+
+            { errors.password && <span className='text-red-600 text-xs mb-[-8px] '>{errors.password}</span> }
             <input
               placeholder="Contraseña"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              onChange={handleChange}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
             <button
               type="submit"
-              className="w-3/4 bg-primaryColor text-Color200 hover:bg-transparent hover:text-primaryColor border hover:border-secondaryColor focus:outline-none px-10 py-3.5 text-base font-medium 
+              className="w-3/4 bg-primaryColor text-Color200 hover:bg-Color200 hover:text-primaryColor border hover:border-secondaryColor focus:outline-none px-10 py-3.5 text-base font-medium 
               transition duration-500 ease-in-out transform shadow-md rounded-xl"
             >
               Registrarse
