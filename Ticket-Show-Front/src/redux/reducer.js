@@ -12,6 +12,9 @@ import {
   UPDATE_CART,
   GET_BY_CITY,
   FILTER_BY_CITY,
+  GET_BY_DATE,
+  GET_RESET,
+  GET_RESET_ORDER,
 } from "./actions";
 
 const initialState = {
@@ -21,6 +24,7 @@ const initialState = {
   detail: {},
   cart: [],
   city: [],
+  date: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -127,6 +131,20 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 Events: EventsWithCity
               }
+              case GET_BY_DATE:
+                return {
+                  ...state, date: action.payload
+                }
+                case GET_RESET:
+                  return {
+                    ...state,
+                    Events: state.allEvents
+                  }
+                  case GET_RESET_ORDER:
+                    return {
+                      ...state,
+                      allEvents: [...state.allEvents]
+                    }
     default:
       return state;
   }
