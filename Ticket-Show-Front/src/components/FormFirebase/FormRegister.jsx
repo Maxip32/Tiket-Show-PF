@@ -13,7 +13,6 @@ import * as Yup from 'yup';
 import Swal from "sweetalert2";
 
 
-
 const schema = Yup.object().shape({
   //aca se definen los nombre de nuestros inputs
   name: Yup.string()
@@ -90,7 +89,7 @@ const RegisterForm = () => {
         email: user.email,
       });
 
-      /* Modal */
+      /* Modal de Google*/
       Swal.fire({
         position: 'center',
         icon: 'success',
@@ -108,7 +107,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center mt-10">
+    <div className="w-full flex justify-center items-center mt-10">
       <div className="bg-white rounded-2xl shadow-lg flex w-3/4">
         {/* image section */}
         <section className="w-2/4">
@@ -133,7 +132,7 @@ const RegisterForm = () => {
             className="flex flex-col gap-6 w-full justify-center items-center"
             onSubmit={handleSubmit}
           >
-            { errors.name && <span className='text-red-600 text-xs mb-[-8px] '>{errors.name}</span> }
+            { errors.name && <span className='text-red-600 text-xs mb-[-20px] '>{errors.name}</span> }
             <input
               placeholder="Nombre completo"
               type="text"
@@ -142,7 +141,7 @@ const RegisterForm = () => {
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
               />
 
-            { errors.email && <span className='text-red-600 text-xs mb-[-8px] '>{errors.email}</span> }
+            { errors.email && <span className='text-red-600 text-xs mb-[-20px] '>{errors.email}</span> }
             <input
               placeholder="Correo electrónico"
               type="email"
@@ -151,7 +150,7 @@ const RegisterForm = () => {
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
               />
 
-            { errors.password && <span className='text-red-600 text-xs mb-[-8px] '>{errors.password}</span> }
+            { errors.password && <span className='text-red-600 text-xs mb-[-20px] '>{errors.password}</span> }
             <input
               placeholder="Contraseña"
               type="password"
