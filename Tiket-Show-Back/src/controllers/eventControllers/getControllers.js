@@ -139,10 +139,36 @@ const createEvent = async (req, res = response) => {
     }
 };
 
+const deleteEvent = async (req, res = response) => {
+    const { id } = req.params;
+    try {
+        const event = await Event.findByPk(id);
+
+        if (!event || !event.state) {
+            return res.status(404).json({
+                msg: 'No se encontro evento con ese Id',
+            });
+        }
+
+        await event.update({ state: false });
+
+        res.status(200).json({
+            msg: 'Evento eliminado',
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Por favor hable con el administrador',
+        });
+    }
+};
+
 
 module.exports = {
     getEvents,
     getEvent,
     getEventByName,
-    createEvent
+    createEvent,
+    deleteEvent,
 };
