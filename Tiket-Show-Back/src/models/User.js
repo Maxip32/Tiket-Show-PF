@@ -1,8 +1,8 @@
 // models/user.js
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require("sequelize");
 //const CartItem = require('./cart');
 module.exports = (sequelize) => {
-  sequelize.define('user', {
+  sequelize.define("user", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    birthdate: {
+    birthday: {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
@@ -58,7 +58,10 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    
+    profileImageURL: { // Nuevo campo para almacenar la URL de la imagen de perfil
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   });
   // CartItem.associate = (models) => {
   //   sequelize.models.User.hasMany(CartItem, {
@@ -74,6 +77,5 @@ module.exports = (sequelize) => {
   //   });
   // };
 
-//  
-  
+  //
 };

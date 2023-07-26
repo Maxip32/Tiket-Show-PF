@@ -21,10 +21,8 @@ async function sendEmail(subject, email,firstName, content) {
       to: email,
 
       subject: "Confirmacion de Registro",
-       html: `<h1>Gracias por registrarte ${firstName} en TiketShow</h1>
-      <p>Para confirmar tu registro haz click en el siguiente enlace</p>
-      <a href="${process.env.FRONT_URL || 'http://localhost:5173/'
-          }/confirm/>Confirmar registro</a>`
+       html: `<h1>Gracias por registrarte ${firstName} en TiketShow</h1>`
+     
 
     };
   

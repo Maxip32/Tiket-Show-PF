@@ -1,6 +1,24 @@
 const { Artist } = require('../../db');
 
-const newArtist = async(
+const newArtist = async (
+  firstName,
+  lastName,
+  nickname,
+  email,
+  password,
+  phone,
+  description,
+  twitter,
+  instagram,
+  spotify,
+  image,
+  google,
+  state,
+  confirmed,
+  profileImageURL // Agrega profileImageURL como parámetro del controlador
+) => {
+
+  const artist = await Artist.create({
     firstName,
     lastName,
     nickname,
@@ -14,31 +32,12 @@ const newArtist = async(
     image,
     google,
     state,
-    confirmed
-)=>{
-    
-    const artist = await Artist.create({
-            firstName,
-            lastName,
-            nickname,
-            email,
-            password,
-            phone,
-            description,
-            twitter,
-            instagram,
-            spotify,
-            image,
-            google,
-            state,
-            confirmed
-        
-    })
+    confirmed,
+    profileImageURL // Guarda la URL de la imagen de perfil en la base de datos
+  });
 
+  return artist;
 
-return artist;
-  
 }
 
-module.exports = newArtist
-
+module.exports = newArtist;

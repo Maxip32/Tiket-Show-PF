@@ -50,9 +50,17 @@ const Detail = () => {
               </div>
             </div>
           </div>
-          <div className=" mx-auto !mx-auto !w- text-xl px-10 py-10 text-black  bg-white max-h-90 
-          shadow-lg p-4 overflow-y-auto  ">
-            <h2 style={{ whiteSpace: "pre-line", textAlign: "justify", width: "100rem" }}>
+          <div
+            className=" mx-auto !mx-auto !w- text-xl px-10 py-10 text-black  bg-white max-h-90 
+          shadow-lg p-4 overflow-y-auto  "
+          >
+            <h2
+              style={{
+                whiteSpace: "pre-line",
+                textAlign: "justify",
+                width: "100rem",
+              }}
+            >
               {event.description}
             </h2>
             {console.log(event.description)}
@@ -75,6 +83,8 @@ const Detail = () => {
               </button>
             </div>
           </div>
+
+         
         </>
       ) : (
         <Loading />

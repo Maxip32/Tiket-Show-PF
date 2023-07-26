@@ -65,6 +65,10 @@ module.exports = (sequelize) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
+        profileImageURL: { // Nuevo campo para almacenar la URL de la imagen de perfil
+            type: DataTypes.STRING,
+            allowNull: true,
+          },
     });
 };
 
