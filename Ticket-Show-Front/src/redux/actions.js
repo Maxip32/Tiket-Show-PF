@@ -81,13 +81,20 @@ export const searchByName = (name) => {
 
 }
 
-//// CARRITO DE COMPRAS /////
+//// CARRITO DE COMPRAS POR EL MOMENTO NO DESCOMENTAR ESTO ES DE PRUEBA. /////
 // Agregar elemento al carrito en el backend
 export const addToCart = (item) => {
   return async (dispatch) => {
     try {
+      // Asegurarnos de que el objeto item contenga la propiedad 'id' 
+      if (!item.id) {
+        // Si el objeto item no tiene la propiedad 'id', podemos generar un id único o manejarlo de alguna otra manera
+        item.id = generateUniqueId(); // Por ejemplo, podemos usar una función para generar un id único
+      }
+
       // Realizar una solicitud POST al backend para agregar el elemento al carrito
       const response = await axios.post(`http://localhost:3001/CartItem/cart`, item);
+
       // El backend debería procesar la solicitud y agregar el elemento al carrito en la base de datos
       // Luego, puedes despachar la acción con el elemento agregado para actualizar el estado en el frontend
       dispatch({ type: ADD_TO_CART, payload: response.data });
@@ -181,3 +188,95 @@ export const GetByDate = () => {
     })
   }
 }
+// Acción para crear un nuevo usuario en el back-end
+export const CREATE_USER_SUCCESS = "CREATE_USER_SUCCESS"
+export const CREATE_USER_FAILURE = "CREATE_USER_FAILURE"
+export const createUser = (userData) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch('http://localhost:3001/user/createUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+      const data = await response.json();
+      dispatch({ type: CREATE_USER_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: CREATE_USER_FAILURE, payload: error.message });
+    }
+  };
+};
+
+// Acción para obtener un usuario por su ID desde el back-end
+
+export const GET_USER_SUCCESS = "GET_USER_SUCCESS"
+export const GET_USER_FAILURE = "GET_USER_FAILURE"
+export const GET_USER_BY_EMAIL_SUCCESS = "GET_USER_BY_EMAIL_SUCCESS"
+export const GET_USER_BY_EMAIL_FAILURE = "GET_USER_BY_EMAIL_FAILURE"
+
+
+export const getUserByEmail = (email) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`http://localhost:3001/cart/users/${email}`, {
+        method: 'GET',
+      });
+      const data = await response.json();
+      dispatch({ type: GET_USER_BY_EMAIL_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: GET_USER_BY_EMAIL_FAILURE, payload: error.message });
+    }
+  };
+};
+
+
+export const getUserById = () => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`http://localhost:3001/user/`, {
+        method: 'GET',
+      });
+      const data = await response.json();
+      dispatch({ type: GET_USER_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: GET_USER_FAILURE, payload: error.message });
+    }
+  };
+};
+export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS"
+export const UPDATE_USER_FAILURE = "UPDATE_USER_FAILURE"
+export const updateUser = (email, userData) => async (dispatch) => {
+  try {
+    // Realizar la petición al backend para buscar al usuario por su email y actualizarlo
+    const response = await fetch(`http://localhost:3001/cart/users/${email}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al actualizar el usuario');
+    }
+
+    const updatedUser = await response.json();
+
+    // Si la actualización es exitosa, actualizamos el estado en Redux
+    dispatch(updateUserSuccess(updatedUser.user));
+  } catch (error) {
+    dispatch(updateUserFailure(error.message));
+  }
+};
+
+const updateUserSuccess = (user) => ({
+  type: UPDATE_USER_SUCCESS,
+  payload: user,
+});
+
+const updateUserFailure = (error) => ({
+  type: UPDATE_USER_FAILURE,
+  payload: error,
+});

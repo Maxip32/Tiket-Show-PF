@@ -13,7 +13,15 @@ import {
   GET_BY_CITY,
   FILTER_BY_CITY,
   GET_BY_DATE,
-} from "./actions";
+  CREATE_USER_SUCCESS,
+  CREATE_USER_FAILURE,
+  GET_USER_SUCCESS,
+  GET_USER_FAILURE,
+  GET_USER_BY_EMAIL_SUCCESS,
+  GET_USER_BY_EMAIL_FAILURE,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
+} from "../redux/actions";
 
 const initialState = {
   Events: [],
@@ -23,6 +31,9 @@ const initialState = {
   cart: [],
   city: [],
   date: [],
+  user: null,
+  loading: true,
+  error: null,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -133,7 +144,70 @@ const rootReducer = (state = initialState, action) => {
                 return {
                   ...state, date: action.payload
                 }
+////// REDUCER CREATE Y GET USER CREO Y TRAIGO USUARIOS //////
+                case CREATE_USER_SUCCESS:
+                  return {
+                    ...state,
+                    user: action.payload,
+                    loading: false,
+                    error: null,
+                  };
+                case CREATE_USER_FAILURE:
+                  return {
+                    ...state,
+                    user: null,
+                    loading: false,
+                    error: action.payload,
+                  };
+                case GET_USER_SUCCESS:
+                  return {
+                    ...state,
+                    user: action.payload,
+                    loading: false,
+                    error: null,
+                  };
+                case GET_USER_FAILURE:
+                  return {
+                    ...state,
+                    user: null,
+                    loading: false,
+                    error: action.payload,
+                  };
+
+///////////// GET USER BY EMAIL Y UPDATE ///////////
+
+                  case GET_USER_BY_EMAIL_SUCCESS:
+                    return {
+                      ...state,
+                      user: action.payload,
+                      loading: false,
+                      error: null,
+                    };
+                  case GET_USER_BY_EMAIL_FAILURE:
+                    return {
+                      ...state,
+                      user: null,
+                      loading: false,
+                      error: action.payload,
+                    };
+                  case UPDATE_USER_SUCCESS:
+                    return {
+                      ...state,
+                      user: action.payload,
+                      loading: false,
+                      error: null,
+                    };
+                  case UPDATE_USER_FAILURE:
+                    return {
+                      ...state,
+                      loading: false,
+                      error: action.payload,
+                    };
+           
+           
     default:
+
+
       return state;
   }
 };
