@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getEventId } from "../../redux/actions";
-import Loading from '../Landing/Landing'
+import Loading from "../Landing/Landing";
 
 const Detail = () => {
   const monthsMap = {
@@ -15,14 +15,14 @@ const Detail = () => {
     "07": "JUL",
     "08": "AGO",
     "09": "SEP",
-    '10': "OCT",
-    '11': "NOV",
-    '12': "DIC",
+    10: "OCT",
+    11: "NOV",
+    12: "DIC",
   };
 
   const { id } = useParams();
 
-  const { event }  = useSelector((state) => state.detail);
+  const { event } = useSelector((state) => state.detail);
 
   const dispatch = useDispatch();
 
@@ -30,17 +30,16 @@ const Detail = () => {
     dispatch(getEventId(id));
   }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [/* year */, month, day] = event.date.split("-"); // Dividimos la fecha en año, mes y día
+  const [, /* year */ month, day] = event.date.split("-"); // Dividimos la fecha en año, mes y día
   const formattedMonth = monthsMap[month];
 
   return (
-    <div className=" mt-20 max-w-screen-xl flex flex-col mx-auto !mx-auto">
-      {
-        event ? (
-          <>
+    <div className=" mt-15 flex flex-col mx-auto ">
+      {event ? (
+        <>
           <div className="bg-primaryColor/80 w-full shadow-lg p-4">
             <div className="flex items-start flex-col sm:flex-row">
-              <div className="w-60 max-h-fit bg-white mb-4 sm:mb-0 sm:mr-4">
+              <div className="w-60 max-h-fit bg-primaryColor mb-4 sm:mb-0 sm:mr-4">
                 <img src={event.image} alt="foto del artista" />
               </div>
               <div>
@@ -51,8 +50,12 @@ const Detail = () => {
               </div>
             </div>
           </div>
-          <div className=" mx-auto !mx-auto text-xl px-10 py-10 text-black  bg-white max-h-90 max-w-9xl shadow-lg p-4 overflow-y-auto  ">
-            <h2>{event.description}</h2>
+          <div className=" mx-auto !mx-auto !w- text-xl px-10 py-10 text-black  bg-white max-h-90 
+          shadow-lg p-4 overflow-y-auto  ">
+            <h2 style={{ whiteSpace: "pre-line", textAlign: "justify", width: "100rem" }}>
+              {event.description}
+            </h2>
+            {console.log(event.description)}
           </div>
           <div className="mx-auto !mx-auto items-center bg-primaryColor border-white h-40 m-5 max-w-4xl min-w-0 flex justify-center">
             <div className=" flex- text-4xl  h-40 text-white font-bold p-5 first:bg-secondaryColor">
@@ -72,11 +75,10 @@ const Detail = () => {
               </button>
             </div>
           </div>
-          </>
-        ) : (
-          <Loading />
-        )
-      }
+        </>
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 };

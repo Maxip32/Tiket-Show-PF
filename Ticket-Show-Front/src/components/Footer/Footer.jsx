@@ -28,7 +28,7 @@ const Footer = () => {
         <div className="w-full lg:w-6/12 px-4">
           <div className="flex flex-wrap items-top mb-6">
             <div className="w-full lg:w-4/12 px-4 ml-auto">
-              <span className="block uppercase text-blueGray-500 text-sm font-semibold mb-2">Useful Links</span>
+              <span className="block uppercase text-blueGray-500 text-sm font-semibold mb-2">Links Utiles</span>
               <ul className="list-unstyled">
                 <li>
                   <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://www.creative-tim.com/presentation?ref=njs-profile">About Us</a>
@@ -45,7 +45,7 @@ const Footer = () => {
               </ul>
             </div>
             <div className="w-full lg:w-4/12 px-4">
-              <span className="block uppercase text-blueGray-500 text-sm font-semibold mb-2">Other Resources</span>
+              <span className="block uppercase text-blueGray-500 text-sm font-semibold mb-2">Otros recursos</span>
               <ul className="list-unstyled">
                 <li>
                   <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://github.com/creativetimofficial/notus-js/blob/main/LICENSE.md?ref=njs-profile">MIT License</a>
@@ -70,7 +70,7 @@ const Footer = () => {
           <div className="text-sm text-blueGray-500 font-semibold py-1">
             Copyright © <span id="get-current-year">2023</span>
             <a href="https://www.creative-tim.com/product/notus-js" className="text-blueGray-500 hover:text-gray-800" target="_blank">
-              Notus JS by <a href="https://www.creative-tim.com?ref=njs-profile" className="text-blueGray-500 hover:text-blueGray-800">Creative Tim</a>.
+              TicketShow by <a href="https://www.creative-tim.com?ref=njs-profile" className="text-blueGray-500 hover:text-blueGray-800">Creative Team</a>.
             </a>
           </div>
         </div>

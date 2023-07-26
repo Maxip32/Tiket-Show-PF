@@ -177,7 +177,6 @@ export const FilterByCity = (payload) => {
 }
 
 export const GET_BY_DATE = 'GET_BY_DATE'
-
 export const GetByDate = () => {
   return async (dispatch) => {
     const apiData = await axios.get(`http://localhost:3001/date/allDate`)
@@ -280,3 +279,17 @@ const updateUserFailure = (error) => ({
   type: UPDATE_USER_FAILURE,
   payload: error,
 });
+
+export const GET_RESET = 'GET_RESET'
+export const getReset = () => {
+  return ({
+    type: GET_RESET
+  })
+}
+export const GET_RESET_ORDER = 'GET_RESET_ORDER'
+export const getResetOrder = () => {
+  return {
+    type: GET_RESET_ORDER
+  }
+}
+

@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from '../../context/AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { createUser, updateUser, getUserByEmail, getUserById } from '../../redux/actions';
 import { useNavigate } from 'react-router-dom';
-
-//import { useHistory } from 'react-router-dom';
-
-
-
-
-
+import { FcGoogle } from 'react-icons/fc'; // Suponiendo que el ícono FcGoogle proviene de react-icons
 
 const FormFirebase = () => {
   const auth = useAuth();
@@ -83,8 +77,6 @@ const FormFirebase = () => {
     }
   };
 
-  
-
   const handleGoogle = async (e) => {
     e.preventDefault();
     try {
@@ -131,10 +123,6 @@ const FormFirebase = () => {
   //   });
   // };
 
-
-  
-
- 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-500 to-pink-500">
       <div className="bg-white p-8 rounded shadow-lg">
@@ -165,14 +153,14 @@ const FormFirebase = () => {
             Registrarse
           </button>
         </form>
-        <div className="mt-4">
-          <button
-            onClick={handleGoogle}
-            className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 focus:outline-none"
-          >
-            Registrarse con Google
-          </button>
-        </div>
+        <span className="m-4 text-sm text-secondaryColor"></span>
+        <button
+          onClick={handleGoogle}
+          className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 focus:outline-none"
+        >
+          <FcGoogle /> Regístrate con Google
+        </button>
+        <section></section>
       </div>
     </div>
   );

@@ -21,7 +21,11 @@ import {
   GET_USER_BY_EMAIL_FAILURE,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
+  GET_RESET,
+  GET_RESET_ORDER,
 } from "../redux/actions";
+ 
+
 
 const initialState = {
   Events: [],
@@ -115,16 +119,15 @@ const rootReducer = (state = initialState, action) => {
             Events: EventsSorted
           }
           case FILTER_BY_DATE:
-            const allEventss = state.allEvents
-            const EventsWithDate = action.payload === 'all'
-
-            ? allEventss 
-
-            : allEventss.filter(even => even.date.includes(action.payload))
-            return {
-              ...state,
-              Events: EventsWithDate
-            }
+            const eventsWithDate =
+        action.payload === "all"
+          ? state.allEvents
+          : state.allEvents.filter((event) => event.date.includes(action.payload));
+      return {
+        ...state,
+        Events: eventsWithDate,
+        
+      };
           case GET_BY_CITY:
             return {
               ...state, city: action.payload
@@ -205,11 +208,23 @@ const rootReducer = (state = initialState, action) => {
                     };
            
            
+                case GET_RESET:
+                  return {
+                    ...state,
+                    Events: state.allEvents
+                  }
+                  case GET_RESET_ORDER:
+                    return {
+                      ...state,
+                      allEvents: [...state.allEvents]
+                    }
+                    
     default:
 
 
       return state;
   }
 };
+
 
 export default rootReducer;
