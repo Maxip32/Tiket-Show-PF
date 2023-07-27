@@ -45,7 +45,7 @@ const initialState = {
 
   paypalData: [],
   captureOrderData: [],
-  cancelOrderData: []
+  cancelOrderData: [],
 
   user: null,
   loading: true,
