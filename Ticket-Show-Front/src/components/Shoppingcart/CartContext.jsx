@@ -1,19 +1,20 @@
 import React, { createContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios"; // Importa axios para realizar las solicitudes HTTP
-
+//import { ADD_TO_CART } from "../../redux/actions";
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const dispatch = useDispatch();
   const [cartItems, setCartItems] = useState([]); // Estado inicial como una matriz vacía
-  console.log(cartItems)
+  console.log(cartItems, "Necesito info sobre caritems")
   // Implementa las funciones para realizar solicitudes HTTP al backend
    const addToCartBackend = async (item) => {
     try {
       const response = await axios.post(`http://localhost:3001/cart/cart`, item);
-      const updatedCartItems = response.data.cartItems; // Asegúrate de usar la clave correcta que contiene la matriz de elementos del carrito
+      const updatedCartItems = response.data || []; // Asegúrate de usar la clave correcta que contiene la matriz de elementos del carrito
       setCartItems(updatedCartItems);
+      dispatch({ type: "ADD_TO_CART", payload: response.data });
     } catch (error) {
       console.error("Error al agregar al carrito:", error);
     }
@@ -64,7 +65,7 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider
       value={{
-        cartItems,
+        cartItems:cartItems,
         addToCart: addToCartBackend, // Usa las funciones para interactuar con el backend
         removeFromCart: removeFromCartBackend,
         updateCartItem: updateCartItemBackend,

@@ -99,10 +99,14 @@ const rootReducer = (state = initialState, action) => {
       /////// CARRITO DE COMPRA //////
 
     case ADD_TO_CART:
+      const ItemsCarts= state.allEvents.find((itemcart)=> itemcart.id === action.payload.id)
       return {
         ...state,
-        cart: [...state.cart, action.payload],
+        cart: [...state.cart, ItemsCarts],
       };
+
+
+
     case REMOVE_FROM_CART:
       return {
         ...state,

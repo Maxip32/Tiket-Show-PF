@@ -2,8 +2,9 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import logoTicketShow from "../../assets/logos/logoTicketShow.svg";
 import { useAuth } from "../../context/AuthContext"; // Importa el useAuth del contexto
-import { useCart } from "../Shoppingcart/CartContext"; // Importa el useCart del contexto
-import CartPage from "../Shoppingcart/Shoppingcart";
+import { useSelector } from "react-redux";
+//import { useCart } from "../Shoppingcart/CartContext"; // Importa el useCart del contexto
+//import CartPage from "../Shoppingcart/Shoppingcart";
 
 const NavBar = () => {
 
@@ -11,7 +12,7 @@ const NavBar = () => {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { user, logout } = useAuth(); // Extrae el usuario y la función de logout del contexto
-  const { cartItems } = useCart(); // Extrae la información del carrito del contexto
+  const cartItems = useSelector(state=> state.cart); // Extrae la información del carrito del contexto
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
