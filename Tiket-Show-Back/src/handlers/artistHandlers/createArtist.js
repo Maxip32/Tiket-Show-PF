@@ -5,11 +5,11 @@ const newArtist = require('../../controllers/artistControllers/createArtist')
         const {
             firstName,
             lastName,
-            nickname,
+            nickName,
             email,
             password,
             phone,
-            description,
+            decription,
             twitter,
             instagram,
             spotify,
@@ -19,15 +19,15 @@ const newArtist = require('../../controllers/artistControllers/createArtist')
             confirmed
         } = req.body;
 
-console.log(req.body);
-        const theArtist = await newArtist(
+
+        const newArtist = await createArtist({
             firstName,
             lastName,
-            nickname,
+            nickName,
             email,
             password,
             phone,
-            description,
+            decription,
             twitter,
             instagram,
             spotify,
@@ -35,8 +35,8 @@ console.log(req.body);
             google,
             state,
             confirmed
-        );
-        res.status(201).json(theArtist)
+        });
+        res.status(201).json(newArtist)
     } catch (error) {
         res.status(400).json({ msg: error.message })
     }

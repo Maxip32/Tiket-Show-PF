@@ -1,13 +1,15 @@
 const { User } = require("../../db");
+// const idArtist = require("../userControllers/users");
 
-const idUser = async (id)=>{
-    const users = await User.findOne({
-        where:{
-            id: id,
-        }
-    });
-    console.log(users);
-
-        return users;
+module.exports = async ()=>{
+    const idUsers = await User.findAll(
+     
+    );
+console.log(idUsers)
+    if(!idUsers){
+        alert("No existe un Usuario con este id");
+    }else{
+        alert('Usuario encontrado con éxito');
+        return idUsers;
+    }
 }
-module.exports = idUser

@@ -38,10 +38,11 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 
 // Agrega esta línea para importar el modelo del carrito
-const CartItem = require("./models/cart");
+//const CartItem = require("./models/cart");
 
 
-const { Artist, Event, Genre, Place,User, City, Date} = sequelize.models;
+const { Artist, Event, Genre, Place, User, City, Date, CartItem} = sequelize.models;
+console.log(CartItem, " esta son las constantes Holis")
 
 
 Event.belongsToMany(Artist, { through: "events_artists" });
@@ -52,7 +53,18 @@ Place.belongsToMany(User, { through: "place_user", as: "places" });
 User.hasMany(Place, { as: "places", foreignKey: "userId" });
 
 
+User.hasMany(CartItem, { as: "cart" });
+CartItem.belongsTo(User, { as: "cart"  });
+// User.hasMany(CartItem, {  as: "cart_item" , foreignKey: "user_id"});
+// CartItem.belongsToMany(User, { foreignKey: "user_id", as: "user" });
+
+CartItem.belongsToMany(Event, { through: "event_name_cart" });
+Event.belongsToMany(CartItem, { through: "event_name_cart" });
+
+
 module.exports = {
+  //User: sequelize.models.user,
+  //cart: sequelize.models.CartItem,
   ...sequelize.models,
   conn: sequelize,
 };

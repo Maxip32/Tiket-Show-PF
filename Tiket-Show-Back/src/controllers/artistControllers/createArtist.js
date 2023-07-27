@@ -3,11 +3,11 @@ const { Artist } = require('../../db');
 const newArtist = async(
     firstName,
     lastName,
-    nickname,
+    nickName,
     email,
     password,
     phone,
-    description,
+    decription,
     twitter,
     instagram,
     spotify,
@@ -16,15 +16,21 @@ const newArtist = async(
     state,
     confirmed
 )=>{
-    
-    const artist = await Artist.create({
+    try {
+    const [artist, created] = await Artist.findOrCreate({
+        where:{
             firstName,
             lastName,
-            nickname,
+            nickName,
+        },
+        create:{
+            firstName,
+            lastName,
+            nickName,
             email,
             password,
             phone,
-            description,
+            decription,
             twitter,
             instagram,
             spotify,
@@ -32,13 +38,19 @@ const newArtist = async(
             google,
             state,
             confirmed
-        
+        }
     })
 
+    await artist.save();
 
-return artist;
-  
+    if(created){
+    console.log('Artista creado con éxito')
+    }
+
+    return artist;
+} catch (error) {
+    throw new Error(error.message)
+}
 }
 
 module.exports = newArtist
-
