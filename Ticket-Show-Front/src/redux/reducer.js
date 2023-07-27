@@ -42,11 +42,9 @@ const initialState = {
   cart: [],
   city: [],
   date: [],
-
   paypalData: [],
   captureOrderData: [],
-  cancelOrderData: []
-
+  cancelOrderData: [],
   user: null,
   loading: true,
   error: null,

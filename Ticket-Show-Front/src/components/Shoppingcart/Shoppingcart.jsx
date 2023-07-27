@@ -1,5 +1,5 @@
 import React from "react";
-import { useCart } from "../Shoppingcart/CartContext";
+import { CartProvider,useCart } from "../Shoppingcart/CartContext";
 
 const CartPage = () => {
   const { cartItems } = useCart(); // Extrae la información del carrito del contexto

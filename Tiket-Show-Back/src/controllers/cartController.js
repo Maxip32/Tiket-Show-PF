@@ -117,7 +117,7 @@ const updateCartItemBackend = async (req, res) => {
 
 
 module.exports = {
-  getCartItemsBackend,
+  //getCartItemsBackend,
   addToCartBackend,
   removeFromCartBackend,
   updateUser,
