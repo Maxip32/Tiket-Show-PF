@@ -1,27 +1,12 @@
-const { Artist } = require('../../db');
+const { Artist } = require("../../db");
+const Mailer = require("../userControllers/Mailer"); // Ajusta la ruta según la ubicación de Mailer.js
+const { uploadImage } = require("../../cloudinary/uploadImage");
 
-const newArtist = async (
-  firstName,
-  lastName,
-  nickname,
-  email,
-  password,
-  phone,
-  description,
-  twitter,
-  instagram,
-  spotify,
-  image,
-  google,
-  state,
-  confirmed,
-  profileImageURL // Agrega profileImageURL como parámetro del controlador
-) => {
-
-  const artist = await Artist.create({
+const newArtist = async (data) => {
+  const {
     firstName,
     lastName,
-    nickname,
+    nickName,
     email,
     password,
     phone,
@@ -33,11 +18,55 @@ const newArtist = async (
     google,
     state,
     confirmed,
-    profileImageURL // Guarda la URL de la imagen de perfil en la base de datos
+  } = data;
+
+  // Carga la imagen en Cloudinary y obtiene la URL de la imagen de perfil
+  let profileImageURL = null;
+  if (image) {
+    profileImageURL = await uploadImage(image); // Ajusta la forma en que se pasa la imagen a la función si es necesario
+  }
+
+  const [artist, created] = await Artist.findOrCreate({
+    where: {
+      firstName,
+      lastName,
+      nickName,
+    },
+    defaults: {
+      firstName,
+      lastName,
+      nickName,
+      email,
+      password,
+      phone,
+      description,
+      twitter,
+      instagram,
+      spotify,
+      image,
+      google,
+      state,
+      confirmed,
+      profileImageURL, // Agrega profileImageURL como parámetro del controlador
+    },
   });
 
-  return artist;
+  await artist.save();
 
-}
+ 
+  if (created) {
+    const subject = "Registro Exitoso";
+
+    const content = "¡Bienvenido! Tu registro ha sido exitoso.";
+
+    Mailer.sendEmail(subject, email, firstName, content);
+
+    // Mostrar un mensaje al usuario (puedes adaptarlo según tu frontend)
+    console.log("Artista creado con éxito");
+  }
+
+  return artist;
+};
 
 module.exports = newArtist;
+//profileImageURL // Agrega profileImageURL como parámetro del controlador

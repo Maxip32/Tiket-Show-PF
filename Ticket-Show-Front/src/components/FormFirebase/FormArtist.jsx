@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from 'react-router-dom';
+import {useDispatch} from "react-redux"
 
 const ArtistForm = () => {
   const auth = useAuth();
   const navigate = useNavigate();
-
+const dispatch = useDispatch()
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,20 +39,22 @@ const ArtistForm = () => {
 
   //cloudinary acaba
 
-
+console.log(image)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await auth.register(email, password);
-      if (image) {
-        const imageUrl = await uploadImage(image);
-        setImage(imageUrl); // Guarda la URL de la imagen en el estado del componente
-        console.log("URL de la imagen cargada:", imageUrl);
+     const response = await auth.register(email, password);
+
+     if(!!response.user){
+      const newArtist = {
+
       }
+      dispatch()
+     }
       // Aquí puedes realizar cualquier acción adicional con el nuevo usuario registrado,
       // como guardar datos adicionales en tu base de datos utilizando Sequelize.
-      alert("Usuario registrado correctamente");
+      alert("Artista  registrado correctamente");
       navigate("/login"); // Redireccionar al usuario al formulario de inicio de sesión
     } catch (error) {
       console.error("Error al registrar el usuario:", error);

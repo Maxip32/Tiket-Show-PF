@@ -62,6 +62,7 @@ export function AuthProvider({ children }) {
       );
       console.log(response);
       setUser(response.user);
+      return response;
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
       setError(error.message);

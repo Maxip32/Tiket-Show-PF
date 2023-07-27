@@ -1,36 +1,42 @@
 // models/cart.js
 const { DataTypes } = require('sequelize');
+//const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
-  const CartItem = sequelize.define('cart_item', {
+   sequelize.define('cartItem', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
-      allowNull: true,
+      allowNull: false,
       primaryKey: true,
     },
     quantity: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       defaultValue: 1,
     },
+    // name: {
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    //   defaultValue: null,
+    // },
   });
-  CartItem.associate = (models) => {
-    sequelize.models.User.hasMany(CartItem, {
-      foreignKey: 'user_id',
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-    });
+  // CartItem.associate = (model) => {
+  //   sequelize.model.User.hasMany(CartItem, {
+  //     foreignKey: 'user_id',
+  //     onDelete: 'CASCADE',
+  //     onUpdate: 'CASCADE',
+  //   });
 
-    CartItem.belongsTo(sequelize.models.User, {
-      foreignKey: 'user_id',
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-    });
-  };
+  //   CartItem.belongsTo(sequelize.model.User, {
+  //     foreignKey: 'user_id',
+  //     onDelete: 'CASCADE',
+  //     onUpdate: 'CASCADE',
+  //   });
+  // };
 
 
-  return CartItem;
+  
 };
 
 

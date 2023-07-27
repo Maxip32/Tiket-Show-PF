@@ -160,6 +160,7 @@ export const GetByCity = () => {
 
 }
 
+
 export const FILTER_BY_CITY = 'FILTER_BY_CITY'
 
 export const FilterByCity = (payload) => {
@@ -172,7 +173,7 @@ export const FilterByCity = (payload) => {
 export const GET_BY_DATE = 'GET_BY_DATE'
 export const GetByDate = () => {
   return async (dispatch) => {
-    const apiData = await axios.get(`http://localhost:3001/date/allDate`)
+    const apiData = await axios.get(`http://localhost:3001/date/allDate`, )
     const allDate = apiData.data
     return dispatch({
       type: GET_BY_DATE,
@@ -193,4 +194,20 @@ export const getResetOrder = () => {
     type: GET_RESET_ORDER
   }
 }
+export const NEW_ARTIST = "NEW_ARTIST"
+export function newArtist(formData) {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(`http://localhost:3001/artist/createArtist`, formData);
+   
+      return dispatch({
+        type: NEW_ARTIST,
+        payload: data,
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
 

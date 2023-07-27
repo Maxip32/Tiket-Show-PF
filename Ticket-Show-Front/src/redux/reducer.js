@@ -15,6 +15,7 @@ import {
   GET_BY_DATE,
   GET_RESET,
   GET_RESET_ORDER,
+  NEW_ARTIST
 } from "./actions";
 
 const initialState = {
@@ -70,7 +71,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         Events: action.payload,
       };
-
+      case NEW_ARTIST:
+        return {
+          ...state,
+          details: action.payload,
+        };
 
       /////// CARRITO DE COMPRA //////
 
