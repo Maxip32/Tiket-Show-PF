@@ -1,9 +1,8 @@
 const {User} = require('../../db');
 
-const unsuscribUser = async (id)=>{
-     await User.destroy({
-        where:{
-            id: id}
-    });
+module.exports = async (id)=>{
+    const findUser = await User.findByPk(id);
+    const deleteUser = await findUser.destroy();
+
+    return deleteUser;
 }
-module.exports = unsuscribUser

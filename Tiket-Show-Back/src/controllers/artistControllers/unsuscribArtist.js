@@ -1,10 +1,10 @@
-const { Artist } = require('../../db');
+const {Artist} = require('../../db');
 
-const unsuscribArtist = async (id) => {
-    const findDelete = await Artist.findByPk(id)
+const unsuscribArtist = async (id)=>{
+    const findArtist = await Artist.findByPk(id);
+    const deleteArtist = await findArtist.destroy();
 
-    await findDelete.destroy();
-   
+    return deleteArtist;
 }
 
 module.exports = unsuscribArtist

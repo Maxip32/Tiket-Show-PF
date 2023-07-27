@@ -1,9 +1,13 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../../redux/actions";
+import { useDispatch } from "react-redux";
+import { useCart } from "../Shoppingcart/CartContext";
 import { Link } from "react-router-dom";
+import { FiShoppingCart } from "react-icons/fi";
+import style from "./Card.module.css";
+import { useAuth } from "../../context/AuthContext";
 
 const Card = (props) => {
+  const { user} = useAuth(); // Obtén el usuario autenticado desde el contexto de autenticación
   const dispatch = useDispatch();
   const monthsMap = {
     "01": "ENE",
@@ -19,17 +23,29 @@ const Card = (props) => {
     11: "NOV",
     12: "DIC",
   };
+  const { addToCart } = useCart();
+  const handleAddToCart = ({ id, name, user}) => {
+    console.log(user.email, " esto quiero ver")
+    if (!id || !name || !user ) {
+      
+      console.error("El artículo no tiene todas las propiedades necesarias");
+      return;
+    }
 
-  const handleAddToCart = () => {
-    // Aquí despachas la acción de agregar al carrito con la información del evento
-    dispatch(
-      addToCart({
-        id: props.id,
-        name: props.name,
-        cost: props.price, // Asegúrate de utilizar el nombre correcto de la propiedad del precio si es diferente
-        // Otros datos relevantes del evento si los tienes
+    const itemToAdd = {
+      id: id,
+      name: name,
+      user: user.email, // Usamos el email del usuario en lugar del objeto user
+    };
+
+    addToCart(itemToAdd)
+      .then(() => {
+        // La promesa se resuelve correctamente, aquí puedes realizar acciones adicionales si es necesario
       })
-    );
+      .catch((error) => {
+        // Manejo de errores si la promesa es rechazada
+        console.error("Error al agregar al carrito:", error);
+      });
   };
 
   const [year, month, day] = props.date.split("-"); // Dividimos la fecha en año, mes y día
@@ -55,7 +71,11 @@ const Card = (props) => {
         </div>
       </div>
     </Link>
-    <button onClick={handleAddToCart} className={""}></button>
+    <button onClick={()=>handleAddToCart({ id: props.id, name: props.name, user }, )} className={style.addToCartButton}>
+
+        {/* Icono de carrito */}
+        <FiShoppingCart size={20} />
+      </button>
   </div>
   )
 };

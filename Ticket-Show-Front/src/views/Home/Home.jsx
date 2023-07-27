@@ -19,6 +19,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
 import Paginate from "../../components/Paginate/Paginate";
+import { CartProvider } from "../../components/Shoppingcart/CartContext";
+
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 const Home = () => {
@@ -212,6 +214,7 @@ const Home = () => {
   
 
   return (
+    <CartProvider>
     <div className="flex flex-col items-center">
       <Hero />
 
@@ -377,6 +380,7 @@ const Home = () => {
       <Landing />
       <Footer />
     </div>
+    </CartProvider>
   );
 };
 
