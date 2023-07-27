@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
 import style from "./Card.module.css";
 import { useAuth } from "../../context/AuthContext";
-
+//import { addToCartBackend } from "../Shoppingcart/CartContext"
 const Card = (props) => {
   const { user} = useAuth(); // Obtén el usuario autenticado desde el contexto de autenticación
   const dispatch = useDispatch();
@@ -24,10 +24,8 @@ const Card = (props) => {
     12: "DIC",
   };
   const { addToCart } = useCart();
-  const handleAddToCart = ({ id, name, user}) => {
-    console.log(user.email, " esto quiero ver")
+  const handleAddToCart = ({ id, name, user, }) => {
     if (!id || !name || !user ) {
-      
       console.error("El artículo no tiene todas las propiedades necesarias");
       return;
     }
@@ -35,17 +33,11 @@ const Card = (props) => {
     const itemToAdd = {
       id: id,
       name: name,
-      user: user.email, // Usamos el email del usuario en lugar del objeto user
+      user: user.email
     };
+    console.log(itemToAdd, 'es el item')
 
-    addToCart(itemToAdd)
-      .then(() => {
-        // La promesa se resuelve correctamente, aquí puedes realizar acciones adicionales si es necesario
-      })
-      .catch((error) => {
-        // Manejo de errores si la promesa es rechazada
-        console.error("Error al agregar al carrito:", error);
-      });
+    addToCart(itemToAdd);
   };
 
   const [year, month, day] = props.date.split("-"); // Dividimos la fecha en año, mes y día

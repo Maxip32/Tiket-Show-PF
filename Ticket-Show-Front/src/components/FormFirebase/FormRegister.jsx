@@ -70,7 +70,7 @@ const FormFirebase = () => {
       dispatch(createUser(userInfo));
       clearState(); // Limpiar el estado
       alert("Usuario registrado correctamente");
-      navigate("/home"); // Redireccionar al usuario a la página de inicio
+      navigate("/"); // Redireccionar al usuario a la página de inicio
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
       // Manejar el error aquí
@@ -99,7 +99,7 @@ const FormFirebase = () => {
   const redirectLogin = (userGoogle) => {
     const matchGoogleEmail = usuario?.find(usr => usr.email === userGoogle.email);
     if (matchGoogleEmail?.email) {
-      navigate("/home"); // Redireccionar al usuario a la página de inicio
+      navigate("/"); // Redireccionar al usuario a la página de inicio
     } else {
       dispatch(createUser({
         ...userInfo,
@@ -108,7 +108,7 @@ const FormFirebase = () => {
       }));
       if (oneUserCreated) {
         dispatch(getUserById());
-        navigate("/home"); // Redireccionar al usuario a la página de inicio
+        navigate("/"); // Redireccionar al usuario a la página de inicio
       }
     }
   };
