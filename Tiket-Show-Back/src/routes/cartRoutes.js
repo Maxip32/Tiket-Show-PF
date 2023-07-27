@@ -5,7 +5,7 @@ const router = express.Router();
 const { getCartItemsBackend,addToCartBackend,removeFromCartBackend,updateUser, updateCartItemBackend } = require('../controllers/cartController');
 
 // Obtener los elementos del carrito para el usuario autenticado
-router.get('/cart',getCartItemsBackend);
+//router.get('/cart',getCartItemsBackend);
 // Agregar elemento al carrito para el usuario autenticado
 router.post('/cart', addToCartBackend);
 // Eliminar elemento del carrito para el usuario autenticado
