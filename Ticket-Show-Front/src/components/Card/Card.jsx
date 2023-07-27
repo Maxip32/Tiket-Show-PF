@@ -19,9 +19,9 @@ const Card = (props) => {
     "07": "JUL",
     "08": "AGO",
     "09": "SEP",
-    10: "OCT",
-    11: "NOV",
-    12: "DIC",
+    "10": "OCT",
+    "11": "NOV",
+    "12": "DIC",
   };
   const { addToCart } = useCart();
   const handleAddToCart = ({ id, name, user, }) => {
@@ -40,7 +40,7 @@ const Card = (props) => {
     addToCart(itemToAdd);
   };
 
-  const [year, month, day] = props.date.split("-"); // Dividimos la fecha en año, mes y día
+  const [year, month, day] = props?.date?.split("-"); // Dividimos la fecha en año, mes y día
   const formattedMonth = monthsMap[month];
 
   return (

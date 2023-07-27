@@ -63,6 +63,9 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    role: { type: DataTypes.STRING },
+
+      disabled: { type: DataTypes.BOOLEAN, defaultValue: false },
   });
 
   // Definir las asociaciones
