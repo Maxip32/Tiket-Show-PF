@@ -23,8 +23,15 @@ import {
   UPDATE_USER_FAILURE,
   GET_RESET,
   GET_RESET_ORDER,
+
+  POST_PAYPAL,
+  GET_CAPTURE_ORDER,
+  GET_CANCEL_ORDER,
+
+
 } from "../redux/actions";
  
+
 
 
 const initialState = {
@@ -35,9 +42,15 @@ const initialState = {
   cart: [],
   city: [],
   date: [],
+
+  paypalData: [],
+  captureOrderData: [],
+  cancelOrderData: []
+
   user: null,
   loading: true,
   error: null,
+
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -218,7 +231,18 @@ const rootReducer = (state = initialState, action) => {
                       ...state,
                       allEvents: [...state.allEvents]
                     }
-                    
+                    case POST_PAYPAL:
+                      return {
+                        ...state, paypalData: action.payload
+                      }
+                      case GET_CAPTURE_ORDER:
+                        return {
+                          ...state, captureOrderData: action.payload
+                        }
+                        case GET_CANCEL_ORDER:
+                          return {
+                            ...state, cancelOrderData: action.payload
+                          }
     default:
 
 

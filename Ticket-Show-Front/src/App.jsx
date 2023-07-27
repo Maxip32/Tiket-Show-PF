@@ -9,7 +9,7 @@ import RegisterForm from "./components/FormFirebase/FormRegister";
 import Artist from "./components/FormFirebase/FormArtist";
 import About from "./Views/AboutUs/About";
 import { AuthProvider } from "../src/context/AuthContext";
-
+import CompraPaypal from "./components/Paypal/Paypal.compra.jsx";
 function App() {
   const location = useLocation();
   return (
@@ -24,7 +24,7 @@ function App() {
           <Route path="/registerArtist" element={<Artist />} />
           <Route path="/" element={<Home />} />
           <Route path="/detail/:id" element={<Detail />} />
-
+          <Route path="/approved" element={<CompraPaypal/>}/>
           <Route path="/about" element={<About />} />
         </Routes>
       </div>

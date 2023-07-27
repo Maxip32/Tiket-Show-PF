@@ -1,9 +1,8 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getEventId } from "../../redux/actions";
+import { getEventId, postPaypal } from "../../redux/actions";
 import Loading from "../Landing/Landing";
-
 const Detail = () => {
   const monthsMap = {
     "01": "ENE",
@@ -23,14 +22,46 @@ const Detail = () => {
   const { id } = useParams();
 
   const { event } = useSelector((state) => state.detail);
-
+  const payment = useSelector((state) => state.paypalData)
   const dispatch = useDispatch();
+  
+
+ 
 
   useEffect(() => {
     dispatch(getEventId(id));
   }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [, /* year */ month, day] = event.date.split("-"); // Dividimos la fecha en año, mes y día
+  const handleAdquirirEntrada = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
+        },
+        //PARA QUE ME LLEGUE Y TOME EL PRECIO DE CADA EVENTO AL BACK
+        body: JSON.stringify({ value: event.price }), // Enviar el precio en el cuerpo de la solicitud
+      });
+      // Verificar si la solicitud fue exitosa (código de estado 200)
+      if (response.status === 200) {
+        const data = await response.json();
+
+        // Verificar si 'links' existe en data
+        if (!data.links || data.links.length < 2) {
+          console.error("La propiedad 'links' no existe o no tiene suficientes elementos");
+          return;
+        }
+
+        // Realizar la redirección a la pasarela de pago
+        window.location.href = data.links[1].href;
+      } else {
+        console.error("Error al adquirir la entrada: ", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error al adquirir la entrada: ", error);
+    }
+  };
+  const [, /* year */ month, day] = event?.date?.split("-") || []; // Dividimos la fecha en año, mes y día
   const formattedMonth = monthsMap[month];
 
   return (
@@ -66,13 +97,20 @@ const Detail = () => {
               <h2>-{event.start}hs</h2>
               <h2 className="font-bold">{event.address}</h2>
             </div>
+            <div className="pl-8 flex-1 text-3xl text-white">
+            <h1>Precio ${event.price}</h1>
+
+            </div>
             <div className=" mr-10 flex-1 flex items-center justify-center">
-              <button
-                className="  bg-secondaryColor/80 hover:bg-secondaryColor text-white 
-        font-bold py-3 px-11 border  rounded"
-              >
-                Adquirir Entrada
-              </button>
+            
+                <button
+                  className="bg-secondaryColor/80 hover:bg-secondaryColor text-white 
+                font-bold py-3 px-11 border rounded"
+                  onClick={handleAdquirirEntrada}
+                id='AdquirirEntrada'>
+                  Adquirir Entrada 
+                </button>
+             
             </div>
           </div>
         </>

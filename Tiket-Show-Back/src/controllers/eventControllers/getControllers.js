@@ -45,7 +45,7 @@ const getEvent = async (req, res = response) => {
         res.status(200).json({
             ok: true,
             msg: 'Evento encontrado',
-            event,
+            event, 
         });
 
     } catch (error) {
