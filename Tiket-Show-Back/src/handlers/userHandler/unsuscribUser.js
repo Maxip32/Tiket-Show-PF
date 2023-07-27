@@ -1,14 +1,13 @@
 const unsuscribUser = require('../../controllers/userControllers/unsuscribUser');
 
-const deleteUser = async (req, res)=>{
+module.exports = async(req, res)=>{
 
     const {id} = req.params;
     try {
-        await unsuscribUser(id);
-        res.status(204).json({msg: 'El usuario fue borrado con éxito'});
+        const deleteUser = await unsuscribUser(id);
+        res.status(204).json(deleteUser);
     } catch (error) {
-        res.status(400).json({msg: error.message});
+        res.status(404).json({msg: error.message});
     }
 
 }
-module.exports = deleteUser

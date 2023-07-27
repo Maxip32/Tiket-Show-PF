@@ -1,14 +1,23 @@
-const idUser = require("../../controllers/userControllers/idUsers");
+//const idUser = require("../../controllers/userControllers/idUsers");
+const { User } = require("../../db");
+module.exports = async(req, res)=>{
 
-const getIdUser = async(req, res)=>{
-    const {id} = req.params;
-    console.log(id);
-    try {
-        const getUsersById = await idUser(id);
-        res.status(200).json(getUsersById);
-    } catch (error) {
-        res.status(400).json({msg: error.message});
-    }
+    const idUsers = await User.findAll(
+     
+        );
+    console.log(idUsers)
+        if(!idUsers){
+            alert("No existe un Usuario con este id");
+        }else{
+            //alert('Usuario encontrado con éxito');
+            await res.status(200).json(idUsers);
+           
+        }
+    // console.log(idUser, " user del back")
+    // try {
+    //     //const getUsersById = await idUser(userId);
+    //    await res.status(200).json(idUser);
+    // } catch (error) {
+    //     res.status(400).json({msg: error.message});
+    // }
 }
-
-module.exports = getIdUser

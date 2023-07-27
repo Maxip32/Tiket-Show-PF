@@ -2,6 +2,7 @@ const { User } = require("../../db");
 const Mailer = require("./Mailer"); // Ajusta la ruta según la ubicación de Mailer.js
 const { uploadImage } = require("../../cloudinary/uploadImage");
 
+
 const newUser = async (data) => {
   const {
     firstName,
@@ -18,12 +19,14 @@ const newUser = async (data) => {
   } = data;
   console.log(data);
 
+
   // Carga la imagen en Cloudinary y obtiene la URL de la imagen de perfil
   let profileImageURL = null;
   if (image) {
     profileImageURL = await uploadImage(image); // Ajusta la forma en que se pasa la imagen a la función si es necesario
   }
 
+ HEAD
   const [user, created] = await User.findOrCreate({
     where: {
       email,
@@ -58,5 +61,5 @@ const newUser = async (data) => {
     console.log("Usuario creado con éxito");
   }
   return user;
-};
+}
 module.exports = newUser;

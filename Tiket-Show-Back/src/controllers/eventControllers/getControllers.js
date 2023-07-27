@@ -45,7 +45,7 @@ const getEvent = async (req, res = response) => {
         res.status(200).json({
             ok: true,
             msg: 'Evento encontrado',
-            event,
+            event, 
         });
 
     } catch (error) {
@@ -75,100 +75,10 @@ const getEventByName = async (req, res) => {
     }
 }
 
-const createEvent = async (req, res = response) => {
-    const {
-        name,
-        description,
-        date,
-        start,
-        end,
-        price,
-        quotas,
-        artistName,
-        genres,
-        image,
-        city,
-        address,
-    } = req.body;
-
-    try {
-        let eventExis = await Event.findOne({
-            where: { name, state: true },
-        });
-
-        if (eventExis) {
-            return res.status(400).json();
-        }
-
-        const artist = await Artist.findOne({
-            where: { nickname: artistName },
-        });
-
-        const genresDb = await Genre.findAll({
-            where: { name: genres.map((g) => g) },
-        });
-
-        if (genresDb === null || genresDb.length === 0) {
-            return res.status(400).json();
-        }
-
-        if (!artist) {
-            return res.status(404).json();
-        }
-
-        const event = await Event.create({
-            name,
-            description,
-            date,
-            start,
-            end,
-            price,
-            quotas,
-            image,
-            address,
-            city,
-        });
-        await event.addArtist(artist);
-        await event.addGenres(genresDb);
-
-        res.status(201).json(event);
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json();
-    }
-};
-
-const deleteEvent = async (req, res = response) => {
-    const { id } = req.params;
-    try {
-        const event = await Event.findByPk(id);
-
-        if (!event || !event.state) {
-            return res.status(404).json({
-                msg: 'No se encontro evento con ese Id',
-            });
-        }
-
-        await event.update({ state: false });
-
-        res.status(200).json({
-            msg: 'Evento eliminado',
-        });
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            msg: 'Por favor hable con el administrador',
-        });
-    }
-};
 
 
 module.exports = {
     getEvents,
     getEvent,
     getEventByName,
-    createEvent,
-    deleteEvent,
 };

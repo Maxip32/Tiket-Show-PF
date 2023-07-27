@@ -4,13 +4,18 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors"); // Agrega la importación de cors
 //const routes = require('./routes/index.js');
-const artistRouter = require("./routes/artistRouter");
-const event = require("./routes/eventRouter");
-const genrestRouter = require("./routes/genrestRouter");
-const placetRouter = require("./routes/placeRouter");
-const cartRouter = require("./routes/cartRoutes");
-const findCityRoute = require("./routes/cityRouter");
-const dateRouter = require("./routes/dateRouter");
+const artistRouter = require('./routes/artistRouter');
+const event = require ('./routes/eventRouter')
+const genrestRouter = require ('./routes/genrestRouter')
+const placetRouter = require ('./routes/placeRouter')
+const cartRouter = require ('./routes/cartRoutes')
+const findCityRoute = require ('./routes/cityRouter');
+const dateRouter = require('./routes/dateRouter');
+
+const userRouter = require('./routes/userRouter');
+const paymentRoutes = require('./routes/paymentRoutes')
+const path = require ('path')
+
 
 const userRouter = require("./routes/userRouter");
 
@@ -29,15 +34,16 @@ server.use(morgan("dev"));
 server.use(cors());
 
 // Rutas y middlewares restantes...
-server.use("/artist", artistRouter);
-server.use("/genres", genrestRouter);
-server.use("/event", event);
-server.use("/place", placetRouter);
-server.use("/cart", cartRouter);
-server.use("/city", findCityRoute);
-server.use("/date", dateRouter);
-server.use("/user", userRouter);
-
+server.use('/artist', artistRouter);
+server.use('/genres', genrestRouter)
+server.use('/event', event);
+server.use('/place', placetRouter);
+server.use('/cart', cartRouter);
+server.use('/city', findCityRoute);
+server.use('/date', dateRouter)
+server.use('/user', userRouter)
+server.use(paymentRoutes)
+server.use(express.static(path.resolve(__dirname, 'Ticket-Show-Front/src/Views/Detail')))
 
 
 server.use((err, req, res, next) => {

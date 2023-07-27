@@ -1,6 +1,7 @@
-// models/user.js
-const { DataTypes } = require("sequelize");
+// models/User.js
+const { DataTypes } = require('sequelize');
 //const CartItem = require('./cart');
+
 module.exports = (sequelize) => {
   sequelize.define("user", {
     id: {
@@ -11,11 +12,11 @@ module.exports = (sequelize) => {
     },
     firstName: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     lastName: {
       type: DataTypes.STRING,
-      allowNull: false,
+      //allowNull: false,
     },
     email: {
       type: DataTypes.STRING,
@@ -24,19 +25,23 @@ module.exports = (sequelize) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     birthday: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
+      //allowNull: false,
+    },
+    birthdate: {
+      type: DataTypes.DATEONLY,
+      //allowNull: false,
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: false,
+      //allowNull: true,
     },
     dni: {
       type: DataTypes.STRING,
-      allowNull: false,
+      //allowNull: false,
     },
     isAdmin: {
       type: DataTypes.BOOLEAN,
@@ -48,7 +53,7 @@ module.exports = (sequelize) => {
     },
     image: {
       type: DataTypes.STRING,
-      allowNull: true,
+      //allowNull: true,
     },
     state: {
       type: DataTypes.BOOLEAN,
@@ -70,12 +75,8 @@ module.exports = (sequelize) => {
   //     onUpdate: 'CASCADE',
   //   });
 
-  //   CartItem.belongsTo(sequelize.models.User, {
-  //     foreignKey: 'user_id',
-  //     onDelete: 'CASCADE',
-  //     onUpdate: 'CASCADE',
-  //   });
-  // };
+  // Definir las asociaciones
+ //User.hasMany(sequelize.model.CartItem, { foreignKey: 'user_id', as: 'cart_item' });
 
-  //
+  return User;
 };
