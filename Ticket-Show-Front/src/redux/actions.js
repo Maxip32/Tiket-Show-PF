@@ -194,3 +194,40 @@ export const getResetOrder = () => {
   }
 }
 
+export const POST_PAYPAL = 'POST_PAYPAL'
+export const postPaypal = () => {
+  return async (dispatch) => {
+    const apiData = await axios.post(`http://localhost:3001/create-order`)
+    const allData = apiData.data
+    return dispatch({
+      type: POST_PAYPAL,
+      payload: allData
+    }) 
+  }
+}
+
+export const GET_CAPTURE_ORDER = 'GET_CAPTURE_ORDER'
+
+export const getCaptureOrder = () => {
+  return async (dispatch) => {
+    const apiData = await axios.get(`http://localhost:3001/capture-order`)
+    const allData = apiData.data
+    return dispatch({
+      type: GET_CAPTURE_ORDER,
+      payload: allData
+    })
+  }
+}
+
+export const GET_CANCEL_ORDER = 'GET_CANCEL_ORDER'
+
+export const getCancelOrder = () => {
+  return async (dispatch) => {
+    const apiData = await axios.get(`http://localhost:3001/cancel-order`)
+    const allData = apiData.data
+    return dispatch({
+      type: GET_CANCEL_ORDER,
+      payload: allData
+    })
+  }
+}
