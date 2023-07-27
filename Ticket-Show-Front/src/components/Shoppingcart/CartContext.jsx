@@ -18,6 +18,20 @@ const CartProvider = ({ children }) => {
       console.error("Error al agregar al carrito:", error);
     }
   };
+  // const getCartItemsBackend = async (user) => {
+  //   try {
+  //     const response = await axios.get("http://localhost:3001/cart/cart", {
+  //       params: {
+  //         email: user,
+  //       },
+  //     });
+  //     const updatedCartItems = response.data.items;
+  //     setCartItems(updatedCartItems);
+  //   } catch (error) {
+  //     console.error("Error al obtener el carrito:", error);
+  //   }
+  
+  // };
 
   const removeFromCartBackend = async (itemId) => {
     try {
@@ -54,6 +68,7 @@ const CartProvider = ({ children }) => {
         addToCart: addToCartBackend, // Usa las funciones para interactuar con el backend
         removeFromCart: removeFromCartBackend,
         updateCartItem: updateCartItemBackend,
+        // getCartItem: getCartItemsBackend,
       }}
     >
       {children}

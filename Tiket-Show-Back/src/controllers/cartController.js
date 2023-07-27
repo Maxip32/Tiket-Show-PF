@@ -32,16 +32,26 @@ const updateUser = async (req, res) => {
 
 
 
-const getCartItemsBackend = async (req, res) => {
-  try {
-    const user = req.user.id; // Obtenemos el ID del usuario autenticado desde el middleware de autenticación
-    const cartItems = await CartItem.findOne({ where: { user_id: user.id, id: id} });
-    res.json({ items: cartItems });
-  } catch (error) {
-    console.error('Error al obtener el carrito:', error);
-    res.status(500).json({ message: 'Error al obtener el carrito' });
-  }
-};
+// const getCartItemsBackend = async (req, res) => {
+//   try {
+//     const { user } = req.body; // Obtenemos el email del usuario desde el cuerpo de la solicitud
+// console.log(req.body, "necesito ver la propiedad del get")
+//     // Buscamos al usuario en la base de datos utilizando el email recibido
+//     const existingUser = await User.findOne({ where: { email: user } });
+
+//     if (!existingUser) {
+//       return res.status(404).json({ message: 'Usuario no encontrado' });
+//     }
+
+//     // Buscamos los elementos del carrito asociados al usuario
+//     const cartItems = await CartItem.findAll({ where: { user_id: existingUser.id } });
+
+//     res.json({ items: cartItems });
+//   } catch (error) {
+//     console.error('Error al obtener el carrito:', error);
+//     res.status(500).json({ message: 'Error al obtener el carrito' });
+//   }
+// };
 
 
 const addToCartBackend = async (req, res) => {
