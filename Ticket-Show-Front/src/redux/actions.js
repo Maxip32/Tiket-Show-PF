@@ -244,6 +244,51 @@ export const getUserById = () => {
     }
   };
 };
+
+
+
+////////// TRAIGO Y CREO USUARIOS ARTISTAS ////////////////
+export const CREATE_ARTIST_SUCCESS = "CREATE_ARTIST_SUCCESS"
+export const CREATE_ARTIST_FAILURE = "CREATE_ARTIST_FAILURE"
+export const createArtist = (userData) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch('http://localhost:3001/artist/createArtist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+      const data = await response.json();
+      dispatch({ type: CREATE_ARTIST_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: CREATE_ARTIST_FAILURE, payload: error.message });
+    }
+  };
+};
+
+export const GET_ARTIST_SUCCESS = "GET_ARTIST_SUCCESS"
+export const GET_ARTIST_FAILURE = "GET_ARTIST_FAILURE"
+
+
+export const getArtistById = () => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`http://localhost:3001/artist/allArtist`, {
+        method: 'GET',
+      });
+      const data = await response.json();
+      dispatch({ type: GET_ARTIST_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: GET_ARTIST_FAILURE, payload: error.message });
+    }
+  };
+};
+
+
+////// TERMINO DE CREAR ARTISTAS Y LOS REQUIERO ////////////
+
 export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS"
 export const UPDATE_USER_FAILURE = "UPDATE_USER_FAILURE"
 export const updateUser = (email, userData) => async (dispatch) => {

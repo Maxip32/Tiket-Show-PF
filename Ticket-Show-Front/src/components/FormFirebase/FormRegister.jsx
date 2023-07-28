@@ -19,6 +19,7 @@ const FormFirebase = () => {
   const [passwordRegister, setPasswordRegister] = useState("");
   const validRegister = usuario?.filter(usr => usr.email === emailRegister);
   const [email, setEmail] = useState("");
+  const [ name, setName] = useState("");
   const [password, setPassword] = useState("");
   const validLogin = usuario?.filter(usr => usr.email === email);
 
@@ -66,7 +67,7 @@ const FormFirebase = () => {
     }
 
     try {
-      await auth.register(emailRegister, passwordRegister);
+      await auth.register(emailRegister, passwordRegister, name);
       dispatch(createUser(userInfo));
       clearState(); // Limpiar el estado
       alert("Usuario registrado correctamente");
@@ -128,6 +129,15 @@ const FormFirebase = () => {
       <div className="bg-white p-8 rounded shadow-lg">
         <h2 className="text-2xl font-bold mb-4 text-purple-600">Registrarse</h2>
         <form className="flex flex-col space-y-4" onSubmit={handleRegister}>
+        <label>
+            <span className="text-purple-600">Nombre completo:</span>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="rounded border border-purple-400 px-4 py-2 focus:outline-none focus:border-purple-500"
+            />
+          </label>
           <label>
             <span className="text-purple-600">Correo electrónico:</span>
             <input

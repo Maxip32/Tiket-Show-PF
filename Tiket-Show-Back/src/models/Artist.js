@@ -10,15 +10,15 @@ module.exports = (sequelize) => {
         },
         firstName: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         lastName: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         nickname: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
             unique: true,
         },
         email: {
@@ -31,11 +31,11 @@ module.exports = (sequelize) => {
         },
         phone: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         description: {
             type: DataTypes.TEXT,
-            allowNull: false,
+            allowNull: true,
         },
         twitter: {
             type: DataTypes.STRING,
@@ -65,6 +65,9 @@ module.exports = (sequelize) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
+        role: { type: DataTypes.STRING, defaultValue: "artista" },
+
+        disabled: { type: DataTypes.BOOLEAN, defaultValue: false },
     });
 };
 

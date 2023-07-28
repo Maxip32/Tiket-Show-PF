@@ -17,13 +17,16 @@ import {
   CREATE_USER_FAILURE,
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
+  CREATE_ARTIST_SUCCESS,
+  CREATE_ARTIST_FAILURE,
+  GET_ARTIST_SUCCESS,
+  GET_ARTIST_FAILURE,
   GET_USER_BY_EMAIL_SUCCESS,
   GET_USER_BY_EMAIL_FAILURE,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
   GET_RESET,
   GET_RESET_ORDER,
-
   POST_PAYPAL,
   GET_CAPTURE_ORDER,
   GET_CANCEL_ORDER,
@@ -191,6 +194,36 @@ const rootReducer = (state = initialState, action) => {
                     loading: false,
                     error: action.payload,
                   };
+
+ ////////////// CREO Y TRAIGO USUARIOS ARTISTAS /////////////
+                case  CREATE_ARTIST_SUCCESS:
+                  return {
+                    ...state,
+                    user: action.payload,
+                    loading: false,
+                    error: null,
+                  };
+                case CREATE_ARTIST_FAILURE:
+                  return {
+                    ...state,
+                    user: null,
+                    loading: false,
+                    error: action.payload,
+                  };
+                case GET_ARTIST_SUCCESS:
+                  return {
+                    ...state,
+                    user: action.payload,
+                    loading: false,
+                    error: null,
+                  };
+                case GET_ARTIST_FAILURE:
+                  return {
+                    ...state,
+                    user: null,
+                    loading: false,
+                    error: action.payload,
+                  };                 
 
 ///////////// GET USER BY EMAIL Y UPDATE ///////////
 
