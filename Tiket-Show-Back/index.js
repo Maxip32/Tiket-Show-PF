@@ -18,14 +18,31 @@
 //     =====`-.____`.___ \_____/___.-`___.-'=====
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//const server = require('./src/app.js');
-// const { conn } = require('./src/db.js');
-// const port = process.env.PORT || 3001
+const server = require("./src/app.js");
+const { conn } = require("./src/db.js");
+require("dotenv").config();
+const {
+  loadEvents,
+  loadPlaces,
+  loadArtists,
+  loadGenres,
+  loadUsers,
+  loadCitys,
+  loadDate
+} = require("./src/controllers/loadsDatabase.js");
 
-// Syncing all the models at once.
-// conn.sync({ force: true }).then(() => {
-//   server.listen(port, () => {
-//     console.log(`servidor levantado en puerto ${port}`); // eslint-disable-line no-console
-//     searchresults()
-//   });
-// });
+const port = process.env.PORT || 3001;
+// Syncing all the models at once
+conn.sync({ force: true }).then(async () => {
+  loadUsers();
+  loadEvents();
+  loadArtists();
+  loadPlaces();
+  loadGenres();
+  loadCitys();
+  loadDate();
+  server.listen(port, () => {
+    console.log(`servidor corriendo en puerto: ${port}`); // eslint-disable-line no-console
+  });
+
+});
