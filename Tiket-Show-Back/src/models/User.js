@@ -16,7 +16,11 @@ module.exports = (sequelize) => {
     },
     lastName: {
       type: DataTypes.STRING,
+
+      allowNull: true,
+
       //allowNull: false,
+
     },
     email: {
       type: DataTypes.STRING,
@@ -29,7 +33,19 @@ module.exports = (sequelize) => {
     },
     birthday: {
       type: DataTypes.DATEONLY,
+
       allowNull: true,
+        },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    dni: {
+      type: DataTypes.STRING,
+      allowNull: true,
+
+      
+
     },
     birthdate: {
       type: DataTypes.DATEONLY,
@@ -42,6 +58,7 @@ module.exports = (sequelize) => {
     dni: {
       type: DataTypes.STRING,
       //allowNull: false,
+
     },
     isAdmin: {
       type: DataTypes.BOOLEAN,
