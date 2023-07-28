@@ -8,6 +8,7 @@ import {
   signInWithPopup,
   signOut,
   onAuthStateChanged,
+  updateProfile,
 } from "firebase/auth";
 import { ref, set } from "firebase/database";
 
@@ -53,15 +54,19 @@ export function AuthProvider({ children }) {
     return () => unsubscribe();
   }, []);
 
-  const register = async (email, password) => {
+  const register = async (email, password, displayName) => {
     try {
-      const response = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const response = await createUserWithEmailAndPassword(auth, email, password);
       console.log(response);
-      setUser(response.user);
+  
+      // Establecer el displayName antes de almacenar los datos en Firebase
+      await updateProfile(auth.currentUser, {
+        displayName: displayName
+      });
+  
+      // Actualizar el estado del usuario con la información del registro
+      setUser({ ...response.user, displayName: displayName });
+  
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
       setError(error.message);

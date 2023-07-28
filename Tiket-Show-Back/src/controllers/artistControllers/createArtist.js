@@ -1,56 +1,70 @@
-const { Artist } = require('../../db');
+const { Artist } = require("../../db");
+const Mailer = require("../userControllers/Mailer"); // Ajusta la ruta según la ubicación de Mailer.js
+//const { uploadImage } = require("../../cloudinary/uploadImage");
 
-const newArtist = async(
+const newArtist = async (data) => {
+  const {
     firstName,
     lastName,
-    nickName,
+    nickname,
     email,
     password,
     phone,
-    decription,
+    description, // Corrige el nombre del campo aquí
     twitter,
     instagram,
     spotify,
     image,
     google,
     state,
-    confirmed
-)=>{
-    try {
-    const [artist, created] = await Artist.findOrCreate({
-        where:{
-            firstName,
-            lastName,
-            nickName,
-        },
-        create:{
-            firstName,
-            lastName,
-            nickName,
-            email,
-            password,
-            phone,
-            decription,
-            twitter,
-            instagram,
-            spotify,
-            image,
-            google,
-            state,
-            confirmed
-        }
-    })
+    confirmed,
+  } = data;
 
-    await artist.save();
+  // Carga la imagen en Cloudinary y obtiene la URL de la imagen de perfil
+  let profileImageURL = null;
+  if (image) {
+    profileImageURL = await uploadImage(image); // Ajusta la forma en que se pasa la imagen a la función si es necesario
+  }
 
-    if(created){
-    console.log('Artista creado con éxito')
-    }
+  const [artist, created] = await Artist.findOrCreate({
+    where: {
+      email,
+      
+    },
+    defaults: {
+      firstName,
+      lastName,
+      nickname,
+      email,
+      password,
+      phone,
+      description, // Corrige el nombre del campo aquí
+      twitter,
+      instagram,
+      spotify,
+      image,
+      google,
+      state,
+      confirmed,
+      profileImageURL, // Agrega profileImageURL como parámetro del controlador
+    },
+  });
 
-    return artist;
-} catch (error) {
-    throw new Error(error.message)
-}
-}
+  await artist.save();
 
-module.exports = newArtist
+  if (created) {
+    const subject = "Registro Exitoso";
+
+    const content = "¡Bienvenido! Tu registro ha sido exitoso.";
+
+    Mailer.sendEmail(subject, email, firstName, content);
+
+    // Mostrar un mensaje al usuario (puedes adaptarlo según tu frontend)
+    console.log("Artista creado con éxito");
+  }
+
+  return artist;
+};
+
+module.exports = newArtist;
+//profileImageURL // Agrega profileImageURL como parámetro del controlador

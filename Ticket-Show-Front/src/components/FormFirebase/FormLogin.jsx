@@ -16,15 +16,15 @@ const LoginForm = () => {
     const userExists = usuario?.find((usr) => usr.email === email);
 
     if (!userExists) {
-      alert("Usuario no registrado. Regístrate antes de iniciar sesión.");
+      alert("Regístrate antes de iniciar sesión.");
       // Aquí puedes redireccionar al formulario de registro si lo prefieres
       return;
     }
 
     try {
       // Si el usuario existe, inicia sesión con Firebase usando los datos ingresados en el formulario
-      await signInWithEmailAndPassword(auth, email, password);
-      console.log("Inicio de sesión exitoso!");
+      await signInWithEmailAndPassword(auth, email, password,);
+      console.log("Bienvenido nuevamente!");
     } catch (error) {
       setError(error.message);
     }
@@ -40,7 +40,7 @@ const LoginForm = () => {
       const userExists = usuario?.find((usr) => usr.email === user.email);
 
       if (!userExists) {
-        alert("Usuario no registrado. Regístrate antes de iniciar sesión.");
+        alert("Regístrate antes de iniciar sesión.");
         // Aquí puedes redireccionar al formulario de registro si lo prefieres
         return;
       }
