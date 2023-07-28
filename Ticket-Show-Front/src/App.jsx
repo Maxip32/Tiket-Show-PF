@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, /* useLocation */ } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
 import Detail from "./Views/Detail/Detail";
 import Home from "./Views/Home/Home";
@@ -12,7 +12,7 @@ import { AuthProvider } from "../src/context/AuthContext";
 import CompraPaypal from "./components/Paypal/Paypal.compra.jsx";
 import { ShoppingCartProvider } from "./components/Shoppingcart/shoppingCartContext";
 function App() {
-  const location = useLocation();
+  //const location = useLocation();
   return (
     <ShoppingCartProvider>
 
