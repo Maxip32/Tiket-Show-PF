@@ -19,7 +19,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
 import Paginate from "../../components/Paginate/Paginate";
-import { CartProvider } from "../../components/Shoppingcart/CartContext";
+
 
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -110,74 +110,7 @@ const Home = () => {
   const handleToggleCalendar = () => {
     setIsCalendarOpen((prevIsCalendarOpen) => !prevIsCalendarOpen); // Cambia el estado al valor opuesto
   };
-//   const alldates= [
-//     "2023-08-10",
-//     "2023-08-16"
-//     ,
-//     "2023-08-17",
-//     "2023-08-18"
-//     ,
-//     "2023-08-23"
-//     ,
-//     "2023-08-26"
-//     ,
-//     "2023-08-27"
-//     ,
-//     "2023-09-01"
-//     ,
-//     "2023-09-07"
-//     ,
-//     "2023-09-09"
-//     ,
-//     "2023-09-13"
-//     ,
-//      "2023-09-15"
-//     ,
-//     "2023-09-20"
-//     ,
-//     "2023-09-23"
-//     ,
-//     "2023-09-24"
-//     ,
-//    "2023-09-26"
-//     ,
-//    "2023-09-30"
-//     ,
-//    "2023-10-03"
-//     ,
-//     "2023-10-13"
-//     ,
-//     "2023-10-17"
-//     ,
-//     "2023-10-18"
-//     ,
-//     "2023-10-20"
-//     ,
-//     "2023-10-28"
-//     ,
-//     "2023-11-04"
-//     ,
-//     "2023-11-05"
-//     ,
-//     "2023-11-07"
-//     ,
-//     "2023-11-09"
-//     ,
-//    "2023-11-13"
-//     ,
-//     "2023-11-15"
-//     ,
-//     "2023-11-21"
-//     ,
-//    "2023-11-24"
-//     ,
-//     "2023-11-28"
-//     ,
-//     "2023-11-29"
-    
 
-
-// ]
   
   const handleOrderDate = (event) => {
     dispatch(orderByDate(event.target.value));
@@ -214,7 +147,7 @@ const Home = () => {
   
 
   return (
-    <CartProvider>
+   
     <div className="flex flex-col items-center">
       <Hero />
 
@@ -362,6 +295,7 @@ const Home = () => {
         genres={cu.genre}
         date={cu.date}
         location={cu.location}
+        price={cu.price}
         key={cu.id}
         className="w-full h-full md:h-[300px]" // Ajusta la altura deseada de las tarjetas aquí
       />
@@ -380,7 +314,7 @@ const Home = () => {
       <Landing />
       <Footer />
     </div>
-    </CartProvider>
+    
   );
 };
 
