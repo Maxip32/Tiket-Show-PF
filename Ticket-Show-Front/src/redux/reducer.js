@@ -19,7 +19,7 @@ import {
   GET_USER_FAILURE,
   CREATE_ARTIST_SUCCESS,
   CREATE_ARTIST_FAILURE,
-  GET_ARTIST_SUCCESS,
+
   GET_ARTIST_FAILURE,
   GET_USER_BY_EMAIL_SUCCESS,
   GET_USER_BY_EMAIL_FAILURE,
@@ -27,23 +27,14 @@ import {
   UPDATE_USER_FAILURE,
   GET_RESET,
   GET_RESET_ORDER,
-<<<<<<< HEAD
-  CREATE_USER_SUCCESS,
-  CREATE_USER_FAILURE,
-  GET_USER_SUCCESS,
-  GET_USER_FAILURE,
-} from "./actions";
-=======
+ 
+
+  GET_ARTIST_SUCCESS,
+
   POST_PAYPAL,
   GET_CAPTURE_ORDER,
   GET_CANCEL_ORDER,
-
-
 } from "../redux/actions";
- 
-
-
->>>>>>> 5d18d40911448e35e915af86714016cf71fd1bf2
 
 const initialState = {
   Events: [],
@@ -53,19 +44,12 @@ const initialState = {
   cart: [],
   city: [],
   date: [],
-<<<<<<< HEAD
-  user: null,
-  loading: false,
-  error: null,
-=======
   paypalData: [],
   captureOrderData: [],
   cancelOrderData: [],
   user: null,
   loading: true,
   error: null,
-
->>>>>>> 5d18d40911448e35e915af86714016cf71fd1bf2
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -79,7 +63,6 @@ const rootReducer = (state = initialState, action) => {
       };
     case GET_EVENT_ID:
       return { ...state, detail: action.payload };
-
     case FILTER_BY_GENRES:
       const allEvents = state.allEvents;
       const EventsWithGenre =
@@ -90,7 +73,6 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         Events: EventsWithGenre,
       };
-
     case ORDER_BY_DATE:
       const EventsByDate =
         action.payload === "asc"
@@ -117,13 +99,13 @@ const rootReducer = (state = initialState, action) => {
     /////// CARRITO DE COMPRA //////
 
     case ADD_TO_CART:
-      const ItemsCarts= state.allEvents.find((itemcart)=> itemcart.id === action.payload.id)
+      const ItemsCarts = state.allEvents.find(
+        (itemcart) => itemcart.id === action.payload.id
+      );
       return {
         ...state,
         cart: [...state.cart, ItemsCarts],
       };
-
-
 
     case REMOVE_FROM_CART:
       return {
@@ -183,17 +165,7 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         date: action.payload,
       };
-    case GET_RESET:
-      return {
-        ...state,
-        Events: state.allEvents,
-      };
-    case GET_RESET_ORDER:
-      return {
-        ...state,
-        allEvents: [...state.allEvents],
-      };
-    /* REDUCER CREATE Y GET USER CREO Y TRAIGO USUARIOS ////// */
+    ////// REDUCER CREATE Y GET USER CREO Y TRAIGO USUARIOS //////
     case CREATE_USER_SUCCESS:
       return {
         ...state,
@@ -223,136 +195,121 @@ const rootReducer = (state = initialState, action) => {
         error: action.payload,
       };
 
-<<<<<<< HEAD
-=======
-              ? Citys
+    ////////////// CREO Y TRAIGO USUARIOS ARTISTAS /////////////
+    case CREATE_ARTIST_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+        error: null,
+      };
+    case CREATE_ARTIST_FAILURE:
+      return {
+        ...state,
+        user: null,
+        loading: false,
+        error: action.payload,
+      };
+    case GET_ARTIST_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+        error: null,
+      };
+    case GET_ARTIST_FAILURE:
+      return {
+        ...state,
+        user: null,
+        loading: false,
+        error: action.payload,
+      };
 
-              : Citys.filter(cit => cit.city.includes(action.payload))
-              return {
-                ...state,
-                Events: EventsWithCity
-              }
-              case GET_BY_DATE:
-                return {
-                  ...state, date: action.payload
-                }
-////// REDUCER CREATE Y GET USER CREO Y TRAIGO USUARIOS //////
-                case CREATE_USER_SUCCESS:
-                  return {
-                    ...state,
-                    user: action.payload,
-                    loading: false,
-                    error: null,
-                  };
-                case CREATE_USER_FAILURE:
-                  return {
-                    ...state,
-                    user: null,
-                    loading: false,
-                    error: action.payload,
-                  };
-                case GET_USER_SUCCESS:
-                  return {
-                    ...state,
-                    user: action.payload,
-                    loading: false,
-                    error: null,
-                  };
-                case GET_USER_FAILURE:
-                  return {
-                    ...state,
-                    user: null,
-                    loading: false,
-                    error: action.payload,
-                  };
+    ///////////// GET USER BY EMAIL Y UPDATE ///////////
 
- ////////////// CREO Y TRAIGO USUARIOS ARTISTAS /////////////
-                case  CREATE_ARTIST_SUCCESS:
-                  return {
-                    ...state,
-                    user: action.payload,
-                    loading: false,
-                    error: null,
-                  };
-                case CREATE_ARTIST_FAILURE:
-                  return {
-                    ...state,
-                    user: null,
-                    loading: false,
-                    error: action.payload,
-                  };
-                case GET_ARTIST_SUCCESS:
-                  return {
-                    ...state,
-                    user: action.payload,
-                    loading: false,
-                    error: null,
-                  };
-                case GET_ARTIST_FAILURE:
-                  return {
-                    ...state,
-                    user: null,
-                    loading: false,
-                    error: action.payload,
-                  };                 
+    case GET_USER_BY_EMAIL_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+        error: null,
+      };
+    case GET_USER_BY_EMAIL_FAILURE:
+      return {
+        ...state,
+        user: null,
+        loading: false,
+        error: action.payload,
+      };
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+        error: null,
+      };
+    case UPDATE_USER_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    ////////////// CREO Y TRAIGO USUARIOS ARTISTAS /////////////
+    case CREATE_ARTIST_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+        error: null,
+      };
+    case CREATE_ARTIST_FAILURE:
+      return {
+        ...state,
+        user: null,
+        loading: false,
+        error: action.payload,
+      };
+    case GET_ARTIST_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+        error: null,
+      };
+    case GET_ARTIST_FAILURE:
+      return {
+        ...state,
+        user: null,
+        loading: false,
+        error: action.payload,
+      };
 
-///////////// GET USER BY EMAIL Y UPDATE ///////////
-
-                  case GET_USER_BY_EMAIL_SUCCESS:
-                    return {
-                      ...state,
-                      user: action.payload,
-                      loading: false,
-                      error: null,
-                    };
-                  case GET_USER_BY_EMAIL_FAILURE:
-                    return {
-                      ...state,
-                      user: null,
-                      loading: false,
-                      error: action.payload,
-                    };
-                  case UPDATE_USER_SUCCESS:
-                    return {
-                      ...state,
-                      user: action.payload,
-                      loading: false,
-                      error: null,
-                    };
-                  case UPDATE_USER_FAILURE:
-                    return {
-                      ...state,
-                      loading: false,
-                      error: action.payload,
-                    };
-           
-           
-                case GET_RESET:
-                  return {
-                    ...state,
-                    Events: state.allEvents
-                  }
-                  case GET_RESET_ORDER:
-                    return {
-                      ...state,
-                      allEvents: [...state.allEvents]
-                    }
-                    case POST_PAYPAL:
-                      return {
-                        ...state, paypalData: action.payload
-                      }
-                      case GET_CAPTURE_ORDER:
-                        return {
-                          ...state, captureOrderData: action.payload
-                        }
-                        case GET_CANCEL_ORDER:
-                          return {
-                            ...state, cancelOrderData: action.payload
-                          }
->>>>>>> 5d18d40911448e35e915af86714016cf71fd1bf2
+    case GET_RESET:
+      return {
+        ...state,
+        Events: state.allEvents,
+      };
+    case GET_RESET_ORDER:
+      return {
+        ...state,
+        allEvents: [...state.allEvents],
+      };
+    case POST_PAYPAL:
+      return {
+        ...state,
+        paypalData: action.payload,
+      };
+    case GET_CAPTURE_ORDER:
+      return {
+        ...state,
+        captureOrderData: action.payload,
+      };
+    case GET_CANCEL_ORDER:
+      return {
+        ...state,
+        cancelOrderData: action.payload,
+      };
     default:
-
-
       return state;
   }
 };

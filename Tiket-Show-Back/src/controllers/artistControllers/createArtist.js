@@ -1,6 +1,9 @@
 const { Artist } = require("../../db");
 const Mailer = require("../userControllers/Mailer"); // Ajusta la ruta según la ubicación de Mailer.js
-//const { uploadImage } = require("../../cloudinary/uploadImage");
+
+const { uploadImage } = require("../../cloudinary/uploadImage");
+
+
 
 const newArtist = async (data) => {
   const {

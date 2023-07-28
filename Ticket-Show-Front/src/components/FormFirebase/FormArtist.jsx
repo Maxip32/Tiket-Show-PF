@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { createArtist, updateUser, getUserByEmail, getArtistById } from '../../redux/actions';
+
 import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc'; // Suponiendo que el ícono FcGoogle proviene de react-icons
 
@@ -35,6 +37,7 @@ const ArtistForm = () => {
     artistName:"",
     creationYear:"",
     verified: true,
+    
     role: "artista"
   });
 
@@ -46,7 +49,9 @@ const ArtistForm = () => {
       name: nombreToDB || prevUserInfo.name,
       email: emailToDB || emailRegister || prevUserInfo.email
     }));
+
     dispatch(getArtistById());
+
   }, [user?.displayName, user?.email, emailToDB, nombreToDB, emailRegister, dispatch]);
 
   const clearState = () => {
@@ -65,6 +70,33 @@ const ArtistForm = () => {
       role: "artista"
     });
   };
+
+  //cloudinary inicia
+  const [image, setImage] = useState("")
+  const [loading, setLoading] = useState(false)
+
+  const uploadImage = async (e) =>{
+    const files=e.target.files;
+    const data = new FormData();
+    data.append("file",files[0]);
+    data.append("upload_preset", "k0eexbwx");
+    setLoading(true);
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/dhickjcbz/image/upload",
+      {
+          method: "POST",
+          body: data,
+      }
+    )
+    const file = await res.json();
+    console.log(res)
+    setImage(file.secure_url)
+    setLoading(false)
+  }
+
+  //cloudinary acaba
+
+console.log(image)
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -139,6 +171,27 @@ const ArtistForm = () => {
               className="rounded border border-purple-400 px-4 py-2 focus:outline-none focus:border-purple-500"
             />
           </label>
+          <div class="mb-3">
+            <label
+              for="formFile"
+              class="mb-2 inline-block text-neutral-700 dark:text-neutral-200"
+            >
+              Foto de la Banda
+            </label>
+            <input
+              class="relative m-0 block w-full min-w-0 
+              flex-auto rounded border border-solid border-neutral-300 bg-clip-padding 
+              px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300
+               ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0
+                file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition
+                 file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary
+                  focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100
+                   dark:focus:border-primary"
+              type="file"
+              id="formFile"
+              onChange={(e) => uploadImage(e)} // Pasa el evento 'e' como argument
+            />
+          </div>
           <label>
             <span className="text-purple-600">Año de creación de tu banda:</span>
             <input
@@ -160,4 +213,4 @@ const ArtistForm = () => {
   );
 };
 
-export default ArtistForm;
+export default ArtistForm;

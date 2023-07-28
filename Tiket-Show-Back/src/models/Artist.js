@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
         },
         firstName: {
             type: DataTypes.STRING,
-            allowNull: true,
+            allowNull: false,
         },
         lastName: {
             type: DataTypes.STRING,
@@ -65,9 +65,16 @@ module.exports = (sequelize) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
+
+        profileImageURL: { // Nuevo campo para almacenar la URL de la imagen de perfil
+            type: DataTypes.STRING,
+            allowNull: true,
+          },
+
         role: { type: DataTypes.STRING, defaultValue: "artista" },
 
         disabled: { type: DataTypes.BOOLEAN, defaultValue: false },
+
     });
 };
 
