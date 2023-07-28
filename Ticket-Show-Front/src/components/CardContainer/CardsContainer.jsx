@@ -18,7 +18,7 @@ const CardsContainer = () => {
             genre={evento.genre}
             lugar={evento.address}
             city={evento.city}
-            price={evento.price}
+            cost={evento.price}
           />
         );
       })}
