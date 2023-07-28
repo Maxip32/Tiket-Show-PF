@@ -362,6 +362,7 @@ const Home = () => {
         genres={cu.genre}
         date={cu.date}
         location={cu.location}
+        price={cu.price}
         key={cu.id}
         className="w-full h-full md:h-[300px]" // Ajusta la altura deseada de las tarjetas aquí
       />

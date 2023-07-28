@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
                 allowNull: false,
             },
             price: {
-                type: DataTypes.NUMBER,
+                type: DataTypes.STRING,
                 allowNull: false,
             },
             quotas: {

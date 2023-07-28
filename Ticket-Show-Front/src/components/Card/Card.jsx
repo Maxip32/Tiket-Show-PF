@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
 import style from "./Card.module.css";
@@ -36,7 +36,7 @@ const Card = ({id, image, name, date, price}) => {
           }
         })
       } else {
-        return [...currItems, {id, name, quantity: 1, price }]
+        return [...currItems, {id, name, quantity: 1, price, image }]
       }
     })
   }
@@ -68,9 +68,7 @@ const Card = ({id, image, name, date, price}) => {
 
   return (
     <div className="bg-white m-4 max-h-lg border shadow-md rounded-t-3xl rounded-b-lg flex flex-col">
-    {quantityPerItem > 0 && (
-      <div>{quantityPerItem}</div>
-    )}
+    
     <Link to={`/detail/${id}`} className={""}>
       <div className="flex flex-col items-center justify-center h-40">
         <img
@@ -92,6 +90,13 @@ const Card = ({id, image, name, date, price}) => {
         </div>
       </div>
     </Link>
+    {user && (
+        <>
+        {quantityPerItem > 0 && (
+      <div>{quantityPerItem}</div>
+    )}
+
+        {/* <p onClick={handleCountItem}>{counterItem}</p> */}
     {
       quantityPerItem === 0 ? (
         <button onClick={() => addToCart()}>+ Agregar</button>
@@ -109,6 +114,8 @@ const Card = ({id, image, name, date, price}) => {
         {/* Icono de carrito */}
         <FiShoppingCart size={20} />
       </button>
+      </>
+    )}
   </div>
   )
 };
