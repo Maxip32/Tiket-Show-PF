@@ -1,5 +1,6 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+/* eslint-disable react/prop-types */
+
+import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/actions";
 import { Link } from "react-router-dom";
 
@@ -15,9 +16,9 @@ const Card = (props) => {
     "07": "JUL",
     "08": "AGO",
     "09": "SEP",
-    10: "OCT",
-    11: "NOV",
-    12: "DIC",
+    '10': "OCT",
+    '11': "NOV",
+    '12': "DIC",
   };
 
   const handleAddToCart = () => {
@@ -32,30 +33,30 @@ const Card = (props) => {
     );
   };
 
-  const [year, month, day] = props.date.split("-"); // Dividimos la fecha en año, mes y día
+  const [/* year */, month, day] = props.date.split("-"); // Dividimos la fecha en año, mes y día
   const formattedMonth = monthsMap[month];
 
   return (
-    <div className="bg-white m-4 max-h-lg border shadow-md rounded-t-3xl rounded-b-lg flex flex-col">
-    <Link to={`/detail/${props.id}`} className={""}>
-      <div className="flex flex-col items-center justify-center h-40">
+    <div className="bg-white w-64 h-80 m-4 border shadow-md rounded-2xl flex flex-col">
+    <Link to={`/detail/${props.id}`} className="">
+      <div className="flex flex-col items-center justify-center h-56 w-full">
         <img
-          className="rounded-t-3xl w-full h-full object-cover"
+          className="w-full h-full object-cover rounded-t-2xl"
           src={props.image}
           alt="imagen no encontrada"
         />
       </div>
-      <div className="ml-1 mr-3 flex flex-col md:flex-row items-center justify-between gap-5">
-        <div className="w-20 h-20 text-black flex flex-col items-center justify-center">
-          <h2 className="text-lg md:text-xl">{formattedMonth}</h2>
-          <h2 className="text-4xl md:text-5xl font-bold">{day}</h2>
+      <div className="ml-3 mr-6 flex flex-col md:flex-row items-center justify-between">
+        <div className="p-3 text-black flex flex-col items-center">
+          <h2 className="text-md text-ChryslerBlue">{formattedMonth}</h2>
+          <h2 className="text-3xl font-bold">{day}</h2>
         </div>
-        <div className="flex-2 font-bold text-sm md:text-lg text-black text-center md:text-right mt-3 md:mt-0">
+        <div className="flex font-bold md:text-xl text-black text-left md:text-right">
           <h3>{props.name}</h3>
         </div>
       </div>
     </Link>
-    <button onClick={handleAddToCart} className={""}></button>
+    <button onClick={handleAddToCart} className=""></button>
   </div>
   )
 };

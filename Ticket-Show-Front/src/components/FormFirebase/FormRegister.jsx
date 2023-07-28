@@ -1,19 +1,22 @@
-//import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, database } from "../../firebase/firebase.config";
-import {
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserById, createUser } from '../../redux/actions';
+import { useAuth } from "../../context/AuthContext";
+/* import { auth, database } from "../../firebase/firebase.config"; */
+/* import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-} from "firebase/auth";
+} from "firebase/auth"; */
+
 import registerPublic from "../../assets/image/registerPublic.jpg";
 import { FcGoogle } from "react-icons/fc";
-import { useFormik } from "formik";
-import * as Yup from 'yup';
+//import { useFormik } from "formik";
+//import * as Yup from 'yup';
 import Swal from "sweetalert2";
 
-
-const schema = Yup.object().shape({
+/* const schema = Yup.object().shape({
   //aca se definen los nombre de nuestros inputs
   name: Yup.string()
     .min(2, 'El nombre debe tener Mínimo 2 caracteres')
@@ -23,88 +26,116 @@ const schema = Yup.object().shape({
     .email('Correo invalido')
     .required('Debes colocar tu email'),
   password: Yup.string()
-    .min(2, 'Debe tener al menos 4 caracteres')
-    .max(8, 'Debe tener máximo 8 caracteres')
+    .min(6, 'Debe tener al menos 6 caracteres')
+    .max(10, 'Debe tener máximo 10 caracteres')
     .required('Es necesario crear una contraseña'),
-})
+}) */
 
 const RegisterForm = () => {
 
+  const auth = useAuth();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = auth.user;
+  const usuario = useSelector(state => state.users);
+  const oneUserCreated = useSelector(state => state.user);
 
-  const handleRegister = async (values) => {
+  const [emailRegister, setEmailRegister] = useState("");
+  const [passwordRegister, setPasswordRegister] = useState("");
+  
+  const validRegister = usuario?.filter(usr => usr.email === emailRegister);
+
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    email: "",
+    password: "",
+    address: "",
+    verified: true,
+    role: "customer"
+  });
+
+  useEffect(() => {
+    setUserInfo(prevUserInfo => ({
+      ...prevUserInfo,
+      name: user?.displayName || prevUserInfo.name,
+      email: user?.email || emailRegister || prevUserInfo.email
+    }));
+    dispatch(getUserById());
+  }, [user?.displayName, user?.email, emailRegister, dispatch]);
+
+  const clearState = () => {
+    setEmailRegister("");
+    setPasswordRegister("");
+    setUserInfo({
+      name: "",
+      email: "",
+      password: "",
+      address: "",
+      verified: true,
+      role: "customer"
+    });
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    if (validRegister?.length > 0) {
+      return alert("Usuario existente");
+    }
+
     try {
-      const { name, email, password } = values;
-      // Registro con email y contraseña
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-
-      // Almacenar datos adicionales en Realtime Database
-      await database.ref("users/" + user.uid).set({
-        name: name,
-        email: email,
-      });
-
-      /* Modal */
+      await auth.register(emailRegister, passwordRegister);
+      dispatch(createUser(userInfo));
+      clearState(); // Limpiar el estado
       Swal.fire({
         position: 'center',
         icon: 'success',
-        title: 'Te registraste correctamente',
+        title: 'Usuario registrado correctamente!',
         showConfirmButton: false,
-        timer: 1500
+        timer: 2500
       })
-
-      /* alert("Usuario registrado correctamente"); */
-      navigate("/login"); // Redireccionar al usuario al formulario de inicio de sesión
+      //alert("Usuario registrado correctamente");
+      navigate("/"); // Redireccionar al usuario a la página de inicio
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
       // Manejar el error aquí
     }
   };
 
-  // Hook de Formik con la función de manejo de envío 'handleRegister'
-  const { handleSubmit, handleChange, errors } = useFormik({
-    initialValues: {
-      name: '',
-      email: '',
-      password: '',
-    },
-    onSubmit: handleRegister,
-    validationSchema: schema, 
-  });
+  const redirectLogin = (userGoogle) => {
+    const matchGoogleEmail = usuario?.find(usr => usr.email === userGoogle.email);
+    if (matchGoogleEmail?.email) {
+      navigate("/"); // Redireccionar al usuario a la página de inicio
+    } else {
+      dispatch(createUser({
+        ...userInfo,
+        name: userGoogle.displayName,
+        email: userGoogle.email
+      }));
+      if (oneUserCreated) {
+        dispatch(getUserById());
+        navigate("/"); // Redireccionar al usuario a la página de inicio
+      }
+    }
+  };
 
-  const handleRegisterWithGoogle = async () => {
+  const handleGoogle = async (e) => {
+    e.preventDefault();
     try {
-      const provider = new GoogleAuthProvider();
-      const userCredential = await signInWithPopup(auth, provider);
+      const userCredential = await auth.loginWithGoogle();
       const user = userCredential.user;
-
-      // Almacenar datos adicionales en Realtime Database
-      await database.ref("users/" + user.uid).set({
+      setUserInfo(prevUserInfo => ({
+        ...prevUserInfo,
         name: user.displayName,
-        email: user.email,
-      });
-
-      /* Modal de Google*/
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Registro con Google exitoso!',
-        showConfirmButton: false,
-        timer: 1500
-      })
-
-      /* alert("Registro con Google exitoso!"); */
-      navigate("/home"); // Redireccionar al usuario al formulario de inicio de sesión
+        email: user.email
+      }));
+      setUserInfo.name(''); // Limpiar el estado
+      redirectLogin(user);
     } catch (error) {
-      console.error("Error al registrar con Google:", error);
+      console.error("Error al iniciar sesión con Google:", error);
       // Manejar el error aquí
     }
   };
+
 
   return (
     <div className="w-full flex justify-center items-center mt-10">
@@ -130,32 +161,32 @@ const RegisterForm = () => {
 
           <form
             className="flex flex-col gap-6 w-full justify-center items-center"
-            onSubmit={handleSubmit}
+            onSubmit={handleRegister}
           >
-            { errors.name && <span className='text-red-600 text-xs mb-[-20px] '>{errors.name}</span> }
+            {/* { errors.name && <span className='text-red-600 text-xs mb-[-20px] '>{errors.name}</span> } */}
             <input
               placeholder="Nombre completo"
               type="text"
-              name='name'
-              onChange={handleChange}
+              value={userInfo.name}
+              onChange={(e) => setUserInfo(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
               />
 
-            { errors.email && <span className='text-red-600 text-xs mb-[-20px] '>{errors.email}</span> }
+            {/* { errors.email && <span className='text-red-600 text-xs mb-[-20px] '>{errors.email}</span> } */}
             <input
               placeholder="Correo electrónico"
               type="email"
-              name="email"
-              onChange={handleChange}
+              value={emailRegister}
+              onChange={(e) => setEmailRegister(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
               />
 
-            { errors.password && <span className='text-red-600 text-xs mb-[-20px] '>{errors.password}</span> }
+            {/* { errors.password && <span className='text-red-600 text-xs mb-[-20px] '>{errors.password}</span> } */}
             <input
               placeholder="Contraseña"
               type="password"
-              name="password"
-              onChange={handleChange}
+              value={passwordRegister}
+              onChange={(e) => setPasswordRegister(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
             <button
@@ -172,7 +203,7 @@ const RegisterForm = () => {
           </span>
 
           <button
-            onClick={handleRegisterWithGoogle}
+            onClick={handleGoogle}
             type="submit"
             className="flex justify-center items-center gap-3 w-3/4 bg-Color200 text-primaryColor hover:bg-white hover:text-primaryColor border hover:border-secondaryColor focus:outline-none px-10 py-3.5 font-medium 
             transition duration-500 ease-in-out transform shadow-md rounded-xl"

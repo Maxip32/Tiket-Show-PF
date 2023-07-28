@@ -11,11 +11,11 @@ module.exports = (sequelize) => {
     },
     firstName: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     lastName: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     email: {
       type: DataTypes.STRING,
@@ -28,15 +28,15 @@ module.exports = (sequelize) => {
     },
     birthday: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
+      allowNull: true,
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     dni: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     isAdmin: {
       type: DataTypes.BOOLEAN,

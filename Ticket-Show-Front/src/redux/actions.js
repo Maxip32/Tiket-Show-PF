@@ -24,7 +24,7 @@ export const getEventId = (id) => {
       const apiData = await axios.get(
         `http://localhost:3001/event/getEvent/${id}`
       );
-     
+    
       const detail = apiData.data;
       console.log(apiData.data, "soy api data")
       dispatch({
@@ -193,4 +193,43 @@ export const getResetOrder = () => {
     type: GET_RESET_ORDER
   }
 }
+
+// Acción para crear un nuevo usuario en el back-end
+export const CREATE_USER_SUCCESS = "CREATE_USER_SUCCESS"
+export const CREATE_USER_FAILURE = "CREATE_USER_FAILURE"
+export const createUser = (userData) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch('http://localhost:3001/user/createUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+      const data = await response.json();
+      dispatch({ type: CREATE_USER_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: CREATE_USER_FAILURE, payload: error.message });
+    }
+  };
+};
+
+// Acción para obtener un usuario por su ID desde el back-end
+
+export const GET_USER_SUCCESS = "GET_USER_SUCCESS"
+export const GET_USER_FAILURE = "GET_USER_FAILURE"
+export const getUserById = (userId) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`/:idUser/${userId}`, {
+        method: 'GET',
+      });
+      const data = await response.json();
+      dispatch({ type: GET_USER_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: GET_USER_FAILURE, payload: error.message });
+    }
+  };
+};
 
