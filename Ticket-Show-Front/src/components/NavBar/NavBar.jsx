@@ -25,7 +25,7 @@ const NavBar = () => {
       return acc + curr.quantity
     }, 0)
   return (
-    <nav className="flex justify-between items-center bg-transparent w-full py-5 px-12 text-md font-light">
+    <nav className="flex max-w-6xl mx-auto justify-between items-center bg-transparent w-full py-5 px-8 text-md font-light">
       <ul className="flex items-center gap-3">
         <li>
           <NavLink to="/">

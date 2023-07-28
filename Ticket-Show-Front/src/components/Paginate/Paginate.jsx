@@ -31,19 +31,19 @@ const Paginate = ({
         Atrás
       </button>
       {pageNumbers?.map((number) => (
-  <button
-    className={`relative block rounded bg-primary-100 px-3 py-1.5 text-sm font-medium 
-    text-primary-700 transition-all duration-300 ${
-      number === currentPage
-        ? "bg-primary-700 text-secondaryColor"
-        : "bg-primary-100 text-primary-700"
-    }`}
-    key={number}
-    onClick={() => paginate(number)}
-  >
-    {number}
-  </button>
-))}
+        <button
+          className={`relative block rounded bg-primary-100 px-3 py-1.5 text-sm font-medium 
+          text-primary-700 transition-all duration-300 ${
+            number === currentPage
+              ? "bg-primary-700 text-secondaryColor"
+              : "bg-primary-100 text-primary-700"
+          }`}
+          key={number}
+          onClick={() => paginate(number)}
+        >
+        {number}
+        </button>
+      ))}
 
       <button
         className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
