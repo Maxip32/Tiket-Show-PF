@@ -209,28 +209,9 @@ export const createUser = (userData) => {
 };
 
 //export const NEW_ARTIST_REQUEST = "NEW_ARTIST_REQUEST";
-export const CREATE_ARTIST_SUCCESS = "NEW_ARTIST_SUCCESS";
-export const CREATE_ARTIST_FAILURE = "NEW_ARTIST_FAILURE";
-export const GET_ARTIST_SUCCESS = "GET_ARTIST_SUCCESS";
-export const GET_ARTIST_FAILURE = "GET_ARTIST_FAILURE";
+//export const CREATE_ARTIST_SUCCESS = "NEW_ARTIST_SUCCESS";
+//export const CREATE_ARTIST_FAILURE = "NEW_ARTIST_FAILURE";
 
-export const createArtist = (userData) => {
-  return async (dispatch) => {
-    try {
-      const response = await fetch('http://localhost:3001/artist/createArtist', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
-      const data = await response.json();
-      dispatch({ type: CREATE_ARTIST_SUCCESS, payload: data });
-    } catch (error) {
-      dispatch({ type: CREATE_ARTIST_FAILURE, payload: error.message });
-    }
-  };
-};
 // Acción para obtener un usuario por su ID desde el back-end
 
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS"
