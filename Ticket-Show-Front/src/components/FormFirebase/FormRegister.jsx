@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +22,7 @@ const FormFirebase = () => {
   const [email, setEmail] = useState("");
   const [ name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const validLogin = usuario?.filter(usr => usr.email === email);
+  //const validLogin = usuario?.filter(usr => usr.email === email);
 
   const [userInfo, setUserInfo] = useState({
     name: "",
