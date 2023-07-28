@@ -6,11 +6,11 @@ const newArtist = async (data) => {
   const {
     firstName,
     lastName,
-    nickName,
+    nickname,
     email,
     password,
     phone,
-    description,
+    description, // Corrige el nombre del campo aquí
     twitter,
     instagram,
     spotify,
@@ -28,18 +28,17 @@ const newArtist = async (data) => {
 
   const [artist, created] = await Artist.findOrCreate({
     where: {
-      firstName,
-      lastName,
-      nickName,
+      email,
+      
     },
     defaults: {
       firstName,
       lastName,
-      nickName,
+      nickname,
       email,
       password,
       phone,
-      description,
+      description, // Corrige el nombre del campo aquí
       twitter,
       instagram,
       spotify,
@@ -53,7 +52,6 @@ const newArtist = async (data) => {
 
   await artist.save();
 
- 
   if (created) {
     const subject = "Registro Exitoso";
 

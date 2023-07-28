@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 //const CartItem = require('./cart');
 
 module.exports = (sequelize) => {
-  sequelize.define("user", {
+  const User = sequelize.define('user', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -29,11 +29,11 @@ module.exports = (sequelize) => {
     },
     birthday: {
       type: DataTypes.DATEONLY,
-      //allowNull: false,
+      allowNull: true,
     },
     birthdate: {
       type: DataTypes.DATEONLY,
-      //allowNull: false,
+     allowNull: true,
     },
     phone: {
       type: DataTypes.STRING,
@@ -63,17 +63,7 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    profileImageURL: { // Nuevo campo para almacenar la URL de la imagen de perfil
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
   });
-  // CartItem.associate = (models) => {
-  //   sequelize.models.User.hasMany(CartItem, {
-  //     foreignKey: 'user_id',
-  //     onDelete: 'CASCADE',
-  //     onUpdate: 'CASCADE',
-  //   });
 
   // Definir las asociaciones
  //User.hasMany(sequelize.model.CartItem, { foreignKey: 'user_id', as: 'cart_item' });

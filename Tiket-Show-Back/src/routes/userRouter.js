@@ -41,6 +41,6 @@ userRouter.get("/", idUser);
 
 //userRouter.post("/createUser", createUser);
 //userRouter.get("/id/:id", getIdUser);
-userRouter.delete("/delete/:id", deleteUser);
+//userRouter.delete("/delete/:id", deleteUser);
 
 module.exports = userRouter;

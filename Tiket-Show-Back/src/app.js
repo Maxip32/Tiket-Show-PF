@@ -17,7 +17,7 @@ const paymentRoutes = require('./routes/paymentRoutes')
 const path = require ('path')
 
 
-const userRouter = require("./routes/userRouter");
+
 
 require("./db.js");
 

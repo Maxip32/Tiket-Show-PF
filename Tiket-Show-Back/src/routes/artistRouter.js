@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const createArtist = require('../handlers/artistHandlers/createArtist');
-const validationCreate = require("../middleware/validationArtist/validationCreate");
+//const validationCreate = require("../middleware/validationArtist/validationCreate");
 //const validationId = require("../middleware/validationArtist/validationIdId");
 const getAllArtist = require("../handlers/artistHandlers/getAllArtist");
 const getANameArtist = require("../handlers/artistHandlers/getANameArtist");
@@ -25,7 +25,7 @@ name: name
 all: all artist
 */
 
-artistRouter.post('/createArtist', validationCreate, createArtist);
+artistRouter.post('/createArtist', createArtist);
 artistRouter.get('/allArtist', getAllArtist);
 artistRouter.get('/nameArtist/:firstName', getANameArtist);
 artistRouter.get('/:idArtist', getIdArtist);

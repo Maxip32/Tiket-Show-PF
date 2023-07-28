@@ -23,7 +23,10 @@ import {
   UPDATE_USER_FAILURE,
   GET_RESET,
   GET_RESET_ORDER,
-
+  CREATE_ARTIST_SUCCESS,
+  CREATE_ARTIST_FAILURE, 
+  GET_ARTIST_SUCCESS,
+  GET_ARTIST_FAILURE,
   POST_PAYPAL,
   GET_CAPTURE_ORDER,
   GET_CANCEL_ORDER,
@@ -94,11 +97,7 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         Events: action.payload,
       };
-      case NEW_ARTIST:
-        return {
-          ...state,
-          details: action.payload,
-        };
+
 
       /////// CARRITO DE COMPRA //////
 
@@ -221,7 +220,35 @@ const rootReducer = (state = initialState, action) => {
                       loading: false,
                       error: action.payload,
                     };
-           
+           ////////////// CREO Y TRAIGO USUARIOS ARTISTAS /////////////
+           case  CREATE_ARTIST_SUCCESS:
+            return {
+              ...state,
+              user: action.payload,
+              loading: false,
+              error: null,
+            };
+          case CREATE_ARTIST_FAILURE:
+            return {
+              ...state,
+              user: null,
+              loading: false,
+              error: action.payload,
+            };
+          case GET_ARTIST_SUCCESS:
+            return {
+              ...state,
+              user: action.payload,
+              loading: false,
+              error: null,
+            };
+          case GET_ARTIST_FAILURE:
+            return {
+              ...state,
+              user: null,
+              loading: false,
+              error: action.payload,
+              };
            
                 case GET_RESET:
                   return {

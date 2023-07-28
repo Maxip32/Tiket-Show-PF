@@ -167,7 +167,6 @@ export const GetByCity = () => {
 
 }
 
-
 export const FILTER_BY_CITY = 'FILTER_BY_CITY'
 
 export const FilterByCity = (payload) => {
@@ -180,7 +179,7 @@ export const FilterByCity = (payload) => {
 export const GET_BY_DATE = 'GET_BY_DATE'
 export const GetByDate = () => {
   return async (dispatch) => {
-    const apiData = await axios.get(`http://localhost:3001/date/allDate`, )
+    const apiData = await axios.get(`http://localhost:3001/date/allDate`)
     const allDate = apiData.data
     return dispatch({
       type: GET_BY_DATE,
@@ -209,6 +208,29 @@ export const createUser = (userData) => {
   };
 };
 
+//export const NEW_ARTIST_REQUEST = "NEW_ARTIST_REQUEST";
+export const CREATE_ARTIST_SUCCESS = "NEW_ARTIST_SUCCESS";
+export const CREATE_ARTIST_FAILURE = "NEW_ARTIST_FAILURE";
+export const GET_ARTIST_SUCCESS = "GET_ARTIST_SUCCESS";
+export const GET_ARTIST_FAILURE = "GET_ARTIST_FAILURE";
+
+export const createArtist = (userData) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch('http://localhost:3001/artist/createArtist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+      const data = await response.json();
+      dispatch({ type: CREATE_ARTIST_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: CREATE_ARTIST_FAILURE, payload: error.message });
+    }
+  };
+};
 // Acción para obtener un usuario por su ID desde el back-end
 
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS"
@@ -293,22 +315,6 @@ export const getResetOrder = () => {
     type: GET_RESET_ORDER
   }
 }
-export const NEW_ARTIST = "NEW_ARTIST"
-export function newArtist(formData) {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.post(`http://localhost:3001/artist/createArtist`, formData);
-   
-      return dispatch({
-        type: NEW_ARTIST,
-        payload: data,
-      });
-    } catch (error) {
-      alert(error.message);
-    }
-  };
-}
-
 
 export const POST_PAYPAL = 'POST_PAYPAL'
 export const postPaypal = () => {
@@ -347,3 +353,4 @@ export const getCancelOrder = () => {
     })
   }
 }
+
