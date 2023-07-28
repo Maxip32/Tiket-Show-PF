@@ -4,7 +4,10 @@ const router = Router();
 
 const {
     getEvent,
-    getEvents
+    getEvents,
+    getEventByName,
+    createEvent,
+    deleteEvent,
 } = require('../controllers/eventControllers/getControllers')
 
 
@@ -12,5 +15,11 @@ const {
 router.get('/getEvents', getEvents);
 
 router.get('/getEvent/:id', getEvent);
+
+router.get('/getEvent/name/:name', getEventByName);
+
+router.post('/createEvent', createEvent);
+
+router.delete('/deleteEvent/:id', deleteEvent);
 
 module.exports = router;

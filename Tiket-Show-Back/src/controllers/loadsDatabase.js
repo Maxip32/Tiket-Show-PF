@@ -3,6 +3,8 @@ const { Event } = require("../db");
 const { Place } = require("../db");
 const { Artist } = require("../db");
 const { Genre } = require("../db");
+const { City } = require("../db");
+const { Date } = require ("../db");
 const path = require("path");
 const fs = require("fs");
 
@@ -105,10 +107,50 @@ const loadGenres = async () => {
   }
 };
 
+//Cargamos las ciudades
+const loadCitys = async () => {
+
+  try {
+    const city2 = await City.findAll();
+    if (city2.length) {
+      console.log("ya hay ciudades");
+      return;
+    }
+    const city = JSON.parse(
+      fs.readFileSync(path.join(__dirname, "../database/City.json"))
+    );
+    await City.bulkCreate(city);
+    console.log("ciudades cargadas");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const loadDate = async () => {
+
+  try {
+    const date2 = await Date.findAll();
+    if (date2.length) {
+      console.log("ya hay Date");
+      return;
+    }
+
+    const date = JSON.parse(
+      fs.readFileSync(path.join(__dirname, "../database/Date.json"))
+    );
+    await Date.bulkCreate(date);
+    console.log("Date cargados");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports={
     loadUsers,
     loadEvents,
     loadPlaces,
     loadArtists,
-    loadGenres
+    loadGenres,
+    loadCitys,
+    loadDate,
 }

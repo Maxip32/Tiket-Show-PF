@@ -1,15 +1,15 @@
-const createArtist = require('../../controllers/artistControllers/createArtist')
+const newArtist = require('../../controllers/artistControllers/createArtist')
 
-module.exports = async (req, res) => {
+ const createArtist = async (req, res) => {
     try {
         const {
             firstName,
             lastName,
-            nickName,
+            nickname,
             email,
             password,
             phone,
-            decription,
+            description,
             twitter,
             instagram,
             spotify,
@@ -19,15 +19,15 @@ module.exports = async (req, res) => {
             confirmed
         } = req.body;
 
-
-        const newArtist = await createArtist({
+console.log(req.body);
+        const theArtist = await newArtist(
             firstName,
             lastName,
-            nickName,
+            nickname,
             email,
             password,
             phone,
-            decription,
+            description,
             twitter,
             instagram,
             spotify,
@@ -35,9 +35,11 @@ module.exports = async (req, res) => {
             google,
             state,
             confirmed
-        });
-        res.status(201).json(newArtist)
+        );
+        res.status(201).json(theArtist)
     } catch (error) {
         res.status(400).json({ msg: error.message })
     }
 }
+
+module.exports = createArtist

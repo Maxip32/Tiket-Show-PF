@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import coldplay from "../../assets/image/coldplay.jpg";
-import metallica from "../../assets/image/metallica.jpg";
-import taylorswift from "../../assets/image/taylor-swift.jpg";
+import taylorswift from "../../assets/image/taylor-swift.png";
+import luismi from "../../assets/image/luis-miguel.png";
+import roger from '../../assets/image/roger.png';
 
 const Hero = () => {
   //- aca debe llegar el estado con las imágenes
-  const images = [coldplay, metallica, taylorswift];
+  const images = [taylorswift, luismi, roger, 'https://www.tuentrada.com/concierto/ricardo-arjona/1920x710v2.webp', 'https://www.dfentertainment.com/wp-content/uploads/2023/05/1920x720-4-1536x576.png'];
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedImage, setSelectedImage] = useState(images[0]);
@@ -26,7 +27,7 @@ const Hero = () => {
 
   // useEffect para controlar el autoplay
   useEffect(() => {
-    const intervalId = setInterval(next, 2000);
+    const intervalId = setInterval(next, 3000);
 
     return () => {
       clearInterval(intervalId);
@@ -35,9 +36,9 @@ const Hero = () => {
 
 
   return (
-    <div className="w-full h-96 relative flex flex-col items-center justify-center">
+    <div className="mt-4 mb-10 w-full h-96 relative flex flex-col items-center justify-center">
       <img
-        className="rounded-3xl object-cover w-11/12 h-80"
+        className="rounded-3xl object-cover w-11/12 h-96"
         src={selectedImage}
         alt="Imagen"
       />

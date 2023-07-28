@@ -1,7 +1,7 @@
 const getName = require('../../controllers/genresControllers/nameGenres');
 
-module.exports = async(req, res)=>{
-    const {name} = req.query;
+const nameGenres = async(req, res)=>{
+    const {name} = req.params;
     try {
         const genresName = await getName(name);
         res.status(200).json(genresName);
@@ -9,3 +9,4 @@ module.exports = async(req, res)=>{
         res.status(400).json({msg: error.message});
     }
 }
+module.exports = nameGenres

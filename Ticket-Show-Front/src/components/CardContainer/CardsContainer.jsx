@@ -1,4 +1,3 @@
-
 import { useSelector } from "react-redux";
 import Card from "../Card/Card";
 
@@ -17,7 +16,7 @@ const CardsContainer = () => {
             summary={evento.description}
             date={evento.date}
             genre={evento.genre}
-            address={evento.adrress}
+            lugar={evento.address}
             city={evento.city}
             cost={evento.price}
           />
@@ -26,5 +25,7 @@ const CardsContainer = () => {
     </div>
   );
 };
+
+
 
 export default CardsContainer;

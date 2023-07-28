@@ -1,11 +1,13 @@
-const {Artist} = require('../../db');
+const {Artist} = require('../../db.js');
 
-module.exports = async ()=>{
+const artist = async ()=>{
     try {
-        const artist = await Artist.findAll();
-        return artist
+        const theArtist = await Artist.findAll();
+        return theArtist
     } catch (error) {
         throw new Error(error.message);        
     }
 
 }
+
+module.exports = artist

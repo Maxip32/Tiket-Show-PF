@@ -1,13 +1,13 @@
-const createUser = require('../../controllers/userContollers/createUser');
+const newUser = require('../../controllers/userControllers/createUser');
 
-module.exports = async (req, res) => {
+const createUser = async (req, res) => {
     try {
         const {
             firstName,
             lastName,
             email,
             password,
-            birthDate,
+            birthday,
             phone,
             dni,
             isAdmin,
@@ -18,12 +18,12 @@ module.exports = async (req, res) => {
         } = req.body;
 
 
-        const newUser = await createUser({
+        const theUser = await newUser({
             firstName,
             lastName,
             email,
             password,
-            birthDate,
+            birthday,
             phone,
             dni,
             isAdmin,
@@ -32,8 +32,10 @@ module.exports = async (req, res) => {
             state,
             confirmed
         });
-        res.status(201).json(newUser)
+        res.status(201).json(theUser)
     } catch (error) {
         res.status(400).json({ msg: error.message })
     }
 }
+
+module.exports = createUser 

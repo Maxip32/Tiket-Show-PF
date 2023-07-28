@@ -1,32 +1,75 @@
-import style from "./Card.module.css";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { useCart } from "../Shoppingcart/CartContext";
 import { Link } from "react-router-dom";
-
+import { FiShoppingCart } from "react-icons/fi";
+import style from "./Card.module.css";
+import { useAuth } from "../../context/AuthContext";
+//import { addToCartBackend } from "../Shoppingcart/CartContext"
 const Card = (props) => {
+  const { user} = useAuth(); // Obtén el usuario autenticado desde el contexto de autenticación
+  const dispatch = useDispatch();
+  const monthsMap = {
+    "01": "ENE",
+    "02": "FEB",
+    "03": "MAR",
+    "04": "ABR",
+    "05": "MAY",
+    "06": "JUN",
+    "07": "JUL",
+    "08": "AGO",
+    "09": "SEP",
+    "10": "OCT",
+    "11": "NOV",
+    "12": "DIC",
+  };
+  const { addToCart } = useCart();
+  const handleAddToCart = ({ id, name, user, }) => {
+    if (!id || !name || !user ) {
+      console.error("El artículo no tiene todas las propiedades necesarias");
+      return;
+    }
+
+    const itemToAdd = {
+      id: id,
+      name: name,
+      user: user.email
+    };
+    console.log(itemToAdd, 'es el item')
+
+    addToCart(itemToAdd);
+  };
+
+  const [year, month, day] = props?.date?.split("-"); // Dividimos la fecha en año, mes y día
+  const formattedMonth = monthsMap[month];
+
   return (
-   
-   <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <Link to={`detail/${props.id}`} className={style.link}>
-        <div className="">
-          <img
-            className="w-80 h-40 object-contain"
-            src={props.image}
-            alt="imagen no encontrada"
-          />
+    <div className="bg-white m-4 max-h-lg border shadow-md rounded-t-3xl rounded-b-lg flex flex-col">
+    <Link to={`/detail/${props.id}`} className={""}>
+      <div className="flex flex-col items-center justify-center h-40">
+        <img
+          className="rounded-t-3xl w-full h-full object-cover"
+          src={props.image}
+          alt="imagen no encontrada"
+        />
+      </div>
+      <div className="ml-1 mr-3 flex flex-col md:flex-row items-center justify-between gap-5">
+        <div className="w-20 h-20 text-black flex flex-col items-center justify-center">
+          <h2 className="text-lg md:text-xl">{formattedMonth}</h2>
+          <h2 className="text-4xl md:text-5xl font-bold">{day}</h2>
         </div>
-        <div className={style.healtScoreContainer}>
-          <h3 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {props.name}
-          </h3>
-          <h3 className={style.healtScore}>Fecha: {props.date}</h3>
-          <h5>{props.city}</h5>
+        <div className="flex-2 font-bold text-sm md:text-lg text-black text-center md:text-right mt-3 md:mt-0">
+          <h3>{props.name}</h3>
         </div>
-        <div>
-          <h5>{props.genre} </h5>
-        </div>
-      </Link>
-    </div>
-   
-  );
+      </div>
+    </Link>
+    <button onClick={()=>handleAddToCart({ id: props.id, name: props.name, user }, )} className={style.addToCartButton}>
+
+        {/* Icono de carrito */}
+        <FiShoppingCart size={20} />
+      </button>
+  </div>
+  )
 };
 
 export default Card;
