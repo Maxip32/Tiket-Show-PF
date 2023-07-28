@@ -27,13 +27,6 @@ import {
   UPDATE_USER_FAILURE,
   GET_RESET,
   GET_RESET_ORDER,
-<<<<<<< HEAD
-  CREATE_USER_SUCCESS,
-  CREATE_USER_FAILURE,
-  GET_USER_SUCCESS,
-  GET_USER_FAILURE,
-} from "./actions";
-=======
   POST_PAYPAL,
   GET_CAPTURE_ORDER,
   GET_CANCEL_ORDER,
@@ -43,7 +36,6 @@ import {
  
 
 
->>>>>>> 5d18d40911448e35e915af86714016cf71fd1bf2
 
 const initialState = {
   Events: [],
@@ -53,11 +45,6 @@ const initialState = {
   cart: [],
   city: [],
   date: [],
-<<<<<<< HEAD
-  user: null,
-  loading: false,
-  error: null,
-=======
   paypalData: [],
   captureOrderData: [],
   cancelOrderData: [],
@@ -65,7 +52,6 @@ const initialState = {
   loading: true,
   error: null,
 
->>>>>>> 5d18d40911448e35e915af86714016cf71fd1bf2
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -79,7 +65,6 @@ const rootReducer = (state = initialState, action) => {
       };
     case GET_EVENT_ID:
       return { ...state, detail: action.payload };
-
     case FILTER_BY_GENRES:
       const allEvents = state.allEvents;
       const EventsWithGenre =
@@ -90,7 +75,6 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         Events: EventsWithGenre,
       };
-
     case ORDER_BY_DATE:
       const EventsByDate =
         action.payload === "asc"
@@ -114,7 +98,8 @@ const rootReducer = (state = initialState, action) => {
         Events: action.payload,
       };
 
-    /////// CARRITO DE COMPRA //////
+
+      /////// CARRITO DE COMPRA //////
 
     case ADD_TO_CART:
       const ItemsCarts= state.allEvents.find((itemcart)=> itemcart.id === action.payload.id)
@@ -135,96 +120,40 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         cart: [],
       };
-    case GET_ORDER_BY_NAME:
-      const EventsSorted =
-        action.payload === "asc"
-          ? state.Events.sort((a, b) => {
-              if (a.name > b.name) return 1;
-              if (b.name > a.name) return -1;
-              return 0;
-            })
-          : state.Events.sort((a, b) => {
-              if (a.name > b.name) return -1;
-              if (b.name > a.name) return 1;
-              return 0;
-            });
-      return {
-        ...state,
-        Events: EventsSorted,
-      };
-    case FILTER_BY_DATE:
-      const eventsWithDate =
+        case GET_ORDER_BY_NAME:
+          const EventsSorted = action.payload === 'asc'
+          ? state.Events.sort((a,b) => {
+            if (a.name > b.name) return 1
+            if (b.name > a.name) return -1
+            return 0
+          }) :
+          state.Events.sort((a,b) => {
+            if (a.name > b.name) return -1
+            if (b.name > a.name) return 1
+            return 0
+          })
+          return {
+            ...state,
+            Events: EventsSorted
+          }
+          case FILTER_BY_DATE:
+            const eventsWithDate =
         action.payload === "all"
           ? state.allEvents
-          : state.allEvents.filter((event) =>
-              event.date.includes(action.payload)
-            );
+          : state.allEvents.filter((event) => event.date.includes(action.payload));
       return {
         ...state,
         Events: eventsWithDate,
+        
       };
-    case GET_BY_CITY:
-      return {
-        ...state,
-        city: action.payload,
-      };
-    case FILTER_BY_CITY:
-      const Citys = state.allEvents;
-      const EventsWithCity =
-        action.payload === "all"
-          ? Citys
-          : Citys.filter((cit) => cit.city.includes(action.payload));
-      return {
-        ...state,
-        Events: EventsWithCity,
-      };
-    case GET_BY_DATE:
-      return {
-        ...state,
-        date: action.payload,
-      };
-    case GET_RESET:
-      return {
-        ...state,
-        Events: state.allEvents,
-      };
-    case GET_RESET_ORDER:
-      return {
-        ...state,
-        allEvents: [...state.allEvents],
-      };
-    /* REDUCER CREATE Y GET USER CREO Y TRAIGO USUARIOS ////// */
-    case CREATE_USER_SUCCESS:
-      return {
-        ...state,
-        user: action.payload,
-        loading: false,
-        error: null,
-      };
-    case CREATE_USER_FAILURE:
-      return {
-        ...state,
-        user: null,
-        loading: false,
-        error: action.payload,
-      };
-    case GET_USER_SUCCESS:
-      return {
-        ...state,
-        user: action.payload,
-        loading: false,
-        error: null,
-      };
-    case GET_USER_FAILURE:
-      return {
-        ...state,
-        user: null,
-        loading: false,
-        error: action.payload,
-      };
+          case GET_BY_CITY:
+            return {
+              ...state, city: action.payload
+            }
+            case FILTER_BY_CITY:
+              const Citys = state.allEvents
+              const EventsWithCity = action.payload === 'all'
 
-<<<<<<< HEAD
-=======
               ? Citys
 
               : Citys.filter(cit => cit.city.includes(action.payload))
@@ -349,12 +278,12 @@ const rootReducer = (state = initialState, action) => {
                           return {
                             ...state, cancelOrderData: action.payload
                           }
->>>>>>> 5d18d40911448e35e915af86714016cf71fd1bf2
     default:
 
 
       return state;
   }
 };
+
 
 export default rootReducer;

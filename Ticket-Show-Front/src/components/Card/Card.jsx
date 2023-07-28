@@ -1,11 +1,9 @@
-/* eslint-disable react/prop-types */
-
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
 import style from "./Card.module.css";
 import { useAuth } from "../../context/AuthContext";
 import { CartContext } from "../Shoppingcart/shoppingCartContext";
-import { useContext } from "react";
 //import { addToCartBackend } from "../Shoppingcart/CartContext"
 const Card = ({id, image, name, date, price}) => {
   const { user} = useAuth(); // Obtén el usuario autenticado desde el contexto de autenticación
@@ -19,9 +17,9 @@ const Card = ({id, image, name, date, price}) => {
     "07": "JUL",
     "08": "AGO",
     "09": "SEP",
-    '10': "OCT",
-    '11': "NOV",
-    '12': "DIC",
+    10: "OCT",
+    11: "NOV",
+    12: "DIC",
   };
   const [cart, setCart] = useContext(CartContext)
 
@@ -65,7 +63,7 @@ const Card = ({id, image, name, date, price}) => {
 
   const quantityPerItem = getQuantityById(id)
 
-  const [/* year, */ month, day] = date.split("-"); // Dividimos la fecha en año, mes y día
+  const [year, month, day] = date.split("-"); // Dividimos la fecha en año, mes y día
   const formattedMonth = monthsMap[month];
 
   return (
@@ -79,10 +77,10 @@ const Card = ({id, image, name, date, price}) => {
           alt="imagen no encontrada"
         />
       </div>
-      <div className="ml-3 mr-6 flex flex-col md:flex-row items-center justify-between">
-        <div className="p-3 text-black flex flex-col items-center">
-          <h2 className="text-md text-ChryslerBlue">{formattedMonth}</h2>
-          <h2 className="text-3xl font-bold">{day}</h2>
+      <div className="ml-1 mr-3 flex flex-col md:flex-row items-center justify-between gap-5">
+        <div className="w-20 h-20 text-black flex flex-col items-center justify-center">
+          <h2 className="text-lg md:text-xl">{formattedMonth}</h2>
+          <h2 className="text-4xl md:text-5xl font-bold">{day}</h2>
         </div>
         <div className="flex-2 font-bold text-sm md:text-lg text-black text-center md:text-right mt-3 md:mt-0">
           <h3>{name}</h3>
