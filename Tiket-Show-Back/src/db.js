@@ -42,7 +42,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 
 const { Artist, Event, Genre, Place, User, City, Date, CartItem} = sequelize.models;
-console.log(CartItem, " esta son las constantes Holis")
+console.log(CartItem, " esta son constantes")
 
 
 Event.belongsToMany(Artist, { through: "events_artists" });

@@ -112,11 +112,11 @@ const addToCartBackend = async (req, res) => {
 
 const removeFromCartBackend = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const itemId = req.params.itemId;
-
-    await CartItem.destroy({ where: { user_id: userId, id: itemId } });
-    res.json({ message: "Artículo eliminado del carrito", itemId });
+    const userId = req.body.id;
+    const itemId = req.params;
+    
+    await CartItem.destroy({include:{model:User, as: "cart", userId}, where:{id:itemId} } );
+    res.json({ message: 'Artículo eliminado del carrito', itemId });
   } catch (error) {
     console.error("Error al eliminar del carrito:", error);
     res.status(500).json({ message: "Error al eliminar del carrito" });

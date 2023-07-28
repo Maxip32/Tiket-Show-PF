@@ -16,7 +16,11 @@ CIUDADES:
 
 ARTISTAS:
 
-°
+°° Crear Artista: http://localhost:3001/artist/createArtist
+° Todos los Artistas: http://localhost:3001/artist/allArtist
+° Artistas por id: http://localhost:3001/artist/id/:id
+° Modificar Artista: http://localhost:3001/artist/update/:id
+° Eliminar Artista: Faltaaaaaaa **
 °
 °
 °

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
-import { createArtist, updateUser, getUserByEmail} from '../../redux/actions';
+
+import { createArtist, updateUser, getUserByEmail, getArtistById } from '../../redux/actions';
+
 import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc'; // Suponiendo que el ícono FcGoogle proviene de react-icons
 
@@ -46,7 +48,9 @@ const ArtistForm = () => {
       name: nombreToDB || prevUserInfo.name,
       email: emailToDB || emailRegister || prevUserInfo.email
     }));
-   // dispatch(getArtistById());
+
+    dispatch(getArtistById());
+
   }, [user?.displayName, user?.email, emailToDB, nombreToDB, emailRegister, dispatch]);
 
   const clearState = () => {

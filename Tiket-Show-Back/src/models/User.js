@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: true,
     },
     password: {
@@ -63,6 +63,9 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    role: { type: DataTypes.STRING, defaultValue: "customer" },
+
+      disabled: { type: DataTypes.BOOLEAN, defaultValue: false },
   });
 
   // Definir las asociaciones

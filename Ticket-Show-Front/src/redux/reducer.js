@@ -17,16 +17,22 @@ import {
   CREATE_USER_FAILURE,
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
+  CREATE_ARTIST_SUCCESS,
+  CREATE_ARTIST_FAILURE,
+  GET_ARTIST_SUCCESS,
+  GET_ARTIST_FAILURE,
   GET_USER_BY_EMAIL_SUCCESS,
   GET_USER_BY_EMAIL_FAILURE,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
   GET_RESET,
   GET_RESET_ORDER,
+
   CREATE_ARTIST_SUCCESS,
   CREATE_ARTIST_FAILURE, 
   GET_ARTIST_SUCCESS,
   GET_ARTIST_FAILURE,
+
   POST_PAYPAL,
   GET_CAPTURE_ORDER,
   GET_CANCEL_ORDER,
@@ -102,10 +108,14 @@ const rootReducer = (state = initialState, action) => {
       /////// CARRITO DE COMPRA //////
 
     case ADD_TO_CART:
+      const ItemsCarts= state.allEvents.find((itemcart)=> itemcart.id === action.payload.id)
       return {
         ...state,
-        cart: [...state.cart, action.payload],
+        cart: [...state.cart, ItemsCarts],
       };
+
+
+
     case REMOVE_FROM_CART:
       return {
         ...state,
@@ -190,6 +200,36 @@ const rootReducer = (state = initialState, action) => {
                     loading: false,
                     error: action.payload,
                   };
+
+ ////////////// CREO Y TRAIGO USUARIOS ARTISTAS /////////////
+                case  CREATE_ARTIST_SUCCESS:
+                  return {
+                    ...state,
+                    user: action.payload,
+                    loading: false,
+                    error: null,
+                  };
+                case CREATE_ARTIST_FAILURE:
+                  return {
+                    ...state,
+                    user: null,
+                    loading: false,
+                    error: action.payload,
+                  };
+                case GET_ARTIST_SUCCESS:
+                  return {
+                    ...state,
+                    user: action.payload,
+                    loading: false,
+                    error: null,
+                  };
+                case GET_ARTIST_FAILURE:
+                  return {
+                    ...state,
+                    user: null,
+                    loading: false,
+                    error: action.payload,
+                  };                 
 
 ///////////// GET USER BY EMAIL Y UPDATE ///////////
 
