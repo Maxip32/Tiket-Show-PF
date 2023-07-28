@@ -1,11 +1,14 @@
 /* eslint-disable react/prop-types */
 
-import { useDispatch } from "react-redux";
-import { addToCart } from "../../redux/actions";
 import { Link } from "react-router-dom";
-
-const Card = (props) => {
-  const dispatch = useDispatch();
+import { FiShoppingCart } from "react-icons/fi";
+import style from "./Card.module.css";
+import { useAuth } from "../../context/AuthContext";
+import { CartContext } from "../Shoppingcart/shoppingCartContext";
+import { useContext } from "react";
+//import { addToCartBackend } from "../Shoppingcart/CartContext"
+const Card = ({id, image, name, date, price}) => {
+  const { user} = useAuth(); // Obtén el usuario autenticado desde el contexto de autenticación
   const monthsMap = {
     "01": "ENE",
     "02": "FEB",
@@ -20,29 +23,59 @@ const Card = (props) => {
     '11': "NOV",
     '12': "DIC",
   };
+  const [cart, setCart] = useContext(CartContext)
 
-  const handleAddToCart = () => {
-    // Aquí despachas la acción de agregar al carrito con la información del evento
-    dispatch(
-      addToCart({
-        id: props.id,
-        name: props.name,
-        cost: props.price, // Asegúrate de utilizar el nombre correcto de la propiedad del precio si es diferente
-        // Otros datos relevantes del evento si los tienes
-      })
-    );
-  };
+  const addToCart = () => {
+    setCart((currItems) => {
+      const isItemsFound = currItems.find((item) => item.id === id)
 
-  const [/* year */, month, day] = props.date.split("-"); // Dividimos la fecha en año, mes y día
+      if (isItemsFound) {
+        return currItems.map((item) => {
+          if(item.id === id) {
+            return {...item, quantity: item.quantity +1}
+          }else {
+            return item
+          }
+        })
+      } else {
+        return [...currItems, {id, name, quantity: 1, price, image }]
+      }
+    })
+  }
+
+  const removeItem = (id) => {
+    setCart((currItems) => {
+      if (currItems.find((item) => item.id === id)?.quantity === 1){
+        return currItems.filter((item) => item.id !== id)
+      }else {
+        return currItems.map((item) => {
+          if(item.id === id){
+            return {...item, quantity: item.quantity -1}
+          }else {
+            return item
+          }
+        })
+      }
+    })
+  }
+
+  const getQuantityById = () => {
+    return cart.find((item) => item.id === id )?.quantity || 0;
+  }
+
+  const quantityPerItem = getQuantityById(id)
+
+  const [/* year, */ month, day] = date.split("-"); // Dividimos la fecha en año, mes y día
   const formattedMonth = monthsMap[month];
 
   return (
-    <div className="bg-white w-64 h-80 m-4 border shadow-md rounded-2xl flex flex-col">
-    <Link to={`/detail/${props.id}`} className="">
-      <div className="flex flex-col items-center justify-center h-56 w-full">
+    <div className="bg-white m-4 max-h-lg border shadow-md rounded-t-3xl rounded-b-lg flex flex-col">
+    
+    <Link to={`/detail/${id}`} className={""}>
+      <div className="flex flex-col items-center justify-center h-40">
         <img
-          className="w-full h-full object-cover rounded-t-2xl"
-          src={props.image}
+          className="rounded-t-3xl w-full h-full object-cover"
+          src={image}
           alt="imagen no encontrada"
         />
       </div>
@@ -51,12 +84,40 @@ const Card = (props) => {
           <h2 className="text-md text-ChryslerBlue">{formattedMonth}</h2>
           <h2 className="text-3xl font-bold">{day}</h2>
         </div>
-        <div className="flex font-bold md:text-xl text-black text-left md:text-right">
-          <h3>{props.name}</h3>
+        <div className="flex-2 font-bold text-sm md:text-lg text-black text-center md:text-right mt-3 md:mt-0">
+          <h3>{name}</h3>
+        </div>
+        <div>
+          <h1>{price}</h1>
         </div>
       </div>
     </Link>
-    <button onClick={handleAddToCart} className=""></button>
+    {user && (
+        <>
+        {quantityPerItem > 0 && (
+      <div>{quantityPerItem}</div>
+    )}
+
+        {/* <p onClick={handleCountItem}>{counterItem}</p> */}
+    {
+      quantityPerItem === 0 ? (
+        <button onClick={() => addToCart()}>+ Agregar</button>
+      ) : (
+        <button onClick={() => addToCart()}>+ Añadir más</button>
+      )}
+
+      {
+        quantityPerItem > 0 && (
+
+        <button onClick={() => removeItem(id)}>- Remover</button>
+      )}
+    <button onClick={()=>addToCart() }className={style.addToCartButton}>
+
+        {/* Icono de carrito */}
+        <FiShoppingCart size={20} />
+      </button>
+      </>
+    )}
   </div>
   )
 };

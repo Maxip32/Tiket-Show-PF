@@ -6,17 +6,20 @@ const validationCreate = (req, res, next)=>{
         email,
         password,
         phone,
-        description,
+        decription,
         twitter,
         instagram,
         spotify,
         image,
-       
+        google,
+        state,
+        confirmed
     }  = req.body;
 
     if(![firstName, lastName, nickname, email, 
-        password, phone, description, twitter, 
-        instagram, spotify, image].every(Boolean)){
+        password, phone, decription, twitter, 
+        instagram, spotify, image, google, 
+        state, confirmed].every(Boolean)){
 
         res.status(400).send("Faltan datos por ingresar")
     }else{

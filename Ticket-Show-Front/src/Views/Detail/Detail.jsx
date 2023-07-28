@@ -1,9 +1,8 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getEventId } from "../../redux/actions";
+import { getEventId, postPaypal } from "../../redux/actions";
 import Loading from "../Landing/Landing";
-
 const Detail = () => {
   const monthsMap = {
     "01": "ENE",
@@ -15,22 +14,25 @@ const Detail = () => {
     "07": "JUL",
     "08": "AGO",
     "09": "SEP",
-    10: "OCT",
-    11: "NOV",
-    12: "DIC",
+    "10": "OCT",
+    "11": "NOV",
+    "12": "DIC",
   };
 
   const { id } = useParams();
 
   const { event } = useSelector((state) => state.detail);
-
   const dispatch = useDispatch();
+  
+
+ 
 
   useEffect(() => {
     dispatch(getEventId(id));
   }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [, /* year */ month, day] = event.date.split("-"); // Dividimos la fecha en año, mes y día
+  
+  const [, /* year */ month, day] = event?.date?.split("-") || []; // Dividimos la fecha en año, mes y día
   const formattedMonth = monthsMap[month];
 
   return (
@@ -66,14 +68,11 @@ const Detail = () => {
               <h2>-{event.start}hs</h2>
               <h2 className="font-bold">{event.address}</h2>
             </div>
-            <div className=" mr-10 flex-1 flex items-center justify-center">
-              <button
-                className="  bg-secondaryColor/80 hover:bg-secondaryColor text-white 
-        font-bold py-3 px-11 border  rounded"
-              >
-                Adquirir Entrada
-              </button>
+            <div className="pl-8 flex-1 text-3xl text-white">
+            <h1>Precio ${event.price}</h1>
+
             </div>
+            
           </div>
         </>
       ) : (

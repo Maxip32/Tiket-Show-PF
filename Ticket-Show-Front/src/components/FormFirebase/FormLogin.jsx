@@ -7,21 +7,44 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const { login, loginWithGoogle } = useAuth();
+  const { login, loginWithGoogle, usuario } = useAuth(); // Asegúrate de que el contexto tenga la variable 'usuario'
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+
+    // Verificar si el usuario existe en el estado local
+    const userExists = usuario?.find((usr) => usr.email === email);
+
+    if (!userExists) {
+      alert("Regístrate antes de iniciar sesión.");
+      // Aquí puedes redireccionar al formulario de registro si lo prefieres
+      return;
+    }
+
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      console.log("Inicio de sesión exitoso!");
+      // Si el usuario existe, inicia sesión con Firebase usando los datos ingresados en el formulario
+      await signInWithEmailAndPassword(auth, email, password,);
+      console.log("Bienvenido nuevamente!");
     } catch (error) {
       setError(error.message);
     }
   };
 
-  const handleSignInWithGoogle = async () => {
+  const handleSignInWithGoogle = async (e) => {
+    e.preventDefault();
     try {
-      await loginWithGoogle();
+      const userCredential = await loginWithGoogle();
+      const user = userCredential.user;
+
+      // Verificar si el usuario ya existe en el estado local
+      const userExists = usuario?.find((usr) => usr.email === user.email);
+
+      if (!userExists) {
+        alert("Regístrate antes de iniciar sesión.");
+        // Aquí puedes redireccionar al formulario de registro si lo prefieres
+        return;
+      }
+
       console.log("Inicio de sesión con Google exitoso!");
     } catch (error) {
       setError(error.message);

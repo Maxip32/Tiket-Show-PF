@@ -1,6 +1,6 @@
 const newArtist = require('../../controllers/artistControllers/createArtist')
 
- const createArtist = async (req, res) => {
+ const createArtistData = async (req, res) => {
     try {
         const {
             firstName,
@@ -16,11 +16,14 @@ const newArtist = require('../../controllers/artistControllers/createArtist')
             image,
             google,
             state,
+            profileImageURL,
             confirmed
         } = req.body;
 
-console.log(req.body);
-        const theArtist = await newArtist(
+
+ 
+
+        const nuevaInstanciaArtista  = await newArtist({
             firstName,
             lastName,
             nickname,
@@ -34,12 +37,13 @@ console.log(req.body);
             image,
             google,
             state,
+            profileImageURL,
             confirmed
-        );
-        res.status(201).json(theArtist)
+        });
+        res.status(201).json(nuevaInstanciaArtista )
     } catch (error) {
         res.status(400).json({ msg: error.message })
     }
 }
 
-module.exports = createArtist
+module.exports = createArtistData

@@ -1,17 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import logoTicketShow from "../../assets/logos/logoTicketShow.svg";
 import { useAuth } from "../../context/AuthContext"; // Importa el useAuth del contexto
-import { useCart } from "../Shoppingcart/CartContext"; // Importa el useCart del contexto
-import CartPage from "../Shoppingcart/Shoppingcart";
-
+//import { CartContext, useCart } from "../Shoppingcart/CartContext"; // Importa el useCart del contexto
+//import CartPage from "../Shoppingcart/Shoppingcart";
+import { CartContext } from "../Shoppingcart/shoppingCartContext"
 const NavBar = () => {
 
   const activeStyle = "underline-offset-5 border-b-2 border-secondaryColor";
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { user, logout } = useAuth(); // Extrae el usuario y la función de logout del contexto
-  const { cartItems } = useCart(); // Extrae la información del carrito del contexto
+  //const { cartItems } = useCart(); // Extrae la información del carrito del contexto
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -20,6 +20,10 @@ const NavBar = () => {
     setIsDropdownOpen(false);
   };
 
+  const [cart, setCart] = useContext(CartContext)
+    const quantity = cart.reduce((acc, curr) => {
+      return acc + curr.quantity
+    }, 0)
   return (
     <nav className="flex max-w-6xl mx-auto justify-between items-center bg-transparent w-full py-5 px-8 text-md font-light">
       <ul className="flex items-center gap-3">
@@ -196,7 +200,7 @@ const NavBar = () => {
         {user && (
                   <li>
                     <NavLink to="/cart">
-                      <span role="img" aria-label="Carrito">🛒</span> {cartItems !== undefined ? cartItems.length : 0}
+                      <span role="img" aria-label="Carrito">🛒{quantity}</span> 
                     </NavLink>
                   </li>
                 )}

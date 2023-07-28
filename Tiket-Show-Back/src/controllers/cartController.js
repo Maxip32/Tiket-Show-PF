@@ -1,75 +1,98 @@
-const CartItem = require('../models/cart');
-
+// const User= require('../models/User');
+const { User, CartItem } = require("../db");
+// console.log(User, "Holis soy el user")
+console.log(User.findOne, "Holis soy el user")
+//clearconst { User } = require("../../db");
 //Obtener los elementos del carrito para el usuario autenticado
-const getCartItems = async (req, res) => {
+
+const updateUser = async (req, res) => {
   try {
-    const userId = req.user.id; // Obtenemos el ID del usuario autenticado desde el middleware de autenticación
-    const cartItems = await CartItem.findAll({ where: { user_id: userId } });
-    res.json({ items: cartItems });
+    const email = req.params.email; // Cambiamos 'id' por 'email' en los parámetros
+    const userData = req.body;
+
+    // Verificar si el usuario existe en la base de datos por su dirección de correo electrónico
+    const existingUser = await User.findOne({ where: { email } });
+
+    if (!existingUser) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    // Actualizar los datos del usuario
+    await existingUser.update(userData);
+
+    res.json({ message: 'Usuario actualizado correctamente', user: existingUser });
   } catch (error) {
-    console.error('Error al obtener el carrito:', error);
-    res.status(500).json({ message: 'Error al obtener el carrito' });
+    console.error('Error al actualizar el usuario:', error);
+    res.status(500).json({ message: 'Error al actualizar el usuario' });
   }
 };
 
-// async function getCartItems(userid) {
-//   console.log("ENTRANDO A FUNCION GET_CARD_BY_ID EN CONTROLLER");
-//   console.log("LAS VARIABLES SON");
-//   console.log(userid);
-//   //DEVOLVER EL CARRITO DE UN USER
-//   let response = await CartItem.findAll({
-//     where: {
-//       CartId: userid,
-//     },
-//   });
-//   return response;
-// }
 
-//Agregar elemento al carrito para el usuario autenticado
-const addToCart = async (req, res) => {
+
+
+
+
+// const getCartItemsBackend = async (req, res) => {
+//   try {
+//     const { user } = req.body; // Obtenemos el email del usuario desde el cuerpo de la solicitud
+// console.log(req.body, "necesito ver la propiedad del get")
+//     // Buscamos al usuario en la base de datos utilizando el email recibido
+//     const existingUser = await User.findOne({ where: { email: user } });
+
+//     if (!existingUser) {
+//       return res.status(404).json({ message: 'Usuario no encontrado' });
+//     }
+
+//     // Buscamos los elementos del carrito asociados al usuario
+//     const cartItems = await CartItem.findAll({ where: { user_id: existingUser.id } });
+
+//     res.json({ items: cartItems });
+//   } catch (error) {
+//     console.error('Error al obtener el carrito:', error);
+//     res.status(500).json({ message: 'Error al obtener el carrito' });
+//   }
+// };
+
+
+const addToCartBackend = async (req, res) => {
+  const { id, name, user } = req.body; // Obtenemos el email del usuario desde el cuerpo de la solicitud
+  console.log(id, name, user, "esta info necesito ver si llega");
+
   try {
-    const userId = req.user.id;
-    const { item } = req.body; 
-    
-    const newItem = await CartItem.create({ user_id: userId, ...item });
-     res.json({ message: 'Artículo agregado al carrito', item: newItem });
-    res.json({ message: 'Artículo agregado al carrito', item });
+    // Buscamos al usuario en la base de datos utilizando el email recibido
+    const existingUser = await User.findOne({ where: { email: user } });
+
+    if (!existingUser) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    // Verificar si el artículo ya existe en el carrito del usuario
+    const existingCartItem = await CartItem.findOne({include:{model:User, as: "cart", userId: existingUser.id}, where:{id:id} } );
+
+    if (existingCartItem) {
+      // Si el artículo ya existe, puedes actualizar su cantidad u otras propiedades si es necesario
+      await existingCartItem.update({ quantity: existingCartItem.quantity + 1 }); // Por ejemplo, aquí sumamos 1 a la cantidad actual
+      return res.json({ message: 'Artículo actualizado en el carrito', id: existingCartItem.id });
+    } else {
+      // Si el artículo no existe, lo creamos en el carrito del usuario
+      const newItem = await CartItem.create({ user_id: existingUser.id, id, name, quantity: 1 }); // Por ejemplo, aquí establecemos la cantidad inicial en 1
+      return res.json({ message: 'Artículo agregado al carrito', id: newItem.id });
+    }
+
   } catch (error) {
     console.error('Error al agregar al carrito:', error);
-    res.status(500).json({ message: 'Error al agregar al carrito' });
+    return res.status(500).json({ message: 'Error al agregar al carrito' });
   }
 };
 
-// async function addToCart(userid, idproduct, quantity) {
-//   console.log("ENTRANDO A FUNCION ADDPRODUCT EN CONTROLLER");
-//   console.log("LAS VARIABLES SON");
-//   console.log(userid);
-//   console.log(idproduct);
-//   console.log(quantity);
-//   //CREAR UN PRODUCT IN CHART
-//   let newid = await CartItem.count();
-//   newid++;
-//   let newproduct = await CartItem.create({
-//     id: newid,
-//     idproduct: idproduct,
-//     quantity: quantity,
-//   })
-  //VINCULAR PRODUCT IN CHART AL USER
-//   let user = await Cart.findByPk(userid); //TRAIGO AL USER PARA TENERLO EN UNA VARIABLE USABLE
-//   console.log("USER EN ADD PRODUCT ES...")
-//   console.log(user)
-//   let vinculation = await user.addProductinchart(newproduct); //VINCULO O AGREGO UN PRODUCT CHART AL USUARIO
-//   console.log(await user.getProductincharts());
-//   return vinculation;
-// }
 
-// Eliminar elemento del carrito para el usuario autenticado
-const removeFromCart = async (req, res) => {
+
+const removeFromCartBackend = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const itemId = req.params.itemId;
+    const userId = req.body.id;
+    const itemId = req.params;
     
-    await CartItem.destroy({ where: { user_id: userId, id: itemId } });
+    await CartItem.destroy({include:{model:User, as: "cart", userId}, where:{id:itemId} } );
     res.json({ message: 'Artículo eliminado del carrito', itemId });
   } catch (error) {
     console.error('Error al eliminar del carrito:', error);
@@ -77,24 +100,8 @@ const removeFromCart = async (req, res) => {
   }
 };
 
-// async function removeFromCart(userid, CartItem, quantity) {
-//   console.log("ENTRANDO A FUNCION DELETE EN CONTROLLER");
-//   console.log("LAS VARIABLES SON");
-//   console.log(userid);
-//   console.log(CartItem);
-//   console.log(quantity);
-//   //ELIMINAR EL PRODUCTO
-//   let res = await CartItem.destroy({
-//     where: {
-//       idproduct: CartItem,
-//       CartId: userid,
-//     },
-//   });
-//   return res;
-// }
 
-// Actualizar elemento del carrito para el usuario autenticado
-const updateCartItem = async (req, res) => {
+const updateCartItemBackend = async (req, res) => {
   try {
     const userId = req.user.id;
     const itemId = req.params.itemId;
@@ -108,27 +115,11 @@ const updateCartItem = async (req, res) => {
   }
 };
 
-// async function updateCartItem(userid, CartItem, quantity) {
-//   console.log("ENTRANDO A FUNCION UPDATE EN CONTROLLER");
-//   console.log("LAS VARIABLES SON");
-//   console.log(userid);
-//   console.log(CartItem);
-//   console.log(quantity);
-//   //ACTUALIZAR EL PRODUCTO
-//   let response = await Productinchart.update(
-//     { quantity: quantity },
-//     {
-//       where: {
-//         idproduct: idproduct,
-//         CartId: userid,
-//       },
-//     }
-//     );
-//     return response;
-//   }
+
 module.exports = {
-  getCartItems,
-  addToCart,
-  removeFromCart,
-  updateCartItem,
+  //getCartItemsBackend,
+  addToCartBackend,
+  removeFromCartBackend,
+  updateUser,
+  updateCartItemBackend,
 };

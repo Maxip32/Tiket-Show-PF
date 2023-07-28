@@ -7,8 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { persistor, store } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
-import { AuthProvider } from './context/AuthContext.jsx';
-import { CartProvider } from './components/Shoppingcart/CartContext.jsx'; // Importa el CartProvider aquí
+//import { AuthProvider } from './context/AuthContext.jsx';
 
 axios.defaults.baseURL = "http://localhost:3001/";
 
@@ -17,11 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
       <BrowserRouter>
         <PersistGate loading={null} persistor={persistor}>
-          <AuthProvider>
-            <CartProvider> {/* Agrega el CartProvider aquí */}
               <App />
-            </CartProvider>
-          </AuthProvider>
         </PersistGate>
       </BrowserRouter>
     </React.StrictMode>
