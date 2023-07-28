@@ -32,7 +32,7 @@ const SearchBar = ({returnToFirstPage}) => {
   }; */
 
   return (
-    <div className="mt-6 w-2/5 max-w-2xl mx-auto h-14 flex justify-evenly items-center rounded-full p-6 border border-secondaryColor" >
+    <div className="mt-6 w-5/12 h-16 flex justify-evenly items-center rounded-full p-8 border border-secondaryColor" >
       <img src={Search} alt="search" />
       <input
         className="w-full bg-transparent m-4 placeholder-DarkTextPurple/50 border border-none outline-none"

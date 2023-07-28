@@ -208,10 +208,6 @@ export const createUser = (userData) => {
   };
 };
 
-//export const NEW_ARTIST_REQUEST = "NEW_ARTIST_REQUEST";
-//export const CREATE_ARTIST_SUCCESS = "NEW_ARTIST_SUCCESS";
-//export const CREATE_ARTIST_FAILURE = "NEW_ARTIST_FAILURE";
-
 // Acción para obtener un usuario por su ID desde el back-end
 
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS"
@@ -379,4 +375,3 @@ export const getCancelOrder = () => {
     })
   }
 }
-
