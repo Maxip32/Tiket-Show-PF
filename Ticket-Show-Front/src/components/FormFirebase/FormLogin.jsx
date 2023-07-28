@@ -1,30 +1,28 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { auth } from "../../firebase/firebase.config";
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const { login, loginWithGoogle, usuario } = useAuth(); // Asegúrate de que el contexto tenga la variable 'usuario'
-
+  const { login, loginWithGoogle } = useAuth(); // Asegúrate de que el contexto tenga las funciones de inicio de sesión
+  const [ name, setName] = useState("");
+  const navigate= useNavigate()
   const handleSignIn = async (e) => {
     e.preventDefault();
 
-    // Verificar si el usuario existe en el estado local
-    const userExists = usuario?.find((usr) => usr.email === email);
-
-    if (!userExists) {
-      alert("Regístrate antes de iniciar sesión.");
-      // Aquí puedes redireccionar al formulario de registro si lo prefieres
+    // Validación de campos vacíos
+    if (!email || !password) {
+      setError("Por favor, ingresa tu correo electrónico y contraseña.");
       return;
     }
 
     try {
-      // Si el usuario existe, inicia sesión con Firebase usando los datos ingresados en el formulario
-      await signInWithEmailAndPassword(auth, email, password,);
+      // Iniciar sesión con Firebase usando los datos ingresados en el formulario
+      await login(email, password, name);
       console.log("Bienvenido nuevamente!");
+      navigate("/");
     } catch (error) {
       setError(error.message);
     }
@@ -33,19 +31,9 @@ const LoginForm = () => {
   const handleSignInWithGoogle = async (e) => {
     e.preventDefault();
     try {
-      const userCredential = await loginWithGoogle();
-      const user = userCredential.user;
-
-      // Verificar si el usuario ya existe en el estado local
-      const userExists = usuario?.find((usr) => usr.email === user.email);
-
-      if (!userExists) {
-        alert("Regístrate antes de iniciar sesión.");
-        // Aquí puedes redireccionar al formulario de registro si lo prefieres
-        return;
-      }
-
+      await loginWithGoogle();
       console.log("Inicio de sesión con Google exitoso!");
+      navigate("/");
     } catch (error) {
       setError(error.message);
     }
@@ -56,6 +44,15 @@ const LoginForm = () => {
       <div className="bg-white p-8 rounded shadow-lg">
         <h2 className="text-2xl font-bold mb-4 text-purple-600">Ingresa tus datos</h2>
         <form className="flex flex-col space-y-4" onSubmit={handleSignIn}>
+        <label>
+            <span className="text-purple-600">Nombre completo:</span>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="rounded border border-purple-400 px-4 py-2 focus:outline-none focus:border-purple-500"
+            />
+          </label>
           <label>
             <span className="text-purple-600">Correo electrónico:</span>
             <input
