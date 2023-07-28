@@ -57,8 +57,7 @@ const NavBar = () => {
             to="/contact"
             onClick={closeDropdown}
             className={({ isActive }) => (isActive ? activeStyle : "")}
-          >
-            Contáctenos
+          >Contáctenos
           </NavLink>
         </li>
 
