@@ -22,7 +22,7 @@ const FormFirebase = () => {
   const [email, setEmail] = useState("");
   const [ name, setName] = useState("");
   const [password, setPassword] = useState("");
-  //const validLogin = usuario?.filter(usr => usr.email === email);
+  //const validLogin = usuario?.filter(usr => usr.email === email);// NO DESCOMENTAR
 
   const [userInfo, setUserInfo] = useState({
     name: "",

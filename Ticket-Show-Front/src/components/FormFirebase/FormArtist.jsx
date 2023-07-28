@@ -13,6 +13,7 @@ const ArtistForm = () => {
   const usuario = useSelector(state => state.users);
   const oneUserCreated = useSelector(state => state.user);
 
+
   const [nombreToDB, setNombreToDB] = useState("");
   const [emailToDB, setEmailToDB] = useState("");
   const [emailRegister, setEmailRegister] = useState("");
@@ -25,7 +26,7 @@ const ArtistForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const validLogin = usuario?.filter(usr => usr.email === email);
-
+/// INFO DEL ESTADO ///
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
