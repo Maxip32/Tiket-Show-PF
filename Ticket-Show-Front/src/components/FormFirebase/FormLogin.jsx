@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -19,7 +19,7 @@ const LoginForm = () => {
     }
 
     try {
-      // Iniciar sesión con Firebase usando los datos ingresados en el formulario
+      // Iniciar sesión con Firebase usando los datos ingresados en el formulario Y GUARDAR EN LA DB
       await login(email, password, name);
       console.log("Bienvenido nuevamente!");
       navigate("/");

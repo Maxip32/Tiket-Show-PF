@@ -11,7 +11,7 @@ const placetRouter = require ('./routes/placeRouter')
 const cartRouter = require ('./routes/cartRoutes')
 const findCityRoute = require ('./routes/cityRouter');
 const dateRouter = require('./routes/dateRouter');
-
+const nodemailerRouter = require("./routes/nodemailerRouter")
 const userRouter = require('./routes/userRouter');
 const paymentRoutes = require('./routes/paymentRoutes')
 const path = require ('path')
@@ -41,6 +41,7 @@ server.use('/cart', cartRouter);
 server.use('/city', findCityRoute);
 server.use('/date', dateRouter)
 server.use('/user', userRouter)
+server.use("/send",nodemailerRouter)
 server.use(paymentRoutes)
 server.use(express.static(path.resolve(__dirname, 'Ticket-Show-Front/src/Views/Detail')))
 

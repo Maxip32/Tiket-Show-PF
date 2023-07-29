@@ -16,13 +16,14 @@ import { CartContext } from "./shoppingCartContext";
 
     const handleAdquirirEntrada = async () => {
       try {
+    
         const response = await fetch("http://localhost:3001/create-order", {
           method: "POST",
           headers: {
             "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
           },
           //PARA QUE ME LLEGUE Y TOME EL PRECIO DE CADA EVENTO AL BACK
-          body: JSON.stringify({ value: totalPrice }), // Enviar el precio en el cuerpo de la solicitud
+          body: JSON.stringify({ value: totalPrice,  }), // Enviar el precio en el cuerpo de la solicitud
         });
         // Verificar si la solicitud fue exitosa (código de estado 200)
         if (response.status === 200) {
@@ -33,12 +34,44 @@ import { CartContext } from "./shoppingCartContext";
             console.error("La propiedad 'links' no existe o no tiene suficientes elementos");
             return;
           }
+          
+          const detailsShopping = {
+            date: new Date().toISOString(), // Agregar la fecha de compra
+            total: totalPrice,
+            cantidad: quantity, // Agregar el precio total
+            name: "Nombre del Evento"
+            // Agregar otros detalles relevantes, como nombres de eventos, cantidades, etc. si es necesario
+          };
   
+          // Obtener compras existentes desde localStorage o crear un array vacío
+          const savedPurchases = JSON.parse(localStorage.getItem("userPurchases")) || [];
+  
+          // Agregar la nueva compra a las compras existentes
+          savedPurchases.push(detailsShopping);
+  
+          // Guardar las compras actualizadas en localStorage
+          localStorage.setItem("userPurchases", JSON.stringify(savedPurchases));
+          console.log("savedPurchases in CartPage:", JSON.parse(localStorage.getItem("userPurchases")));
+          
           // Realizar la redirección a la pasarela de pago
           window.location.href = data.links[1].href;
         } else {
-          console.error("Error al adquirir la entrada: ", response.statusText);
-        }
+          // La compra fue cancelada o hubo un error
+      // Puedes guardar un mensaje especial en lugar de los detalles de la compra
+      const detailsShopping = {
+        date: new Date().toISOString(), // Agregar la fecha de compra
+        message: "Esta compra fue cancelada", // Mensaje especial indicando que la compra fue cancelada
+      };
+
+      // Obtener compras existentes desde localStorage o crear un array vacío
+      const savedPurchases = JSON.parse(localStorage.getItem("userPurchases")) || [];
+
+      // Agregar la nueva compra (o mensaje especial) a las compras existentes
+      savedPurchases.push(detailsShopping);
+
+      // Guardar las compras actualizadas en localStorage
+      localStorage.setItem("userPurchases", JSON.stringify(savedPurchases));
+    }
       } catch (error) {
         console.error("Error al adquirir la entrada: ", error);
       }
