@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import Hero from "../../components/Hero/Hero";
-import SearchBar from "../../components/SearchBar/SearchBar";
+import SearchBar from "../../components/Shoppingcart/SearchBar";
 import Footer from "../../components/Footer/Footer";
 import Landing from "../Landing/Landing";
 import {
@@ -148,7 +148,7 @@ const Home = () => {
       <Hero />
 
       {/* //- Filter bar ---------> */}
-      <section className="w-8/12 h-24 flex justify-evenly items-center mt-[-66px] z-10 bg-primaryColor/90 rounded-2xl">
+      <section className="w-8/12 max-w-3xl mx-auto h-24 flex justify-evenly items-center mt-[-66px] z-10 bg-primaryColor/95 rounded-2xl">
         {/* Filter by genres */}
         <div className="flex flex-col m-1 gap-2 text-LightText w-44">
           <span className="font-extralight text-xs">Géneros</span>
@@ -243,70 +243,45 @@ const Home = () => {
 
       <SearchBar returnToFirstPage={returnToFirstPage} />
 
+
       {/* Title & order by events */}
-
-      <section className=" mt-20 mb-1 flex flex-wrap items-center ">
-        <h1
-          style={{
-            textAlign: "start",
-            color: "",
-            backgroundColor: "",
-            textDecoration: "underline pink",
-          }}
-          className="text-4xl mr-4   font-primaryColor"
+      <section className="w-full max-w-5xl mx-auto mt-20 flex items-center justify-around">
+        <p className="text-4xl m-0">Próximos Eventos</p>
+        <select
+          className="rounded-2xl"
+          onChange={(event) => handleOrderByName(event)}
+          defaultValue="default"
         >
-          Proximos Eventos
-        </h1>
-        <div className="fle text-red">
-          <select
-            className="rounded-2xl"
-            style={{
-              textAlign: "center",
-              color: "grey",
-              backgroundColor: "whiteSmoke",
-            }}
-            onChange={(event) => handleOrderByName(event)}
-            defaultValue="default"
-          >
-            <option className="" value="default" disabled>
-              Orden Alfabetico
-            </option>
-            <option value="asc">A-Z</option>
-            <option value="desc">Z-A</option>
-          </select>
+          <option className="" value="default" disabled>
+            Orden Alfabético
+          </option>
+          <option value="asc">A-Z</option>
+          <option value="desc">Z-A</option>
+        </select>
 
-          <select
-            className="border-white rounded-2xl ml-2"
-            style={{
-              textAlign: "center",
-              color: "grey",
-              backgroundColor: " whitesmoke",
-            }}
-            onChange={(event) => handleOrderDate(event)}
-            defaultValue="default"
-          >
-            <option value="default" disabled>
-              Orden de Eventos
-            </option>
-            <option value="asc">Eventos más recientes</option>
-            <option value="desc">Eventos más lejanos</option>
-          </select>
-          <div className="flex flex-col bg-red justify-end text-sm">
-            <button
-              style={{
-                textAlign: "center",
-                color: "pink",
-                backgroundColor: "",
-              }}
-              onClick={handleReset}
-            >
-              Resetear Filtros
-            </button>
-          </div>
-        </div>
+        <select
+          className="border-white rounded-2xl ml-2"
+          onChange={(event) => handleOrderDate(event)}
+          defaultValue="default"
+        >
+          <option value="default" disabled>
+            Orden de Eventos
+          </option>
+          <option value="asc">Eventos más recientes</option>
+          <option value="desc">Eventos más lejanos</option>
+        </select>
+
+        <button
+          className="border-white rounded-2xl ml-2"
+          onClick={handleReset}
+        >
+          Reiniciar Filtros
+        </button>
       </section>
-
-      <section className="w-full pb-4 p-10 md:max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+      {/* Fin Title & order by events */}
+      
+      {/* Card section */}
+      <section className="w-full max-w-7xl mx-auto gap-4 p-10 m-6 flex flex-wrap justify-center">
         {currentEvents?.map((cu) => {
           return (
             <Card
@@ -316,13 +291,14 @@ const Home = () => {
               genres={cu.genre}
               date={cu.date}
               location={cu.location}
-              price={cu.price}
               key={cu.id}
-              className="w-full h-full md:h-[300px]" // Ajusta la altura deseada de las tarjetas aquí
             />
           );
         })}
       </section>
+      {/* Fin Card section */}
+
+      {/* Pagination */}
       <section className="mb-5">
         <Paginate
           eventsPerPage={eventsPerPage}
