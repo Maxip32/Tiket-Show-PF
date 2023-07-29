@@ -7,8 +7,10 @@ import style from "./Card.module.css";
 import { useAuth } from "../../context/AuthContext";
 import { CartContext } from "../Shoppingcart/shoppingCartContext";
 //import { addToCartBackend } from "../Shoppingcart/CartContext"
-const Card = ({ id, image, name, date, price }) => {
-  const { user } = useAuth(); // Obtén el usuario autenticado desde el contexto de autenticación
+
+const Card = ({id, image, name, date, price, genres,city}) => {
+  const { user} = useAuth(); // Obtén el usuario autenticado desde el contexto de autenticación
+
   const monthsMap = {
     "01": "ENE",
     "02": "FEB",

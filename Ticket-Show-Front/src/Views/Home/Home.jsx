@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/Shoppingcart/SearchBar";
@@ -21,9 +20,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
 import Paginate from "../../components/Paginate/Paginate";
 
-/* Icons */
-import { FiCalendar } from "react-icons/fi";
-
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 const Home = () => {
@@ -33,108 +29,103 @@ const Home = () => {
   const [order, setOrder] = useState(true);
   const allEventsDates = useSelector((state) => state.date);
   const ciudades = useSelector((state) => state.city);
+  const [filters, setFilters] = useState({
+    genre: "",
+    city: "",
+    date: "",
+  });
+  const [events, setEvents] = useState(allEvents);
 
-  useEffect(() => {
-    dispatch(getEvents());
-  }, [dispatch]);
+  const [orderType, setOrderType] = useState("asc");
 
-  useEffect(() => {
-    dispatch(getGenres());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getEvents());
+  // }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(GetByCity());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getGenres());
+  // }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(GetByDate());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(GetByCity());
+  // }, [dispatch]);
 
+  // useEffect(() => {
+  //   dispatch(GetByDate());
+  // }, [dispatch]);
+
+ 
+  const [date, setDate] = useState(new Date());
   const handleFilterGenres = (event) => {
-    dispatch(filterByGenres(event.target.value));
-    setCurrentPage(1);
+    const genreValue = event.target.value;
+    setFilters((prev) => ({ ...prev, genre: genreValue }));
   };
 
   const handleFiltroCiudades = (event) => {
-    dispatch(FilterByCity(event.target.value));
+    const cityValue = event.target.value;
+    setFilters((prev) => ({ ...prev, city: cityValue }));
+  };
+
+  useEffect(() => {
+    const eventosFiltrados = allEvents.filter((evento) => {
+      const matchesGenre = !filters.genre || evento.genre.includes(filters.genre);
+      const matchesCity = !filters.city || evento.city.includes(filters.city);
+      const matchesDate = !filters.date || evento.date === filters.date;
+      return matchesGenre && matchesCity && matchesDate;
+    });
+    setEvents(eventosFiltrados);
     setCurrentPage(1);
-  };
-
-  const allowedDates = [
-    "2023-08-10",
-    "2023-08-16",
-    "2023-08-17",
-    "2023-08-18",
-    "2023-08-23",
-    "2023-08-26",
-    "2023-08-27",
-    "2023-09-01",
-    "2023-09-07",
-    "2023-09-09",
-    "2023-09-13",
-    "2023-09-15",
-    "2023-09-20",
-    "2023-09-23",
-    "2023-09-24",
-    "2023-09-26",
-    "2023-09-30",
-    "2023-10-03",
-    "2023-10-13",
-    "2023-10-17",
-    "2023-10-18",
-    "2023-10-20",
-    "2023-10-28",
-    "2023-11-04",
-    "2023-11-05",
-    "2023-11-07",
-    "2023-11-09",
-    "2023-11-13",
-    "2023-11-15",
-    "2023-11-21",
-    "2023-11-24",
-    "2023-11-28",
-    "2023-11-29",
-  ];
-  const [date, setDate] = useState(new Date());
-  const handleInputChange = (value) => {
-    setDate(value);
-    const selectedDate = value.toISOString().split("T")[0];
-    if (allowedDates.includes(selectedDate)) {
-      dispatch(FilterByDate(selectedDate));
-      setCurrentPage(1);
-    }
-  };
-
+  }, [allEvents, filters]);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
 
   const handleToggleCalendar = () => {
     setIsCalendarOpen((prevIsCalendarOpen) => !prevIsCalendarOpen); // Cambia el estado al valor opuesto
   };
 
-  const handleOrderDate = (event) => {
-    dispatch(orderByDate(event.target.value));
-    order ? setOrder(false) : setOrder(true);
+  const handleOrderDate = () => {
+    setOrderType(orderType === "asc" ? "desc" : "asc");
+    const sortedEvents = [...events].sort((a, b) => {
+      return orderType === "asc"
+        ? new Date(a.date) - new Date(b.date)
+        : new Date(b.date) - new Date(a.date);
+    });
+    setEvents(sortedEvents);
     setCurrentPage(1);
   };
 
-  const handleOrderByName = (event) => {
-    dispatch(orderByName(event.target.value));
-    order ? setOrder(false) : setOrder(true);
+  const handleOrderByName = () => {
+    setOrderType(orderType === "asc" ? "desc" : "asc");
+    const sortedEvents = [...events].sort((a, b) => {
+      return orderType === "asc"
+        ? a.name.localeCompare(b.name)
+        : b.name.localeCompare(a.name);
+    });
+    setEvents(sortedEvents);
     setCurrentPage(1);
   };
+
 
   const handleReset = () => {
-    dispatch(getReset());
+    setFilters({
+      genre: "",
+      city: "",
+      date: "",
+    });
+    setEvents(allEvents);
+    //dispatch(getReset());
     dispatch(getResetOrder());
     setCurrentPage(1);
   };
 
+
+  
+  console.log(filters);
   const [currentPage, setCurrentPage] = useState(1);
   const [eventsPerPage] = useState(12);
   const indexOfLastEvents = currentPage * eventsPerPage;
   const indexOfFirstEvents = indexOfLastEvents - eventsPerPage;
-  const currentEvents = allEvents.slice(indexOfFirstEvents, indexOfLastEvents);
-
+  const currentEvents = events.slice(indexOfFirstEvents, indexOfLastEvents);
+  console.log(currentEvents);
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -153,12 +144,14 @@ const Home = () => {
         <div className="flex flex-col m-1 gap-2 text-LightText w-44">
           <span className="font-extralight text-xs">Géneros</span>
           <select
+          id="genre-selector"
             className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 "
             onChange={(event) => handleFilterGenres(event)}
-            defaultValue="default"
+           
           >
             <option value="default" disabled>
               {" "}
+              
               Género musical{" "}
             </option>
             {genres?.map((gen) => (
@@ -208,7 +201,6 @@ const Home = () => {
               readOnly
               required
             />
-
             {/* Icono de calendario al lado del input */}
             <span className="absolute inset-y-0 right-0 flex items-center pr-0 mb-1 pointer-events-none">
               <svg
@@ -232,7 +224,6 @@ const Home = () => {
                     const dateString = date.toISOString().split("T")[0];
                     return !allowedDates.includes(dateString);
                   }}
-                  className=""
                 />
               </div>
             )}
@@ -242,7 +233,6 @@ const Home = () => {
       {/* //- Fin Filter bar ---------> */}
 
       <SearchBar returnToFirstPage={returnToFirstPage} />
-
 
       {/* Title & order by events */}
       <section className="w-full max-w-5xl mx-auto mt-20 flex items-center justify-around">
@@ -258,6 +248,8 @@ const Home = () => {
           <option value="asc">A-Z</option>
           <option value="desc">Z-A</option>
         </select>
+
+      {/* order by events */}
 
         <select
           className="border-white rounded-2xl ml-2"
@@ -291,6 +283,8 @@ const Home = () => {
               genres={cu.genre}
               date={cu.date}
               location={cu.location}
+              city={cu.city}
+              price={cu.price}
               key={cu.id}
             />
           );
@@ -315,3 +309,38 @@ const Home = () => {
 };
 
 export default Home;
+const allowedDates = [
+  "2023-08-10",
+  "2023-08-16",
+  "2023-08-17",
+  "2023-08-18",
+  "2023-08-23",
+  "2023-08-26",
+  "2023-08-27",
+  "2023-09-01",
+  "2023-09-07",
+  "2023-09-09",
+  "2023-09-13",
+  "2023-09-15",
+  "2023-09-20",
+  "2023-09-23",
+  "2023-09-24",
+  "2023-09-26",
+  "2023-09-30",
+  "2023-10-03",
+  "2023-10-13",
+  "2023-10-17",
+  "2023-10-18",
+  "2023-10-20",
+  "2023-10-28",
+  "2023-11-04",
+  "2023-11-05",
+  "2023-11-07",
+  "2023-11-09",
+  "2023-11-13",
+  "2023-11-15",
+  "2023-11-21",
+  "2023-11-24",
+  "2023-11-28",
+  "2023-11-29",
+];
