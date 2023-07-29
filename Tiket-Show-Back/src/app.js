@@ -41,7 +41,7 @@ server.use('/cart', cartRouter);
 server.use('/city', findCityRoute);
 server.use('/date', dateRouter)
 server.use('/user', userRouter)
-server.use(nodemailerRouter)
+server.use("/send",nodemailerRouter)
 server.use(paymentRoutes)
 server.use(express.static(path.resolve(__dirname, 'Ticket-Show-Front/src/Views/Detail')))
 
