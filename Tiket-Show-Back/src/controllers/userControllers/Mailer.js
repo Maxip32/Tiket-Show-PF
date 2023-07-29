@@ -1,21 +1,29 @@
+
 const nodemailer = require("nodemailer")
 
-async function sendEmail(subject, recipient, content) {
+
+
+async function sendEmail(subject, email,firstName, content) {
+
     const transporter = nodemailer.createTransport({
-        host: "smtp.office365.com",
+        host: "smtp.gmail.com",
         port: 587,
         secure: false, // upgrade later with STARTTLS
         auth: {
           user: process.env.EMAIL,
-          pass:process.env.EMAIL_PASSWORD
+          pass:process.env.PASSWORD
         },
       });
-  
-    const mailOptions = {
+    
+    
+      const mailOptions = {
       from: process.env.EMAIL,
-      to: "sixtoledo1@gmail.com",
-      subject: "Confirmacion",
-      body: "Gracias por registrarse con nosotros",
+      to: email,
+
+      subject: "Confirmacion de Registro",
+       html: `<h1>Gracias por registrarte ${firstName} en TiketShow</h1>`
+     
+
     };
   
     try {

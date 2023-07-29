@@ -5,7 +5,7 @@ import style from "./Card.module.css";
 import { useAuth } from "../../context/AuthContext";
 import { CartContext } from "../Shoppingcart/shoppingCartContext";
 //import { addToCartBackend } from "../Shoppingcart/CartContext"
-const Card = ({id, image, name, date, price}) => {
+const Card = ({id, image, name, date, price, genres,city}) => {
   const { user} = useAuth(); // Obtén el usuario autenticado desde el contexto de autenticación
   const monthsMap = {
     "01": "ENE",
@@ -83,7 +83,10 @@ const Card = ({id, image, name, date, price}) => {
           <h2 className="text-4xl md:text-5xl font-bold">{day}</h2>
         </div>
         <div className="flex-2 font-bold text-sm md:text-lg text-black text-center md:text-right mt-3 md:mt-0">
-          <h3>{name}</h3>
+          <h3>{genres}</h3>
+          <h3>{city} </h3>
+        
+          
         </div>
         <div>
           <h1>{price}</h1>
