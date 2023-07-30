@@ -216,7 +216,7 @@ const Home = () => {
             {isCalendarOpen && (
               <div className="absolute bg-LightText text-primaryColor shadow-md p-2 mt-2 ">
                 <Calendar
-                  onChange={handleInputChange}
+                  onChange={""}
                   value={date}
                   minDate={new Date("2023-08-10")}
                   maxDate={new Date("2023-11-29")}
@@ -272,8 +272,18 @@ const Home = () => {
       </section>
       {/* Fin Title & order by events */}
       
+      {/* Pagination */}
+      <section className="mb-5 mt-10">
+        <Paginate
+          eventsPerPage={eventsPerPage}
+          allEvents={allEvents.length}
+          paginate={paginate}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </section>
       {/* Card section */}
-      <section className="w-full max-w-7xl mx-auto gap-4 p-10 m-6 flex flex-wrap justify-center">
+      <section className="w-full max-w-7xl mx-auto py-0  mt-0 gap-4 p-10 m-6 flex flex-wrap justify-center">
         {currentEvents?.map((cu) => {
           return (
             <Card
@@ -292,16 +302,7 @@ const Home = () => {
       </section>
       {/* Fin Card section */}
 
-      {/* Pagination */}
-      <section className="mb-5">
-        <Paginate
-          eventsPerPage={eventsPerPage}
-          allEvents={allEvents.length}
-          paginate={paginate}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      </section>
+      
       <Landing />
       <Footer />
     </div>

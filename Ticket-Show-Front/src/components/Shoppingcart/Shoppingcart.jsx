@@ -82,7 +82,8 @@ export const CartPage = () => {
     }
   };
 
-  return (
+  return cart.length > 0 ? (
+    
     <section>
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-3xl">
@@ -202,5 +203,12 @@ export const CartPage = () => {
         </div>
       </div>
     </section>
-  );
+  ):( // Aquí se encuentra la alerta y el enlace para regresar a la página de inicio
+  <div>
+    <h2>Carrito Vacío</h2>
+    <p>El carrito está vacío. Regresa a la página de inicio para agregar elementos.</p>
+    {/* En lugar de un enlace directo (#), redirige a la página de inicio real de tu aplicación */}
+    <a href="/">Ir a la página de inicio</a>
+  </div>
+);
 };

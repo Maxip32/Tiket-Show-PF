@@ -6,7 +6,7 @@ const router = Router()
 
 
 
-router.post('/mail', sendEmail)
+router.post('/send', sendEmail)
 
 
 
