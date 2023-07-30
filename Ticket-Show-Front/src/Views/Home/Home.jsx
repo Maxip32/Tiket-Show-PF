@@ -42,8 +42,8 @@ const Home = () => {
 
   const [orderType, setOrderType] = useState("asc");
 
-   useEffect(() => {
-     dispatch(getEvents());
+  useEffect(() => {
+    dispatch(getEvents());
   }, [dispatch]);
 
   // useEffect(() => {
