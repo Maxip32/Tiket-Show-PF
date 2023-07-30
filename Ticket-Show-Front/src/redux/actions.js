@@ -20,9 +20,7 @@ export const getEvents = () => {
 export const getEventId = (id) => {
   return async function (dispatch) {
     try {
-      const apiData = await axios.get(
-        `/event/getEvent/${id}`
-      );
+      const apiData = await axios.get(`/event/getEvent/${id}`);
       const detail = apiData.data;
       console.log(apiData.data, "soy api data");
       dispatch({
@@ -47,7 +45,7 @@ export const GET_GENRES = "GET_GENRES";
 
 export const getGenres = () => {
   return async (dispatch) => {
-    const Data = await axios.get(`http://localhost:3001/genres/allGenres`);
+    const Data = await axios.get(`/genres/allGenres`);
     const genres = Data.data;
     return dispatch({
       type: GET_GENRES,
@@ -155,7 +153,7 @@ export const GET_BY_CITY = "GET_BY_CITY";
 
 export const GetByCity = () => {
   return async (dispatch) => {
-    const apiData = await axios.get(`http://localhost:3001/city/allCity`);
+    const apiData = await axios.get(`/city/allCity`);
     const city = apiData.data;
     return dispatch({
       type: GET_BY_CITY,
@@ -367,7 +365,7 @@ export const postPaypal = () => {
     return dispatch({
       type: POST_PAYPAL,
       payload: allData,
-      
+
     });
   };
 };
