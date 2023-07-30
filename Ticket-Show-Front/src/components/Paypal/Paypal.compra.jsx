@@ -1,23 +1,19 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import axios from "axios";
+//import { sendMail } from "../../redux/actions";
+import { useDispatch } from "react-redux";
 
 const CompraPaypal = () => {
-  const [compraConfirmada, setCompraConfirmada] = useState(false);
+ // const [compraConfirmada, setCompraConfirmada] = useState(false);
 
-  const thanksMail = async () => {
-    try {
-      await axios.post(`http://localhost:3001/send/mail`);
+ //const dispatch  = useDispatch()
 
-      setCompraConfirmada(true);
-    } catch (error) {
-      console.error("Error al enviar el correo de bienvenida:", error);
-    }
-  };
-
-  useEffect(() => {
-    thanksMail();
-  }, []);
+  // useEffect(() => {
+  //     dispatch(sendMail({
+  //       email: "prueba345@yopmail.com",
+        
+  //     }))
+  // }, []);
 
   return (
     <div>
