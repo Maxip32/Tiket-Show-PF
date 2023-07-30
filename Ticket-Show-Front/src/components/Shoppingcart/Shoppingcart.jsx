@@ -21,7 +21,7 @@ export const CartPage = () => {
           "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
         },
         //PARA QUE ME LLEGUE Y TOME EL PRECIO DE CADA EVENTO AL BACK
-        body: JSON.stringify({ value: totalPrice }), // Enviar el precio en el cuerpo de la solicitud
+        body: JSON.stringify({ value: totalPrice + totalPrice*.18 }), // Enviar el precio en el cuerpo de la solicitud
       });
       // Verificar si la solicitud fue exitosa (código de estado 200)
       if (response.status === 200) {
@@ -59,6 +59,17 @@ export const CartPage = () => {
 
         // Realizar la redirección a la pasarela de pago
         window.location.href = data.links[1].href;
+
+        //lo hice yo = Darwin, acá inicia
+        const sendMail = await fetch('http://localhost:3001/send/mail',{
+          method: 'POST',
+          headers: {
+            "Contend-Type": "application/json"
+          },
+          body: JSON.stringify({send:detailsShopping})
+        })
+          await sendMail.json()
+          //antes de esta línea termina
       } else {
         // La compra fue cancelada o hubo un error
         // Puedes guardar un mensaje especial en lugar de los detalles de la compra
@@ -82,8 +93,7 @@ export const CartPage = () => {
     }
   };
 
-  return cart.length > 0 ? (
-    
+  return (
     <section>
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-3xl">
@@ -174,17 +184,17 @@ export const CartPage = () => {
                 </div>
                 <div className="flex justify-between">
                   <dt>Subtotal</dt>
-                  <dd>{totalPrice}</dd>
+                  <dd>$ {totalPrice}</dd>
                 </div>
 
                 <div className="flex justify-between">
                   <dt>impuesto pais</dt>
-                  <dd>??</dd>
+                  <dd>18%</dd>
                 </div>
 
                 <div className="flex justify-between !text-base font-medium">
                   <dt>Total </dt>
-                  <dd>${totalPrice}</dd>
+                  <dd>${totalPrice + totalPrice*.18}</dd>
                 </div>
               </dl>
 
@@ -203,12 +213,5 @@ export const CartPage = () => {
         </div>
       </div>
     </section>
-  ):( // Aquí se encuentra la alerta y el enlace para regresar a la página de inicio
-  <div>
-    <h2>Carrito Vacío</h2>
-    <p>El carrito está vacío. Regresa a la página de inicio para agregar elementos.</p>
-    {/* En lugar de un enlace directo (#), redirige a la página de inicio real de tu aplicación */}
-    <a href="/">Ir a la página de inicio</a>
-  </div>
-);
+  );
 };

@@ -1,9 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import Hero from "../../components/Hero/Hero";
-import SearchBar from "../../components/Shoppingcart/SearchBar";
+import SearchBar from "../../components/SearchBar/SearchBar";
 import Footer from "../../components/Footer/Footer";
 import Landing from "../Landing/Landing";
-
 import {
   FilterByCity,
   FilterByDate,
@@ -14,7 +14,6 @@ import {
   getGenres,
   getReset,
   getResetOrder,
-  getUserById,
   orderByDate,
   orderByName,
 } from "../../redux/actions";
@@ -25,7 +24,6 @@ import Paginate from "../../components/Paginate/Paginate";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 const Home = () => {
-  //const navigate = useNavigate();
   const dispatch = useDispatch();
   const allEvents = useSelector((state) => state.Events);
   const genres = useSelector((state) => state.genres);
@@ -41,10 +39,8 @@ const Home = () => {
 
   const [orderType, setOrderType] = useState("asc");
 
-
-   useEffect(() => {
-     dispatch(getEvents());
-
+  useEffect(() => {
+    dispatch(getEvents());
   }, [dispatch]);
 
   // useEffect(() => {
@@ -59,7 +55,7 @@ const Home = () => {
   //   dispatch(GetByDate());
   // }, [dispatch]);
 
- 
+
   const [date, setDate] = useState(new Date());
   const handleFilterGenres = (event) => {
     const genreValue = event.target.value;
@@ -75,13 +71,11 @@ const Home = () => {
     const eventosFiltrados = allEvents.filter((evento) => {
       const matchesGenre = !filters.genre || evento.genre.includes(filters.genre);
       const matchesCity = !filters.city || evento.city.includes(filters.city);
-      //const matchesDate = !filters.date || evento.date === filters.date;
-      return matchesGenre && matchesCity //&& matchesDate;
+     // const matchesDate = !filters.date || evento.date === filters.date;
+      return matchesGenre && matchesCity// && matchesDate;
     });
     setEvents(eventosFiltrados);
     setCurrentPage(1);
-    dispatch(getUserById());
-   
   }, [allEvents, filters]);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
 
@@ -141,14 +135,12 @@ const Home = () => {
     setCurrentPage(1);
   };
 
-
-
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <Hero />
 
       {/* //- Filter bar ---------> */}
-      <section className="w-8/12 max-w-3xl mx-auto h-24 flex justify-evenly items-center mt-[-66px] z-10 bg-primaryColor/95 rounded-2xl">
+      <section className="w-9/12 max-w-3xl mx-auto h-24 flex justify-evenly items-center mt-[-66px] z-10 bg-primaryColor/95 rounded-2xl">
         {/* Filter by genres */}
         <div className="flex flex-col m-1 gap-2 text-LightText w-44">
           <span className="font-extralight text-xs">Géneros</span>
@@ -156,7 +148,7 @@ const Home = () => {
           id="genre-selector"
             className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 "
             onChange={(event) => handleFilterGenres(event)}
-           
+          
           >
             <option value="default" disabled>
               {" "}
@@ -206,7 +198,7 @@ const Home = () => {
               value={date.toISOString().split("T")[0]}
               name="Fecha"
               onChange={() => {}}
-              onClick={handleToggleCalendar}
+              onClick={""}
               readOnly
               required
             />
@@ -225,7 +217,7 @@ const Home = () => {
             {isCalendarOpen && (
               <div className="absolute bg-LightText text-primaryColor shadow-md p-2 mt-2 ">
                 <Calendar
-                  onChange={""}
+                  onChange={handleInputChange}
                   value={date}
                   minDate={new Date("2023-08-10")}
                   maxDate={new Date("2023-11-29")}
@@ -244,55 +236,48 @@ const Home = () => {
       <SearchBar returnToFirstPage={returnToFirstPage} />
 
       {/* Title & order by events */}
-      <section className="w-full max-w-5xl mx-auto mt-20 flex items-center justify-around">
-        <p className="text-4xl m-0">Próximos Eventos</p>
-        <select
-          className="rounded-2xl"
-          onChange={(event) => handleOrderByName(event)}
-          defaultValue="default"
-        >
-          <option className="" value="default" disabled>
-            Orden Alfabético
-          </option>
-          <option value="asc">A-Z</option>
-          <option value="desc">Z-A</option>
-        </select>
+      <section className="w-full md:flex-wrap max-w-5xl md:mx-auto px-7 mt-20 flex items-center lg:justify-between md:flex-row flex-col justify-center">
+        <p className="text-3xl font-semibold text-primaryColor mb-5 mr-5 md:mb-0">Próximos Eventos</p>
+        <div className="md:space-x-3.5 flex flex-col gap-4 md:flex-row items-center justify-center">
+        {/* order by alfabético */}
+          <select
+            className="h-8 w-44 px-2 rounded-lg focus:outline-none border focus:border-secondaryColor pointer cursor-pointer"
+            onChange={(event) => handleOrderByName(event)}
+            defaultValue="default"
+          >
+            <option className="" value="default" disabled>
+              Orden Alfabético
+            </option>
+            <option value="asc">A-Z</option>
+            <option value="desc">Z-A</option>
+          </select>
 
-      {/* order by events */}
+        {/* order by events */}
+          <select
+            className="h-8 w-44 px-2 rounded-lg focus:outline-none border focus:border-secondaryColor cursor-pointer"
+            onChange={(event) => handleOrderDate(event)}
+            defaultValue="default"
+          >
+            <option value="default" disabled>
+              Orden de Eventos
+            </option>
+            <option value="asc">Eventos más recientes</option>
+            <option value="desc">Eventos más lejanos</option>
+          </select>
 
-        <select
-          className="border-white rounded-2xl ml-2"
-          onChange={(event) => handleOrderDate(event)}
-          defaultValue="default"
-        >
-          <option value="default" disabled>
-            Orden de Eventos
-          </option>
-          <option value="asc">Eventos más recientes</option>
-          <option value="desc">Eventos más lejanos</option>
-        </select>
+          <button
+            className="py-1.5 px-3 rounded-md bg-primaryColor/90 text-Color200 hover:text-black hover:bg-white border hover:border-primaryColor"
+            onClick={handleReset}
+          >
+            Reiniciar Filtros
+          </button>
 
-        <button
-          className="border-white rounded-2xl ml-2"
-          onClick={handleReset}
-        >
-          Reiniciar Filtros
-        </button>
+        </div>
       </section>
       {/* Fin Title & order by events */}
       
-      {/* Pagination */}
-      <section className="mb-5 mt-10">
-        <Paginate
-          eventsPerPage={eventsPerPage}
-          allEvents={allEvents.length}
-          paginate={paginate}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      </section>
       {/* Card section */}
-      <section className="w-full max-w-7xl mx-auto py-0  mt-0 gap-4 p-10 m-6 flex flex-wrap justify-center">
+      <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full ">
         {currentEvents?.map((cu) => {
           return (
             <Card
@@ -311,7 +296,16 @@ const Home = () => {
       </section>
       {/* Fin Card section */}
 
-      
+      {/* Pagination */}
+      <section className="mb-5">
+        <Paginate
+          eventsPerPage={eventsPerPage}
+          allEvents={allEvents.length}
+          paginate={paginate}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </section>
       <Landing />
       <Footer />
     </div>
