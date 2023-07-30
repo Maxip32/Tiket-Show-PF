@@ -1,11 +1,11 @@
-const { User } = require("../../db");
-// const idArtist = require("../userControllers/users");
+const { User, Artist } = require("../../db");
+
+
 
 module.exports = async ()=>{
-    const idUsers = await User.findAll(
-     
-    );
-console.log(idUsers)
+    const idUsers = await User.findAll();
+    const idArtista = await Artist.findAll();
+console.log(idArtista, " esto necesito saber de la tabla artista" )
     if(!idUsers){
         alert("No existe un Usuario con este id");
     }else{
@@ -13,3 +13,4 @@ console.log(idUsers)
         return idUsers;
     }
 }
+

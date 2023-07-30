@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
-import { createArtist, updateUser, getUserByEmail, getArtistById } from '../../redux/actions';
+import { createArtist, updateUser, getUserByEmail, getUserById } from '../../redux/actions';
 import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc'; // Suponiendo que el ícono FcGoogle proviene de react-icons
 
@@ -17,9 +17,10 @@ const ArtistForm = () => {
   const [nombreToDB, setNombreToDB] = useState("");
   const [emailToDB, setEmailToDB] = useState("");
   const [emailRegister, setEmailRegister] = useState("");
-  const [ bandName, setBandName] = useState("");
-  const [ artistName, setArtistName] = useState("");
-  const [ creationYear, setCreationYear] = useState("");
+  const [ nameBand, setNameBand] = useState("");
+  const [ nameBandToDB, setNameBandToDB] = useState("");
+  const [ nameArtist, setnameArtist] = useState("");
+  const [ yearCreation, setyearCreation] = useState("");
   const [ name, setName] = useState("");
   const [passwordRegister, setPasswordRegister] = useState("");
   const validRegister = usuario?.filter(usr => usr.email === emailRegister);
@@ -32,9 +33,9 @@ const ArtistForm = () => {
     email: "",
     password: "",
     address: "",
-    bandName:"",
-    artistName:"",
-    creationYear:"",
+    nameBand:"",
+    nameArtist:"",
+    yearCreation:"",
     verified: true,
     role: "artista"
   });
@@ -45,10 +46,22 @@ const ArtistForm = () => {
     setUserInfo(prevUserInfo => ({
       ...prevUserInfo,
       name: nombreToDB || prevUserInfo.name,
-      email: emailToDB || emailRegister || prevUserInfo.email
+      email: emailToDB || emailRegister || prevUserInfo.email,
+      nameBand: nameBand ||prevUserInfo.nameBand,
+      nameArtist: nameArtist || prevUserInfo.nameArtist,
+      yearCreation: yearCreation || prevUserInfo.yearCreation,
     }));
-    dispatch(getArtistById());
-  }, [user?.displayName, user?.email, emailToDB, nombreToDB, emailRegister, dispatch]);
+    
+  }, [user?.displayName,
+     user?.email,
+     nameBand,
+     nameArtist,
+     yearCreation,
+     emailToDB,
+     nombreToDB,
+     nameBandToDB,
+     emailRegister,
+     dispatch]);
 
   const clearState = () => {
     setNombreToDB("");
@@ -57,8 +70,14 @@ const ArtistForm = () => {
     setPasswordRegister("");
     setEmail("");
     setPassword("");
+    setNameBand(""),
+    setnameArtist(""),
+    setyearCreation(""),
     setUserInfo({
       name: "",
+      nameBand: "",
+      nameArtist:"",
+      yearCreation:"",
       email: "",
       password: "",
       address: "",
@@ -67,6 +86,7 @@ const ArtistForm = () => {
     });
   };
 
+   
   const handleRegister = async (e) => {
     e.preventDefault();
     if (validRegister?.length > 0) {
@@ -75,17 +95,19 @@ const ArtistForm = () => {
 
     try {
       await auth.register(emailRegister, passwordRegister, name);
+      console.log(userInfo, " esto necesito ahora")
       dispatch(createArtist(userInfo));
       clearState(); // Limpiar el estado
       alert("Artista registrado correctamente Bienvenido");
+      dispatch(getUserById());
       navigate("/"); // Redireccionar al usuario a la página de inicio
     } catch (error) {
-      console.error("Error al registrar el Artista:", error);
+      console.error(" Error al registrar Ya existe el Artista:", error);
       // Manejar el error aquí
     }
   };
-
-  
+// console.log(userInfo, " informacion q quiero ver")
+//   console.log(bandName, " informacion de nombre de banda")
 
 
     
@@ -125,9 +147,10 @@ const ArtistForm = () => {
           <label>
             <span className="text-purple-600">Nombre de la banda:</span>
             <input
+              name= "nameBand"
               type="text"
-              value={bandName}
-              onChange={(e) => setBandName(e.target.value)}
+              value={nameBand}
+              onChange= {(e)=> setNameBand(e.target.value)}
               className="rounded border border-purple-400 px-4 py-2 focus:outline-none focus:border-purple-500"
             />
           </label>
@@ -135,8 +158,8 @@ const ArtistForm = () => {
             <span className="text-purple-600">Nombre de artista:</span>
             <input
               type="text"
-              value={artistName}
-              onChange={(e) => setArtistName(e.target.value)}
+              value={nameArtist}
+              onChange={(e) => setnameArtist(e.target.value)}
               className="rounded border border-purple-400 px-4 py-2 focus:outline-none focus:border-purple-500"
             />
           </label>
@@ -144,8 +167,8 @@ const ArtistForm = () => {
             <span className="text-purple-600">Año de creación de tu banda:</span>
             <input
               type="text"
-              value={creationYear}
-              onChange={(e) => setCreationYear(e.target.value)}
+              value={yearCreation}
+              onChange={(e) => setyearCreation(e.target.value)}
               className="rounded border border-purple-400 px-4 py-2 focus:outline-none focus:border-purple-500"
             />
           </label>
