@@ -12,9 +12,9 @@ export default function UserProfile() {
   const [error, setError] = useState(null);
   const datosbanda= useSelector((state)=> state?.user)
   const datosartist= datosbanda?.find(date => date.email === user?.email)
-  const RolesUsers= useSelector((state)=> state?.user)
-  const Roles= RolesUsers.length > 0 ? RolesUsers.find(rol => rol.email === user?.email):
-  null;
+  //const RolesUsers= useSelector((state)=> state?.user)
+  //const Roles= RolesUsers.length > 0 ? RolesUsers.find(rol => rol.email === user?.email):
+  //null;
   const handleChangeName = () => {
     setError(null);
     if (newDisplayName.trim() === "") {
@@ -176,39 +176,39 @@ export default function UserProfile() {
             </div>
           </div>
 
-          {
-                  Roles?.role === 'artista'?
-          <div className="flex-col">
-            <div className="flex items-center justify-start px-8 gap-8">
-              <p className="text-2xl font-semibold w-fit">Nombre de tu Banda</p>
-              <p className="text-xl bg-gray-400 rounded-3xl text-customGray px-6 w-fit">
-                {datosartist?.nameBand}
-              </p>
-            </div>
-          </div> : null
+         // {
+                  //Roles?.role === 'artista'?
+          //<div className="flex-col">
+            //<div className="flex items-center justify-start px-8 gap-8">
+              //<p className="text-2xl font-semibold w-fit">Nombre de tu Banda</p>
+              //<p className="text-xl bg-gray-400 rounded-3xl text-customGray px-6 w-fit">
+                //{datosartist?.nameBand}
+              //</p>
+           // </div>
+         // </div> : null
 }
-          {
-                  Roles?.role === 'artista'?
-          <div className="flex-col">
-            <div className="flex items-center justify-start px-8 gap-8">
-              <p className="text-2xl font-semibold w-fit">Nombre de Artista</p>
-              <p className="text-xl bg-gray-400 rounded-3xl text-customGray px-6 w-fit">
-                {datosartist?.nameArtist}
-              </p>
-            </div>
-          </div> : null
-            }
-          {
-                  Roles?.role === 'artista'?
-          <div className="flex-col">
-            <div className="flex items-center justify-start px-8 gap-8">
-              <p className="text-2xl font-semibold w-fit">Año de Creacion</p>
-              <p className="text-xl bg-gray-400 rounded-3xl text-customGray px-6 w-fit">
-                {datosartist?.yearCreation}
-              </p>
-            </div>
-          </div> : null
-           }              
+          //{
+                 // Roles?.role === 'artista'?
+         // <div className="flex-col">
+           // <div className="flex items-center justify-start px-8 gap-8">
+             // <p className="text-2xl font-semibold w-fit">Nombre de Artista</p>
+              //<p className="text-xl bg-gray-400 rounded-3xl text-customGray px-6 w-fit">
+               // {datosartist?.nameArtist}
+            //  </p>
+           // </div>
+          //</div> : null
+           // }
+         // {
+                //  Roles?.role === 'artista'?
+          //<div className="flex-col">
+           // <div className="flex items-center justify-start px-8 gap-8">
+             // <p className="text-2xl font-semibold w-fit">Año de Creacion</p>
+             // <p className="text-xl bg-gray-400 rounded-3xl text-customGray px-6 w-fit">
+              //  {datosartist?.yearCreation}
+            //  </p>
+           // </div>
+         // </div> : null
+         //  }              
 
           {/* Sección para cambiar el nombre */}
           <div className="flex-col">
