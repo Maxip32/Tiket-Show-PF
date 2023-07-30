@@ -176,7 +176,7 @@ export const FilterByCity = (payload) => {
 export const GET_BY_DATE = "GET_BY_DATE";
 export const GetByDate = () => {
   return async (dispatch) => {
-    const apiData = await axios.get(`http://localhost:3001/date/allDate`);
+    const apiData = await axios.get(`/date/allDate`);
     const allDate = apiData.data;
     return dispatch({
       type: GET_BY_DATE,
@@ -190,7 +190,7 @@ export const CREATE_USER_FAILURE = "CREATE_USER_FAILURE";
 export const createUser = (userData) => {
   return async (dispatch) => {
     try {
-      const response = await fetch("http://localhost:3001/user/createUser", {
+      const response = await fetch("https://tiket-show-pf-production.up.railway.app/user/createUser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -216,7 +216,7 @@ export const getUserByEmail = (email) => {
   return async (dispatch) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/cart/users/${email}`,
+        `https://tiket-show-pf-production.up.railway.app/cart/users/${email}`,
         {
           method: "GET",
         }
@@ -232,7 +232,7 @@ export const getUserByEmail = (email) => {
 export const getUserById = () => {
   return async (dispatch) => {
     try {
-      const response = await fetch(`http://localhost:3001/user/`, {
+      const response = await fetch(`https://tiket-show-pf-production.up.railway.app/user/`, {
         method: "GET",
       });
       const data = await response.json();
@@ -250,7 +250,7 @@ export const createArtist = (userData) => {
   return async (dispatch) => {
     try {
       const response = await fetch(
-        "http://localhost:3001/artist/createArtist",
+        "https://tiket-show-pf-production.up.railway.app/artist/createArtist",
         {
           method: "POST",
           headers: {
@@ -273,7 +273,7 @@ export const GET_ARTIST_FAILURE = "GET_ARTIST_FAILURE";
 export const getArtistById = () => {
   return async (dispatch) => {
     try {
-      const response = await fetch(`http://localhost:3001/artist/allArtist`, {
+      const response = await fetch(`https://tiket-show-pf-production.up.railway.app/artist/allArtist`, {
         method: "GET",
       });
       const data = await response.json();
@@ -290,7 +290,7 @@ export const sendMail = (userData) => {
   return async (dispatch) => {
     try {
       const response = await fetch(
-        "http://localhost:3001/send/mail",
+        "https://tiket-show-pf-production.up.railway.app/send/mail",
         {
           method: "POST",
           headers: {
@@ -315,7 +315,7 @@ export const UPDATE_USER_FAILURE = "UPDATE_USER_FAILURE";
 export const updateUser = (email, userData) => async (dispatch) => {
   try {
     // Realizar la petición al backend para buscar al usuario por su email y actualizarlo
-    const response = await fetch(`http://localhost:3001/cart/users/${email}`, {
+    const response = await fetch(`https://tiket-show-pf-production.up.railway.app/cart/users/${email}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -362,7 +362,7 @@ export const getResetOrder = () => {
 export const POST_PAYPAL = "POST_PAYPAL";
 export const postPaypal = () => {
   return async (dispatch) => {
-    const apiData = await axios.post(`http://localhost:3001/create-order`);
+    const apiData = await axios.post(`/create-order`);
     const allData = apiData.data;
     return dispatch({
       type: POST_PAYPAL,
@@ -375,7 +375,7 @@ export const GET_CAPTURE_ORDER = "GET_CAPTURE_ORDER";
 
 export const getCaptureOrder = () => {
   return async (dispatch) => {
-    const apiData = await axios.get(`http://localhost:3001/capture-order`);
+    const apiData = await axios.get(`/capture-order`);
     const allData = apiData.data;
     return dispatch({
       type: GET_CAPTURE_ORDER,
@@ -388,7 +388,7 @@ export const GET_CANCEL_ORDER = "GET_CANCEL_ORDER";
 
 export const getCancelOrder = () => {
   return async (dispatch) => {
-    const apiData = await axios.get(`http://localhost:3001/cancel-order`);
+    const apiData = await axios.get(`/cancel-order`);
     const allData = apiData.data;
     return dispatch({
       type: GET_CANCEL_ORDER,
