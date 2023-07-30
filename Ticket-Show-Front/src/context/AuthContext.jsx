@@ -40,6 +40,7 @@ export function AuthProvider({ children }) {
         const userData = {
           email: currentUser.email,
           displayName: currentUser.displayName,
+         
         };
 
         set(ref(database, "usuarios/" + currentUser.uid), userData)
