@@ -9,8 +9,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 //import { AuthProvider } from './context/AuthContext.jsx';
 
 import axios from "axios";
-//axios.defaults.baseURL = "http://localhost:3001/";
-axios.defaults.baseURL = "https://tiket-show-pf-production.up.railway.app/";
+axios.defaults.baseURL = "http://localhost:3001/";
+//axios.defaults.baseURL = "https://tiket-show-pf-production.up.railway.app/";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>

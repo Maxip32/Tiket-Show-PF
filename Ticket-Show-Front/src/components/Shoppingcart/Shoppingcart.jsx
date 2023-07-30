@@ -17,8 +17,8 @@ export const CartPage = () => {
 
   const handleAdquirirEntrada = async () => {
     try {
-      const response = await axios.post("/create-order", {
-      //const response = await axios.post("http://localhost:3001/create-order", {
+      //const response = await axios.post("/create-order", {
+      const response = await axios.post("http://localhost:3001/create-order", {
         value: totalPrice, // Assuming `totalPrice` and `quantity` are defined somewhere in your code
       }, {
         headers: {
@@ -61,26 +61,39 @@ export const CartPage = () => {
   
         // Realizar la redirección a la pasarela de pago
         window.location.href = data.links[1].href;
-      } else {
-        // La compra fue cancelada o hubo un error
-        // Puedes guardar un mensaje especial en lugar de los detalles de la compra
-        const detailsShopping = {
-          date: new Date().toISOString(), // Agregar la fecha de compra
-          message: "Esta compra fue cancelada", // Mensaje especial indicando que la compra fue cancelada
-        };
-  
-        // Obtener compras existentes desde localStorage o crear un array vacío
-        const savedPurchases = JSON.parse(localStorage.getItem("userPurchases")) || [];
-  
-        // Agregar la nueva compra (o mensaje especial) a las compras existentes
-        savedPurchases.push(detailsShopping);
-  
-        // Guardar las compras actualizadas en localStorage
-        localStorage.setItem("userPurchases", JSON.stringify(savedPurchases));
-      }
-    } catch (error) {
-      console.error("Error al adquirir la entrada: ", error);
+
+        //lo hice yo = Darwin, acá inicia
+        const response = await axios.post('http://localhost:3001/send/mail', {
+        send: detailsShopping
+      }, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      // Manejar la respuesta del servidor, si es necesario
+      // Por ejemplo, console.log(response.data);
+
+    } else {
+      // La compra fue cancelada o hubo un error
+      // Puedes guardar un mensaje especial en lugar de los detalles de la compra
+      const detailsShopping = {
+        date: new Date().toISOString(), // Agregar la fecha de compra
+        message: "Esta compra fue cancelada", // Mensaje especial indicando que la compra fue cancelada
+      };
+
+      // Obtener compras existentes desde localStorage o crear un array vacío
+      const savedPurchases = JSON.parse(localStorage.getItem("userPurchases")) || [];
+
+      // Agregar la nueva compra (o mensaje especial) a las compras existentes
+      savedPurchases.push(detailsShopping);
+
+      // Guardar las compras actualizadas en localStorage
+      localStorage.setItem("userPurchases", JSON.stringify(savedPurchases));
     }
+  } catch (error) {
+    console.error("Error al adquirir la entrada: ", error);
+  }
   };
 
   return (
@@ -174,17 +187,17 @@ export const CartPage = () => {
                 </div>
                 <div className="flex justify-between">
                   <dt>Subtotal</dt>
-                  <dd>{totalPrice}</dd>
+                  <dd>$ {totalPrice}</dd>
                 </div>
 
                 <div className="flex justify-between">
                   <dt>impuesto pais</dt>
-                  <dd>??</dd>
+                  <dd>18%</dd>
                 </div>
 
                 <div className="flex justify-between !text-base font-medium">
                   <dt>Total </dt>
-                  <dd>${totalPrice}</dd>
+                  <dd>${totalPrice + totalPrice*.18}</dd>
                 </div>
               </dl>
 
@@ -203,5 +216,5 @@ export const CartPage = () => {
         </div>
       </div>
     </section>
-  );
+  );
 };
