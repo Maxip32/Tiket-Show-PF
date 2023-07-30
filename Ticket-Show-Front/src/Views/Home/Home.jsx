@@ -1,9 +1,9 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Footer from "../../components/Footer/Footer";
 import Landing from "../Landing/Landing";
+
 import {
   FilterByCity,
   FilterByDate,
@@ -14,6 +14,7 @@ import {
   getGenres,
   getReset,
   getResetOrder,
+  getUserById,
   orderByDate,
   orderByName,
 } from "../../redux/actions";
@@ -24,6 +25,7 @@ import Paginate from "../../components/Paginate/Paginate";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 const Home = () => {
+  //const navigate = useNavigate();
   const dispatch = useDispatch();
   const allEvents = useSelector((state) => state.Events);
   const genres = useSelector((state) => state.genres);
@@ -43,17 +45,17 @@ const Home = () => {
     dispatch(getEvents());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(getGenres());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getGenres());
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(GetByCity());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(GetByCity());
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(GetByDate());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(GetByDate());
+  }, [dispatch]);
 
 
   const [date, setDate] = useState(new Date());
@@ -71,11 +73,13 @@ const Home = () => {
     const eventosFiltrados = allEvents.filter((evento) => {
       const matchesGenre = !filters.genre || evento.genre.includes(filters.genre);
       const matchesCity = !filters.city || evento.city.includes(filters.city);
-     // const matchesDate = !filters.date || evento.date === filters.date;
-      return matchesGenre && matchesCity// && matchesDate;
+      const matchesDate = !filters.date || evento.date === filters.date;
+      return matchesGenre && matchesCity && matchesDate;
     });
     setEvents(eventosFiltrados);
     setCurrentPage(1);
+    dispatch(getUserById());
+
   }, [allEvents, filters]);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
 
@@ -113,7 +117,7 @@ const Home = () => {
       date: "",
     });
     setEvents(allEvents);
-    //dispatch(getReset());
+    dispatch(getReset());
     dispatch(getResetOrder());
     setCurrentPage(1);
   };
@@ -135,6 +139,8 @@ const Home = () => {
     setCurrentPage(1);
   };
 
+
+
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <Hero />
@@ -145,14 +151,13 @@ const Home = () => {
         <div className="flex flex-col m-1 gap-2 text-LightText w-44">
           <span className="font-extralight text-xs">Géneros</span>
           <select
-          id="genre-selector"
+            id="genre-selector"
             className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 "
             onChange={(event) => handleFilterGenres(event)}
-          
+            defaultValue="default"
           >
             <option value="default" disabled>
               {" "}
-              
               Género musical{" "}
             </option>
             {genres?.map((gen) => (
@@ -198,7 +203,7 @@ const Home = () => {
               value={date.toISOString().split("T")[0]}
               name="Fecha"
               onChange={() => {}}
-              onClick={""}
+              onClick={handleToggleCalendar}
               readOnly
               required
             />
@@ -217,7 +222,7 @@ const Home = () => {
             {isCalendarOpen && (
               <div className="absolute bg-LightText text-primaryColor shadow-md p-2 mt-2 ">
                 <Calendar
-                  onChange={handleInputChange}
+                  /* onChange={handleInputChange} */
                   value={date}
                   minDate={new Date("2023-08-10")}
                   maxDate={new Date("2023-11-29")}

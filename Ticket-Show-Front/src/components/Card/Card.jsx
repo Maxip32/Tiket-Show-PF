@@ -3,7 +3,6 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
-import style from "./Card.module.css";
 import { useAuth } from "../../context/AuthContext";
 import { CartContext } from "../Shoppingcart/shoppingCartContext";
 //import { addToCartBackend } from "../Shoppingcart/CartContext"
@@ -110,7 +109,7 @@ const Card = ({id, image, name, date, price, genres,city}) => {
           {quantityPerItem > 0 && (
             <button onClick={() => removeItem(id)}>- Remover</button>
           )}
-          <button onClick={() => addToCart()} className={style.addToCartButton}>
+          <button onClick={() => addToCart()} className={""}>
             {/* Icono de carrito */}
             <FiShoppingCart size={20} />
           </button>
