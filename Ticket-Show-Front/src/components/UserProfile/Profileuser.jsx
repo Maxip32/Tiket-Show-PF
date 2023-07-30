@@ -41,7 +41,8 @@ export default function UserProfile() {
   if (!user) {
     // Si el usuario no está autenticado, mostrar un mensaje o redireccionar a la página de inicio de sesión.
     return <p>Usuario no autenticado</p>;
-  }
+  
+}
   return (
     <>
       <section className="flex block mt-20 h-500-px">
@@ -268,7 +269,12 @@ export default function UserProfile() {
             </div>
           </div>
         </footer>
+          </div>
       </section>
     </>
+    
   );
 }
+
+    
+
