@@ -11,7 +11,7 @@ const FormFirebase = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = auth.user;
-  const usuario = useSelector(state => state.users);
+  const usuario = useSelector(state => state.user);
   const oneUserCreated = useSelector(state => state.user);
 
   const [nombreToDB, setNombreToDB] = useState("");
@@ -41,7 +41,7 @@ const FormFirebase = () => {
       name: nombreToDB || prevUserInfo.name,
       email: emailToDB || emailRegister || prevUserInfo.email
     }));
-    dispatch(getUserById());
+    
   }, [user?.displayName, user?.email, emailToDB, nombreToDB, emailRegister, dispatch]);
 
   const clearState = () => {
@@ -72,6 +72,7 @@ const FormFirebase = () => {
       dispatch(createUser(userInfo));
       clearState(); // Limpiar el estado
       alert("Usuario registrado correctamente");
+      dispatch(getUserById());
       navigate("/"); // Redireccionar al usuario a la página de inicio
     } catch (error) {
       console.error("Error al registrar el usuario:", error);

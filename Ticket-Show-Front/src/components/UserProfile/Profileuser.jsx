@@ -1,12 +1,20 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { updateProfile } from "firebase/auth";
-import MyShopping from "./Shoppinguser";
+
+import MyShopping from "./Shoppinguser"
+import { useSelector } from "react-redux";
+
+
 export default function UserProfile() {
   const { user, updateUserDisplayName } = useAuth();
   const [newDisplayName, setNewDisplayName] = useState("");
   const [error, setError] = useState(null);
-
+  const datosbanda= useSelector((state)=> state?.user)
+  const datosartist= datosbanda?.find(date => date.email === user?.email)
+  const RolesUsers= useSelector((state)=> state?.user)
+  const Roles= RolesUsers.length > 0 ? RolesUsers.find(rol => rol.email === user?.email):
+  null;
   const handleChangeName = () => {
     setError(null);
     if (newDisplayName.trim() === "") {
@@ -33,7 +41,8 @@ export default function UserProfile() {
   if (!user) {
     // Si el usuario no está autenticado, mostrar un mensaje o redireccionar a la página de inicio de sesión.
     return <p>Usuario no autenticado</p>;
-  }
+  
+}
   return (
     <>
       <section className="flex block mt-20 h-500-px">
@@ -166,6 +175,69 @@ export default function UserProfile() {
               </div>
             </div>
           </div>
+
+          {
+                  Roles?.role === 'artista'?
+          <div className="flex-col">
+            <div className="flex items-center justify-start px-8 gap-8">
+              <p className="text-2xl font-semibold w-fit">Nombre de tu Banda</p>
+              <p className="text-xl bg-gray-400 rounded-3xl text-customGray px-6 w-fit">
+                {datosartist?.nameBand}
+              </p>
+            </div>
+          </div> : null
+}
+          {
+                  Roles?.role === 'artista'?
+          <div className="flex-col">
+            <div className="flex items-center justify-start px-8 gap-8">
+              <p className="text-2xl font-semibold w-fit">Nombre de Artista</p>
+              <p className="text-xl bg-gray-400 rounded-3xl text-customGray px-6 w-fit">
+                {datosartist?.nameArtist}
+              </p>
+            </div>
+          </div> : null
+            }
+          {
+                  Roles?.role === 'artista'?
+          <div className="flex-col">
+            <div className="flex items-center justify-start px-8 gap-8">
+              <p className="text-2xl font-semibold w-fit">Año de Creacion</p>
+              <p className="text-xl bg-gray-400 rounded-3xl text-customGray px-6 w-fit">
+                {datosartist?.yearCreation}
+              </p>
+            </div>
+          </div> : null
+           }              
+
+          {/* Sección para cambiar el nombre */}
+          <div className="flex-col">
+        <div className="flex items-center justify-start px-8 gap-8">
+          <p className="text-2xl font-semibold w-fit">
+            Cambiar Nombre:
+          </p>
+          {user?.displayName ? (
+            <>
+              <input
+                type="text"
+                className="text-xl  rounded-3xl text-black px-6"
+                value={newDisplayName}
+                onChange={(e) => setNewDisplayName(e.target.value)}
+              />
+              <button
+                onClick={handleChangeName}
+                className="text-lg text-white italic font-semibold bg-customRed px-4 rounded-xl border-4 border-transparent hover:bg-white hover:text-customRed hover:border-customRed transition duration-700 ease-in-out"
+              >
+                Guardar
+              </button>
+            </>
+          ) : (
+            <p>Cargando...</p>
+          )}
+          {error && (
+            <p className="text-red-600 text-base">Error: {error}</p>
+          )}
+
         </div>
         <footer className="relative bg-blueGray-200 pt-8 pb-6 mt-8">
           <div className="container mx-auto px-4">
@@ -197,7 +269,12 @@ export default function UserProfile() {
             </div>
           </div>
         </footer>
+          </div>
       </section>
     </>
+    
   );
 }
+
+    
+
