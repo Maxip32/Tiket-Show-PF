@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import logoTicketShow from "../../assets/logos/logoTicketShow.svg";
@@ -10,8 +11,13 @@ const NavBar = () => {
   //const dispatch = useDispatch();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { user, logout } = useAuth(); // Extrae el usuario y la función de logout del contexto
-/*   const RolesUsers= useSelector((state)=> state?.user)
-  const Roles= RolesUsers.length > 0 ? RolesUsers.find(rol => rol.email === user?.email): null; */
+
+  const users = useSelector((state)=> state?.user)
+  console.log(users, 'aquí user redux');
+
+  const usersFinder = users?.length ? users?.find(rol => rol.email === user?.email): null;
+  console.log(usersFinder, 'aquí user Roles');
+  
   //console.log(Roles, " roles de usuarios y artistas")
   const activeStyle = "underline-offset-5 border-b-2 border-secondaryColor";
 
@@ -181,8 +187,9 @@ const NavBar = () => {
                   >
                     Perfil
                   </NavLink>
-                 {/* {
-                  Roles?.role === 'artista'?
+
+                  {
+                  usersFinder?.role === 'artista'?
                   <NavLink
                     to="/crearevento"
                     className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
@@ -191,9 +198,9 @@ const NavBar = () => {
                   >
                     Crear Evento
                   </NavLink> : null
-                 } 
+                  } 
                   {
-                  Roles?.role === 'Admin'?
+                  usersFinder?.role === 'Admin'?
                   <NavLink
                     to="/PanelAdmin"
                     className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
@@ -202,8 +209,7 @@ const NavBar = () => {
                   >
                     Panel de Admin
                   </NavLink> : null
-                 }  */}
-
+                  } 
                   <button
                     className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
                     role="menuitem"
