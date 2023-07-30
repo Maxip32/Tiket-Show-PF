@@ -270,11 +270,9 @@ export default function UserProfile() {
           </div>
         </footer>
           </div>
+          </div>
       </section>
     </>
-    
+
   );
 }
-
-    
-

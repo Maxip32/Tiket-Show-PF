@@ -224,7 +224,7 @@ const Home = () => {
             {isCalendarOpen && (
               <div className="absolute bg-LightText text-primaryColor shadow-md p-2 mt-2 ">
                 <Calendar
-                  onChange={handleInputChange}
+                  /* onChange={handleInputChange} */
                   value={date}
                   minDate={new Date("2023-08-10")}
                   maxDate={new Date("2023-11-29")}
@@ -243,9 +243,9 @@ const Home = () => {
       <SearchBar returnToFirstPage={returnToFirstPage} />
 
       {/* Title & order by events */}
-      <section className="w-full max-w-5xl mx-auto px-7 mt-20 flex items-center justify-between ">
-        <p className="text-3xl font-semibold text-primaryColor">Próximos Eventos</p>
-        <div className="space-x-3.5">
+      <section className="w-full md:flex-wrap max-w-5xl md:mx-auto px-7 mt-20 flex items-center lg:justify-between md:flex-row flex-col justify-center">
+        <p className="text-3xl font-semibold text-primaryColor mb-5 mr-5 md:mb-0">Próximos Eventos</p>
+        <div className="md:space-x-3.5 flex flex-col gap-4 md:flex-row items-center justify-center">
         {/* order by alfabético */}
           <select
             className="h-8 w-44 px-2 rounded-lg focus:outline-none border focus:border-secondaryColor pointer cursor-pointer"
