@@ -46,17 +46,17 @@ const Home = () => {
     dispatch(getEvents());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(getGenres());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getGenres());
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(GetByCity());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(GetByCity());
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(GetByDate());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(GetByDate());
+  }, [dispatch]);
 
 
   const [date, setDate] = useState(new Date());
@@ -80,7 +80,7 @@ const Home = () => {
     setEvents(eventosFiltrados);
     setCurrentPage(1);
     dispatch(getUserById());
-   
+
   }, [allEvents, filters]);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
 
@@ -117,8 +117,8 @@ const Home = () => {
       city: "",
       date: "",
     });
-    setEvents(allEvents);
-    //dispatch(getReset());
+    setEvents(allEvents());
+    dispatch(getReset());
     dispatch(getResetOrder());
     setCurrentPage(1);
   };
