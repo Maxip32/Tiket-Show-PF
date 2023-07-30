@@ -28,9 +28,8 @@ const Detail = () => {
   
   useEffect(() => {
     dispatch(getEventId(id));
-  }, [dispatch]);
+  }, [id,dispatch]); 
 
-  
   const [/* year, */ month, day] = event.date.split("-"); // Dividimos la fecha en año, mes y día
   const formattedMonth = monthsMap[month];
 

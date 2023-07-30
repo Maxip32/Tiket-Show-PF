@@ -4,6 +4,7 @@ import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Footer from "../../components/Footer/Footer";
 import Landing from "../Landing/Landing";
+
 import {
   FilterByCity,
   FilterByDate,
@@ -14,6 +15,7 @@ import {
   getGenres,
   getReset,
   getResetOrder,
+  getUserById,
   orderByDate,
   orderByName,
 } from "../../redux/actions";
@@ -24,6 +26,7 @@ import Paginate from "../../components/Paginate/Paginate";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 const Home = () => {
+  //const navigate = useNavigate();
   const dispatch = useDispatch();
   const allEvents = useSelector((state) => state.Events);
   const genres = useSelector((state) => state.genres);
@@ -39,8 +42,8 @@ const Home = () => {
 
   const [orderType, setOrderType] = useState("asc");
 
-  useEffect(() => {
-    dispatch(getEvents());
+   useEffect(() => {
+     dispatch(getEvents());
   }, [dispatch]);
 
   // useEffect(() => {
@@ -76,6 +79,8 @@ const Home = () => {
     });
     setEvents(eventosFiltrados);
     setCurrentPage(1);
+    dispatch(getUserById());
+   
   }, [allEvents, filters]);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
 
@@ -134,6 +139,8 @@ const Home = () => {
   const returnToFirstPage = () => {
     setCurrentPage(1);
   };
+
+
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
