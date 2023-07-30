@@ -87,7 +87,8 @@ const Card = ({id, image, name, date, price, genres,city}) => {
             <h2 className="text-3xl font-bold">{day}</h2>
           </div>
           <div className="flex font-bold md:text-xl text-black text-left md:text-right">
-            <h3>{name}</h3>
+            <h3>{city}</h3>
+            <h3>{genres}</h3>
           </div>
           <div>
             <h1>{price}</h1>

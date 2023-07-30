@@ -75,8 +75,8 @@ const Home = () => {
     const eventosFiltrados = allEvents.filter((evento) => {
       const matchesGenre = !filters.genre || evento.genre.includes(filters.genre);
       const matchesCity = !filters.city || evento.city.includes(filters.city);
-      const matchesDate = !filters.date || evento.date === filters.date;
-      return matchesGenre && matchesCity && matchesDate;
+      //const matchesDate = !filters.date || evento.date === filters.date;
+      return matchesGenre && matchesCity //&& matchesDate;
     });
     setEvents(eventosFiltrados);
     setCurrentPage(1);
