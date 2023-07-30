@@ -12,9 +12,8 @@ export default function UserProfile() {
   const [error, setError] = useState(null);
   const datosbanda= useSelector((state)=> state?.user)
   const datosartist= datosbanda?.find(date => date.email === user?.email)
-  const RolesUsers= useSelector((state)=> state?.user)
-  const Roles= RolesUsers.length > 0 ? RolesUsers.find(rol => rol.email === user?.email):
-  null;
+  const users = useSelector((state)=> state?.user)
+  const usersFinder = users?.length ? users?.find(rol => rol.email === user?.email): null;
   const handleChangeName = () => {
     setError(null);
     if (newDisplayName.trim() === "") {
@@ -177,7 +176,7 @@ export default function UserProfile() {
           </div>
 
           {
-                  Roles?.role === 'artista'?
+                  usersFinder?.role === 'artista'?
           <div className="flex-col">
             <div className="flex items-center justify-start px-8 gap-8">
               <p className="text-2xl font-semibold w-fit">Nombre de tu Banda</p>
@@ -188,7 +187,7 @@ export default function UserProfile() {
           </div> : null
 }
           {
-                  Roles?.role === 'artista'?
+                  usersFinder?.role === 'artista'?
           <div className="flex-col">
             <div className="flex items-center justify-start px-8 gap-8">
               <p className="text-2xl font-semibold w-fit">Nombre de Artista</p>
@@ -199,7 +198,7 @@ export default function UserProfile() {
           </div> : null
             }
           {
-                  Roles?.role === 'artista'?
+                  usersFinder?.role === 'artista'?
           <div className="flex-col">
             <div className="flex items-center justify-start px-8 gap-8">
               <p className="text-2xl font-semibold w-fit">Año de Creacion</p>
