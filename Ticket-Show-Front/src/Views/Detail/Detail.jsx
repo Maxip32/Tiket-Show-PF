@@ -27,7 +27,7 @@ const Detail = () => {
 
   useEffect(() => {
     dispatch(getEventId(id));
-  }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [id,dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
   
   const [, /* year */ month, day] = event?.date?.split("-") || []; // Dividimos la fecha en año, mes y día

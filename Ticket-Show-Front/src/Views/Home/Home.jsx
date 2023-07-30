@@ -38,9 +38,9 @@ const Home = () => {
 
   const [orderType, setOrderType] = useState("asc");
 
-  // useEffect(() => {
-  //   dispatch(getEvents());
-  // }, [dispatch]);
+   useEffect(() => {
+     dispatch(getEvents());
+  }, [dispatch]);
 
   // useEffect(() => {
   //   dispatch(getGenres());
