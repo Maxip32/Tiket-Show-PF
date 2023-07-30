@@ -367,6 +367,7 @@ export const postPaypal = () => {
     return dispatch({
       type: POST_PAYPAL,
       payload: allData,
+      
     });
   };
 };
