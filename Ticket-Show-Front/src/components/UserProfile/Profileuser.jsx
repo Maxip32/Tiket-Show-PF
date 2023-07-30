@@ -45,7 +45,7 @@ export default function UserProfile() {
 }
   return (
     <>
-      <section className="flex block mt-20 h-500-px">
+      <section className="flex mt-20 h-500-px">
         <div
           className="absolute mt-20 w-full h-full bg-center bg-cover"
           style={{
@@ -121,7 +121,7 @@ export default function UserProfile() {
                 </div>
               </div>
               <div className="text-center mt-12">
-                <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+                <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
                   {user.displayName}
                 </h3>
                 <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
@@ -144,7 +144,7 @@ export default function UserProfile() {
                           />
                           <button
                             onClick={handleChangeName}
-                            className="text-lg text-black talic font-semibold bg-customRed px-4 rounded-xl border-4 border-transparent hover:bg-white hover:text-customRed hover:border-customRed transition duration-700 ease-in-out"
+                            className="text-lg text-black font-semibold bg-customRed px-4 rounded-xl border-4 border-transparent hover:bg-white hover:text-customRed hover:border-customRed transition duration-700 ease-in-out"
                           >
                             Guardar
                           </button>
@@ -208,7 +208,7 @@ export default function UserProfile() {
               </p>
             </div>
           </div> : null
-           }              
+          }              
 
           {/* Sección para cambiar el nombre */}
           <div className="flex-col">
@@ -273,6 +273,5 @@ export default function UserProfile() {
           </div>
       </section>
     </>
-
   );
 }

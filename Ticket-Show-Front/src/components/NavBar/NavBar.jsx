@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import logoTicketShow from "../../assets/logos/logoTicketShow.svg";
@@ -11,8 +12,8 @@ const NavBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { user, logout } = useAuth(); // Extrae el usuario y la función de logout del contexto
   const RolesUsers= useSelector((state)=> state?.user)
-  const Roles= RolesUsers.length > 0 ? RolesUsers.find(rol => rol.email === user?.email):
-  null;
+  const Roles= RolesUsers.length > 0 ? RolesUsers.find(rol => rol.email === user?.email): null;
+  
   //console.log(Roles, " roles de usuarios y artistas")
   const activeStyle = "underline-offset-5 border-b-2 border-secondaryColor";
 
@@ -182,7 +183,7 @@ const NavBar = () => {
                   >
                     Perfil
                   </NavLink>
-                 {
+                  {
                   Roles?.role === 'artista'?
                   <NavLink
                     to="/crearevento"
@@ -192,7 +193,7 @@ const NavBar = () => {
                   >
                     Crear Evento
                   </NavLink> : null
-                 } 
+                  } 
                   {
                   Roles?.role === 'Admin'?
                   <NavLink
@@ -203,10 +204,7 @@ const NavBar = () => {
                   >
                     Panel de Admin
                   </NavLink> : null
-                 } 
-                 
-                 
-
+                  } 
 
                   <button
                     className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
