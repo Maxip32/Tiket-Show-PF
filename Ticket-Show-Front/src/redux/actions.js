@@ -284,6 +284,30 @@ export const getArtistById = () => {
     }
   };
 };
+////nodemailer 
+export const CREATE_MAIL_SUCCESS = "CREATE_ARTIST_SUCCESS";
+export const CREATE_MIAL_FAILURE = "CREATE_ARTIST_FAILURE";
+export const sendMail = (userData) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(
+        "http://localhost:3001/send/mail",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }
+      );
+      const data = await response.json();
+      dispatch({ type: CREATE_ARTIST_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: CREATE_ARTIST_FAILURE, payload: error.message });
+    }
+  };
+};
+
 
 ////// TERMINO DE CREAR ARTISTAS Y LOS REQUIERO ////////////
 
