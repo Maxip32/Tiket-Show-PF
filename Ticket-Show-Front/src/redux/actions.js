@@ -7,7 +7,7 @@ export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const UPDATE_CART = "UPDATE_CART";
 export const getEvents = () => {
   return async (dispatch) => {
-    const apiData = await axios.get(`http://localhost:3001/event/getEvents`);
+    const apiData = await axios.get(`/event/getEvents`);
 
     const Events = apiData.data;
     dispatch({
@@ -21,7 +21,7 @@ export const getEventId = (id) => {
   return async function (dispatch) {
     try {
       const apiData = await axios.get(
-        `http://localhost:3001/event/getEvent/${id}`
+        `/event/getEvent/${id}`
       );
       const detail = apiData.data;
       console.log(apiData.data, "soy api data");
@@ -70,7 +70,7 @@ export const GET_SEARCH_BY_NAME = "GET_SEARCH_BY_NAME";
 export const searchByName = (name) => {
   return async (dispatch) => {
     const apiData = await axios.get(
-      `http://localhost:3001/event/getEvent/name/${name}`
+      `/event/getEvent/name/${name}`
     );
     const Events = apiData.data;
     return dispatch({
