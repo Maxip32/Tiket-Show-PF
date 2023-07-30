@@ -72,7 +72,7 @@ const Card = ({id, image, name, date, price, genres,city}) => {
 
   return (
 
-    <div className="bg-white w-64 h-80 m-4 border shadow-md rounded-2xl flex flex-col">
+    <div className="bg-white w-64 h-80 m-4 border shadow-md rounded-2xl flex-none lg:flex lg:flex-col">
       <Link to={`/detail/${id}`} className={""}>
         <div className="flex flex-col items-center justify-center h-56 w-full">
           <img

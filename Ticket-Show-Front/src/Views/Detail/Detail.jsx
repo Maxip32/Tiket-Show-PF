@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getEventId } from "../../redux/actions";
-import Loading from "../Landing/Landing";
+import Loading from "../../components/Loading/Loading";
+
 const Detail = () => {
   const monthsMap = {
     "01": "ENE",
@@ -24,13 +26,12 @@ const Detail = () => {
   const { event } = useSelector((state) => state.detail);
   const dispatch = useDispatch();
   
-
   useEffect(() => {
     dispatch(getEventId(id));
-  }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   
-  const [, /* year */ month, day] = event?.date?.split("-") || []; // Dividimos la fecha en año, mes y día
+  const [/* year, */ month, day] = event.date.split("-"); // Dividimos la fecha en año, mes y día
   const formattedMonth = monthsMap[month];
 
   return (
@@ -55,7 +56,6 @@ const Detail = () => {
             <h2 style={{ whiteSpace: "pre-line", textAlign: "justify", width: "100rem" }}>
               {event.description}
             </h2>
-            {console.log(event.description)}
           </div>
           <div className="mx-auto items-center bg-primaryColor border-white h-40 m-5 max-w-4xl min-w-0 flex justify-center">
             <div className=" flex- text-4xl  h-40 text-white font-bold p-5 first:bg-secondaryColor">
@@ -68,7 +68,6 @@ const Detail = () => {
             </div>
             <div className="pl-8 flex-1 text-3xl text-white">
             <h1>Precio ${event.price}</h1>
-
             </div>
             
           </div>

@@ -59,6 +59,7 @@ const rootReducer = (state = initialState, action) => {
       };
     case GET_EVENT_ID:
       return { ...state, detail: action.payload };
+      
     case FILTER_BY_GENRES:
       let eventos;
       if (action.payload === "all") {
