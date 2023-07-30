@@ -16,10 +16,12 @@ function App() {
   //const location = useLocation();
   return (
     <ShoppingCartProvider>
-
+      
     <AuthProvider>
     <div className="App">
+      
     <NavBar />
+    
           <Routes>
           <Route path="/registerUser" element={<RegisterForm />} />
           <Route path="/login" element={<LoginForm />} />
@@ -30,9 +32,13 @@ function App() {
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/approved" element={<CompraPaypal/>}/>
           <Route path="/about" element={<About />} />
+          
         </Routes>
+        
       </div>
+      
     </AuthProvider>
+    
     </ShoppingCartProvider>
   );
 }

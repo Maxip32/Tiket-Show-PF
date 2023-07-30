@@ -38,21 +38,21 @@ const Home = () => {
 
   const [orderType, setOrderType] = useState("asc");
 
-  // useEffect(() => {
-  //   dispatch(getEvents());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getEvents());
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(getGenres());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getGenres());
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(GetByCity());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(GetByCity());
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(GetByDate());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(GetByDate());
+  }, [dispatch]);
 
  
   const [date, setDate] = useState(new Date());

@@ -90,7 +90,7 @@ const Card = ({id, image, name, date, price, genres,city}) => {
             <h3>{name}</h3>
           </div>
           <div>
-            <h1>{price}</h1>
+            {/* <h1>{price}</h1> */}
           </div>
         </div>
       </Link>

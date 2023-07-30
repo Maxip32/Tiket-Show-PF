@@ -24,8 +24,8 @@ console.log("successfulPurchases:", successfulPurchases);
           <div key={purchase.id}>
             <p>Fecha de compra: {purchase.date}</p>
             <p>Cantidad de boletos: {purchase.quantity}</p>
-            <p>Monto total de compras relizadas: {purchase.total}</p>
-            <h1>Nombre de Evento: {purchase.name}</h1>
+            <p>Monto total en compras relizadas: {purchase.total}</p>
+            <h1>{purchase.eventName}</h1>
             {/* Aquí puedes mostrar otros detalles relevantes de la compra */}
           </div>
         ))

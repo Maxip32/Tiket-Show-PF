@@ -13,6 +13,7 @@ import { CartContext } from "./shoppingCartContext";
     acc + curr.quantity * curr.price,
         0
     ) 
+    
 
     const handleAdquirirEntrada = async () => {
       try {
@@ -34,14 +35,23 @@ import { CartContext } from "./shoppingCartContext";
             console.error("La propiedad 'links' no existe o no tiene suficientes elementos");
             return;
           }
-          
-          const detailsShopping = {
-            date: new Date().toISOString(), // Agregar la fecha de compra
-            total: totalPrice,
-            cantidad: quantity, // Agregar el precio total
-            name: "Nombre del Evento"
-            // Agregar otros detalles relevantes, como nombres de eventos, cantidades, etc. si es necesario
-          };
+          // Obtener solo la fecha (sin hora) de la compra
+      // Obtener solo la fecha (sin hora) de la compra
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+      const day = String(currentDate.getDate()).padStart(2, "0");
+      const formattedDate = `${year}-${month}-${day}`;
+
+      const detailsShopping = {
+        date: formattedDate, // Usar la fecha formateada
+        total: totalPrice,
+        cantidad: quantity,
+        name: "Nombre del Evento",
+    eventName: "Nombre del Evento",
+        
+        // ... (otros detalles relevantes de la compra si es necesario)
+      };
   
           // Obtener compras existentes desde localStorage o crear un array vacío
           const savedPurchases = JSON.parse(localStorage.getItem("userPurchases")) || [];
@@ -92,7 +102,7 @@ import { CartContext } from "./shoppingCartContext";
           <div className="w-14 h-14 rounded-full">
           <img className="w-14 h-14 " src={item.image} alt="foto"/>
           </div>
-          <h3>{item.name}</h3>
+          {/* <h3>{item.eventName}</h3> */}
           <p>Cantidad: {item.quantity}</p>
           <p>Precio Unitario: ${item.price}</p>
           <hr />

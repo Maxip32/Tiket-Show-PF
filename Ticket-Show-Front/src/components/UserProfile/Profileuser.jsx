@@ -73,7 +73,7 @@ export default function UserProfile() {
             <>
               <input
                 type="text"
-                className="text-xl  rounded-3xl text-black px-6"
+                className="text-xl bg-gray-400 rounded-3xl text-customGray px-6"
                 value={newDisplayName}
                 onChange={(e) => setNewDisplayName(e.target.value)}
               />

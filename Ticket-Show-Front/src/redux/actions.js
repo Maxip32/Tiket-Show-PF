@@ -36,6 +36,7 @@ export const getEventId = (id) => {
   };
 };
 
+
 export const FILTER_BY_GENRES = "FILTER_BY_GENRES";
 export const filterByGenres = (payload) => {
   return {
