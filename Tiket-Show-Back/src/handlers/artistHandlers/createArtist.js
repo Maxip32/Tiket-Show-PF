@@ -5,6 +5,9 @@ const newArtist = require('../../controllers/artistControllers/createArtist')
         const {
             firstName,
             lastName,
+            nameBand,
+            yearCreation,
+            nameArtist,
             nickname,
             email,
             password,
@@ -26,6 +29,9 @@ const newArtist = require('../../controllers/artistControllers/createArtist')
         const nuevaInstanciaArtista  = await newArtist({
             firstName,
             lastName,
+            nameBand,
+            yearCreation,
+            nameArtist,
             nickname,
             email,
             password,

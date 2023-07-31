@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { createUser, updateUser, getUserByEmail, getUserById } from '../../redux/actions';
 import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc'; // Suponiendo que el ícono FcGoogle proviene de react-icons
+import registerPublic from "../../assets/image/registerPublic.jpg";
+import Swal from "sweetalert2";
+
 
 const FormFirebase = () => {
   const auth = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = auth.user;
-  const usuario = useSelector(state => state.users);
+  const usuario = useSelector(state => state.user);
   const oneUserCreated = useSelector(state => state.user);
 
   const [nombreToDB, setNombreToDB] = useState("");
@@ -21,7 +25,7 @@ const FormFirebase = () => {
   const [email, setEmail] = useState("");
   const [ name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const validLogin = usuario?.filter(usr => usr.email === email);
+  //const validLogin = usuario?.filter(usr => usr.email === email);// NO DESCOMENTAR
 
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -40,7 +44,7 @@ const FormFirebase = () => {
       name: nombreToDB || prevUserInfo.name,
       email: emailToDB || emailRegister || prevUserInfo.email
     }));
-    dispatch(getUserById());
+    
   }, [user?.displayName, user?.email, emailToDB, nombreToDB, emailRegister, dispatch]);
 
   const clearState = () => {
@@ -63,14 +67,31 @@ const FormFirebase = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     if (validRegister?.length > 0) {
-      return alert("Usuario existente");
+      return (
+        Swal.fire({
+          position: 'center',
+          icon: 'warning',
+          title: 'Usuario existente!',
+          showConfirmButton: false,
+          timer: 2500
+        })
+      )
     }
 
     try {
       await auth.register(emailRegister, passwordRegister, name);
       dispatch(createUser(userInfo));
       clearState(); // Limpiar el estado
-      alert("Usuario registrado correctamente");
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Usuario registrado correctamente!',
+        showConfirmButton: false,
+        timer: 2500
+      })
+
+      dispatch(getUserById());
       navigate("/"); // Redireccionar al usuario a la página de inicio
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
@@ -107,6 +128,15 @@ const FormFirebase = () => {
         name: userGoogle.displayName,
         email: userGoogle.email
       }));
+
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Usuario registrado correctamente!',
+        showConfirmButton: false,
+        timer: 2500
+      })
+
       if (oneUserCreated) {
         dispatch(getUserById());
         navigate("/"); // Redireccionar al usuario a la página de inicio
@@ -125,52 +155,75 @@ const FormFirebase = () => {
   // };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-500 to-pink-500">
-      <div className="bg-white p-8 rounded shadow-lg">
-        <h2 className="text-2xl font-bold mb-4 text-purple-600">Registrarse</h2>
-        <form className="flex flex-col space-y-4" onSubmit={handleRegister}>
-        <label>
-            <span className="text-purple-600">Nombre completo:</span>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="rounded border border-purple-400 px-4 py-2 focus:outline-none focus:border-purple-500"
-            />
-          </label>
-          <label>
-            <span className="text-purple-600">Correo electrónico:</span>
-            <input
-              type="email"
-              value={emailRegister}
-              onChange={(e) => setEmailRegister(e.target.value)}
-              className="rounded border border-purple-400 px-4 py-2 focus:outline-none focus:border-purple-500"
-            />
-          </label>
-          <label>
-            <span className="text-purple-600">Contraseña:</span>
-            <input
-              type="password"
-              value={passwordRegister}
-              onChange={(e) => setPasswordRegister(e.target.value)}
-              className="rounded border border-purple-400 px-4 py-2 focus:outline-none focus:border-purple-500"
-            />
-          </label>
+    <div className="w-full flex justify-center items-center mt-10">
+      <div className="bg-white rounded-2xl shadow-lg flex w-3/4">
+        {/* image section */}
+        <section className="w-2/4">
+          <img
+            src={registerPublic}
+            alt="Register image"
+            className="rounded-l-2xl object-cover h-full"
+          />
+        </section>
+
+        <section className="p-6 flex flex-col justify-center items-center w-2/4 text-left">
+          <div className="my-4 text-base text-Color1000 flex flex-col gap-3">
+            <h2 className="text-4xl font-bold text-primaryColor text-left">
+              Regístrate
+            </h2>
+            <p className="text-base text-Color1000 text-left">
+              Regístrate con nosotros y entérate de nuevos eventos.
+            </p>
+          </div>
+
+          <form 
+          className="flex flex-col gap-6 w-full justify-center items-center" 
+          onSubmit={handleRegister}
+        >
+          <input
+            placeholder="Nombre completo"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+          />
+
+          <input
+            placeholder="Correo electrónico"
+            type="email"
+            value={emailRegister}
+            onChange={(e) => setEmailRegister(e.target.value)}
+            className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+          />
+
+          <input
+            placeholder="Contraseña"
+            type="password"
+            value={passwordRegister}
+            onChange={(e) => setPasswordRegister(e.target.value)}
+            className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+          />
           <button
             type="submit"
-            className="bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700 focus:outline-none"
+            className="w-3/4 bg-primaryColor text-Color200 hover:bg-Color200 hover:text-primaryColor border hover:border-secondaryColor focus:outline-none px-10 py-3.5 text-base font-medium 
+            transition duration-500 ease-in-out transform shadow-md rounded-xl"
           >
             Registrarse
           </button>
         </form>
-        <span className="m-4 text-sm text-secondaryColor"></span>
-        <button
-          onClick={handleGoogle}
-          className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 focus:outline-none"
-        >
-          <FcGoogle /> Regístrate con Google
-        </button>
-        <section></section>
+
+        <span className="m-4 text-sm text-secondaryColor">
+            ó
+          </span>
+          <button
+            onClick={handleGoogle}
+            type="submit"
+            className="flex justify-center items-center gap-3 w-3/4 bg-Color200 text-primaryColor hover:bg-white hover:text-primaryColor border hover:border-secondaryColor focus:outline-none px-10 py-3.5 font-medium 
+            transition duration-500 ease-in-out transform shadow-md rounded-xl mb-4"
+          >
+            <FcGoogle/> Regístrate con Google
+          </button>
+        </section>
       </div>
     </div>
   );

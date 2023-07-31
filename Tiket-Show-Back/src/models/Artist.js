@@ -53,6 +53,8 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: true,
         },
+
+        
         google: {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
@@ -65,6 +67,26 @@ module.exports = (sequelize) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
+            yearCreation: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+            nameArtist: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            } ,  
+
+           
+             nameBand: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },  
+            
+            profileImageURL: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+        
         role: { type: DataTypes.STRING, defaultValue: "artista" },
 
         disabled: { type: DataTypes.BOOLEAN, defaultValue: false },

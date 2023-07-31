@@ -1,23 +1,22 @@
 const { User } = require("../../db");
+const Mailer = require("../userControllers/Mailer");
 
-const newUser = async (
-   data 
-) => {
-    const  {
-        firstName,
-        lastName,
-        email,
-        password,
-        birthdate,
-        phone,
-        dni,
-        isAdmin,
-        google,
-        image,
-        state,
-        confirmed
-    }  = data
-    console.log(data)
+const newUser = async (data) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    birthdate,
+    phone,
+    dni,
+    isAdmin,
+    google,
+    image,
+    state,
+    confirmed,
+  } = data;
+  console.log(data);
   try {
     const [user, created] = await User.findOrCreate({
       where: {
@@ -26,7 +25,7 @@ const newUser = async (
       defaults: {
         firstName,
         lastName,
-        email,   
+        email,
         password,
         birthdate,
         phone,
@@ -42,7 +41,11 @@ const newUser = async (
     await user.save();
 
     if (created) {
-      //alert("Usuario creado con éxito"); //esto no existe mancos , en el back
+      const subject = "Registro Exitoso";
+
+      const content = "¡Bienvenido! Tu registro ha sido exitoso.";
+
+      Mailer.sendEmail(subject, email, firstName, content);
     }
     return user;
   } catch (error) {

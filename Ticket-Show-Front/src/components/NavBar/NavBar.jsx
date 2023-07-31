@@ -1,17 +1,24 @@
+/* eslint-disable no-unused-vars */
 import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import logoTicketShow from "../../assets/logos/logoTicketShow.svg";
 import { useAuth } from "../../context/AuthContext"; // Importa el useAuth del contexto
-//import { CartContext, useCart } from "../Shoppingcart/CartContext"; // Importa el useCart del contexto
-//import CartPage from "../Shoppingcart/Shoppingcart";
 import { CartContext } from "../Shoppingcart/shoppingCartContext"
+import { useSelector } from "react-redux";
+//import {getUserById } from '../../redux/actions';
+//import { useDispatch } from 'react-redux';
 const NavBar = () => {
-
-  const activeStyle = "underline-offset-5 border-b-2 border-secondaryColor";
-
+  //const dispatch = useDispatch();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { user, logout } = useAuth(); // Extrae el usuario y la función de logout del contexto
-  //const { cartItems } = useCart(); // Extrae la información del carrito del contexto
+  const users = useSelector((state)=> state?.user)
+  console.log(users, 'aquí user redux');
+
+  const usersFinder = users?.length ? users?.find(rol => rol.email === user?.email): null;
+  console.log(usersFinder, 'aquí user Roles');
+  //console.log(Roles, " roles de usuarios y artistas")
+  const activeStyle = "underline-offset-5 border-b-2 border-secondaryColor";
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -178,6 +185,28 @@ const NavBar = () => {
                   >
                     Perfil
                   </NavLink>
+                  {
+                  usersFinder?.role === 'artista'?
+                  <NavLink
+                    to="/crearevento"
+                    className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
+                    role="menuitem"
+                    onClick={closeDropdown}
+                  >
+                    Crear Evento
+                  </NavLink> : null
+                  } 
+                  {
+                  usersFinder?.role === 'Admin'?
+                  <NavLink
+                    to="/PanelAdmin"
+                    className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
+                    role="menuitem"
+                    onClick={closeDropdown}
+                  >
+                    Panel de Admin
+                  </NavLink> : null
+                  } 
 
                   <button
                     className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
