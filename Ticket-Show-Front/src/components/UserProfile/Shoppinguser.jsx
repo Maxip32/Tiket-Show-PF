@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
-
+import { useAuth } from "../../context/AuthContext";
 export default function MyShopping() {
+  const { user } = useAuth();
   const [purchases, setPurchases] = useState([]);
 
   useEffect(() => {
     // Obtener las compras almacenadas desde el localStorage
+    const userId = user ? user.uid : null;
     const savedPurchases = JSON.parse(localStorage.getItem("userPurchases")) || [];
-
-    // Filtrar las compras exitosas (aquellas que no tienen el mensaje de cancelación)
-    const successfulPurchases = savedPurchases.filter((purchase) => !purchase.message);
+    // Filtrar las compras del usuario actual basado en su ID
+    const userPurchases = savedPurchases.filter((purchase) => purchase.userId === userId);
 
     // Actualizar el estado con las compras exitosas
-    setPurchases(successfulPurchases);
-    console.log("savedPurchases:", savedPurchases);
-console.log("successfulPurchases:", successfulPurchases);
-  }, []);
+   // Actualizar el estado con las compras del usuario actual
+    setPurchases(userPurchases);
+    console.log("userPurchases:", userPurchases);
+  }, [user]);
 
   return (
     <div className="w-full max-w-9xl mx-auto flex flex-wrap justify-center" >
@@ -29,7 +30,7 @@ console.log("successfulPurchases:", successfulPurchases);
             <p className="text-sm">{purchase.date}</p>
             <p className="text-sm">Cantidad de boletos:</p>
             <p className="text-sm"> {purchase.quantity}</p>
-            <p className="text-sm">Monto total de compras relizadas: </p>
+            <p className="text-sm">Monto total de compras realizadas: </p>
             <p className="text-sm"> {purchase.total}</p>
             <h1 className="text-sm">Nombre de Evento: </h1>
             <h1 className="text-sm">{purchase.name}</h1>

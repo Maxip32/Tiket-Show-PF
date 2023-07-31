@@ -271,7 +271,7 @@ const Home = () => {
           </select>
 
           <button
-            className="py-1.5 px-3 rounded-md bg-primaryColor/90 text-Color200 hover:text-black hover:bg-white border hover:border-primaryColor"
+            className="py-1.5 px-3 rounded-md bg-primaryColor/90 text-Color200 hover:text-black hover:bg-white border hover:border-primaryColor transition duration-500 ease-in-out transform"
             onClick={handleReset}
           >
             Reiniciar Filtros

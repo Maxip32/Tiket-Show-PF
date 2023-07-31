@@ -1,35 +1,62 @@
-/* eslint-disable no-unused-vars */
+/* CheckOut */
 import { useContext } from "react";
 import { CartContext } from "./shoppingCartContext";
-import axios from "axios";
-
+import { useAuth } from "../../context/AuthContext";
 export const CartPage = () => {
   const [cart, setCart] = useContext(CartContext);
-  console.log(cart, "soycart");
+  const { user } = useAuth(); 
   const quantity = cart.reduce((acc, curr) => {
     return acc + curr.quantity;
   }, 0);
 
   const totalPrice = cart.reduce(
     (acc, curr) => acc + curr.quantity * curr.price,
-    0
+    0 
   );
 
+  const handleIncrement = (itemId) => {
+    setCart((prevCart) => {
+      return prevCart.map((item) => {
+        if (item.id === itemId) {
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+        }
+        return item;
+      });
+    });
+  };
+
+  const handleDecrement = (itemId) => {
+    setCart((prevCart) => {
+      return prevCart.map((item) => {
+        if (item.id === itemId && item.quantity > 0) {
+          return {
+            ...item,
+            quantity: item.quantity - 1,
+          };
+        }
+        return item;
+      });
+    });
+  };
   const handleAdquirirEntrada = async () => {
     try {
-      //const response = await axios.post("/create-order", {
-      const response = await axios.post("http://localhost:3001/create-order", {
-        value: totalPrice, // Assuming `totalPrice` and `quantity` are defined somewhere in your code
-      }, {
+      //const response = await fetch("http://localhost:3001/create-order", {
+      const response = await fetch("https://tiket-show-pf-production.up.railway.app/create-order", {
+        method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
         },
+        //PARA QUE ME LLEGUE Y TOME EL PRECIO DE CADA EVENTO AL BACK
+        body: JSON.stringify({ value: (totalPrice + totalPrice*.18).toFixed(2) }), // Enviar el precio en el cuerpo de la solicitud
+
       });
-  
       // Verificar si la solicitud fue exitosa (código de estado 200)
       if (response.status === 200) {
-        const data = response.data;
-  
+        const data = await response.json();
+
         // Verificar si 'links' existe en data
         if (!data.links || data.links.length < 2) {
           console.error(
@@ -37,66 +64,73 @@ export const CartPage = () => {
           );
           return;
         }
-  
+
         const detailsShopping = {
           date: new Date().toISOString(), // Agregar la fecha de compra
           total: totalPrice,
           cantidad: quantity, // Agregar el precio total
           name: "Nombre del Evento",
+          userId: user.uid,
           // Agregar otros detalles relevantes, como nombres de eventos, cantidades, etc. si es necesario
         };
-  
+
         // Obtener compras existentes desde localStorage o crear un array vacío
-        const savedPurchases = JSON.parse(localStorage.getItem("userPurchases")) || [];
-  
+        const savedPurchases =
+          JSON.parse(localStorage.getItem("userPurchases")) || [];
+
         // Agregar la nueva compra a las compras existentes
         savedPurchases.push(detailsShopping);
-  
+
         // Guardar las compras actualizadas en localStorage
         localStorage.setItem("userPurchases", JSON.stringify(savedPurchases));
         console.log(
           "savedPurchases in CartPage:",
           JSON.parse(localStorage.getItem("userPurchases"))
         );
-  
-        // Realizar la redirección a la pasarela de pago
+
+        // Realizar la re dirección a la pasarela de pago
         window.location.href = data.links[1].href;
-
         //lo hice yo = Darwin, acá inicia
-        const response = await axios.post('http://localhost:3001/send/mail', {
-        send: detailsShopping
-      }, {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
+        const sendMail = await fetch('https://tiket-show-pf-production.up.railway.app/send/mail',
+        //const sendMail = await fetch('http://localhost:3001/send/mail',
+        { method: 'POST',
+          headers: {
+            "Contend-Type": "application/json"
+          },
+          body: JSON.stringify(
+            { 
+            date: new Date().toISOString(),
+          total: totalPrice,
+          cantidad: quantity, 
+          name: "Nombre del Evento"
+        })
+        })
+        await sendMail.json()
+        //lo hice yo = Darwin, acá termina
+      } else {
+        // La compra fue cancelada o hubo un error
+        // Puedes guardar un mensaje especial en lugar de los detalles de la compra
+        const detailsShopping = {
+          date: new Date().toISOString(), // Agregar la fecha de compra
+          message: "Esta compra fue cancelada", // Mensaje especial indicando que la compra fue cancelada
+        };
 
-      // Manejar la respuesta del servidor, si es necesario
-      // Por ejemplo, console.log(response.data);
+        // Obtener compras existentes desde localStorage o crear un array vacío
+        const savedPurchases =
+          JSON.parse(localStorage.getItem("userPurchases")) || [];
 
-    } else {
-      // La compra fue cancelada o hubo un error
-      // Puedes guardar un mensaje especial en lugar de los detalles de la compra
-      const detailsShopping = {
-        date: new Date().toISOString(), // Agregar la fecha de compra
-        message: "Esta compra fue cancelada", // Mensaje especial indicando que la compra fue cancelada
-      };
+        // Agregar la nueva compra (o mensaje especial) a las compras existentes
+        savedPurchases.push(detailsShopping);
 
-      // Obtener compras existentes desde localStorage o crear un array vacío
-      const savedPurchases = JSON.parse(localStorage.getItem("userPurchases")) || [];
-
-      // Agregar la nueva compra (o mensaje especial) a las compras existentes
-      savedPurchases.push(detailsShopping);
-
-      // Guardar las compras actualizadas en localStorage
-      localStorage.setItem("userPurchases", JSON.stringify(savedPurchases));
+        // Guardar las compras actualizadas en localStorage
+        localStorage.setItem("userPurchases", JSON.stringify(savedPurchases));
+      }
+    } catch (error) {
+      console.error("Error al adquirir la entrada: ", error);
     }
-  } catch (error) {
-    console.error("Error al adquirir la entrada: ", error);
-  }
   };
 
-  return (
+  return cart.length > 0 ? (
     <section>
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-3xl">
@@ -110,11 +144,7 @@ export const CartPage = () => {
             <div key={item.id} className="mt-8">
               <ul className="space-y-4">
                 <li className="flex items-center gap-4">
-                  <img
-                    src={item.image}
-                    alt=""
-                    className="h-16 w-16 rounded object-cover"
-                  />
+                  <img src={item.image} alt="" className="h-16 w-16 rounded object-cover" />
 
                   <div>
                     <h3 className="text-sm text-gray-900">{item.name}</h3>
@@ -134,28 +164,25 @@ export const CartPage = () => {
 
                   <div className="flex flex-1 items-center justify-end gap-2">
                     <form>
-                      <label htmlFor="Line1Qty" className="sr-only">
-                        {" "}
-                      </label>
-
+                      <label htmlFor="Line1Qty" className="sr-only"></label>
                       <h3 className="h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 [-moz-appearance:_textfield] focus:outline-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none">
                         {item.quantity}
                       </h3>
                     </form>
 
-                    <button className="text-gray-600 transition hover:text-red-600">
+                    <button
+                      className="text-gray-600 transition hover:text-red-600"
+                      onClick={() => handleDecrement(item.id)}
+                    >
                       <span className="sr-only">Remove item</span>
-                      <button className="h-4 w-4">
-                        {" "}
-                        -{" "}
-                      </button>
+                      -
                     </button>
-                    <button className="text-gray-600 transition hover:text-red-600">
+                    <button
+                      className="text-gray-600 transition hover:text-red-600"
+                      onClick={() => handleIncrement(item.id)}
+                    >
                       <span className="sr-only">Remove item</span>
-                      <button className="h-4 w-4">
-                        {" "}
-                        +{" "}
-                      </button>
+                      +
                     </button>
                   </div>
                 </li>
@@ -187,17 +214,17 @@ export const CartPage = () => {
                 </div>
                 <div className="flex justify-between">
                   <dt>Subtotal</dt>
-                  <dd>$ {totalPrice}</dd>
+                  <dd>{totalPrice}</dd>
                 </div>
 
                 <div className="flex justify-between">
-                  <dt>impuesto pais</dt>
+                  <dt>impuesto país</dt>
                   <dd>18%</dd>
                 </div>
 
                 <div className="flex justify-between !text-base font-medium">
                   <dt>Total </dt>
-                  <dd>${totalPrice + totalPrice*.18}</dd>
+                  <dd>${(totalPrice + totalPrice*.18).toFixed(2)}</dd>
                 </div>
               </dl>
 
@@ -208,7 +235,7 @@ export const CartPage = () => {
                   href="#"
                   className="block rounded bg-gray-700 px-5 py-3 text-sm text-gray-100 transition hover:bg-gray-600"
                 >
-                 Ir a Pagar
+                  Ir a Pagar
                 </a>
               </div>
             </div>
@@ -216,5 +243,22 @@ export const CartPage = () => {
         </div>
       </div>
     </section>
-  );
+      ) : (
+        <div>
+          <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+            <div className="max-w-md p-8 bg-white rounded-lg shadow-lg">
+              <h2 className="text-2xl font-bold mb-4">Carrito Vacío</h2>
+              <p className="text-gray-600 mb-6">
+              El carrito está vacío. Regresa a la página de inicio para agregar elementos.
+              </p>
+              <a
+                href="/"
+                className="block text-center bg-primaryColor text-white py-2 px-4 rounded hover:bg-secondaryColor transition"
+              >
+                Volver a la página de inicio
+              </a>
+            </div>
+          </div>
+        </div>
+      );
 };
