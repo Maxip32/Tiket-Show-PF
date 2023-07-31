@@ -1,5 +1,7 @@
-import React, { useContext } from "react";
+/* eslint-disable no-unused-vars */
+import { useContext } from "react";
 import { CartContext } from "./shoppingCartContext";
+import axios from "axios";
 
 export const CartPage = () => {
   const [cart, setCart] = useContext(CartContext);
@@ -15,18 +17,19 @@ export const CartPage = () => {
 
   const handleAdquirirEntrada = async () => {
     try {
-      const response = await fetch("http://localhost:3001/create-order", {
-        method: "POST",
+      //const response = await axios.post("/create-order", {
+      const response = await axios.post("http://localhost:3001/create-order", {
+        value: totalPrice, // Assuming `totalPrice` and `quantity` are defined somewhere in your code
+      }, {
         headers: {
-          "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
+          "Content-Type": "application/json",
         },
-        //PARA QUE ME LLEGUE Y TOME EL PRECIO DE CADA EVENTO AL BACK
-        body: JSON.stringify({ value: totalPrice }), // Enviar el precio en el cuerpo de la solicitud
       });
+  
       // Verificar si la solicitud fue exitosa (código de estado 200)
       if (response.status === 200) {
-        const data = await response.json();
-
+        const data = response.data;
+  
         // Verificar si 'links' existe en data
         if (!data.links || data.links.length < 2) {
           console.error(
@@ -34,7 +37,7 @@ export const CartPage = () => {
           );
           return;
         }
-
+  
         const detailsShopping = {
           date: new Date().toISOString(), // Agregar la fecha de compra
           total: totalPrice,
@@ -42,44 +45,55 @@ export const CartPage = () => {
           name: "Nombre del Evento",
           // Agregar otros detalles relevantes, como nombres de eventos, cantidades, etc. si es necesario
         };
-
+  
         // Obtener compras existentes desde localStorage o crear un array vacío
-        const savedPurchases =
-          JSON.parse(localStorage.getItem("userPurchases")) || [];
-
+        const savedPurchases = JSON.parse(localStorage.getItem("userPurchases")) || [];
+  
         // Agregar la nueva compra a las compras existentes
         savedPurchases.push(detailsShopping);
-
+  
         // Guardar las compras actualizadas en localStorage
         localStorage.setItem("userPurchases", JSON.stringify(savedPurchases));
         console.log(
           "savedPurchases in CartPage:",
           JSON.parse(localStorage.getItem("userPurchases"))
         );
-
+  
         // Realizar la redirección a la pasarela de pago
         window.location.href = data.links[1].href;
-      } else {
-        // La compra fue cancelada o hubo un error
-        // Puedes guardar un mensaje especial en lugar de los detalles de la compra
-        const detailsShopping = {
-          date: new Date().toISOString(), // Agregar la fecha de compra
-          message: "Esta compra fue cancelada", // Mensaje especial indicando que la compra fue cancelada
-        };
 
-        // Obtener compras existentes desde localStorage o crear un array vacío
-        const savedPurchases =
-          JSON.parse(localStorage.getItem("userPurchases")) || [];
+        //lo hice yo = Darwin, acá inicia
+        const response = await axios.post('http://localhost:3001/send/mail', {
+        send: detailsShopping
+      }, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
 
-        // Agregar la nueva compra (o mensaje especial) a las compras existentes
-        savedPurchases.push(detailsShopping);
+      // Manejar la respuesta del servidor, si es necesario
+      // Por ejemplo, console.log(response.data);
 
-        // Guardar las compras actualizadas en localStorage
-        localStorage.setItem("userPurchases", JSON.stringify(savedPurchases));
-      }
-    } catch (error) {
-      console.error("Error al adquirir la entrada: ", error);
+    } else {
+      // La compra fue cancelada o hubo un error
+      // Puedes guardar un mensaje especial en lugar de los detalles de la compra
+      const detailsShopping = {
+        date: new Date().toISOString(), // Agregar la fecha de compra
+        message: "Esta compra fue cancelada", // Mensaje especial indicando que la compra fue cancelada
+      };
+
+      // Obtener compras existentes desde localStorage o crear un array vacío
+      const savedPurchases = JSON.parse(localStorage.getItem("userPurchases")) || [];
+
+      // Agregar la nueva compra (o mensaje especial) a las compras existentes
+      savedPurchases.push(detailsShopping);
+
+      // Guardar las compras actualizadas en localStorage
+      localStorage.setItem("userPurchases", JSON.stringify(savedPurchases));
     }
+  } catch (error) {
+    console.error("Error al adquirir la entrada: ", error);
+  }
   };
 
   return (
@@ -131,14 +145,14 @@ export const CartPage = () => {
 
                     <button className="text-gray-600 transition hover:text-red-600">
                       <span className="sr-only">Remove item</span>
-                      <button className="h-4 w-4" onClick={() => addToCart()}>
+                      <button className="h-4 w-4">
                         {" "}
                         -{" "}
                       </button>
                     </button>
                     <button className="text-gray-600 transition hover:text-red-600">
                       <span className="sr-only">Remove item</span>
-                      <button className="h-4 w-4" onClick={() => addToCart()}>
+                      <button className="h-4 w-4">
                         {" "}
                         +{" "}
                       </button>
@@ -173,17 +187,17 @@ export const CartPage = () => {
                 </div>
                 <div className="flex justify-between">
                   <dt>Subtotal</dt>
-                  <dd>{totalPrice}</dd>
+                  <dd>$ {totalPrice}</dd>
                 </div>
 
                 <div className="flex justify-between">
                   <dt>impuesto pais</dt>
-                  <dd>??</dd>
+                  <dd>18%</dd>
                 </div>
 
                 <div className="flex justify-between !text-base font-medium">
                   <dt>Total </dt>
-                  <dd>${totalPrice}</dd>
+                  <dd>${totalPrice + totalPrice*.18}</dd>
                 </div>
               </dl>
 
@@ -202,5 +216,5 @@ export const CartPage = () => {
         </div>
       </div>
     </section>
-  );
+  );
 };

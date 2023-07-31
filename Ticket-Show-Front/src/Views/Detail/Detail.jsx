@@ -6,7 +6,7 @@ import { getEventId } from "../../redux/actions";
 import Loading from "../../components/Loading/Loading";
 
 const Detail = () => {
-  const monthsMap = {
+  /* const monthsMap = {
     "01": "ENE",
     "02": "FEB",
     "03": "MAR",
@@ -19,19 +19,19 @@ const Detail = () => {
     "10": "OCT",
     "11": "NOV",
     "12": "DIC",
-  };
+  }; */
 
   const { id } = useParams();
 
   const { event } = useSelector((state) => state.detail);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(getEventId(id));
-  }, [id,dispatch]); 
+  }, [id, dispatch]);
 
-  const [/* year, */ month, day] = event.date.split("-"); // Dividimos la fecha en año, mes y día
-  const formattedMonth = monthsMap[month];
+  /* const [ year month, day] = event.date.split("-"); // Dividimos la fecha en año, mes y día
+  const formattedMonth = monthsMap[month]; */
 
   return (
     <div className=" mt-15 flex flex-col mx-auto ">
@@ -50,25 +50,32 @@ const Detail = () => {
               </div>
             </div>
           </div>
-          <div className=" mx-auto text-xl px-10 py-10 text-black  bg-white max-h-90 
-          shadow-lg p-4 overflow-y-auto  ">
-            <h2 style={{ whiteSpace: "pre-line", textAlign: "justify", width: "100rem" }}>
+          <div
+            className=" mx-auto text-xl px-10 py-10 text-black  bg-white max-h-90 
+          shadow-lg p-4 overflow-y-auto  "
+          >
+            <h2
+              style={{
+                whiteSpace: "pre-line",
+                textAlign: "justify",
+                width: "100rem",
+              }}
+            >
               {event.description}
             </h2>
           </div>
           <div className="mx-auto items-center bg-primaryColor border-white h-40 m-5 max-w-4xl min-w-0 flex justify-center">
             <div className=" flex- text-4xl  h-40 text-white font-bold p-5 first:bg-secondaryColor">
-              <h2 className="mt-5">{formattedMonth}</h2>
-              <h2 className="items-center justify-center flex ">{day}</h2>
+              <h2 className="mt-5">{/* {formattedMonth} */}</h2>
+              <h2 className="items-center justify-center flex ">{/* {day} */}</h2>
             </div>
             <div className="pl-8 flex-1 text-3xl text-white">
               <h2>-{event.start}hs</h2>
               <h2 className="font-bold">{event.address}</h2>
             </div>
             <div className="pl-8 flex-1 text-3xl text-white">
-            <h1>Precio ${event.price}</h1>
+              <h1>Precio ${event.price}</h1>
             </div>
-            
           </div>
         </>
       ) : (

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -42,21 +41,21 @@ const Home = () => {
 
   const [orderType, setOrderType] = useState("asc");
 
-   useEffect(() => {
-     dispatch(getEvents());
+  useEffect(() => {
+    dispatch(getEvents());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(getGenres());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getGenres());
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(GetByCity());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(GetByCity());
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(GetByDate());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(GetByDate());
+  }, [dispatch]);
 
 
   const [date, setDate] = useState(new Date());
@@ -80,7 +79,7 @@ const Home = () => {
     setEvents(eventosFiltrados);
     setCurrentPage(1);
     dispatch(getUserById());
-   
+
   }, [allEvents, filters]);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
 
@@ -118,7 +117,7 @@ const Home = () => {
       date: "",
     });
     setEvents(allEvents);
-    //dispatch(getReset());
+    dispatch(getReset());
     dispatch(getResetOrder());
     setCurrentPage(1);
   };
@@ -152,14 +151,13 @@ const Home = () => {
         <div className="flex flex-col m-1 gap-2 text-LightText w-44">
           <span className="font-extralight text-xs">Géneros</span>
           <select
-          id="genre-selector"
+            id="genre-selector"
             className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 "
             onChange={(event) => handleFilterGenres(event)}
-          
+            defaultValue="default"
           >
             <option value="default" disabled>
               {" "}
-              
               Género musical{" "}
             </option>
             {genres?.map((gen) => (
