@@ -25,10 +25,10 @@ const Detail = () => {
 
   const { event } = useSelector((state) => state.detail);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(getEventId(id));
-  }, [id,dispatch]); 
+  }, [id, dispatch]);
 
   /* const [ year month, day] = event.date.split("-"); // Dividimos la fecha en año, mes y día
   const formattedMonth = monthsMap[month]; */
@@ -50,9 +50,17 @@ const Detail = () => {
               </div>
             </div>
           </div>
-          <div className=" mx-auto text-xl px-10 py-10 text-black  bg-white max-h-90 
-          shadow-lg p-4 overflow-y-auto  ">
-            <h2 style={{ whiteSpace: "pre-line", textAlign: "justify", width: "100rem" }}>
+          <div
+            className=" mx-auto text-xl px-10 py-10 text-black  bg-white max-h-90 
+          shadow-lg p-4 overflow-y-auto  "
+          >
+            <h2
+              style={{
+                whiteSpace: "pre-line",
+                textAlign: "justify",
+                width: "100rem",
+              }}
+            >
               {event.description}
             </h2>
           </div>
@@ -66,9 +74,8 @@ const Detail = () => {
               <h2 className="font-bold">{event.address}</h2>
             </div>
             <div className="pl-8 flex-1 text-3xl text-white">
-            <h1>Precio ${event.price}</h1>
+              <h1>Precio ${event.price}</h1>
             </div>
-            
           </div>
         </>
       ) : (
