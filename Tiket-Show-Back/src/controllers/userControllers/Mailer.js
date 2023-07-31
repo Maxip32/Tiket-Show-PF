@@ -13,6 +13,9 @@ async function sendEmail(subject, email,firstName, content) {
           user: process.env.EMAIL,
           pass:process.env.PASSWORD
         },
+        tls: {
+          rejectUnauthorized: false // Esto desactiva la verificación del certificado
+        }
       });
     
     
@@ -20,9 +23,9 @@ async function sendEmail(subject, email,firstName, content) {
       from: process.env.EMAIL,
       to: email,
 
-      subject: "Confirmacion de Registro",
-       html: `<h1>Gracias por registrarte ${firstName} en TiketShow</h1>`
-     
+      subject: "Confirmación de Registro",
+      html: `<h1>Gracias por registrarte ${firstName} en TicketShow</h1>`
+    
 
     };
   
