@@ -1,5 +1,5 @@
 const {Router} = require('express');
-//const deleteUser = require('../controllers/userControllers/deleteUser');
+const deleteUser = require('../controllers/userControllers/deleteUser');
 
 const createUserData = require('../handlers/userHandler/createUser');
 // const validationCreate = require("../middleware/validationArtist/validationCreate");
@@ -13,7 +13,7 @@ const userRouter = Router();
 
 userRouter.post('/createUser',createUserData);
 userRouter.get('/', idUser);
-//userRouter.delete('/deleteUser/:id', deleteUser);
+userRouter.delete('/deleteUser/:id', deleteUser);
 // artistRouter.post('/createArtist', validationCreate, createArtist);
 // artistRouter.get('/allArtist', getAllArtist);
 // artistRouter.get('/?name=artist', getANameArtist);
