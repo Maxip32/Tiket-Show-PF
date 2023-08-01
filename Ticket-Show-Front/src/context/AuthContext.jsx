@@ -88,6 +88,45 @@ export function AuthProvider({ children }) {
     }
   };
 
+
+  const updateUserPhotoURL = async (newPhotoURL) => {
+    setError(null);
+    try {
+
+   console.log(newPhotoURL, " QUIERO VER SI FUNCIONA LA URL")
+    // Cambiar foto de perfil y guardar cambios localmente
+      await updateProfile(auth.currentUser, {
+      displayName: user.displayName, // Incluye el campo displayName en el objeto de configuración
+      photoURL: newPhotoURL,
+
+    });
+
+    setUser({ ...user, photoURL: newPhotoURL });
+
+    // Actualizar también la URL de la imagen en la base de datos
+    const userId = user.uid;
+    const userData = {
+      email: user.email, // Incluye otros campos si es necesario
+      displayName: user.displayName,
+      image: newPhotoURL,
+    };
+
+    set(ref(database, "usuarios/" + userId), userData)
+      .then(() => {
+        console.log("URL de la imagen actualizada en la base de datos.");
+      })
+      .catch((error) => {
+        console.error(
+          "Error al actualizar la URL de la imagen en la base de datos:",
+          error
+        );
+      });
+  } catch (error) {
+    console.error("Error al actualizar la imagen de perfil:", error);
+    setError("Error al actualizar la imagen de perfil. Por favor, inténtelo de nuevo más tarde.");
+  }
+  };
+
    // Función para cargar los datos adicionales del usuario desde la base de datos
    const loadUserData = (userId) => {
     const userRef = ref(database, "usuarios/" + userId);
@@ -105,7 +144,7 @@ export function AuthProvider({ children }) {
       });
   };
 
-  const register = async (email, password, displayName) => {
+  const register = async (email, password, displayName, image) => {
     try {
       const response = await createUserWithEmailAndPassword(auth, email, password);
       console.log(response);
@@ -122,6 +161,7 @@ export function AuthProvider({ children }) {
        const userData = {
          email: response.user.email,
          displayName: displayName,
+         image: image,
          // Agregar otros datos iniciales si es necesario
        };
   
@@ -194,6 +234,7 @@ export function AuthProvider({ children }) {
         user,
         error,
         updateUserDisplayName,
+        updateUserPhotoURL,
       }}
     >
       {children}

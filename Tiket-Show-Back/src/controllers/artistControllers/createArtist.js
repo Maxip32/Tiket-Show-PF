@@ -25,10 +25,10 @@ const newArtist = async (data) => {
   } = data;
 
   // Carga la imagen en Cloudinary y obtiene la URL de la imagen de perfil
-  let profileImageURL = null;
-  if (image) {
-    profileImageURL = await uploadImage(image); // Ajusta la forma en que se pasa la imagen a la función si es necesario
-   }
+  // let profileImageURL = null;
+  // if (image) {
+  //   profileImageURL = await uploadImage(image); // Ajusta la forma en que se pasa la imagen a la función si es necesario
+  //  }
   // let whereClause = { email }; // Búsqueda predeterminada solo por email
   // if (nameBand !== null) {
   //   whereClause.nameBand = nameBand;
@@ -39,6 +39,7 @@ const newArtist = async (data) => {
       nameBand,
       nameArtist,
       yearCreation,
+      image,
     },
     defaults: {
       firstName,
@@ -58,7 +59,7 @@ const newArtist = async (data) => {
       google,
       state,
       confirmed,
-      profileImageURL, // Agrega profileImageURL como parámetro del controlador
+     // profileImageURL, // Agrega profileImageURL como parámetro del controlador
     },
   });
 
