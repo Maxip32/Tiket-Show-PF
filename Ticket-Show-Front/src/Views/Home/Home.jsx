@@ -57,16 +57,17 @@ const Home = () => {
     dispatch(GetByDate());
   }, [dispatch]);
 
-
   const [date, setDate] = useState(new Date());
   const handleFilterGenres = (event) => {
     const genreValue = event.target.value;
     setFilters((prev) => ({ ...prev, genre: genreValue }));
+    setCurrentPage(1)
   };
 
   const handleFiltroCiudades = (event) => {
     const cityValue = event.target.value;
     setFilters((prev) => ({ ...prev, city: cityValue }));
+    setCurrentPage(1)
   };
 
   useEffect(() => {
