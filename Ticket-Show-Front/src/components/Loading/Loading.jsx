@@ -1,9 +1,19 @@
+import logo from '../../assets/logos/logoticketshow1.jpg'
 
+const Loader = () => {
 
-const Loading = () => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+ 
   return (
-    <div>Loading</div>
+    <div  >
+      <img src={logo} alt="logo" />
+    </div>
   )
 }
 
-export default Loading
+export default Loader;

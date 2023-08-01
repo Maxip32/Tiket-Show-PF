@@ -3,7 +3,6 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
-import style from "./Card.module.css";
 import { useAuth } from "../../context/AuthContext";
 import { CartContext } from "../Shoppingcart/shoppingCartContext";
 //import { addToCartBackend } from "../Shoppingcart/CartContext"
@@ -72,7 +71,7 @@ const Card = ({id, image, name, date, price, genres,city}) => {
 
   return (
 
-    <div className="bg-white w-64 h-80 m-4 border shadow-md rounded-2xl flex flex-col">
+    <div className="bg-white w-64 h-80 m-4 border shadow-md rounded-2xl flex-none lg:flex lg:flex-col">
       <Link to={`/detail/${id}`} className={""}>
         <div className="flex flex-col items-center justify-center h-56 w-full">
           <img
@@ -88,6 +87,7 @@ const Card = ({id, image, name, date, price, genres,city}) => {
           </div>
           <div className="flex font-bold md:text-xl text-black text-left md:text-right">
             <h3>{name}</h3>
+            
           </div>
           <div>
             {/* <h1>{price}</h1> */}
@@ -109,7 +109,7 @@ const Card = ({id, image, name, date, price, genres,city}) => {
           {quantityPerItem > 0 && (
             <button onClick={() => removeItem(id)}>- Remover</button>
           )}
-          <button onClick={() => addToCart()} className={style.addToCartButton}>
+          <button onClick={() => addToCart()} className={""}>
             {/* Icono de carrito */}
             <FiShoppingCart size={20} />
           </button>

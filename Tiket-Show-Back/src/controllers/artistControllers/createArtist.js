@@ -6,6 +6,9 @@ const newArtist = async (data) => {
   const {
     firstName,
     lastName,
+    nameBand,
+    yearCreation,
+    nameArtist,
     nickname,
     email,
     password,
@@ -18,22 +21,31 @@ const newArtist = async (data) => {
     google,
     state,
     confirmed,
+    
   } = data;
 
   // Carga la imagen en Cloudinary y obtiene la URL de la imagen de perfil
   let profileImageURL = null;
   if (image) {
     profileImageURL = await uploadImage(image); // Ajusta la forma en que se pasa la imagen a la función si es necesario
-  }
-
+   }
+  // let whereClause = { email }; // Búsqueda predeterminada solo por email
+  // if (nameBand !== null) {
+  //   whereClause.nameBand = nameBand;
+  // }
   const [artist, created] = await Artist.findOrCreate({
     where: {
       email,
-      
+      nameBand,
+      nameArtist,
+      yearCreation,
     },
     defaults: {
       firstName,
       lastName,
+      nameBand,
+      yearCreation,
+      nameArtist,
       nickname,
       email,
       password,

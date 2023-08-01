@@ -30,6 +30,8 @@ import {
   POST_PAYPAL,
   GET_CAPTURE_ORDER,
   GET_CANCEL_ORDER,
+  CREATE_MAIL_SUCCESS,
+  CREATE_MIAL_FAILURE
 } from "../redux/actions";
 
 const initialState = {
@@ -60,7 +62,6 @@ const rootReducer = (state = initialState, action) => {
       
     case GET_EVENT_ID:
       return { ...state, detail: action.payload };
-
     case FILTER_BY_GENRES:
       let eventos;
       if (action.payload === "all") {
@@ -198,6 +199,22 @@ const rootReducer = (state = initialState, action) => {
         error: null,
       };
     case GET_USER_FAILURE:
+      return {
+        ...state,
+        user: null,
+        loading: false,
+        error: action.payload,
+      };
+
+      //////NODE MAILER///////
+      case CREATE_MAIL_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+        error: null,
+      };
+    case CREATE_MIAL_FAILURE:
       return {
         ...state,
         user: null,
