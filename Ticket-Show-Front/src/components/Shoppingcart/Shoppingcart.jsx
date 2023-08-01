@@ -1,6 +1,8 @@
-import React, { useContext } from "react";
+/* CheckOut */
+import { useContext } from "react";
 import { CartContext } from "./shoppingCartContext";
 import { useAuth } from "../../context/AuthContext";
+
 export const CartPage = () => {
   const [cart, setCart] = useContext(CartContext);
   const { user } = useAuth(); 
@@ -10,7 +12,7 @@ export const CartPage = () => {
 
   const totalPrice = cart.reduce(
     (acc, curr) => acc + curr.quantity * curr.price,
-    0
+    0 
   );
 
   const handleIncrement = (itemId) => {
@@ -42,7 +44,8 @@ export const CartPage = () => {
   };
   const handleAdquirirEntrada = async () => {
     try {
-      const response = await fetch("http://localhost:3001/create-order", {
+      //const response = await fetch("http://localhost:3001/create-order", {
+      const response = await fetch("https://tiket-show-pf-production.up.railway.app/create-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
@@ -72,9 +75,6 @@ export const CartPage = () => {
           // Agregar otros detalles relevantes, como nombres de eventos, cantidades, etc. si es necesario
         };
 
-        // Verificar si la compra fue exitosa o cancelada
-      const successfulPurchase = true; // Cambia esto según lo que consideres una compra exitosa
-
         // Obtener compras existentes desde localStorage o crear un array vacío
         const savedPurchases =
           JSON.parse(localStorage.getItem("userPurchases")) || [];
@@ -82,7 +82,6 @@ export const CartPage = () => {
         // Agregar la nueva compra a las compras existentes
         savedPurchases.push(detailsShopping);
 
-        
         // Guardar las compras actualizadas en localStorage
         localStorage.setItem("userPurchases", JSON.stringify(savedPurchases));
         console.log(
@@ -90,8 +89,25 @@ export const CartPage = () => {
           JSON.parse(localStorage.getItem("userPurchases"))
         );
 
-        // Realizar la redirección a la pasarela de pago
+        // Realizar la re dirección a la pasarela de pago
         window.location.href = data.links[1].href;
+        //lo hice yo = Darwin, acá inicia
+        const sendMail = await fetch('https://tiket-show-pf-production.up.railway.app/send/mail',
+        //const sendMail = await fetch('http://localhost:3001/send/mail',
+        { method: 'POST',
+          headers: {
+            "Contend-Type": "application/json"
+          },
+          body: JSON.stringify(
+            { 
+            date: new Date().toISOString(),
+          total: totalPrice,
+          cantidad: quantity, 
+          name: "Nombre del Evento"
+        })
+        })
+        await sendMail.json()
+        //lo hice yo = Darwin, acá termina
       } else {
         // La compra fue cancelada o hubo un error
         // Puedes guardar un mensaje especial en lugar de los detalles de la compra
@@ -115,7 +131,7 @@ export const CartPage = () => {
     }
   };
 
-  return (
+  return cart.length > 0 ? (
     <section>
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-3xl">
@@ -203,7 +219,7 @@ export const CartPage = () => {
                 </div>
 
                 <div className="flex justify-between">
-                  <dt>impuesto pais</dt>
+                  <dt>impuesto país</dt>
                   <dd>18%</dd>
                 </div>
 
@@ -220,7 +236,7 @@ export const CartPage = () => {
                   href="#"
                   className="block rounded bg-gray-700 px-5 py-3 text-sm text-gray-100 transition hover:bg-gray-600"
                 >
-                 Ir a Pagar
+                  Ir a Pagar
                 </a>
               </div>
             </div>
@@ -228,5 +244,22 @@ export const CartPage = () => {
         </div>
       </div>
     </section>
-  );
+      ) : (
+        <div>
+          <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+            <div className="max-w-md p-8 bg-white rounded-lg shadow-lg">
+              <h2 className="text-2xl font-bold mb-4">Carrito Vacío</h2>
+              <p className="text-gray-600 mb-6">
+              El carrito está vacío. Regresa a la página de inicio para agregar elementos.
+              </p>
+              <a
+                href="/"
+                className="block text-center bg-primaryColor text-white py-2 px-4 rounded hover:bg-secondaryColor transition"
+              >
+                Volver a la página de inicio
+              </a>
+            </div>
+          </div>
+        </div>
+      );
 };
