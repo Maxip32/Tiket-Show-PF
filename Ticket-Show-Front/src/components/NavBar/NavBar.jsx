@@ -197,14 +197,14 @@ const NavBar = () => {
                   </NavLink> : null
                   } 
                   {
-                  usersFinder?.role === 'Admin'?
+                  usersFinder?.role === 'customer'?
                   <NavLink
                     to="/PanelAdmin"
                     className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
                     role="menuitem"
                     onClick={closeDropdown}
                   >
-                    Panel de Admin
+                    Panel admin
                   </NavLink> : null
                   } 
 
