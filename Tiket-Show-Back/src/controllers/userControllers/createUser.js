@@ -53,4 +53,6 @@ const newUser = async (data) => {
     throw new Error(error.message); //para k tiene un try catch aka si el error burbujea para arriba, lo catchea el try catch del handler
   }
 };
+
+
 module.exports = newUser;

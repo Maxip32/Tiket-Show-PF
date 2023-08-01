@@ -3,6 +3,7 @@ import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Footer from "../../components/Footer/Footer";
 import Landing from "../Landing/Landing";
+import Loading from "../../components/Loading/Loading";
 
 import {
   FilterByCity,
@@ -21,9 +22,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
 import Paginate from "../../components/Paginate/Paginate";
-
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+
+
 const Home = () => {
   //const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -57,21 +59,23 @@ const Home = () => {
     dispatch(GetByDate());
   }, [dispatch]);
 
-
   const [date, setDate] = useState(new Date());
   const handleFilterGenres = (event) => {
     const genreValue = event.target.value;
     setFilters((prev) => ({ ...prev, genre: genreValue }));
+    setCurrentPage(1)
   };
 
   const handleFiltroCiudades = (event) => {
     const cityValue = event.target.value;
     setFilters((prev) => ({ ...prev, city: cityValue }));
+    setCurrentPage(1)
   };
 
   useEffect(() => {
     const eventosFiltrados = allEvents.filter((evento) => {
-      const matchesGenre = !filters.genre || evento.genre.includes(filters.genre);
+      const matchesGenre =
+        !filters.genre || evento.genre.includes(filters.genre);
       const matchesCity = !filters.city || evento.city.includes(filters.city);
       const matchesDate = !filters.date || evento.date === filters.date;
       return matchesGenre && matchesCity && matchesDate;
@@ -79,7 +83,6 @@ const Home = () => {
     setEvents(eventosFiltrados);
     setCurrentPage(1);
     dispatch(getUserById());
-
   }, [allEvents, filters]);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
 
@@ -109,7 +112,6 @@ const Home = () => {
     setCurrentPage(1);
   };
 
-
   const handleReset = () => {
     setFilters({
       genre: "",
@@ -122,8 +124,6 @@ const Home = () => {
     setCurrentPage(1);
   };
 
-
-  
   console.log(filters);
   const [currentPage, setCurrentPage] = useState(1);
   const [eventsPerPage] = useState(12);
@@ -139,180 +139,196 @@ const Home = () => {
     setCurrentPage(1);
   };
 
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2800)
+    return () => {
+      clearTimeout(timer);
+    }
+  }, [])
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
-      <Hero />
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <Hero />
 
-      {/* //- Filter bar ---------> */}
-      <section className="w-9/12 max-w-3xl mx-auto h-24 flex justify-evenly items-center mt-[-66px] z-10 bg-primaryColor/95 rounded-2xl">
-        {/* Filter by genres */}
-        <div className="flex flex-col m-1 gap-2 text-LightText w-44">
-          <span className="font-extralight text-xs">Géneros</span>
-          <select
-            id="genre-selector"
-            className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 "
-            onChange={(event) => handleFilterGenres(event)}
-            defaultValue="default"
-          >
-            <option value="default" disabled>
-              {" "}
-              Género musical{" "}
-            </option>
-            {genres?.map((gen) => (
-              <option
-                value={gen.name}
-                key={gen.id}
-                className="text-black rounded-lg"
+          {/* //- Filter bar ---------> */}
+          <section className="w-9/12 max-w-3xl mx-auto h-24 flex justify-evenly items-center mt-[-66px] z-10 bg-primaryColor/95 rounded-2xl">
+            {/* Filter by genres */}
+            <div className="flex flex-col m-1 gap-2 text-LightText w-44">
+              <span className="font-extralight text-xs">Géneros</span>
+              <select
+                id="genre-selector"
+                className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 "
+                onChange={(event) => handleFilterGenres(event)}
+                defaultValue="default"
               >
-                {gen.name}
-              </option>
-            ))}
-          </select>
-        </div>
+                <option value="default" disabled>
+                  {" "}
+                  Género musical{" "}
+                </option>
+                {genres?.map((gen) => (
+                  <option
+                    value={gen.name}
+                    key={gen.id}
+                    className="text-black rounded-lg"
+                  >
+                    {gen.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        {/* Filter by cities */}
-        <div className="flex flex-col m-1 gap-2 text-LightText w-44">
-          <span className="font-extralight text-xs">Ciudades</span>
-          <select
-            className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700"
-            onChange={(event) => handleFiltroCiudades(event)}
-            defaultValue="default"
-          >
-            <option value="default" disabled>
-              {" "}
-              Ciudades{" "}
-            </option>
-            {ciudades?.map((cit) => (
-              <option value={cit.name} key={cit.id} className="text-black">
-                {cit.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Select by dates */}
-        <div className="flex flex-col m-1 gap-2 text-LightText w-44">
-          <span className="font-extralight text-xs">Fechas</span>
-          <div className="relative inline-block">
-            <input
-              id="fecha"
-              className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 cursor-pointer"
-              type="text"
-              value={date.toISOString().split("T")[0]}
-              name="Fecha"
-              onChange={() => {}}
-              onClick={handleToggleCalendar}
-              readOnly
-              required
-            />
-            {/* Icono de calendario al lado del input */}
-            <span className="absolute inset-y-0 right-0 flex items-center pr-0 mb-1 pointer-events-none">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="18"
-                width="18"
-                viewBox="0 -960 960 960"
-                className="fill-LightText"
+            {/* Filter by cities */}
+            <div className="flex flex-col m-1 gap-2 text-LightText w-44">
+              <span className="font-extralight text-xs">Ciudades</span>
+              <select
+                className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700"
+                onChange={(event) => handleFiltroCiudades(event)}
+                defaultValue="default"
               >
-                <path d="M180-80q-24 0-42-18t-18-42v-620q0-24 18-42t42-18h65v-60h65v60h340v-60h65v60h65q24 0 42 18t18 42v620q0 24-18 42t-42 18H180Zm0-60h600v-430H180v430Zm0-490h600v-130H180v130Zm0 0v-130 130Zm300 230q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z" />
-              </svg>
-            </span>
-            {isCalendarOpen && (
-              <div className="absolute bg-LightText text-primaryColor shadow-md p-2 mt-2 ">
-                <Calendar
-                  /* onChange={handleInputChange} */
-                  value={date}
-                  minDate={new Date("2023-08-10")}
-                  maxDate={new Date("2023-11-29")}
-                  tileDisabled={({ activeStartDate, date, view }) => {
-                    const dateString = date.toISOString().split("T")[0];
-                    return !allowedDates.includes(dateString);
-                  }}
+                <option value="default" disabled>
+                  {" "}
+                  Ciudades{" "}
+                </option>
+                {ciudades?.map((cit) => (
+                  <option value={cit.name} key={cit.id} className="text-black">
+                    {cit.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Select by dates */}
+            <div className="flex flex-col m-1 gap-2 text-LightText w-44">
+              <span className="font-extralight text-xs">Fechas</span>
+              <div className="relative inline-block">
+                <input
+                  id="fecha"
+                  className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 cursor-pointer"
+                  type="text"
+                  value={date.toISOString().split("T")[0]}
+                  name="Fecha"
+                  onChange={() => {}}
+                  onClick={handleToggleCalendar}
+                  readOnly
+                  required
                 />
+                {/* Icono de calendario al lado del input */}
+                <span className="absolute inset-y-0 right-0 flex items-center pr-0 mb-1 pointer-events-none">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="18"
+                    width="18"
+                    viewBox="0 -960 960 960"
+                    className="fill-LightText"
+                  >
+                    <path d="M180-80q-24 0-42-18t-18-42v-620q0-24 18-42t42-18h65v-60h65v60h340v-60h65v60h65q24 0 42 18t18 42v620q0 24-18 42t-42 18H180Zm0-60h600v-430H180v430Zm0-490h600v-130H180v130Zm0 0v-130 130Zm300 230q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z" />
+                  </svg>
+                </span>
+                {isCalendarOpen && (
+                  <div className="absolute bg-LightText text-primaryColor shadow-md p-2 mt-2 ">
+                    <Calendar
+                      /* onChange={handleInputChange} */
+                      value={date}
+                      minDate={new Date("2023-08-10")}
+                      maxDate={new Date("2023-11-29")}
+                      tileDisabled={({ activeStartDate, date, view }) => {
+                        const dateString = date.toISOString().split("T")[0];
+                        return !allowedDates.includes(dateString);
+                      }}
+                    />
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        </div>
-      </section>
-      {/* //- Fin Filter bar ---------> */}
+            </div>
+          </section>
+          {/* //- Fin Filter bar ---------> */}
 
-      <SearchBar returnToFirstPage={returnToFirstPage} />
+          <SearchBar returnToFirstPage={returnToFirstPage} />
 
-      {/* Title & order by events */}
-      <section className="w-full md:flex-wrap max-w-5xl md:mx-auto px-7 mt-20 flex items-center lg:justify-between md:flex-row flex-col justify-center">
-        <p className="text-3xl font-semibold text-primaryColor mb-5 mr-5 md:mb-0">Próximos Eventos</p>
-        <div className="md:space-x-3.5 flex flex-col gap-4 md:flex-row items-center justify-center">
-        {/* order by alfabético */}
-          <select
-            className="h-8 w-44 px-2 rounded-lg focus:outline-none border focus:border-secondaryColor pointer cursor-pointer"
-            onChange={(event) => handleOrderByName(event)}
-            defaultValue="default"
-          >
-            <option className="" value="default" disabled>
-              Orden Alfabético
-            </option>
-            <option value="asc">A-Z</option>
-            <option value="desc">Z-A</option>
-          </select>
+          {/* Title & order by events */}
+          <section className="w-full md:flex-wrap max-w-5xl md:mx-auto px-7 mt-20 flex items-center lg:justify-between md:flex-row flex-col justify-center">
+            <p className="text-3xl font-semibold text-primaryColor mb-5 mr-5 md:mb-0">
+              Próximos Eventos
+            </p>
+            <div className="md:space-x-3.5 flex flex-col gap-4 md:flex-row items-center justify-center">
+              {/* order by alfabético */}
+              <select
+                className="h-8 w-44 px-2 rounded-lg focus:outline-none border focus:border-secondaryColor pointer cursor-pointer"
+                onChange={(event) => handleOrderByName(event)}
+                defaultValue="default"
+              >
+                <option className="" value="default" disabled>
+                  Orden Alfabético
+                </option>
+                <option value="asc">A-Z</option>
+                <option value="desc">Z-A</option>
+              </select>
 
-        {/* order by events */}
-          <select
-            className="h-8 w-44 px-2 rounded-lg focus:outline-none border focus:border-secondaryColor cursor-pointer"
-            onChange={(event) => handleOrderDate(event)}
-            defaultValue="default"
-          >
-            <option value="default" disabled>
-              Orden de Eventos
-            </option>
-            <option value="asc">Eventos más recientes</option>
-            <option value="desc">Eventos más lejanos</option>
-          </select>
+              {/* order by events */}
+              <select
+                className="h-8 w-44 px-2 rounded-lg focus:outline-none border focus:border-secondaryColor cursor-pointer"
+                onChange={(event) => handleOrderDate(event)}
+                defaultValue="default"
+              >
+                <option value="default" disabled>
+                  Orden de Eventos
+                </option>
+                <option value="asc">Eventos más recientes</option>
+                <option value="desc">Eventos más lejanos</option>
+              </select>
 
-          <button
-            className="py-1.5 px-3 rounded-md bg-primaryColor/90 text-Color200 hover:text-black hover:bg-white border hover:border-primaryColor transition duration-500 ease-in-out transform"
-            onClick={handleReset}
-          >
-            Reiniciar Filtros
-          </button>
+              <button
+                className="py-1.5 px-3 rounded-md bg-primaryColor/90 text-Color200 hover:text-black hover:bg-white border hover:border-primaryColor transition duration-500 ease-in-out transform"
+                onClick={handleReset}
+              >
+                Reiniciar Filtros
+              </button>
+            </div>
+          </section>
+          {/* Fin Title & order by events */}
 
-        </div>
-      </section>
-      {/* Fin Title & order by events */}
-      
-      {/* Card section */}
-      <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full ">
-        {currentEvents?.map((cu) => {
-          return (
-            <Card
-              id={cu.id}
-              name={cu.name}
-              image={cu.image}
-              genres={cu.genre}
-              date={cu.date}
-              location={cu.location}
-              city={cu.city}
-              price={cu.price}
-              key={cu.id}
+          {/* Card section */}
+          <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full ">
+            {currentEvents?.map((cu) => {
+              return (
+                <Card
+                  id={cu.id}
+                  name={cu.name}
+                  image={cu.image}
+                  genres={cu.genre}
+                  date={cu.date}
+                  location={cu.location}
+                  city={cu.city}
+                  price={cu.price}
+                  key={cu.id}
+                />
+              );
+            })}
+          </section>
+          {/* Fin Card section */}
+
+          {/* Pagination */}
+          <section className="mb-5">
+            <Paginate
+              eventsPerPage={eventsPerPage}
+              allEvents={allEvents.length}
+              paginate={paginate}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
             />
-          );
-        })}
-      </section>
-      {/* Fin Card section */}
-
-      {/* Pagination */}
-      <section className="mb-5">
-        <Paginate
-          eventsPerPage={eventsPerPage}
-          allEvents={allEvents.length}
-          paginate={paginate}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      </section>
-      <Landing />
-      <Footer />
+          </section>
+          <Landing />
+          <Footer />
+        </>
+      )}
     </div>
   );
 };

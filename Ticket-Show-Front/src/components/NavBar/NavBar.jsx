@@ -5,6 +5,7 @@ import logoTicketShow from "../../assets/logos/logoTicketShow.svg";
 import { useAuth } from "../../context/AuthContext"; // Importa el useAuth del contexto
 import { CartContext } from "../Shoppingcart/shoppingCartContext"
 import { useSelector } from "react-redux";
+import CreateEvent from "../CreateEvent/CreateEvent";
 //import {getUserById } from '../../redux/actions';
 //import { useDispatch } from 'react-redux';
 const NavBar = () => {
@@ -188,7 +189,7 @@ const NavBar = () => {
                   {
                   usersFinder?.role === 'artista'?
                   <NavLink
-                    to="/crearevento"
+                    to="/createEvent"
                     className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
                     role="menuitem"
                     onClick={closeDropdown}
@@ -197,14 +198,14 @@ const NavBar = () => {
                   </NavLink> : null
                   } 
                   {
-                  usersFinder?.role === 'Admin'?
+                  usersFinder?.role === 'customer'?
                   <NavLink
                     to="/PanelAdmin"
                     className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
                     role="menuitem"
                     onClick={closeDropdown}
                   >
-                    Panel de Admin
+                    Panel admin
                   </NavLink> : null
                   } 
 

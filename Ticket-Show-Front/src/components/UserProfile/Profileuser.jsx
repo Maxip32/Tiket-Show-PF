@@ -10,6 +10,8 @@ import { getFirestore, doc, updateDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
 
 
+
+
 export default function UserProfile() {
   const navigate = useNavigate()
   //const auth = useAuth();
@@ -107,6 +109,7 @@ export default function UserProfile() {
     }
   };
 
+
   const handleChangeName = () => {
     setError(null);
     if (newDisplayName.trim() === "") {
@@ -135,14 +138,7 @@ export default function UserProfile() {
     return <p>Usuario no autenticado</p>;
   
 }
-  
- 
 
-  if (!user) {
-    // Si el usuario no está autenticado, mostrar un mensaje o redireccionar a la página de inicio de sesión.
-    return <p>Usuario no autenticado</p>;
-  
-}
   return (
     <>
       <section className="flex block mt-20 h-500-px">

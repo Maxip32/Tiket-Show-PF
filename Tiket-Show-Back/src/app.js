@@ -12,7 +12,7 @@ const cartRouter = require("./routes/cartRoutes");
 const findCityRoute = require("./routes/cityRouter");
 const dateRouter = require("./routes/dateRouter");
 const nodemailerRouter = require("./routes/nodemailerRouter");
-const userRouter = require("./routes/userRouter");
+const userRouter = require('./routes/userRouter');
 const paymentRoutes = require("./routes/paymentRoutes");
 const path = require("path");
 
@@ -29,7 +29,7 @@ server.use(morgan("dev"));
 
 server.use((req, res, next) => {
 
-/*  comentate esta de abajo, la 34 */
+/*  comentate esta de abajo */
   res.header('Access-Control-Allow-Origin', 'https://tiket-show-pf.vercel.app/'); // update to match the domain you will make the request from
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');

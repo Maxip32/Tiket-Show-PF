@@ -7,7 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 import { CartContext } from "../Shoppingcart/shoppingCartContext";
 //import { addToCartBackend } from "../Shoppingcart/CartContext"
 
-const Card = ({id, image, name, date, price, genres,city}) => {
+const Card = ({id, image, name, date, price, genres, city}) => {
   const { user} = useAuth(); // Obtén el usuario autenticado desde el contexto de autenticación
 
   const monthsMap = {
@@ -24,6 +24,7 @@ const Card = ({id, image, name, date, price, genres,city}) => {
     '11': "NOV",
     '12': "DIC",
   };
+  
   const [cart, setCart] = useContext(CartContext);
 
   const addToCart = () => {
@@ -90,7 +91,7 @@ const Card = ({id, image, name, date, price, genres,city}) => {
             
           </div>
           <div>
-            <h1>{price}</h1>
+            {/* <h1>{price}</h1> */}
           </div>
         </div>
       </Link>
