@@ -21,6 +21,7 @@ const newUser = async (data) => {
     const [user, created] = await User.findOrCreate({
       where: {
         email,
+        image,
       },
       defaults: {
         firstName,
