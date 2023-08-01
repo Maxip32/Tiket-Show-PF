@@ -5,16 +5,17 @@ import { NavLink } from "react-router-dom";
 import MyShopping from "./Shoppinguser";
 import { useSelector } from "react-redux";
 
+
+
 export default function UserProfile() {
   const { user, updateUserDisplayName } = useAuth();
   const [newDisplayName, setNewDisplayName] = useState("");
   const [error, setError] = useState(null);
-  const datosbanda = useSelector((state) => state?.user);
-  const datosartist = datosbanda?.find((date) => date.email === user?.email);
-  const users = useSelector((state) => state?.user);
-  const usersFinder = users?.length
-    ? users?.find((rol) => rol.email === user?.email)
-    : null;
+  const datosbanda= useSelector((state)=> state?.user)
+  const datosartist= datosbanda?.find(date => date.email === user?.email)
+  const RolesUsers= useSelector((state)=> state?.user)
+  const Roles= RolesUsers.length > 0 ? RolesUsers.find(rol => rol.email === user?.email):
+  null;
   const handleChangeName = () => {
     setError(null);
     if (newDisplayName.trim() === "") {
@@ -41,10 +42,11 @@ export default function UserProfile() {
   if (!user) {
     // Si el usuario no está autenticado, mostrar un mensaje o redireccionar a la página de inicio de sesión.
     return <p>Usuario no autenticado</p>;
-  }
+  
+}
   return (
     <>
-      <section className="flex mt-20 h-500-px">
+      <section className="flex block mt-20 h-500-px">
         <div
           className="absolute mt-20 w-full h-full bg-center bg-cover"
           style={{
@@ -100,7 +102,10 @@ export default function UserProfile() {
                     <button
                       className="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                       type="button"
-                    >
+                    ><NavLink
+                    
+                    to="/"
+                    />
                       <NavLink to ="/">
                       Home
 
@@ -123,7 +128,7 @@ export default function UserProfile() {
                 </div>
               </div>
               <div className="text-center mt-12">
-                <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
+                <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
                   {user.displayName}
                 </h3>
                 <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold ">
@@ -168,7 +173,7 @@ export default function UserProfile() {
                   </div>
                 ) : null}
                 <div>
-                  <div className="flex flex-col items-center">
+                  <div  className="flex flex-col items-center">
                     <div className="flex items-center justify-center px-8 gap-8 flex-col">
                       <p className="text-1xl font-semibold text-primaryColor w-fit">
                         Cambiar Nombre:
@@ -245,5 +250,6 @@ export default function UserProfile() {
         </div>
       </section>
     </>
+    
   );
 }

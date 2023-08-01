@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import Hero from "../../components/Hero/Hero";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -64,11 +63,13 @@ const Home = () => {
   const handleFilterGenres = (event) => {
     const genreValue = event.target.value;
     setFilters((prev) => ({ ...prev, genre: genreValue }));
+    setCurrentPage(1)
   };
 
   const handleFiltroCiudades = (event) => {
     const cityValue = event.target.value;
     setFilters((prev) => ({ ...prev, city: cityValue }));
+    setCurrentPage(1)
   };
 
   useEffect(() => {

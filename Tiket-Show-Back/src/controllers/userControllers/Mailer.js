@@ -1,10 +1,7 @@
+const nodemailer = require("nodemailer");
 
-const nodemailer = require("nodemailer")
-
-
-
-async function sendEmail(subject, email,firstName, content) {
-
+async function sendEmail(subject, email, content) {
+  try {
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 587,
@@ -25,16 +22,13 @@ async function sendEmail(subject, email,firstName, content) {
 
       subject: "Confirmación de Registro",
       html: `<h1>Gracias por registrarte ${firstName} en TicketShow</h1>`
-    
-
     };
-  
-    try {
-      const info = await transporter.sendMail(mailOptions);
-      console.log('Correo electrónico enviado:', info.response);
-    } catch (error) {
-      console.log('Error al enviar el correo electrónico:', error);
-    }
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Correo electrónico enviado:", info.response);
+  } catch (error) {
+    console.log("Error al enviar el correo electrónico:", error);
   }
-  
-  module.exports = { sendEmail };
+}
+
+module.exports = { sendEmail };
