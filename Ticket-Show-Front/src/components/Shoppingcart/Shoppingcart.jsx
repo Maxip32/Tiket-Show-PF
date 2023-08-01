@@ -2,6 +2,7 @@
 import { useContext } from "react";
 import { CartContext } from "./shoppingCartContext";
 import { useAuth } from "../../context/AuthContext";
+
 export const CartPage = () => {
   const [cart, setCart] = useContext(CartContext);
   const { user } = useAuth(); 
