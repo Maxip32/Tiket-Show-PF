@@ -12,6 +12,7 @@ import { AuthProvider } from "../src/context/AuthContext";
 import CompraPaypal from "./components/Paypal/Paypal.compra.jsx";
 import { ShoppingCartProvider } from "./components/Shoppingcart/shoppingCartContext";
 import UserProfile from "./components/UserProfile/Profileuser";
+import CreateEvent from "./components/CreateEvent/CreateEvent";
 function App() {
   //const location = useLocation();
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/registerArtist" element={<Artist />} />
+          <Route path="/createEvent" element={<CreateEvent />} />
           <Route path="/" element={<Home />} />
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/approved" element={<CompraPaypal/>}/>
