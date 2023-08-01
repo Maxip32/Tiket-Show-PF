@@ -72,7 +72,7 @@ const Detail = () => {
           </div>
         </>
       ) : (
-        <Loading />
+        <Loading/>
       )}
     </div>
   );
