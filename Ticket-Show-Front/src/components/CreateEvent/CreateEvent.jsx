@@ -118,7 +118,7 @@ const CreateEvent = () => {
 
   return (
     <div className="w-full flex justify-center items-center mt-2">
-    <div className="bg-white rounded-2xl shadow-lg flex w-5/6">
+    <div className="bg-white rounded-2xl shadow-lg flex w-4/6">
     {/* image section */}
     <section className="w-2/4">
       <img
@@ -128,9 +128,9 @@ const CreateEvent = () => {
       />
     </section>
 
-    <section className="p-4 flex flex-col justify-center items-center w-2/4 text-left">
+    <section className="p-2 flex flex-col justify-center items-center w-2/4 text-left">
       <div className="my-4 text-base text-Color1000 flex flex-col gap-4">
-        <h2 className="text-4xl font-bold text-primaryColor text-left">
+        <h2 className="text-3xl font-bold text-primaryColor text-left">
           Regístra tu Evento
         </h2>
         <p className="text-base text-Color1000 text-left">
@@ -138,7 +138,7 @@ const CreateEvent = () => {
         </p>
       </div>
 
-      <form className="flex flex-col gap-6 w-full justify-center items-center" onSubmit={"handleRegister"}>
+      <form className="flex flex-col gap-4 w-full justify-center items-center" onSubmit={"handleRegister"}>
         <input
           placeholder='Nombre Evento'
           type="text"
