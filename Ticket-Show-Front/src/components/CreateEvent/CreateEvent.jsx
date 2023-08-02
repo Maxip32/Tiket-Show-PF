@@ -2,17 +2,14 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createArtist,
-  updateUser,
-  getUserByEmail,
-  getUserById,
-} from "../../redux/actions";
+import { createEvent } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc"; // Suponiendo que el ícono FcGoogle proviene de react-icons
 import registerPublic from "../../assets/image/registerPublic.jpg";
 
 const CreateEvent = () => {
+  const dispatch = useDispatch();
+
   const [eventInfo, setEventInfo] = useState({
     name: "",
     description: "",
@@ -49,7 +46,8 @@ const CreateEvent = () => {
   };
 
   const handleSubmit = () => {
-    event.preventDefault();
+    e.preventDefault();
+    dispatch(createEvent(eventInfo, history))
   };
 
   return (
@@ -82,8 +80,7 @@ const CreateEvent = () => {
               placeholder="Nombre Evento"
               type="text"
               value={eventInfo.name}
-              //onChange={handleChange(e.target.value)}
-               onChange= {(e)=> handleChange(e.target.value)}
+              onChange={handleChange}
               name={"name"}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
