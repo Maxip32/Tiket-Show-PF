@@ -10,23 +10,23 @@ const About = () => {
           Development team
         </p>
         <h1 className="text-4xl mt-5 mb-10 font-bold leadi text-center sm:text-5xl">
-          Las Talentosas Personas detras de Escena
+          ¡Las talentosas personas detras de escena!
         </h1>
         <div className="flex bg-red flex-row flex-wrap-reverse justify-center mt-8 ">
           <div className="flex flex-col justify-center  w-full px-8 mx-6 my-12 text-center rounded-md md:w-96 lg:w-80 xl:w-64 dark:bg-gray-100 dark:text-gray-800">
             <img
               alt=""
               className="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src="https://source.unsplash.com/100x100/?portrait?0"
+              src="https://media.licdn.com/dms/image/D4D03AQFX9x4Cq1M9UQ/profile-displayphoto-shrink_400_400/0/1680528211886?e=1696464000&v=beta&t=DJsBV9KO6t79Cbk0Jx_7Tmq1s2nsR9PFO7ypvs_EiSc"
             />
             <div className="flex-1  my-4">
-              <p className="text-xl font-semibold leadi">El Juan</p>
-              <p>Visual Designer</p>
+              <p className="text-xl font-semibold leadi">Ramera</p>
+              <p>Full Stack Developer</p>
             </div>
             <div className="flex items-center justify-center p-3 space-x-3 border-t-2">
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="#??"
                 title="Email"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -57,7 +57,7 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="https://www.linkedin.com/in/tom%C3%A1s-arcostanzo-4a1b50162/"
                 title="LinkedIn"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -72,7 +72,7 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="https://github.com/tomychi"
                 title="GitHub"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -91,11 +91,11 @@ const About = () => {
             <img
               alt=""
               className="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src="https://source.unsplash.com/100x100/?portrait?1"
+              src="https://images.unsplash.com/photo-1613759375165-1cd532c35738?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=100&ixid=MnwxfDB8MXxyYW5kb218MHx8cG9ydHJhaXQ_NXx8fHx8fDE2OTA5OTM2NTk&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=100"
             />
             <div className="flex-1 my-4">
-              <p className="text-xl font-semibold leadi">El RoRo </p>
-              <p>Visual Designer</p>
+              <p className="text-xl font-semibold leadi">Rodrigo Ignacio Gonzalez Oliver</p>
+              <p>Full Stack Developer</p>
             </div>
             <div className="flex items-center justify-center p-3 space-x-3 border-t-2">
               <a
@@ -131,7 +131,7 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="https://www.linkedin.com/in/diamela-lares-/"
                 title="LinkedIn"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -146,7 +146,7 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="https://www.linkedin.com/in/juan-toledo-53b256245/"
                 title="GitHub"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -165,16 +165,16 @@ const About = () => {
             <img
               alt=""
               className="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src="https://source.unsplash.com/100x100/?portrait?1"
+              src="https://media.licdn.com/dms/image/D4E35AQHnU7E_TPeu8Q/profile-framedphoto-shrink_400_400/0/1675443101532?e=1691600400&v=beta&t=Dy7wmSP_qvom8HyiXTLDDpW1lUAHicYGgIGC0djRXBE"
             />
             <div className="flex-1 my-4">
-              <p className="text-xl font-semibold leadi">El Ema</p>
-              <p>Visual Designer</p>
+              <p className="text-xl font-semibold leadi">Emanuel Ivan Robledo</p>
+              <p>Full Stack Developer</p>
             </div>
             <div className="flex items-center justify-center p-3 space-x-3 border-t-2">
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="emanuel.robledo@hotmail.com"
                 title="Email"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -205,7 +205,7 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="https://www.linkedin.com/in/emanuel-ivan-robledo-15254b163/"
                 title="LinkedIn"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -220,7 +220,7 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="https://github.com/emanuel4969"
                 title="GitHub"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -239,16 +239,16 @@ const About = () => {
             <img
               alt=""
               className="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src="https://source.unsplash.com/100x100/?portrait?2"
+              src="https://media.licdn.com/dms/image/D4D35AQGmD0xXtTmvgg/profile-framedphoto-shrink_400_400/0/1686180327561?e=1691600400&v=beta&t=-EaVXS5V0HI6w1EImc3aqzin1yJg3luEowRL3lPxzuA"
             />
             <div className="flex-1 my-4">
-              <p className="text-xl font-semibold leadi">El KennyS</p>
-              <p>Visual Designer</p>
+              <p className="text-xl font-semibold leadi">Kenny Gabriel Perez Rosales</p>
+              <p>Full Stack Developer</p>
             </div>
             <div className="flex items-center justify-center p-3 space-x-3 border-t-2">
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="kennygabriel00@gmail.com"
                 title="Email"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -279,7 +279,7 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="https://www.linkedin.com/in/kenny-p%C3%A9rez-75760118b/"
                 title="LinkedIn"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -294,7 +294,7 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="https://github.com/KennyGi0053"
                 title="GitHub"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -313,16 +313,16 @@ const About = () => {
             <img
               alt=""
               className="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src="https://source.unsplash.com/100x100/?portrait?3"
+              src="https://media.licdn.com/dms/image/D4E03AQEYSz9XlWthBg/profile-displayphoto-shrink_400_400/0/1689810340402?e=1696464000&v=beta&t=z2vavD-znyDRmjesaLbgQ2KqRYoZ6fs4iItB8hYwDBM"
             />
             <div className="flex-1 my-4">
-              <p className="text-xl font-semibold leadi">El Darwin</p>
-              <p>Visual Designer</p>
+              <p className="text-xl font-semibold leadi">Darwin Moises Hernandez Castillo</p>
+              <p>Full Stack Developer</p>
             </div>
             <div className="flex items-center justify-center p-3 space-x-3 border-t-2">
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="d.hernan1007@gmail.com "
                 title="Email"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -338,7 +338,7 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="DHernan1007"
                 title="Twitter"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -353,7 +353,7 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="https://www.linkedin.com/in/darwin-hern%C3%A1ndez-9b0387244/"
                 title="LinkedIn"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -368,7 +368,7 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="https://github.com/Dhernan1007"
                 title="GitHub"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -387,16 +387,16 @@ const About = () => {
             <img
               alt=""
               className="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src="https://source.unsplash.com/100x100/?portrait?4"
+              src="https://media.licdn.com/dms/image/D5635AQEPLtJ0X1LgxQ/profile-framedphoto-shrink_400_400/0/1681351981824?e=1691596800&v=beta&t=E6h5i-3bGWvRTKVP3FF844MwOWnmZRrCOGm3QvoNkiE"
             />
             <div className="flex-1 my-4">
-              <p className="text-xl font-semibold leadi">Nuestro Rey</p>
-              <p>Visual Designer</p>
+              <p className="text-xl font-semibold leadi">Maximiliano Emanuel Piolatto</p>
+              <p>Full Stack Developer</p>
             </div>
             <div className="flex items-center justify-center p-3 space-x-3 border-t-2">
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="piolattoemanuel@gmail.com"
                 title="Email"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -427,7 +427,7 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="https://www.linkedin.com/in/maxi-piolatto/" 
                 title="LinkedIn"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -442,7 +442,7 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="#"
+                href="https://github.com/Maxip32/"
                 title="GitHub"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -464,8 +464,8 @@ const About = () => {
               src="https://source.unsplash.com/100x100/?portrait?5"
             />
             <div className="flex-1 my-4">
-              <p className="text-xl font-semibold leadi">El Dani</p>
-              <p>Visual Designer</p>
+              <p className="text-xl font-semibold leadi">Daniel Aaron Fabiani Carmona</p>
+              <p>Full Stack Developer</p>
             </div>
             <div className="flex items-center justify-center p-3 space-x-3 border-t-2">
               <a
