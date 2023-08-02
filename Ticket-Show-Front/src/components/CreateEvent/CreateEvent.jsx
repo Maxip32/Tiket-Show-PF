@@ -51,7 +51,7 @@ const CreateEvent = () => {
   const handleSubmit = () => {
     event.preventDefault();
   };
-
+console.log(eventInfo)
   return (
     <div className="w-full flex justify-center items-center mt-2">
       <div className="bg-white rounded-2xl shadow-lg flex w-4/6">
@@ -82,8 +82,7 @@ const CreateEvent = () => {
               placeholder="Nombre Evento"
               type="text"
               value={eventInfo.name}
-              //onChange={handleChange(e.target.value)}
-               onChange= {(e)=> handleChange(e.target.value)}
+              onChange={handleChange}
               name={"name"}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
