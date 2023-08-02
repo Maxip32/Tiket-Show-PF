@@ -31,7 +31,9 @@ import {
   GET_CAPTURE_ORDER,
   GET_CANCEL_ORDER,
   CREATE_MAIL_SUCCESS,
-  CREATE_MIAL_FAILURE
+  CREATE_MIAL_FAILURE,
+  CREATE_EVENT_SUCCESS,
+  CREATE_EVENT_FAILURE  
 } from "../redux/actions";
 
 const initialState = {
@@ -252,8 +254,26 @@ const rootReducer = (state = initialState, action) => {
         error: action.payload,
       };
 
+      ////////////// CREATE EVENT ///////////////
+      case CREATE_EVENT_SUCCESS:
+        return {
+          ...state,
+          user: action.payload,
+          loading: false,
+          error: null,
+        };
+
+        case CREATE_EVENT_FAILURE:
+          return {
+            ...state,
+            user: null,
+            loading: false,
+            error: action.payload,
+          };
+
     ///////////// GET USER BY EMAIL Y UPDATE ///////////
 
+    
     case GET_USER_BY_EMAIL_SUCCESS:
       return {
         ...state,

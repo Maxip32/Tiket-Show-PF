@@ -2,17 +2,14 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createArtist,
-  updateUser,
-  getUserByEmail,
-  getUserById,
-} from "../../redux/actions";
+import { createEvent } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc"; // Suponiendo que el ícono FcGoogle proviene de react-icons
 import registerPublic from "../../assets/image/registerPublic.jpg";
 
 const CreateEvent = () => {
+  const dispatch = useDispatch();
+
   const [eventInfo, setEventInfo] = useState({
     name: "",
     description: "",
@@ -49,9 +46,10 @@ const CreateEvent = () => {
   };
 
   const handleSubmit = () => {
-    event.preventDefault();
+    e.preventDefault();
+    dispatch(createEvent(eventInfo, history))
   };
-console.log(eventInfo)
+
   return (
     <div className="w-full flex justify-center items-center mt-2">
       <div className="bg-white rounded-2xl shadow-lg flex w-4/6">
