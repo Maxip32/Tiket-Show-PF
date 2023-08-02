@@ -21,6 +21,7 @@ const newUser = async (data) => {
     const [user, created] = await User.findOrCreate({
       where: {
         email,
+        image,
       },
       defaults: {
         firstName,
@@ -52,4 +53,6 @@ const newUser = async (data) => {
     throw new Error(error.message); //para k tiene un try catch aka si el error burbujea para arriba, lo catchea el try catch del handler
   }
 };
+
+
 module.exports = newUser;

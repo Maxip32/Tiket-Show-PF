@@ -5,10 +5,12 @@ import { Link } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";
 import { CartContext } from "../Shoppingcart/shoppingCartContext";
+import { LiaCartPlusSolid, LiaCartArrowDownSolid, LiaTicketAltSolid } from "react-icons/lia";
 //import { addToCartBackend } from "../Shoppingcart/CartContext"
 
-const Card = ({id, image, name, date, price, genres,city}) => {
-  const { user} = useAuth(); // Obtén el usuario autenticado desde el contexto de autenticación
+
+const Card = ({ id, image, name, date, price, genres, city }) => {
+  const { user } = useAuth(); // Obtén el usuario autenticado desde el contexto de autenticación
 
   const monthsMap = {
     "01": "ENE",
@@ -20,10 +22,11 @@ const Card = ({id, image, name, date, price, genres,city}) => {
     "07": "JUL",
     "08": "AGO",
     "09": "SEP",
-    '10': "OCT",
-    '11': "NOV",
-    '12': "DIC",
+    "10": "OCT",
+    "11": "NOV",
+    "12": "DIC",
   };
+
   const [cart, setCart] = useContext(CartContext);
 
   const addToCart = () => {
@@ -70,51 +73,50 @@ const Card = ({id, image, name, date, price, genres,city}) => {
   const formattedMonth = monthsMap[month];
 
   return (
-
-    <div className="bg-white w-64 h-80 m-4 border shadow-md rounded-2xl flex-none lg:flex lg:flex-col">
-      <Link to={`/detail/${id}`} className={""}>
-        <div className="flex flex-col items-center justify-center h-56 w-full">
+    <div className="bg-white w-64 h-96 md:w-72 m-4 border shadow-md rounded-2xl flex-none lg:flex lg:flex-col">
+      <Link to={`/detail/${id}`}>
+        <div className="flex flex-col h-60 md:h-72 justify-center items-center w-full">
           <img
             className="w-full h-full object-cover rounded-t-2xl"
             src={image}
             alt="imagen no encontrada"
           />
         </div>
-        <div className="ml-3 mr-6 flex flex-col md:flex-row items-center justify-between">
-          <div className="p-3 text-black flex flex-col items-center">
-            <h2 className="text-md text-ChryslerBlue">{formattedMonth}</h2>
-            <h2 className="text-3xl font-bold">{day}</h2>
-          </div>
-          <div className="flex font-bold md:text-xl text-black text-left md:text-right">
-            <h3>{name}</h3>
-            
-          </div>
-          <div>
-            {/* <h1>{price}</h1> */}
-          </div>
-        </div>
       </Link>
-
-      {user && (
-        <>
-          {quantityPerItem > 0 && <div>{quantityPerItem}</div>}
-
-          {/* <p onClick={handleCountItem}>{counterItem}</p> */}
-          {quantityPerItem === 0 ? (
-            <button onClick={() => addToCart()}>+ Agregar</button>
-          ) : (
-            <button onClick={() => addToCart()}>+ Añadir más</button>
-          )}
-
-          {quantityPerItem > 0 && (
-            <button onClick={() => removeItem(id)}>- Remover</button>
-          )}
-          <button onClick={() => addToCart()} className={""}>
-            {/* Icono de carrito */}
-            <FiShoppingCart size={20} />
-          </button>
-        </>
-      )}
+      <div className="w-full flex flex-col md:flex-row items-center justify-between p-2">
+        <div className="text-black flex flex-col items-center justify-center md:ml-2">
+          <p className="text-md text-ChryslerBlue">{formattedMonth}</p>
+          <h2 className="text-3xl font-bold">{day}</h2>
+        </div>
+        <div className="w-full flex flex-col items-center gap-2 h-full mt-2">
+          <div className="w-full flex gap-2 items-center justify-center md:justify-end h-2/4 mr-1">
+            <span className="font-semibold text-lg text-primaryColor ">{name}</span>
+            <span className="p-1 rounded-lg bg-DarkTextPurple text-Color200 text-sm font-extralight">$ {price} </span>
+          </div>
+          <div className="flex items-center gap-2 h-2/4">
+            {user && (
+              <>
+                {quantityPerItem > 0 && <div>Total: {quantityPerItem}</div>}
+                {quantityPerItem === 0 ? (
+                  <button onClick={() => addToCart()}>
+                    <LiaCartPlusSolid size={26} color="#ed4690" />
+                  </button>
+                ) : (
+                  <button onClick={() => addToCart()}>
+                    <LiaCartPlusSolid size={26} color="#ed4690"/>
+                  </button>
+                )}
+                {/* <span>Total: </span> */}
+                {quantityPerItem > 0 && (
+                  <button onClick={() => removeItem(id)}>
+                    <LiaCartArrowDownSolid size={26} color="#5522CC"/>
+                  </button>
+                )}
+              </>
+            )}
+          </div>
+          </div>
+      </div>
     </div>
   );
 };
