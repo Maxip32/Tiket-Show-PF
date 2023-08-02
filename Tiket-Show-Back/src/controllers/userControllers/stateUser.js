@@ -1,21 +1,34 @@
-const { User } = require('../../db');
+const { User, Artist } = require('../../db');
 
-const changeStateUser = async (req, res) => {
+const stateUser = async (req, res) => {
     const { email } = req.params;
 
     try {
-        const user = await User.findByPk(email);
-
-        if (!user) {
-            return res.status(404).json({
-                msg: 'Usuario no existe',
+        // Utilizar una transacción para asegurar la integridad de los datos
+            const user = await User.findOne({
+                where: { email }
             });
-        }
 
-        await user.update({ state: true });
+            const artist = await Artist.findOne({
+                where: { email },
+            });
+
+            if (!user && !artist) {
+                return res.status(404).json({
+                    msg: 'Usuario o artista no existe',
+                });
+            }
+
+            if (user) {
+                await user.update({ state: true });
+            }
+
+            if (artist) {
+                await artist.update({ state: true });
+            }
 
         res.status(200).json({
-            msg: 'Usuario activado',
+            msg: 'Usuario o artista activado',
         });
 
     } catch (error) {
@@ -26,4 +39,4 @@ const changeStateUser = async (req, res) => {
     }
 };
 
-module.exports = changeStateUser;
+module.exports = stateUser;

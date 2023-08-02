@@ -14,7 +14,7 @@ const userRouter = Router();
 userRouter.post('/createUser',createUserData);
 userRouter.get('/', idUser);
 userRouter.delete('/deleteUser/:id', deleteUser);
-userRouter.put('/stateUser/:id', stateUser);
+userRouter.put('/stateUser/:email', stateUser);
 // artistRouter.post('/createArtist', validationCreate, createArtist);
 // artistRouter.get('/allArtist', getAllArtist);
 // artistRouter.get('/?name=artist', getANameArtist);
