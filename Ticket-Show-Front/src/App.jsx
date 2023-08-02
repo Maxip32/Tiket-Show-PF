@@ -12,7 +12,9 @@ import { AuthProvider } from "../src/context/AuthContext";
 import CompraPaypal from "./components/Paypal/Paypal.compra.jsx";
 import { ShoppingCartProvider } from "./components/Shoppingcart/shoppingCartContext";
 import UserProfile from "./components/UserProfile/Profileuser";
+import Dashboard from '../src/Dashboard/Dashboard'
 import CreateEvent from "./components/CreateEvent/CreateEvent";
+
 function App() {
   //const location = useLocation();
   return (
@@ -34,7 +36,7 @@ function App() {
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/approved" element={<CompraPaypal/>}/>
           <Route path="/about" element={<About />} />
-          
+          //<Route path="/PanelAdmin" element={<Dashboard/>} />
         </Routes>
         
       </div>

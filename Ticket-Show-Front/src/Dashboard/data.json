@@ -1,0 +1,21 @@
+[
+    {
+        "name": "Kenny Perez",
+        "Role": "Admin",
+        "departement": "Buenos Aires",
+        "status": "active"
+    },
+    {
+        "name": "Maria",
+        "Role": "Usuario",
+        "departement": "Buenos Aires",
+        "status": "active"
+    },
+    {
+        "name": "Boy Band",
+        "Role": "Artista",
+        "departement": "Buenos Aires",
+        "status": "active"
+    }
+
+]
