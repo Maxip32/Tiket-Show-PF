@@ -22,9 +22,9 @@ const Card = ({ id, image, name, date, price, genres, city }) => {
     "07": "JUL",
     "08": "AGO",
     "09": "SEP",
-    10: "OCT",
-    11: "NOV",
-    12: "DIC",
+    "10": "OCT",
+    "11": "NOV",
+    "12": "DIC",
   };
 
   const [cart, setCart] = useContext(CartContext);
