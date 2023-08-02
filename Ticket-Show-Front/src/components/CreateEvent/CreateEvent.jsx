@@ -79,96 +79,103 @@ const CreateEvent = () => {
             onSubmit={handleSubmit}
           >
             <input
-              onChange={(event) => handleChange(event)}
               placeholder="Nombre Evento"
               type="text"
-              value={""}
-              //onChange={(e) => setName(e.target.value)}
+              value={eventInfo.name}
+              //onChange={handleChange(e.target.value)}
+               onChange= {(e)=> handleChange(e.target.value)}
+              name={"name"}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
 
             <input
               placeholder="Descripcion del evento"
-              onChange={(event) => handleChange(event)}
+              onChange={handleChange}
               type="text"
-              value={""}
-              //  onChange={(e) => setEmailRegister(e.target.value)}
+              value={eventInfo.description}
+              name={"description"}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
 
             <input
               placeholder="Fecha del Evento"
-              onChange={(event) => handleChange(event)}
               type="date"
-              value={""}
-              // onChange={(e) => setPasswordRegister(e.target.value)}
+              value={eventInfo.date}
+              name={"date"}
+              onChange={handleChange}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
 
             <input
               placeholder="Horario de Inicio"
-              onChange={(event) => handleChange(event)}
-              name="nameBand"
+              onChange={handleChange}
+              name={"start"}
               type="time"
-              value={""}
+              value={eventInfo.start}
               //onChange= {(e)=> setNameBand(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
 
             <input
               placeholder="Horario de Finalizacion"
-              onChange={(event) => handleChange(event)}
+              onChange={handleChange}
               type="time"
-              value={""}
+              value={eventInfo.end}
+              name={"end"}
               // onChange={(e) => setnameArtist(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
 
             <input
               placeholder="Precio por Entrada"
-              onChange={(event) => handleChange(event)}
+              onChange={handleChange}
               type="text"
-              value={""}
+              value={eventInfo.price}
+              name={"price"}
               //onChange={(e) => setyearCreation(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
             <input
               placeholder="Stock de Entradas"
-              onChange={(event) => handleChange(event)}
+              onChange={handleChange}
               type="text"
-              value={""}
+              value={eventInfo.stock}
+              name={"stock"}
               //onChange={(e) => setyearCreation(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
             <input
               placeholder="Imagen Evento"
-              onChange={(event) => handleChange(event)}
+              onChange={handleChange}
               type="text"
-              value={""}
+              value={eventInfo.image}
               //onChange={(e) => setyearCreation(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
             <input
               placeholder="Direccion de Lugar"
-              onChange={(event) => handleChange(event)}
+              onChange={handleChange}
               type="text"
-              value={""}
+              value={eventInfo.address}
+              name={"address"}
               //onChange={(e) => setyearCreation(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
             <input
               placeholder="Ciudad"
-              onChange={(event) => handleChange(event)}
+              onChange={handleChange}
               type="text"
-              value={""}
+              value={eventInfo.city}
+              name={"city"}
               //onChange={(e) => setyearCreation(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
             <input
               placeholder="Genero"
-              onChange={(event) => handleChange(event)}
+              onChange={handleChange}
               type="text"
-              value={""}
+              value={eventInfo.genre}
+              name={"genre"}
               //onChange={(e) => setyearCreation(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
