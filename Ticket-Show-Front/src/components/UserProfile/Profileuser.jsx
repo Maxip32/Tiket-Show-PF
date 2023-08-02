@@ -18,9 +18,12 @@ export default function UserProfile() {
   const { user, updateUserDisplayName, updateUserPhotoURL } = useAuth();
   const [newDisplayName, setNewDisplayName] = useState("");
   const [error, setError] = useState(null);
-  const users = useSelector((state)=> state?.user)
-  const usersFinder = users?.length ? users?.find(rol => rol.email === user?.email): null;
-  const datosartist=usersFinder?.role === "artista" ?(date => date.email === user?.email): null;
+  const datosbanda = useSelector((state) => state?.user);
+  const datosartist = datosbanda?.find((date) => date.email === user?.email);
+  const users = useSelector((state) => state?.user);
+  const usersFinder = users?.length
+    ? users?.find((rol) => rol.email === user?.email)
+    : null;
   const userImageURL = usersFinder?.image || "https://res.cloudinary.com/dhickjcbz/image/upload/v1690770100/user_r20d1h.png";
   const [imageFile, setImageFile] = useState(null);
   //const RolesUsers= useSelector((state)=> state?.user)
