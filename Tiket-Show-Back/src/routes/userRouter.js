@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const deleteUser = require('../controllers/userControllers/deleteUser');
-
+const stateUser = require('../controllers/userControllers/stateUser');
 const createUserData = require('../handlers/userHandler/createUser');
 // const validationCreate = require("../middleware/validationArtist/validationCreate");
 // const validationId = require("../middleware/validationArtist/validationIdId");
@@ -14,6 +14,7 @@ const userRouter = Router();
 userRouter.post('/createUser',createUserData);
 userRouter.get('/', idUser);
 userRouter.delete('/deleteUser/:id', deleteUser);
+userRouter.put('/stateUser/:id', stateUser);
 // artistRouter.post('/createArtist', validationCreate, createArtist);
 // artistRouter.get('/allArtist', getAllArtist);
 // artistRouter.get('/?name=artist', getANameArtist);
