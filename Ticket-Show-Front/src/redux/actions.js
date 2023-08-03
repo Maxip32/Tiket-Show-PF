@@ -198,19 +198,22 @@ export const createArtist = (userData) => {
 
 export const CREATE_EVENT_SUCCESS = "GET_ARTIST_SUCCESS";
 export const CREATE_EVENT_FAILURE = "GET_ARTIST_FAILURE";
-export const createEvent = () => {
+export const createEvent = (eventInfo) => {
+  console.log(eventInfo)
   return async (dispatch) => {
     try {
-      const response = await axios.get("/event/createEvent");
+      const { data } = await axios.post("/event/createEvent", eventInfo, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-      dispatch({ type: GET_ARTIST_SUCCESS, payload: response.data });
+      dispatch({ type: CREATE_EVENT_SUCCESS, payload: data });
     } catch (error) {
-      dispatch({ type: GET_ARTIST_FAILURE, payload: error.message });
+      dispatch({ type: CREATE_EVENT_FAILURE, payload: error.message });
     }
   };
 };
-
-
 
 export const GET_ARTIST_SUCCESS = "GET_ARTIST_SUCCESS";
 export const GET_ARTIST_FAILURE = "GET_ARTIST_FAILURE";

@@ -2,13 +2,20 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
-import { createEvent } from "../../redux/actions";
+import { createEvent, getUserById } from "../../redux/actions";
+
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc"; // Suponiendo que el ícono FcGoogle proviene de react-icons
 import registerPublic from "../../assets/image/registerPublic.jpg";
 
 const CreateEvent = () => {
   const dispatch = useDispatch();
+
+  const { user } = useAuth();
+
+ 
+
+  
 
   const [eventInfo, setEventInfo] = useState({
     name: "",
@@ -21,7 +28,7 @@ const CreateEvent = () => {
     image: "",
     address: "",
     city: "",
-    genre: "",
+    genres: [],
   });
 
   const [errors, setErrors] = useState({
@@ -35,7 +42,7 @@ const CreateEvent = () => {
     image: "",
     address: "",
     city: "",
-    genre: "",
+    genres: "",
   });
 
   const handleChange = (e) => {
@@ -45,9 +52,10 @@ const CreateEvent = () => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createEvent(eventInfo, history))
+    dispatch(createEvent( eventInfo));
+    dispatch(getUserById())
   };
 
   return (
@@ -136,8 +144,8 @@ const CreateEvent = () => {
               placeholder="Stock de Entradas"
               onChange={handleChange}
               type="text"
-              value={eventInfo.stock}
-              name={"stock"}
+              value={eventInfo.quotas}
+              name={"quotas"}
               //onChange={(e) => setyearCreation(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
@@ -146,6 +154,7 @@ const CreateEvent = () => {
               onChange={handleChange}
               type="text"
               value={eventInfo.image}
+              name="image"
               //onChange={(e) => setyearCreation(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
@@ -167,19 +176,47 @@ const CreateEvent = () => {
               //onChange={(e) => setyearCreation(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-            <input
-              placeholder="Genero"
-              onChange={handleChange}
-              type="text"
-              value={eventInfo.genre}
-              name={"genre"}
-              //onChange={(e) => setyearCreation(e.target.value)}
-              className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-            />
-
+            <div>
+              <select
+              
+                value={eventInfo.genres}
+                name={"genre"}
+                className=""
+                onChange={(event) => {
+                  if (!eventInfo.genres.includes(event.target.value)) {
+                    setEventInfo((prev) => ({
+                      ...prev,
+                      genres: [...prev.genres, event.target.value],
+                    }));
+                  } else {
+                    setEventInfo((prev) => ({
+                      ...prev,
+                      genres: prev.genres.filter(
+                        (gen) => gen !== event.target.value
+                      ),
+                    }));
+                  }
+                }}
+              >
+                <option value="rock">Rock</option>
+                <option value="pop">Pop</option>
+                <option value="Reggae">Reggae</option>
+                <option value="Reggaeton">Reggaeton</option>
+                <option value="Cuarteto">Cuarteto</option>
+                <option value="Cumbia">Cumbia</option>
+                <option value="Trap">Trap</option>
+                <option value="Rap">Rap</option>
+                <option value="peavy Metal">Heavy Metal</option>
+                <option value="fodmap friendly">Hard Rock</option>
+                <option value="whole 30">Indie</option>
+                <option value="whole 30">Alternativo</option>
+              </select>
+              <p>{errors.diets}</p>
+            </div>
             <button
               type="submit"
-              className="w-3/4 bg-primaryColor text-Color200 hover:bg-Color200 hover:text-primaryColor border hover:border-secondaryColor focus:outline-none px-10 py-3.5 text-base font-medium 
+              className="w-3/4 bg-primaryColor text-Color200 hover:bg-Color200 hover:text-primaryColor 
+              border hover:border-secondaryColor focus:outline-none px-10 py-3.5 text-base font-medium 
           transition duration-500 ease-in-out transform shadow-md rounded-xl mb-4"
             >
               Regístrate
