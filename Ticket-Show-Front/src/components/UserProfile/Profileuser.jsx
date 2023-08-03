@@ -165,7 +165,7 @@ export default function UserProfile() {
 
   return (
     <>
-      <section className="max-w-4xl mx-auto mt-10 bg-white shadow-2xl">
+      <section className="max-w-6xl mx-auto mt-10 bg-white shadow-2xl">
         <div className="flex flex-col md:flex-row">
           <div className="md:flex-shrink-0 flex justify-center items-center h-60 md:w-1/6">
             <button
@@ -227,8 +227,8 @@ export default function UserProfile() {
             </div>
           ) : null}
         </div>
-        <div className="flex flex-col  ml-10 md:flex-row">
-          <div className="md:h-20 md:w-1/4">
+        <div className="flex flex-col border-2  ml-10 md:flex-row">
+          <div className="md:h-20 border-2  md:w-1/8">
             <p className="flex justify-start font-bold text-xs">
               Cambiar Nombre:
             </p>
