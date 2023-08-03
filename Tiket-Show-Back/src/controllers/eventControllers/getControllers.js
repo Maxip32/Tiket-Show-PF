@@ -70,7 +70,7 @@ const getEventByName = async (req, res) => {
     }
 }
 
-const createEvent = async (req, res = response) => {
+const createEvent = async (req, res) => {
     const {
         name,
         description,
@@ -98,7 +98,7 @@ const createEvent = async (req, res = response) => {
         }
 
         const artist = await Artist.findOne({
-            where: { nickname: artistName },
+            where:  artistName ,
         });
 
         const genresDb = await Genre.findAll({
@@ -129,8 +129,8 @@ const createEvent = async (req, res = response) => {
             address,
             city,
         });
-        await event.addArtist(artist);
-        await event.addGenres(genresDb);
+         await event.addArtist(artist);
+         //await event.addGenres(genresDb);
 
         res.status(201).json({
             msg: 'Evento creado',
