@@ -33,7 +33,6 @@ export const getEventId = (id) => {
   };
 };
 
-
 export const FILTER_BY_GENRES = "FILTER_BY_GENRES";
 export const filterByGenres = (payload) => {
   return {
@@ -68,9 +67,7 @@ export const GET_SEARCH_BY_NAME = "GET_SEARCH_BY_NAME";
 
 export const searchByName = (name) => {
   return async (dispatch) => {
-    const apiData = await axios.get(
-      `/event/getEvent/name/${name}`
-    );
+    const apiData = await axios.get(`/event/getEvent/name/${name}`);
     const Events = apiData.data;
     return dispatch({
       type: GET_SEARCH_BY_NAME,
@@ -171,7 +168,7 @@ export const getUserByEmail = (email) => {
 export const getUserById = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get('/user/');
+      const response = await axios.get("/user/");
 
       dispatch({ type: GET_USER_SUCCESS, payload: response.data });
     } catch (error) {
@@ -186,15 +183,11 @@ export const CREATE_ARTIST_FAILURE = "CREATE_ARTIST_FAILURE";
 export const createArtist = (userData) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(
-        "/artist/createArtist",
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post("/artist/createArtist", userData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       dispatch({ type: CREATE_ARTIST_SUCCESS, payload: response.data });
     } catch (error) {
@@ -203,13 +196,12 @@ export const createArtist = (userData) => {
   };
 };
 
-export const GET_ARTIST_SUCCESS = "GET_ARTIST_SUCCESS";
-export const GET_ARTIST_FAILURE = "GET_ARTIST_FAILURE";
-
-export const getArtistById = () => {
+export const CREATE_EVENT_SUCCESS = "GET_ARTIST_SUCCESS";
+export const CREATE_EVENT_FAILURE = "GET_ARTIST_FAILURE";
+export const createEvent = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get('/artist/allArtist');
+      const response = await axios.get("/event/createEvent");
 
       dispatch({ type: GET_ARTIST_SUCCESS, payload: response.data });
     } catch (error) {
@@ -217,21 +209,34 @@ export const getArtistById = () => {
     }
   };
 };
-////nodemailer 
+
+
+
+export const GET_ARTIST_SUCCESS = "GET_ARTIST_SUCCESS";
+export const GET_ARTIST_FAILURE = "GET_ARTIST_FAILURE";
+
+export const getArtistById = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get("/artist/allArtist");
+
+      dispatch({ type: GET_ARTIST_SUCCESS, payload: response.data });
+    } catch (error) {
+      dispatch({ type: GET_ARTIST_FAILURE, payload: error.message });
+    }
+  };
+};
+////nodemailer
 export const CREATE_MAIL_SUCCESS = "CREATE_ARTIST_SUCCESS";
 export const CREATE_MIAL_FAILURE = "CREATE_ARTIST_FAILURE";
 export const sendMail = (userData) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(
-        "/send/mail",
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post("/send/mail", userData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       dispatch({ type: CREATE_ARTIST_SUCCESS, payload: response.data });
     } catch (error) {
@@ -239,7 +244,6 @@ export const sendMail = (userData) => {
     }
   };
 };
-
 
 ////// TERMINO DE CREAR ARTISTAS Y LOS REQUIERO ////////////
 
@@ -298,7 +302,6 @@ export const postPaypal = () => {
     return dispatch({
       type: POST_PAYPAL,
       payload: allData,
-
     });
   };
 };
