@@ -197,8 +197,8 @@ const NavBar = () => {
                     Crear Evento
                   </NavLink> : null
                   } 
-                  {
-                  usersFinder?.role === 'customer'?
+                  {/* {
+                  usersFinder?.role === 'customer'? */}
                   <NavLink
                     to="/PanelAdmin"
                     className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
@@ -207,7 +207,7 @@ const NavBar = () => {
                   >
                     Panel admin
                   </NavLink> : null
-                  } 
+                  {/* }  */}
 
                   <button
                     className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
