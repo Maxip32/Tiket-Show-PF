@@ -73,7 +73,7 @@ const Card = ({ id, image, name, date, price, genres, city }) => {
   const formattedMonth = monthsMap[month];
 
   return (
-    <div className="bg-white w-64 h-96 md:w-72 m-4 border shadow-md rounded-2xl flex-none lg:flex lg:flex-col">
+    <div className="bg-white w-64 h-96 md:w-72 m-4 border shadow-md rounded-2xl flex-none lg:flex lg:flex-col transform transition-all hover:-translate-y-3 hover:shadow-xl">
       <Link to={`/detail/${id}`}>
         <div className="flex flex-col h-60 md:h-72 justify-center items-center w-full">
           <img
