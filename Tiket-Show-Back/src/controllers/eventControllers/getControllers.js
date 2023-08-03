@@ -71,7 +71,7 @@ const getEventByName = async (req, res) => {
 }
 
 const createEvent = async (req, res) => {
-    console.log(req.body)
+
     const {
         name,
         description,
@@ -137,9 +137,10 @@ console.log(genresDb,genresDb1)
             address,
             city,
         });
-        await event.addArtist(artist);
-         
-        console.log(event instanceof Event)
+
+         await event.addArtist(artist);
+         //await event.addGenres(genresDb);
+
 
         res.status(201).json({
             msg: 'Evento creado',

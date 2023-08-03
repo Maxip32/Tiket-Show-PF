@@ -29,7 +29,7 @@ const TableBase = () => {
     <Card>
         <Title>Lista de datos</Title>
 
-        <Table marginTop='mt-5'>
+        <Table marginTop='mt-4'>
             <TableHead>
                 <TableRow>
                     <TableHeaderCell>Name</TableHeaderCell>

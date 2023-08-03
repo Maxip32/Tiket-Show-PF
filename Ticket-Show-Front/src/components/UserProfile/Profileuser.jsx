@@ -165,6 +165,7 @@ export default function UserProfile() {
 
   return (
     <>
+
       <section className="max-w-6xl mx-auto mt-10 bg-white shadow-2xl">
         <div className="flex flex-col md:flex-row">
           <div className="md:flex-shrink-0 flex justify-center items-center h-60 md:w-1/6">
@@ -226,6 +227,7 @@ export default function UserProfile() {
               </p>
             </div>
           ) : null}
+
         </div>
         <div className="flex flex-col border-2  ml-10 md:flex-row">
           <div className="md:h-20 border-2  md:w-1/8">
@@ -259,12 +261,14 @@ export default function UserProfile() {
           <div>
             <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
               <div className="flex flex-wrap justify-center">
+
                 <div className="flex flex-row w-full">
                   <div className="flex-1 px-4">
                     <p className="mb-4 text-lg leading-relaxed text-blueGray-700 flex">
                       {<MyShopping user_id={user} />}
                     </p>
                     <a href="#pablo" className="font-normal text-pink-500"></a>
+
                   </div>
                 </div>
               </div>

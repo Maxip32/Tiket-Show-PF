@@ -38,7 +38,7 @@ const Hero = () => {
   return (
     <div className="mt-4 mb-10 w-full max-w-5xl mx-auto h-96 relative flex flex-col items-center justify-center ">
       <img
-        className="rounded-3xl object-cover w-full h-96 "
+        className="rounded-3xl object-cover w-full h-96"
         src={selectedImage}
         alt="Imagen"
       />
