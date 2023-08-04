@@ -5,14 +5,14 @@ import { useAuth } from "../../context/AuthContext";
 
 export const CartPage = () => {
   const [cart, setCart] = useContext(CartContext);
-  const { user } = useAuth(); 
+  const { user } = useAuth();
   const quantity = cart.reduce((acc, curr) => {
     return acc + curr.quantity;
   }, 0);
 
   const totalPrice = cart.reduce(
     (acc, curr) => acc + curr.quantity * curr.price,
-    0 
+    0
   );
 
   const handleIncrement = (itemId) => {
@@ -45,15 +45,19 @@ export const CartPage = () => {
   const handleAdquirirEntrada = async () => {
     try {
       //const response = await fetch("http://localhost:3001/create-order", {
-      const response = await fetch("https://tiket-show-pf-production.up.railway.app/create-order", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
-        },
-        //PARA QUE ME LLEGUE Y TOME EL PRECIO DE CADA EVENTO AL BACK
-        body: JSON.stringify({ value: (totalPrice + totalPrice*.18).toFixed(2) }), // Enviar el precio en el cuerpo de la solicitud
-
-      });
+      const response = await fetch(
+        "https://tiket-show-pf-production.up.railway.app/create-order",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
+          },
+          //PARA QUE ME LLEGUE Y TOME EL PRECIO DE CADA EVENTO AL BACK
+          body: JSON.stringify({
+            value: (totalPrice + totalPrice * 0.18).toFixed(2),
+          }), // Enviar el precio en el cuerpo de la solicitud
+        }
+      );
       // Verificar si la solicitud fue exitosa (código de estado 200)
       if (response.status === 200) {
         const data = await response.json();
@@ -92,21 +96,23 @@ export const CartPage = () => {
         // Realizar la re dirección a la pasarela de pago
         window.location.href = data.links[1].href;
         //lo hice yo = Darwin, acá inicia
-        const sendMail = await fetch('https://tiket-show-pf-production.up.railway.app/send/mail',
-        //const sendMail = await fetch('http://localhost:3001/send/mail',
-        { method: 'POST',
-          headers: {
-            "Contend-Type": "application/json"
-          },
-          body: JSON.stringify(
-            { 
-            date: new Date().toISOString(),
-          total: totalPrice,
-          cantidad: quantity, 
-          name: "Nombre del Evento"
-        })
-        })
-        await sendMail.json()
+        const sendMail = await fetch(
+          "https://tiket-show-pf-production.up.railway.app/send/mail",
+          //const sendMail = await fetch('http://localhost:3001/send/mail',
+          {
+            method: "POST",
+            headers: {
+              "Contend-Type": "application/json",
+            },
+            body: JSON.stringify({
+              date: new Date().toISOString(),
+              total: totalPrice,
+              cantidad: quantity,
+              name: "Nombre del Evento",
+            }),
+          }
+        );
+        await sendMail.json();
         //lo hice yo = Darwin, acá termina
       } else {
         // La compra fue cancelada o hubo un error
@@ -145,7 +151,11 @@ export const CartPage = () => {
             <div key={item.id} className="mt-8">
               <ul className="space-y-4">
                 <li className="flex items-center gap-4">
-                  <img src={item.image} alt="" className="h-16 w-16 rounded object-cover" />
+                  <img
+                    src={item.image}
+                    alt=""
+                    className="h-16 w-16 rounded object-cover"
+                  />
 
                   <div>
                     <h3 className="text-sm text-gray-900">{item.name}</h3>
@@ -175,15 +185,13 @@ export const CartPage = () => {
                       className="text-gray-600 transition hover:text-red-600"
                       onClick={() => handleDecrement(item.id)}
                     >
-                      <span className="sr-only">Remove item</span>
-                      -
+                      <span className="sr-only">Remove item</span>-
                     </button>
                     <button
                       className="text-gray-600 transition hover:text-red-600"
                       onClick={() => handleIncrement(item.id)}
                     >
-                      <span className="sr-only">Remove item</span>
-                      +
+                      <span className="sr-only">Remove item</span>+
                     </button>
                   </div>
                 </li>
@@ -225,7 +233,7 @@ export const CartPage = () => {
 
                 <div className="flex justify-between !text-base font-medium">
                   <dt>Total </dt>
-                  <dd>${(totalPrice + totalPrice*.18).toFixed(2)}</dd>
+                  <dd>${(totalPrice + totalPrice * 0.18).toFixed(2)}</dd>
                 </div>
               </dl>
 
@@ -244,22 +252,23 @@ export const CartPage = () => {
         </div>
       </div>
     </section>
-      ) : (
-        <div>
-          <div className="bg-gray-100 min-h-screen flex items-center justify-center">
-            <div className="max-w-md p-8 bg-white rounded-lg shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">Carrito Vacío</h2>
-              <p className="text-gray-600 mb-6">
-              El carrito está vacío. Regresa a la página de inicio para agregar elementos.
-              </p>
-              <a
-                href="/"
-                className="block text-center bg-primaryColor text-white py-2 px-4 rounded hover:bg-secondaryColor transition"
-              >
-                Volver a la página de inicio
-              </a>
-            </div>
-          </div>
+  ) : (
+    <div>
+      <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+        <div className="max-w-md p-8 bg-white rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-4">Carrito Vacío</h2>
+          <p className="text-gray-600 mb-6">
+            El carrito está vacío. Regresa a la página de inicio para agregar
+            elementos.
+          </p>
+          <a
+            href="/"
+            className="block text-center bg-primaryColor text-white py-2 px-4 rounded hover:bg-secondaryColor transition"
+          >
+            Volver a la página de inicio
+          </a>
         </div>
-      );
+      </div>
+    </div>
+  );
 };

@@ -3,20 +3,18 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { createEvent, getUserById } from "../../redux/actions";
-
+import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc"; // Suponiendo que el ícono FcGoogle proviene de react-icons
 import registerPublic from "../../assets/image/registerPublic.jpg";
+import uploadImage from "../../utils/uploadImage";
 
 const CreateEvent = () => {
   const dispatch = useDispatch();
 
   const { user } = useAuth();
-
- 
-
-  
-
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [eventInfo, setEventInfo] = useState({
     name: "",
     description: "",
@@ -28,7 +26,7 @@ const CreateEvent = () => {
     image: "",
     address: "",
     city: "",
-    genres: [],
+    genre: [],
   });
 
   const [errors, setErrors] = useState({
@@ -42,9 +40,82 @@ const CreateEvent = () => {
     image: "",
     address: "",
     city: "",
-    genres: "",
+    genre: [],
   });
 
+  const validateForm = (eventInfo) => {
+    let errors = {};
+
+    if (!eventInfo.name || !eventInfo.name.trim()) {
+      errors.name = 'El campo "Nombre del Evento" es obligatorio.';
+    } else {
+      const trimmedName = eventInfo.name.trim();
+
+      if (/\d/.test(trimmedName)) {
+        errors.name = 'El campo "Nombre del Evento" no puede contener números.';
+      }
+
+      if (trimmedName.length > 60) {
+        errors.name =
+          'El campo "Nombre del Evento" puede tener más de 60 caracteres.';
+      }
+    }
+
+    if (!eventInfo.description) {
+      errors.description = "Resumen requerido";
+    }
+    return errors;
+  };
+    // if (typeof dataForm.healthScore === "undefined") {
+    //   errors.healthScore = 'El campo "Health Score" es obligatorio.';
+    // } else {
+    //   if (!dataForm.healthScore) {
+    //     errors.healthScore = 'El campo "Health Score" no puede estar vacío.';
+    //   } else {
+    //     dataForm.healthScore = parseInt(dataForm.healthScore);
+
+    //     if (dataForm.healthScore < 0 || dataForm.healthScore > 100) {
+    //       errors.healthScore =
+    //         'El campo "healthScore" debe estar entre 0 y 100.';
+    //     }
+    //   }
+    // }
+
+    // if (dataForm.steps.length === 1) {
+    //   errors.steps = "Hace falta agregar este campo.";
+    // } else {
+    //   errors.steps = "";
+    // }
+
+    // if (!form.diets.length) {
+    //   errors.diets = "Elige al menos una dieta";
+    // }
+
+    // if (!dataForm.diets || dataForm.diets.length === 0) {
+    //   errors.diets = 'El campo " tipos de dietas" es obligatorio.';
+    // }
+
+    // if (!dataForm.image || !dataForm.image.trim()) {
+    //   errors.image = 'El campo "Imagen Url" es obligatorio.';
+    // } else {
+    //   const trimmedImage = dataForm.image.trim();
+    //   const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
+    //   if (!urlPattern.test(trimmedImage)) {
+    //     errors.image = 'El campo "Imagen Url" debe ser una URL válida.';
+    //   }
+    // }
+
+   
+
+  const handleUploadImage = async (e) => {
+    const file = await uploadImage(e);
+    console.log(file.url);
+    setEventInfo((prev) => ({
+      ...prev,
+      image: file.url,
+    }));
+  };
+  console.log(eventInfo);
   const handleChange = (e) => {
     setEventInfo((prev) => ({
       ...prev,
@@ -52,12 +123,40 @@ const CreateEvent = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createEvent( eventInfo));
-    dispatch(getUserById())
-  };
+  const handleSubmit =  (e) => {
+  e.preventDefault();
+  const validationErrors = validateForm(eventInfo);
+  setErrors(validationErrors);
+  if (Object.keys(validationErrors).length === 0) {
+    try {
+      dispatch(createEvent(eventInfo));
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Evento Creado Exitosamente!",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+      navigate("/");
+    } catch (error) {
+      console.error("No se pudo crear el evento:", error);
+    }
+  } else {
+    setErrors(validationErrors);
+  }
+};
+  if (!user) {
+    // Si el usuario no está autenticado, mostrar un mensaje o redireccionar a la página de inicio de sesión.
 
+    Swal.fire({
+      position: "center",
+      icon: "warning",
+      title: "Tienes que estar autenticado",
+      showConfirmButton: false,
+      timer: 2500,
+    });
+    navigate("/");
+  }
   return (
     <div className="w-full flex justify-center items-center mt-2">
       <div className="bg-white rounded-2xl shadow-lg flex w-4/6">
@@ -84,6 +183,7 @@ const CreateEvent = () => {
             className="flex flex-col gap-4 w-full justify-center items-center"
             onSubmit={handleSubmit}
           >
+            
             <input
               placeholder="Nombre Evento"
               type="text"
@@ -92,6 +192,7 @@ const CreateEvent = () => {
               name={"name"}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
+            <p>{errors.name}</p>
 
             <input
               placeholder="Descripcion del evento"
@@ -101,6 +202,7 @@ const CreateEvent = () => {
               name={"description"}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
+             <p>{errors.description}</p>
 
             <input
               placeholder="Fecha del Evento"
@@ -125,6 +227,7 @@ const CreateEvent = () => {
               placeholder="Horario de Finalizacion"
               onChange={handleChange}
               type="time"
+              e
               value={eventInfo.end}
               name={"end"}
               // onChange={(e) => setnameArtist(e.target.value)}
@@ -150,14 +253,12 @@ const CreateEvent = () => {
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
             <input
-              placeholder="Imagen Evento"
-              onChange={handleChange}
-              type="text"
-              value={eventInfo.image}
-              name="image"
-              //onChange={(e) => setyearCreation(e.target.value)}
-              className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+              className=""
+              type="file"
+              id="formFile"
+              onChange={handleUploadImage} // Pasa el evento 'e' como argument
             />
+
             <input
               placeholder="Direccion de Lugar"
               onChange={handleChange}
@@ -178,20 +279,19 @@ const CreateEvent = () => {
             />
             <div>
               <select
-              
                 value={eventInfo.genres}
                 name={"genre"}
                 className=""
                 onChange={(event) => {
-                  if (!eventInfo.genres.includes(event.target.value)) {
+                  if (!eventInfo.genre.includes(event.target.value)) {
                     setEventInfo((prev) => ({
                       ...prev,
-                      genres: [...prev.genres, event.target.value],
+                      genre: [...prev.genre, event.target.value],
                     }));
                   } else {
                     setEventInfo((prev) => ({
                       ...prev,
-                      genres: prev.genres.filter(
+                      genre: prev.genre.filter(
                         (gen) => gen !== event.target.value
                       ),
                     }));
