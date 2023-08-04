@@ -88,7 +88,7 @@ const FormFirebase = () => {
         Swal.fire({
           position: 'center',
           icon: 'warning',
-          title: 'Usuario existente!',
+          title: 'Correo en uso!, Si pruebas con otro?',
           showConfirmButton: false,
           timer: 2500
         })
@@ -96,6 +96,8 @@ const FormFirebase = () => {
     }
 
     try {
+
+      
       // Establecer la imagen predeterminada (puedes cambiar esta URL por la que desees)
       const defaultImageUrl = 'https://res.cloudinary.com/dhickjcbz/image/upload/v1690770100/user_r20d1h.png';
   
