@@ -1,5 +1,4 @@
 import React from 'react'
-import data from './data.json'
 import { Badge, Card, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, Title } from '@tremor/react'
 import { CameraIcon } from '@heroicons/react/24/solid'
 const TableBase = () => {

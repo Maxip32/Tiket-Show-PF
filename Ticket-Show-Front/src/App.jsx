@@ -36,7 +36,7 @@ function App() {
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/approved" element={<CompraPaypal/>}/>
           <Route path="/about" element={<About />} />
-          //<Route path="/PanelAdmin" element={<Dashboard/>} />
+          <Route path="/PanelAdmin" element={<Dashboard/>} />
         </Routes>
         
       </div>

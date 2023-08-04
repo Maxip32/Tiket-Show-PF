@@ -5,18 +5,14 @@ const ChartDonutUsers = () => {
 
     const Usuarios = [
         {
-            name: 'Activos',
+            name: 'Habilitados',
             status: 500,
         },
         {
-            name: 'Bloqueados',
+            name: 'Deshabilitados',
             status: 100,
         },
-        {
-            name: 'Inactivos',
-            status: 50,
-
-        },
+        
     ]
   return (
     <Card>

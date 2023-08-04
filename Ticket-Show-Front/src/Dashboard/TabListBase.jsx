@@ -124,7 +124,7 @@ const TabListBase = () => {
               <span className="disabled">Deshabilitado</span>
               </div>
                 </TableCell>
-              <div>
+              <div className='mt-5'>
               <button
                 className="bg-primaryColor hover:bg-primaryColorDark text-white font-bold py-2 px-4 rounded"
                 onClick={() => changeRol(item.email)}
