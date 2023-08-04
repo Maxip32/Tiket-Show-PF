@@ -43,7 +43,7 @@ const CreateEvent = () => {
     genre: [],
   });
 
-  const validateForm = (form) => {
+  const validateForm = (eventInfo) => {
     let errors = {};
 
     if (!eventInfo.name || !eventInfo.name.trim()) {
@@ -61,10 +61,11 @@ const CreateEvent = () => {
       }
     }
 
-    if (!form.description) {
+    if (!eventInfo.description) {
       errors.description = "Resumen requerido";
     }
-
+    return errors;
+  };
     // if (typeof dataForm.healthScore === "undefined") {
     //   errors.healthScore = 'El campo "Health Score" es obligatorio.';
     // } else {
@@ -104,8 +105,7 @@ const CreateEvent = () => {
     //   }
     // }
 
-    return errors;
-  };
+   
 
   const handleUploadImage = async (e) => {
     const file = await uploadImage(e);
@@ -123,10 +123,11 @@ const CreateEvent = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const validationErrors = validateForm(eventInfo);
-    setErrors(validationErrors);
+  const handleSubmit =  (e) => {
+  e.preventDefault();
+  const validationErrors = validateForm(eventInfo);
+  setErrors(validationErrors);
+  if (Object.keys(validationErrors).length === 0) {
     try {
       dispatch(createEvent(eventInfo));
       Swal.fire({
@@ -138,9 +139,12 @@ const CreateEvent = () => {
       });
       navigate("/");
     } catch (error) {
-      console.error("No se pudo crear tu receta:", error);
+      console.error("No se pudo crear el evento:", error);
     }
-  };
+  } else {
+    setErrors(validationErrors);
+  }
+};
   if (!user) {
     // Si el usuario no está autenticado, mostrar un mensaje o redireccionar a la página de inicio de sesión.
 
@@ -198,6 +202,7 @@ const CreateEvent = () => {
               name={"description"}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
+             <p>{errors.description}</p>
 
             <input
               placeholder="Fecha del Evento"
