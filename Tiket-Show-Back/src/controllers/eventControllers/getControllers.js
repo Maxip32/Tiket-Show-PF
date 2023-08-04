@@ -66,8 +66,82 @@ const getEventByName = async (req, res) => {
   }
 };
 
+// const createEvent = async (req, res) => {
+//     const {
+//         name,
+//         description,
+//         date,
+//         start,
+//         end,
+//         price,
+//         quotas,
+//         artistName,
+//         genres,
+//         image,
+//         city,
+//         address,
+//     } = req.body;
+
+//     try {
+//         let eventExis = await Event.findOne({
+//             where: { name, state: true },
+//         });
+
+//         if (eventExis) {
+//             return res.status(400).json({
+//                 msg: 'El evento ya existe con ese nombre',
+//             });
+//         }
+
+//         const artist = await Artist.findOne({
+//             where:  artistName ,
+//         });
+
+//         const genresDb = await Genre.findAll({
+//             where: { name: genres },
+//         });
+
+//         if (genresDb === null || genresDb.length === 0) {
+//             return res.status(400).json({
+//                 msg: 'El genero no existe',
+//             });
+//         }
+
+//         if (!artist) {
+//             return res.status(404).json({
+//                 msg: 'No se encontro artista con ese nombre',
+//             });
+//         }
+
+//         const event = await Event.create({
+//             name,
+//             description,
+//             date,
+//             start,
+//             end,
+//             price,
+//             quotas,
+//             image,
+//             address,
+//             city,
+//         });
+//          await event.addArtist(artist);
+//          await event.addGenre(genresDb);
+
+//         res.status(201).json({
+//             msg: 'Evento creado',
+//             event,
+//         });
+
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).json({
+//             msg: 'Por favor hable con el administrador',
+//         });
+//     }
+// };
+
 const createEvent = async (req, res) => {
-  console.log(req.body);
   const {
     name,
     description,
@@ -77,7 +151,7 @@ const createEvent = async (req, res) => {
     price,
     quotas,
     artistName,
-    genres,
+    genre, // El campo debe ser 'genre', no 'genres'
     image,
     city,
     address,
@@ -95,21 +169,14 @@ const createEvent = async (req, res) => {
     }
 
     const artist = await Artist.findOne({
-      where: artistName,
+      where: artistName, // Usar la propiedad 'name'
     });
 
     const genresDb = await Genre.findAll({
-      where: { name: genres.map((g) => g) },
+      where: { name: genre }, // Usar 'genre' directamente sin map
     });
 
-    const genresDb1 = genres.map(async (name) => {
-      const genre = await Genre.findAll({
-        where: { name },
-      });
-      return genre;
-    });
-    console.log(genresDb, genresDb1);
-    if (genresDb === null || genresDb.length === 0) {
+    if (!genresDb || genresDb.length === 0) {
       return res.status(400).json({
         msg: "El genero no existe",
       });
@@ -133,9 +200,9 @@ const createEvent = async (req, res) => {
       address,
       city,
     });
-    await event.addArtist(artist);
 
-    console.log(event instanceof Event);
+    await event.addArtist(artist);
+    await event.addGenres(genresDb); // Asegúrate de que la relación se llame 'addGenres'
 
     res.status(201).json({
       msg: "Evento creado",
