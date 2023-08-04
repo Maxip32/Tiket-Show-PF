@@ -10,15 +10,15 @@ module.exports = (sequelize) => {
         },
         firstName: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         lastName: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         nickname: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
             unique: true,
         },
         email: {
@@ -31,11 +31,11 @@ module.exports = (sequelize) => {
         },
         phone: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         description: {
             type: DataTypes.TEXT,
-            allowNull: false,
+            allowNull: true,
         },
         twitter: {
             type: DataTypes.STRING,
@@ -51,8 +51,10 @@ module.exports = (sequelize) => {
         },
         image: {
             type: DataTypes.STRING,
-            allowNull: true,
+            //allowNull: true,
         },
+
+        
         google: {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
@@ -65,6 +67,29 @@ module.exports = (sequelize) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
+            yearCreation: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+            nameArtist: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            } ,  
+
+           
+             nameBand: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },  
+            
+            profileImageURL: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+        
+        role: { type: DataTypes.STRING, defaultValue: "artista" },
+
+        disabled: { type: DataTypes.BOOLEAN, defaultValue: false },
     });
 };
 
