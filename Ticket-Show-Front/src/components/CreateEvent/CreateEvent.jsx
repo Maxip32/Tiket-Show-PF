@@ -13,9 +13,30 @@ const CreateEvent = () => {
 
   const { user } = useAuth();
 
+   //cloudinary inicia
+   const [image, setImage] = useState("")
+   const [loading, setLoading] = useState(false)
  
-
-  
+   const uploadImage = async (e) =>{
+     const files=e.target.files;
+     const data = new FormData();
+     data.append("file",files[0]);
+     data.append("upload_preset", "k0eexbwx");
+     setLoading(true);
+     const res = await fetch(
+       "https://api.cloudinary.com/v1_1/dhickjcbz/image/upload",
+       {
+           method: "POST",
+           body: data,
+       }
+     )
+     const file = await res.json();
+     console.log(res)
+     setImage(file.secure_url)
+     setLoading(false)
+   }
+ 
+   //cloudinary acaba
 
   const [eventInfo, setEventInfo] = useState({
     name: "",
@@ -54,8 +75,8 @@ const CreateEvent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createEvent( eventInfo));
-    dispatch(getUserById())
+    dispatch(createEvent(eventInfo));
+    dispatch(getUserById());
   };
 
   return (
@@ -178,7 +199,6 @@ const CreateEvent = () => {
             />
             <div>
               <select
-              
                 value={eventInfo.genres}
                 name={"genre"}
                 className=""
