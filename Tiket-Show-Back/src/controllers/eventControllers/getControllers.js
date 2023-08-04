@@ -71,6 +71,7 @@ const getEventByName = async (req, res) => {
 }
 
 const createEvent = async (req, res) => {
+
     const {
         name,
         description,
@@ -84,11 +85,11 @@ const createEvent = async (req, res) => {
         image,
         city,
         address,
-    } = req.body;
+    } = req.body
 
     try {
         let eventExis = await Event.findOne({
-            where: { name, state: true },
+            where: { name },
         });
 
         if (eventExis) {
@@ -105,6 +106,13 @@ const createEvent = async (req, res) => {
             where: { name: genres.map((g) => g) },
         });
 
+        const genresDb1 = genres.map(async(name)=>{
+            const genre = await Genre.findAll({
+                where: { name}   
+            }) 
+            return genre
+        })
+console.log(genresDb,genresDb1)
         if (genresDb === null || genresDb.length === 0) {
             return res.status(400).json({
                 msg: 'El genero no existe',
@@ -129,8 +137,10 @@ const createEvent = async (req, res) => {
             address,
             city,
         });
+
          await event.addArtist(artist);
          //await event.addGenres(genresDb);
+
 
         res.status(201).json({
             msg: 'Evento creado',
@@ -141,8 +151,8 @@ const createEvent = async (req, res) => {
         console.log(error);
         res.status(500).json({
             msg: 'Por favor hable con el administrador',
-        });
-    }
+        });
+    }
 };
 
 
