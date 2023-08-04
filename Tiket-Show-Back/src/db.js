@@ -52,6 +52,8 @@ Genre.belongsToMany(Artist, { through: "artist_genres" });
 Place.belongsToMany(User, { through: "place_user", as: "places" });
 User.hasMany(Place, { as: "places", foreignKey: "userId" });
 
+Event.belongsToMany(Genre, { through: "events_genres" });
+Genre.belongsToMany(Event, { through: "events_genres" });
 
 User.hasMany(CartItem, { as: "cart" });
 CartItem.belongsTo(User, { as: "cart"  });
