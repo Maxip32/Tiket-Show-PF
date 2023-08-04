@@ -92,13 +92,13 @@ const LoginForm = () => {
             </p>
           </div>
           <form className="flex flex-col gap-6 w-full justify-center items-center" onSubmit={handleSignIn}>
-            <input
+            {/* <input
             placeholder="Nombre completo"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-            />
+            /> */}
 
             <input
               placeholder="Correo electrónico"
