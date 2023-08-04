@@ -160,7 +160,7 @@ const Home = () => {
           <Hero />
 
           {/* //- Filter bar ---------> */}
-          <section className="w-2/4 max-w-3xl mx-auto h-24 flex justify-evenly items-center mt-[-66px] z-10 bg-primaryColor/95 rounded-2xl">
+          <section className="py-4 w-4/6 md:w-2/4 max-w-xl md:mx-auto h-fit md:h-24 flex flex-col md:flex-row gap-2 justify-evenly items-center md:mt-[-66px] md:z-10 bg-primaryColor/95 rounded-2xl">
             {/* Filter by genres */}
             <div className="flex flex-col m-1 gap-2 text-LightText w-44">
               <span className="font-extralight text-xs">Géneros</span>
@@ -205,7 +205,6 @@ const Home = () => {
                 ))}
               </select>
             </div>
-
           </section>
           {/* //- Fin Filter bar ---------> */}
 
@@ -298,7 +297,7 @@ const Home = () => {
           {/* Fin Title & order by events */}
 
           {/* Card section */}
-          <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full overflow-y-hidden">
+          <section className="w-full h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center overflow-y-hidden scrollbar-hide">
             {currentEvents?.map((cu) => {
               return (
                 <Card
