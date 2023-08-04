@@ -297,7 +297,7 @@ const Home = () => {
           {/* Fin Title & order by events */}
 
           {/* Card section */}
-          <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full ">
+          <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full overflow-y-hidden">
             {currentEvents?.map((cu) => {
               return (
                 <Card

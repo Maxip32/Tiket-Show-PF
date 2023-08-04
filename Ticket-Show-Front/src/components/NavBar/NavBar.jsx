@@ -6,8 +6,11 @@ import { useAuth } from "../../context/AuthContext"; // Importa el useAuth del c
 import { CartContext } from "../Shoppingcart/shoppingCartContext"
 import { useSelector } from "react-redux";
 import CreateEvent from "../CreateEvent/CreateEvent";
+import { LiaShoppingCartSolid, LiaUserSolid } from "react-icons/lia";
 //import {getUserById } from '../../redux/actions';
 //import { useDispatch } from 'react-redux';
+
+
 const NavBar = () => {
   //const dispatch = useDispatch();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -32,8 +35,9 @@ const NavBar = () => {
     const quantity = cart.reduce((acc, curr) => {
       return acc + curr.quantity
     }, 0)
+
   return (
-    <nav className="flex justify-between items-center bg-transparent w-full py-5 px-12 text-md font-light">
+    <nav className="flex justify-between items-center bg-transparent w-full py-5 text-md font-light max-w-5xl mx-auto">
       <ul className="flex items-center gap-3">
         <li>
           <NavLink to="/">
@@ -45,7 +49,7 @@ const NavBar = () => {
         </li>
       </ul>
 
-      <ul className="flex items-center gap-3">
+      <ul className="flex items-center justify-between">
         <li>
           <NavLink
             to="/"
@@ -55,7 +59,7 @@ const NavBar = () => {
             Home
           </NavLink>
         </li>
-        <li>
+        <li className="ml-3">
           <NavLink
             to="/about"
             onClick={closeDropdown}
@@ -64,7 +68,7 @@ const NavBar = () => {
             Acerca de
           </NavLink>
         </li>
-        <li>
+        <li className="ml-3">
           <NavLink
             to="/contact"
             onClick={closeDropdown}
@@ -73,12 +77,22 @@ const NavBar = () => {
             Contáctenos
           </NavLink>
         </li>
+        {/* //- Botón de carrito (solo se muestra si el usuario está autenticado) */}
+        {/* Enlace del carrito */}
+        {user && (
+          <li className="ml-3">
+              <NavLink to="/cart" className="flex items-center">
+                <LiaShoppingCartSolid size={26}/>
+                {quantity}
+              </NavLink>
+            </li>
+          )}
 
         {/* //- Si el usuario no está autenticado, muestra botón de "Regístrate" */}
         {!user && (
-          <li className="relative">
+          <li className="relative ml-3">
             <div
-              className="items-center overflow-hidden rounded-md border-solid border-2 border-secondaryColor hover:text-primaryColor hover:bg-Color300"
+              className="items-center overflow-hidden rounded-md border-solid border-2 border-secondaryColor hover:text-primaryColor hover:bg-Color300 hover:border-primaryColor"
             >
               <button className="py-1 px-2 flex items-center" onClick={toggleDropdown}>
                 Regístrate
@@ -130,16 +144,40 @@ const NavBar = () => {
 
         {/* //- Si el usuario está autenticado, muestra su nombre en la navbar */}
         {user && (
-          <li>
-            <span className="text-primaryColor">{user.displayName}</span>
-          </li>
+          <>
+            <div className="flex items-center overflow-hidden rounded-md border-solid border-2 border-secondaryColor hover:text-primaryColor hover:bg-Color300 hover:border-primaryColor ml-3 transition duration-500 ease-in-out transform">
+              <button 
+                className="flex items-center py-1 px-2"
+                onClick={toggleDropdown}
+              >
+                <span className="text-primaryColor font-semibold mr-1 ">{user.displayName}</span>
+                <LiaUserSolid size={24}/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`h-4 w-4 transition-transform duration-200 ${
+                    isDropdownOpen ? "rotate-180" : "rotate-0"
+                  }`}
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+              <li>
+              </li>
+            </div>
+          </>
         )}
 
         {/* //- Botón de ingresar siempre visible */}
         {!user && (
-          <li>
+          <li className="ml-3">
             <NavLink to="/login">
-              <button className="py-1.5 px-3 rounded-md bg-primaryColor text-Color200 hover:text-black hover:bg-white">
+              <button className="py-1.5 px-3 rounded-md bg-primaryColor text-Color200 hover:text-black hover:bg-white border-2 hover:border-primaryColor">
                 Ingresa
               </button>
             </NavLink>
@@ -148,29 +186,7 @@ const NavBar = () => {
 
         {/* //- Si el usuario está autenticado, muestra el botón desplegable */}
         {user && (
-          <li className="relative">
-            <div
-              className="items-center overflow-hidden rounded-md border-solid border-2 border-secondaryColor hover:text-primaryColor hover:bg-Color300"
-            >
-              <button className="py-1 px-2 flex items-center" onClick={toggleDropdown}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`h-4 w-4 transition-transform duration-200 ${
-                    isDropdownOpen ? "rotate-180" : "rotate-0"
-                  }`}
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  />
-                </svg>
-              </button>
-            </div>
+          <li className="relative mt-8">
             {/* //-Menu desplegable Usuario autenticado -------- */}
             {isDropdownOpen && (
               <div
@@ -198,7 +214,7 @@ const NavBar = () => {
                   </NavLink> : null
                   } 
                   {
-                  usersFinder?.role === 'customer'?
+                  usersFinder?.role === 'admin'?
                   <NavLink
                     to="/PanelAdmin"
                     className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
@@ -207,7 +223,7 @@ const NavBar = () => {
                   >
                     Panel admin
                   </NavLink> : null
-                  } 
+                  }  
 
                   <button
                     className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
@@ -224,18 +240,6 @@ const NavBar = () => {
             )}
           </li>
         )}
-       {/* //- Botón de carrito (solo se muestra si el usuario está autenticado) */}
-  
-      {/* Enlace del carrito */}
-        {user && (
-                  <li>
-                    <NavLink to="/cart">
-                      <span role="img" aria-label="Carrito">🛒{quantity}</span> 
-                    </NavLink>
-                  </li>
-                )}
-
-        
       </ul>
     </nav>
   );

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc'; // Suponiendo que el ícono FcGoogle proviene de react-icons
 import registerPublic from "../../assets/image/registerPublic.jpg";
 import Swal from "sweetalert2";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+//import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
 const FormFirebase = () => {
@@ -96,42 +96,33 @@ const FormFirebase = () => {
     }
 
     try {
+      // Establecer la imagen predeterminada (puedes cambiar esta URL por la que desees)
+      const defaultImageUrl = 'https://res.cloudinary.com/dhickjcbz/image/upload/v1690770100/user_r20d1h.png';
+  
+      // Asignar la URL de la imagen predeterminada al objeto userInfo
+      const userInfoWithImage = {
+        ...userInfo,
+        image: defaultImageUrl,
+      };
+  
+      // Crear el usuario en Firebase (asumiendo que esto funciona correctamente)
+      await auth.register(emailRegister, passwordRegister, name);
+      dispatch(createUser(userInfoWithImage));
+      clearState();
+  
       
-      if (imageFile) {
-        const storageRef = ref(getStorage(), "imagenesUsuarios/" + imageFile.name);
-        await uploadBytes(storageRef, imageFile);
-
-        // Obtener la URL de la imagen almacenada en Firebase Storage
-           const    url = await getDownloadURL(storageRef);
-          // Obtener la URL de la imagen almacenada en Firebase Storage
-          const userInfoWithImage = url
-          ? {
-              ...userInfo,
-              image: url,
-            }
-          : userInfo;
-
-          dispatch(createUser(userInfoWithImage));
-
-          // Llamar a la función register del AuthContext solo una vez
-          await auth.register(emailRegister, passwordRegister, name);
       
-          // Limpiar el estado después de registrar al usuario
-          clearState();
-      
-          // Redireccionar al usuario a la página de inicio
-          navigate("/");
-      }
-      
+  
       Swal.fire({
         position: 'center',
         icon: 'success',
         title: 'Usuario registrado correctamente!',
         showConfirmButton: false,
         timer: 2500
-      })
+      });
 
       dispatch(getUserById());
+      console.log(getUserById, "users de la db")
       navigate("/"); // Redireccionar al usuario a la página de inicio
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
@@ -243,12 +234,12 @@ const FormFirebase = () => {
             onChange={(e) => setPasswordRegister(e.target.value)}
             className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
           />
-          <input
+          {/* <input
           type="file"
           accept="image/*"
           onChange={handleImageChange}
           className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-        />
+        /> */}
           <button
             type="submit"
             className="w-3/4 bg-primaryColor text-Color200 hover:bg-Color200 hover:text-primaryColor border hover:border-secondaryColor focus:outline-none px-10 py-3.5 text-base font-medium 
