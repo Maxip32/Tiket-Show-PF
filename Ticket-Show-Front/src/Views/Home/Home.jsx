@@ -84,7 +84,7 @@ const Home = () => {
     setEvents(eventosFiltrados);
     setCurrentPage(1);
     dispatch(getUserById());
-  }, [allEvents, filters]);
+  }, [allEvents, dispatch, filters]);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
 
   const handleToggleCalendar = () => {
@@ -160,7 +160,7 @@ const Home = () => {
           <Hero />
 
           {/* //- Filter bar ---------> */}
-          <section className="w-9/12 max-w-3xl mx-auto h-24 flex justify-evenly items-center mt-[-66px] z-10 bg-primaryColor/95 rounded-2xl">
+          <section className="w-2/4 max-w-3xl mx-auto h-24 flex justify-evenly items-center mt-[-66px] z-10 bg-primaryColor/95 rounded-2xl">
             {/* Filter by genres */}
             <div className="flex flex-col m-1 gap-2 text-LightText w-44">
               <span className="font-extralight text-xs">Géneros</span>
@@ -206,8 +206,13 @@ const Home = () => {
               </select>
             </div>
 
-            {/* Select by dates */}
-            <div className="flex flex-col m-1 gap-2 text-LightText w-44">
+          </section>
+          {/* //- Fin Filter bar ---------> */}
+
+          <SearchBar returnToFirstPage={returnToFirstPage} />
+
+          {/* Select by dates */}
+          <div className="flex flex-col m-1 gap-2 text-LightText w-44">
               <span className="font-extralight text-xs">Fechas</span>
               <div className="relative inline-block">
                 <input
@@ -249,10 +254,6 @@ const Home = () => {
                 )}
               </div>
             </div>
-          </section>
-          {/* //- Fin Filter bar ---------> */}
-
-          <SearchBar returnToFirstPage={returnToFirstPage} />
 
           {/* Title & order by events */}
           <section className="w-full md:flex-wrap max-w-5xl md:mx-auto px-7 mt-20 flex items-center lg:justify-between md:flex-row flex-col justify-center">
