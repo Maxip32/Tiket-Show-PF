@@ -198,19 +198,22 @@ export const createArtist = (userData) => {
 
 export const CREATE_EVENT_SUCCESS = "GET_ARTIST_SUCCESS";
 export const CREATE_EVENT_FAILURE = "GET_ARTIST_FAILURE";
-export const createEvent = () => {
+export const createEvent = (eventInfo) => {
+  console.log(eventInfo)
   return async (dispatch) => {
     try {
-      const response = await axios.get("/event/createEvent");
+      const { data } = await axios.post("/event/createEvent", eventInfo, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-      dispatch({ type: GET_ARTIST_SUCCESS, payload: response.data });
+      dispatch({ type: CREATE_EVENT_SUCCESS, payload: data });
     } catch (error) {
-      dispatch({ type: GET_ARTIST_FAILURE, payload: error.message });
+      dispatch({ type: CREATE_EVENT_FAILURE, payload: error.message });
     }
   };
 };
-
-
 
 export const GET_ARTIST_SUCCESS = "GET_ARTIST_SUCCESS";
 export const GET_ARTIST_FAILURE = "GET_ARTIST_FAILURE";
@@ -249,23 +252,24 @@ export const sendMail = (userData) => {
 
 export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
 export const UPDATE_USER_FAILURE = "UPDATE_USER_FAILURE";
-export const updateUser = (email, userData) => async (dispatch) => {
+export const updateUser = (updateData) => async (dispatch) => {
   try {
-    // Realizar la petición al backend para buscar al usuario por su email y actualizarlo
-    const response = await axios.put(`/cart/users/${email}`, userData, {
+    const response = await axios.put(`/user/stateUser/${updateData.email}`, updateData, {
       headers: {
         "Content-Type": "application/json",
       },
     });
 
-    if (!response.status === 200) {
+    if (response.status !== 200) {
       throw new Error("Error al actualizar el usuario");
     }
 
     const updatedUser = response.data;
 
-    // Si la actualización es exitosa, actualizamos el estado en Redux
     dispatch(updateUserSuccess(updatedUser.user));
+
+    // ¡No necesitas dispatch(getUserById()); aquí!
+    // En su lugar, actualiza el estado de users en updateUserSuccess
   } catch (error) {
     dispatch(updateUserFailure(error.message));
   }

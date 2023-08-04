@@ -250,6 +250,63 @@ const NavBar = () => {
             </NavLink>
           </li>
         )}
+
+        {/* //- Si el usuario está autenticado, muestra el botón desplegable */}
+        {user && (
+          <li className="relative mt-8">
+            {/* //-Menu desplegable Usuario autenticado -------- */}
+            {isDropdownOpen && (
+              <div
+                className="absolute end-0 z-10 mt-2 w-36 divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg"
+                role="menu"
+              >
+                <div className="p-2">
+                  <NavLink
+                    to="/profile"
+                    className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
+                    role="menuitem"
+                    onClick={closeDropdown}
+                  >
+                    Perfil
+                  </NavLink>
+                  {
+                  usersFinder?.role === 'artista'?
+                  <NavLink
+                    to="/createEvent"
+                    className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
+                    role="menuitem"
+                    onClick={closeDropdown}
+                  >
+                    Crear Evento
+                  </NavLink> : null
+                  } 
+                  {
+                  usersFinder?.role === 'customer'?
+                  <NavLink
+                    to="/PanelAdmin"
+                    className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
+                    role="menuitem"
+                    onClick={closeDropdown}
+                  >
+                    Panel admin
+                  </NavLink> : null
+                  }  
+
+                  <button
+                    className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
+                    role="menuitem"
+                    onClick={() => {
+                      logout();
+                      closeDropdown();
+                    }}
+                  >
+                    Cerrar sesión
+                  </button>
+                </div>
+              </div>
+            )}
+          </li>
+        )}
       </ul>
     </nav>
   );

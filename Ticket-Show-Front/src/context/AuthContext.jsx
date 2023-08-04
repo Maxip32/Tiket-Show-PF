@@ -12,6 +12,7 @@ import {
   
 } from "firebase/auth";
 import { ref, set, get } from "firebase/database";
+import axios from "axios";
 
 export const AuthContext = createContext();
 
@@ -170,12 +171,33 @@ export function AuthProvider({ children }) {
       setError(error.message);
     }
   };
+  
+    const checkUserDisabled = async (email) => {
+      try {
+        const response = await axios.get(`/user/checkUserDisabled/${email}`);
+        return response.data.disabled;
+      } catch (error) {
+        console.error("Error al verificar el estado del usuario:", error);
+        return false;
+      }
+    };
 
   
 
   const login = async (email, password) => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
+  // Verificar el estado del usuario en las tablas "artists" y "users" en PostgreSQL antes de permitir el inicio de sesión
+  const userDisabled = await checkUserDisabled(email);
+
+  if (userDisabled) {
+    // Si el usuario está deshabilitado en alguna de las tablas, manejarlo aquí
+    console.log("Usuario deshabilitado. No se permite el inicio de sesión.");
+    setError("Usuario deshabilitado. No se permite el inicio de sesión.");
+    return false;
+  }
+
+
       console.log(response);
       setUser(response.user);
       loadUserData(response.user.uid); // Cargar los datos adicionales del usuario al iniciar sesión
@@ -214,6 +236,9 @@ export function AuthProvider({ children }) {
     }
   };
 
+
+  
+
   const logout = async () => {
     try {
       await signOut(auth);
@@ -223,6 +248,8 @@ export function AuthProvider({ children }) {
       setError(error.message);
     }
   };
+
+  
 
   return (
     <AuthContext.Provider
@@ -235,6 +262,7 @@ export function AuthProvider({ children }) {
         error,
         updateUserDisplayName,
         updateUserPhotoURL,
+        checkUserDisabled,
       }}
     >
       {children}

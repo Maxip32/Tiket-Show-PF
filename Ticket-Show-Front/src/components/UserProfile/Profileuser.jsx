@@ -160,11 +160,21 @@ export default function UserProfile() {
 
   if (!user) {
     // Si el usuario no está autenticado, mostrar un mensaje o redireccionar a la página de inicio de sesión.
-    return <p>Usuario no autenticado</p>;
-  }
+    
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Tienes que estar autenticado',
+        showConfirmButton: false,
+        timer: 2500
+      })
+      navigate("/");
+     
+    }
 
   return (
     <>
+
       <section className="max-w-6xl mx-auto mt-10 bg-white shadow-2xl">
         <div className="flex flex-col md:flex-row">
           <div className="md:flex-shrink-0 flex justify-center items-center h-60 md:w-1/6">
@@ -188,7 +198,7 @@ export default function UserProfile() {
                 user.photoURL ||
                 "https://res.cloudinary.com/dhickjcbz/image/upload/v1690770100/user_r20d1h.png"
               }
-              className="shadow-xl w-40 ml-20 rounded-full align-middle border-none"
+              className="shadow-xl w-40 ml-14 rounded-full align-middle border-none"
               alt=""
             />
           </div>
@@ -226,10 +236,11 @@ export default function UserProfile() {
               </p>
             </div>
           ) : null}
+
         </div>
-        <div className="flex flex-col border-2  ml-10 md:flex-row">
-          <div className="md:h-20 border-2  md:w-1/8">
-            <p className="flex justify-start font-bold text-xs">
+        <div className=" flex flex-col border-0   ml-10 md:flex-row">
+          <div className=" md:h-20   md:w-1/8">
+            <p className=" flex justify-center  text-primaryColor items-center  font-bold text-xs">
               Cambiar Nombre:
             </p>
             {user?.displayName ? (
@@ -242,11 +253,12 @@ export default function UserProfile() {
                 />
                 <button
                   onClick={handleChangeName}
-                  className=" flex flex-col  text-xs"
+                  className="px-5  ml-10  shadow-xl flex rounded-xl bg-primaryColor text-white justify-end items-center text-xs"
                 >
                   Guardar
                 </button>
               </>
+              
             ) : (
               <p>Cargando...</p>
             )}
@@ -259,12 +271,14 @@ export default function UserProfile() {
           <div>
             <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
               <div className="flex flex-wrap justify-center">
+
                 <div className="flex flex-row w-full">
                   <div className="flex-1 px-4">
                     <p className="mb-4 text-lg leading-relaxed text-blueGray-700 flex">
                       {<MyShopping user_id={user} />}
                     </p>
                     <a href="#pablo" className="font-normal text-pink-500"></a>
+
                   </div>
                 </div>
               </div>
