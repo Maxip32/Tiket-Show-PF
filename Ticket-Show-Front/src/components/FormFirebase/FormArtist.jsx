@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,10 +6,10 @@ import { useNavigate } from 'react-router-dom';
 //import { FcGoogle } from 'react-icons/fc';
 import registerArtist from '../../assets/image/registerArtist1.jpg'
 import Swal from "sweetalert2";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+//import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const ArtistForm = () => {
-  const [imageFile, setImageFile] = useState(null);
+ const [imageFile, setImageFile] = useState(null);
   const auth = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -113,22 +112,17 @@ const ArtistForm = () => {
 
     try {
 
-      if (imageFile) {
-        const storageRef = ref(getStorage(), "imagenesUsuarios/" + imageFile.name);
-        await uploadBytes(storageRef, imageFile);
-
-        // Obtener la URL de la imagen almacenada en Firebase Storage
-           const    url = await getDownloadURL(storageRef);
-          // Obtener la URL de la imagen almacenada en Firebase Storage
-          const userInfoWithImage = url
-          ? {
-              ...userInfo,
-              image: url,
-            }
-          : userInfo;
+      // Establecer la imagen predeterminada (puedes cambiar esta URL por la que desees)
+      const defaultImageUrl = 'https://res.cloudinary.com/dhickjcbz/image/upload/v1690770100/user_r20d1h.png';
+  
+      // Asignar la URL de la imagen predeterminada al objeto userInfo
+      const userInfoWithImage = {
+        ...userInfo,
+        image: defaultImageUrl,
+      };
 
           await auth.register(emailRegister, passwordRegister, name);
-          console.log(userInfo, " esto necesito ahora")
+          //console.log(userInfo, " esto necesito ahora")
           dispatch(createArtist(userInfoWithImage));
           clearState(); // Limpiar el estado
     
@@ -139,7 +133,7 @@ const ArtistForm = () => {
             showConfirmButton: false,
             timer: 2500
           })
-      }
+      
       
       dispatch(getUserById());
       navigate("/"); // Redireccionar al usuario a la página de inicio
@@ -223,12 +217,12 @@ const ArtistForm = () => {
             onChange={(e) => setyearCreation(e.target.value)}
             className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
           />
-           <input
+           {/* <input
           type="file"
           accept="image/*"
           onChange={handleImageChange}
           className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-        />
+        /> */}
 
           <button
             type="submit"
