@@ -12,6 +12,7 @@ const cartRouter = require ('./routes/cartRoutes')
 const findCityRoute = require ('./routes/cityRouter');
 const dateRouter = require('./routes/dateRouter');
 const userRouter = require('./routes/userRouter');
+const commentsRouter = require('./routes/commentRouter')
 
 
 require('./db.js');
@@ -37,6 +38,7 @@ server.use('/cart', cartRouter);
 server.use('/city', findCityRoute);
 server.use('/date', dateRouter)
 server.use('/user', userRouter)
+server.use('/comment', commentsRouter)
 
 
 
