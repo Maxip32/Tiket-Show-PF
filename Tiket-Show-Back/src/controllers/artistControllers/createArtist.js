@@ -21,7 +21,6 @@ const newArtist = async (data) => {
     google,
     state,
     confirmed,
-    
   } = data;
 
   // Carga la imagen en Cloudinary y obtiene la URL de la imagen de perfil
@@ -59,7 +58,7 @@ const newArtist = async (data) => {
       google,
       state,
       confirmed,
-     // profileImageURL, // Agrega profileImageURL como parámetro del controlador
+      // profileImageURL, // Agrega profileImageURL como parámetro del controlador
     },
   });
 

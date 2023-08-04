@@ -55,7 +55,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(GetByCity());
   }, [dispatch]);
-
+    console.log(ciudades)
   useEffect(() => {
     dispatch(GetByDate());
   }, [dispatch]);

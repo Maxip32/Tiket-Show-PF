@@ -3,41 +3,18 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { createEvent, getUserById } from "../../redux/actions";
-
+import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc"; // Suponiendo que el ícono FcGoogle proviene de react-icons
 import registerPublic from "../../assets/image/registerPublic.jpg";
+import uploadImage from "../../utils/uploadImage";
 
 const CreateEvent = () => {
   const dispatch = useDispatch();
 
   const { user } = useAuth();
-
-   //cloudinary inicia
-   const [image, setImage] = useState("")
-   const [loading, setLoading] = useState(false)
- 
-   const uploadImage = async (e) =>{
-     const files=e.target.files;
-     const data = new FormData();
-     data.append("file",files[0]);
-     data.append("upload_preset", "k0eexbwx");
-     setLoading(true);
-     const res = await fetch(
-       "https://api.cloudinary.com/v1_1/dhickjcbz/image/upload",
-       {
-           method: "POST",
-           body: data,
-       }
-     )
-     const file = await res.json();
-     console.log(res)
-     setImage(file.secure_url)
-     setLoading(false)
-   }
- 
-   //cloudinary acaba
-
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [eventInfo, setEventInfo] = useState({
     name: "",
     description: "",
@@ -66,6 +43,15 @@ const CreateEvent = () => {
     genres: "",
   });
 
+  const handleUploadImage = async (e) => {
+    const file =  await uploadImage(e);
+    console.log(file.url)
+    setEventInfo((prev) => ({
+       ...prev,
+      image: file.url,
+     }));
+  };
+console.log(eventInfo)
   const handleChange = (e) => {
     setEventInfo((prev) => ({
       ...prev,
@@ -77,8 +63,27 @@ const CreateEvent = () => {
     e.preventDefault();
     dispatch(createEvent(eventInfo));
     dispatch(getUserById());
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Evento Creado Exitosamente!",
+      showConfirmButton: false,
+      timer: 2500,
+    });
+    navigate("/");
   };
+  if (!user) {
+    // Si el usuario no está autenticado, mostrar un mensaje o redireccionar a la página de inicio de sesión.
 
+    Swal.fire({
+      position: "center",
+      icon: "warning",
+      title: "Tienes que estar autenticado",
+      showConfirmButton: false,
+      timer: 2500,
+    });
+    navigate("/");
+  }
   return (
     <div className="w-full flex justify-center items-center mt-2">
       <div className="bg-white rounded-2xl shadow-lg flex w-4/6">
@@ -145,7 +150,7 @@ const CreateEvent = () => {
             <input
               placeholder="Horario de Finalizacion"
               onChange={handleChange}
-              type="time"
+              type="time"e
               value={eventInfo.end}
               name={"end"}
               // onChange={(e) => setnameArtist(e.target.value)}
@@ -171,14 +176,13 @@ const CreateEvent = () => {
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
             <input
-              placeholder="Imagen Evento"
-              onChange={handleChange}
-              type="text"
-              value={eventInfo.image}
-              name="image"
-              //onChange={(e) => setyearCreation(e.target.value)}
-              className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+              class=""
+              type="file"
+              id="formFile"
+            
+              onChange={handleUploadImage} // Pasa el evento 'e' como argument
             />
+
             <input
               placeholder="Direccion de Lugar"
               onChange={handleChange}
