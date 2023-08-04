@@ -9,7 +9,7 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const { login, loginWithGoogle } = useAuth(); // Asegúrate de que el contexto tenga las funciones de inicio de sesión
+  const { login, loginWithGoogle, checkUserDisabled  } = useAuth(); // Asegúrate de que el contexto tenga las funciones de inicio de sesión
   const [ name, setName] = useState("");
   const navigate= useNavigate()
 
@@ -19,19 +19,34 @@ const LoginForm = () => {
     // Validación de campos vacíos
     if (!email || !password) {
       setError("Por favor, ingresa tu correo electrónico y contraseña.");
+      
       return;
     }
 
     try {
-      // Iniciar sesión con Firebase usando los datos ingresados en el formulario Y GUARDAR EN LA DB
+      // Verificar si el usuario está deshabilitado en alguna de las tablas antes de permitir el inicio de sesión
+      const userDisabled = await checkUserDisabled(email);
+      if (userDisabled) {
+        console.log("Usuario deshabilitado. No se permite el inicio de sesión.");
+        setError("Usuario deshabilitado. No se permite el inicio de sesión.");
+        // Mostrar SweetAlert con el mensaje de usuario deshabilitado
+      Swal.fire({
+        icon: "error",
+        title: "Usuario deshabilitado",
+        text: "No se permite el inicio de sesión.",
+      });
+        return;
+      }
+
+      // Si el usuario no está deshabilitado, intentar iniciar sesión con Firebase
       await login(email, password, name);
       Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Bienvenido nuevamente!',
+        position: "center",
+        icon: "success",
+        title: "Bienvenido nuevamente!",
         showConfirmButton: false,
-        timer: 2500
-      })
+        timer: 2500,
+      });
       navigate("/");
     } catch (error) {
       setError(error.message);

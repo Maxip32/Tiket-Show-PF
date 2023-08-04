@@ -12,6 +12,9 @@
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@tremor/react": "^3.6.0",
+    "@mui/material":"5.14.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/styled-engine": "^5.13.2",
     "axios": "^1.4.0",
     "firebase": "^10.0.0",
     "firebase-auth": "^0.1.2",
