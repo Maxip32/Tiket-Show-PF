@@ -5,47 +5,52 @@ import DashboardBase from './DashboardBase';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Switch } from "@mui/material";
+import { useAuth } from "../context/AuthContext";
 import { getUserById, updateUser } from "../redux/actions";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 const TabListBase = () => {
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { user} = useAuth();
   const users = useSelector((state) => state?.user);
   const [localUsers, setLocalUsers] = useState([]);
   const [initialUsersOrder, setInitialUsersOrder] = useState([]);
-
+  
   useEffect(() => {
-    dispatch(getUserById()) // Guardar el orden inicial de los usuarios
     setLocalUsers(users);
     setInitialUsersOrder(users);
-  }, [users]);
+    dispatch(getUserById())
+  }, [localUsers]);
 
+ 
   const findUserByEmail = (email) => localUsers.find((user) => user.email === email);
-
+  
   const changeRol = (email) => {
     const findUser = findUserByEmail(email);
     if (!findUser) return;
-
+    
     const roles = ["admin", "customer", "artist"];
     const currentRoleIndex = roles.indexOf(findUser.role);
     const nextRoleIndex = (currentRoleIndex + 1) % roles.length;
     const updatedUser = { ...findUser, role: roles[nextRoleIndex] };
     const updatedLocalUsers = localUsers.map((user) =>
-      user.email === email ? updatedUser : user
+    user.email === email ? updatedUser : user
     );
-
+    
     setLocalUsers(updatedLocalUsers);
     dispatch(updateUser(updatedUser));
   };
-
+  
   const changeDisabled = async (email) => {
     const findUser = findUserByEmail(email);
     if (!findUser) return;
-  
+    
     const updatedUser = { ...findUser, disabled: !findUser.disabled };
     const updatedLocalUsers = localUsers.map((user) =>
-      user.email === email ? updatedUser : user
+    user.email === email ? updatedUser : user
     );
-  
+    
     setLocalUsers(updatedLocalUsers);
   
     try {
@@ -60,6 +65,20 @@ const TabListBase = () => {
     const [selectedView, setSelectedView] = useState(1)
     const [selectedView2, setSelectedView2] = useState(1)
 
+
+    if (!user) {
+      // Si el usuario no está autenticado, mostrar un mensaje o redireccionar a la página de inicio de sesión.
+      
+        Swal.fire({
+          position: 'center',
+          icon: 'warning',
+          title: 'Tienes que estar autenticado',
+          showConfirmButton: false,
+          timer: 2500
+        })
+        navigate("/");
+       
+      }
 
     return (
         <main className="bg-slate-200 p-6 sm:p-10">
