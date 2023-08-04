@@ -28,6 +28,43 @@ import "react-calendar/dist/Calendar.css";
 
 
 const Home = () => {
+
+  const allowedDates = [
+    "2023-08-10",
+    "2023-08-16",
+    "2023-08-17",
+    "2023-08-18",
+    "2023-08-23",
+    "2023-08-26",
+    "2023-08-27",
+    "2023-09-01",
+    "2023-09-07",
+    "2023-09-09",
+    "2023-09-13",
+    "2023-09-15",
+    "2023-09-20",
+    "2023-09-23",
+    "2023-09-24",
+    "2023-09-26",
+    "2023-09-30",
+    "2023-10-03",
+    "2023-10-13",
+    "2023-10-17",
+    "2023-10-18",
+    "2023-10-20",
+    "2023-10-28",
+    "2023-11-04",
+    "2023-11-05",
+    "2023-11-07",
+    "2023-11-09",
+    "2023-11-13",
+    "2023-11-15",
+    "2023-11-21",
+    "2023-11-24",
+    "2023-11-28",
+    "2023-11-29"
+  ];
+  
   //const navigate = useNavigate();
   const dispatch = useDispatch();
   const allEvents = useSelector((state) => state.Events);
@@ -78,15 +115,24 @@ const Home = () => {
       const matchesGenre =
         !filters.genre || evento.genre.includes(filters.genre);
       const matchesCity = !filters.city || evento.city.includes(filters.city);
-      const matchesDate = !filters.date || evento.date === filters.date;
-      return matchesGenre && matchesCity && matchesDate;
+      return matchesGenre && matchesCity
+      
     });
     setEvents(eventosFiltrados);
     setCurrentPage(1);
     dispatch(getUserById());
   }, [allEvents, filters]);
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
+  
+  const handleInputChange = (value) => {
+    setDate(value);
+    const selectedDate = value.toISOString().split("T")[0];
+    if (allowedDates.includes(selectedDate)) {
+      dispatch(FilterByDate(selectedDate));
+      setCurrentPage(1);
+    }
+  };
 
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
   const handleToggleCalendar = () => {
     setIsCalendarOpen((prevIsCalendarOpen) => !prevIsCalendarOpen); // Cambia el estado al valor opuesto
   };
@@ -100,6 +146,7 @@ const Home = () => {
     });
     setEvents(sortedEvents);
     setCurrentPage(1);
+    
   };
 
   const handleOrderByName = () => {
@@ -236,7 +283,7 @@ const Home = () => {
                 {isCalendarOpen && (
                   <div className="absolute bg-LightText text-primaryColor shadow-md p-2 mt-2 ">
                     <Calendar
-                      /* onChange={handleInputChange} */
+                      onChange={handleInputChange}
                       value={date}
                       minDate={new Date("2023-08-10")}
                       maxDate={new Date("2023-11-29")}
@@ -298,8 +345,11 @@ const Home = () => {
 
           {/* Card section */}
           <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full overflow-y-hidden">
-            {currentEvents?.map((cu) => {
-              return (
+          {currentEvents.length === 0 ? (
+    <p className="text-xl text-gray-500">No hay eventos disponibles</p>
+  ) : (
+            currentEvents?.map((cu) => (
+              
                 <Card
                   id={cu.id}
                   name={cu.name}
@@ -311,8 +361,10 @@ const Home = () => {
                   price={cu.price}
                   key={cu.id}
                 />
-              );
-            })}
+              ))
+            )}
+
+          
           </section>
           {/* Fin Card section */}
 
