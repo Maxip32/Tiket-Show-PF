@@ -160,8 +160,17 @@ export default function UserProfile() {
 
   if (!user) {
     // Si el usuario no está autenticado, mostrar un mensaje o redireccionar a la página de inicio de sesión.
-    return <p>Usuario no autenticado</p>;
-  }
+    
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Tienes que estar autenticado',
+        showConfirmButton: false,
+        timer: 2500
+      })
+      navigate("/");
+     
+    }
 
   return (
     <>
