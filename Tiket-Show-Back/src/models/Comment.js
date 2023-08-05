@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
         },
         body: {
             type: DataTypes.TEXT,
-            allowNull: false,
+            allowNull: true,
         },
         date: {
             type: DataTypes.STRING,
@@ -18,11 +18,15 @@ module.exports = (sequelize) => {
         },
         parent: {
             type: DataTypes.INTEGER,
-            defaultValue: null,
+            defaultValue: 1,
         },
         enabled: {
             type: DataTypes.BOOLEAN,
             defaultValue: true,
+        },
+        stars: {
+            type: DataTypes.INTEGER,
+            defaultValue: 1,
         }
     },
         {

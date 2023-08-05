@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -103,7 +104,7 @@ export default {
     },
   ],
   plugins: [
-    require("@headlessui/tailwindcss"),
+    require('@headlessui/tailwindcss'),
     require('tailwind-scrollbar-hide')
   ],
 };

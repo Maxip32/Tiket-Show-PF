@@ -63,6 +63,18 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    body: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+  },
+  date: {
+      type: DataTypes.STRING,
+      allowNull: true
+  },
+  stars: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+  },
     role: { type: DataTypes.STRING, defaultValue: "customer" },
 
       disabled: { type: DataTypes.BOOLEAN, defaultValue: false },
