@@ -104,6 +104,6 @@ export default {
   ],
   plugins: [
     require("@headlessui/tailwindcss"),
-    require('tailwind-scrollbar-hide')
+    //require('tailwind-scrollbar-hide')
   ],
 };
