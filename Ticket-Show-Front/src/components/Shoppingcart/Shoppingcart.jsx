@@ -1,11 +1,13 @@
 /* CheckOut */
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { CartContext } from "./shoppingCartContext";
 import { useAuth } from "../../context/AuthContext";
-
 export const CartPage = () => {
   const [cart, setCart] = useContext(CartContext);
   const { user } = useAuth(); 
+
+
+ 
   const quantity = cart.reduce((acc, curr) => {
     return acc + curr.quantity;
   }, 0);
@@ -44,14 +46,15 @@ export const CartPage = () => {
   };
   const handleAdquirirEntrada = async () => {
     try {
-      //const response = await fetch("http://localhost:3001/create-order", {
-      const response = await fetch("https://tiket-show-pf-production.up.railway.app/create-order", {
+      const response = await fetch("http://localhost:3001/create-order", {
+      //const response = await fetch("https://tiket-show-pf-production.up.railway.app/create-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
         },
+        
         //PARA QUE ME LLEGUE Y TOME EL PRECIO DE CADA EVENTO AL BACK
-        body: JSON.stringify({ value: (totalPrice + totalPrice*.18).toFixed(2) }), // Enviar el precio en el cuerpo de la solicitud
+        body: JSON.stringify({ value: (totalPrice + totalPrice*.18).toFixed(2),  }), // Enviar el precio en el cuerpo de la solicitud
 
       });
       // Verificar si la solicitud fue exitosa (código de estado 200)
@@ -69,8 +72,9 @@ export const CartPage = () => {
         const detailsShopping = {
           date: new Date().toISOString(), // Agregar la fecha de compra
           total: totalPrice,
-          cantidad: quantity, // Agregar el precio total
-          name: "Nombre del Evento",
+          cantidad: cart.map((item) => item.quantity).join(" , "), // Agregar el precio total
+          name: cart.map((item) => item.name).join(" , "),
+          image: cart?.map((item) => item.image).join(","),
           userId: user.uid,
           // Agregar otros detalles relevantes, como nombres de eventos, cantidades, etc. si es necesario
         };
@@ -92,8 +96,8 @@ export const CartPage = () => {
         // Realizar la re dirección a la pasarela de pago
         window.location.href = data.links[1].href;
         //lo hice yo = Darwin, acá inicia
-        const sendMail = await fetch('https://tiket-show-pf-production.up.railway.app/send/mail',
-        //const sendMail = await fetch('http://localhost:3001/send/mail',
+        //const sendMail = await fetch('https://tiket-show-pf-production.up.railway.app/send/mail',
+        const sendMail = await fetch('http://localhost:3001/send/mail',
         { method: 'POST',
           headers: {
             "Contend-Type": "application/json"
@@ -102,8 +106,9 @@ export const CartPage = () => {
             { 
             date: new Date().toISOString(),
           total: totalPrice,
-          cantidad: quantity, 
-          name: "Nombre del Evento"
+          cantidad: cart.map((item) => item.quantity).join(" , "), 
+          name: cart.map((item) => item.name).join(" , "),
+          image: cart?.map((item) => item.image).join(","),
         })
         })
         await sendMail.json()
@@ -141,7 +146,7 @@ export const CartPage = () => {
             </h1>
           </header>
           {/* Mostrar los elementos del carrito */}
-          {cart.map((item) => (
+          {cart?.map((item) => (
             <div key={item.id} className="mt-8">
               <ul className="space-y-4">
                 <li className="flex items-center gap-4">
