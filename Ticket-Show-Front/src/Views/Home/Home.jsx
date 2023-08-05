@@ -25,7 +25,7 @@ import Card from "../../components/Card/Card";
 import Paginate from "../../components/Paginate/Paginate";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-
+import { LiaArrowRightSolid, LiaArrowDownSolid } from "react-icons/lia";
 
 const Home = () => {
 
@@ -97,19 +97,21 @@ const Home = () => {
     dispatch(GetByDate());
   }, [dispatch]);
 
-  const [date, setDate] = useState(new Date());
   const handleFilterGenres = (event) => {
     const genreValue = event.target.value;
     setFilters((prev) => ({ ...prev, genre: genreValue }));
-    setCurrentPage(1)
+    setCurrentPage(1);
   };
-
+  
+  
   const handleFiltroCiudades = (event) => {
     const cityValue = event.target.value;
     setFilters((prev) => ({ ...prev, city: cityValue }));
-    setCurrentPage(1)
+    setCurrentPage(1);
   };
-
+  
+  const [date, setDate] = useState(new Date());
+  
   useEffect(() => {
     const eventosFiltrados = allEvents.filter((evento) => {
       const matchesGenre =
@@ -122,7 +124,14 @@ const Home = () => {
     setCurrentPage(1);
     dispatch(getUserById());
   }, [allEvents, filters]);
+
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
+
   
+  const handleToggleCalendar = () => {
+    setIsCalendarOpen((prevIsCalendarOpen) => !prevIsCalendarOpen); // Cambia el estado al valor opuesto
+  };
+
   const handleInputChange = (value) => {
     setDate(value);
     const selectedDate = value.toISOString().split("T")[0];
@@ -130,11 +139,6 @@ const Home = () => {
       dispatch(FilterByDate(selectedDate));
       setCurrentPage(1);
     }
-  };
-
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
-  const handleToggleCalendar = () => {
-    setIsCalendarOpen((prevIsCalendarOpen) => !prevIsCalendarOpen); // Cambia el estado al valor opuesto
   };
 
   const handleOrderDate = () => {
@@ -192,11 +196,11 @@ const Home = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2800)
+    }, 2800);
     return () => {
       clearTimeout(timer);
-    }
-  }, [])
+    };
+  }, []);
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
@@ -207,7 +211,7 @@ const Home = () => {
           <Hero />
 
           {/* //- Filter bar ---------> */}
-          <section className="w-9/12 max-w-3xl mx-auto h-24 flex justify-evenly items-center mt-[-66px] z-10 bg-primaryColor/95 rounded-2xl">
+          <section className="py-4 w-4/6 md:w-2/4 max-w-xl md:mx-auto h-fit md:h-24 flex flex-col md:flex-row gap-2 justify-evenly items-center md:mt-[-66px] md:z-10 bg-primaryColor/95 rounded-2xl">
             {/* Filter by genres */}
             <div className="flex flex-col m-1 gap-2 text-LightText w-44">
               <span className="font-extralight text-xs">Géneros</span>
@@ -252,54 +256,56 @@ const Home = () => {
                 ))}
               </select>
             </div>
-
-            {/* Select by dates */}
-            <div className="flex flex-col m-1 gap-2 text-LightText w-44">
-              <span className="font-extralight text-xs">Fechas</span>
-              <div className="relative inline-block">
-                <input
-                  id="fecha"
-                  className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 cursor-pointer"
-                  type="text"
-                  value={date.toISOString().split("T")[0]}
-                  name="Fecha"
-                  onChange={() => {}}
-                  onClick={handleToggleCalendar}
-                  readOnly
-                  required
-                />
-                {/* Icono de calendario al lado del input */}
-                <span className="absolute inset-y-0 right-0 flex items-center pr-0 mb-1 pointer-events-none">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="18"
-                    width="18"
-                    viewBox="0 -960 960 960"
-                    className="fill-LightText"
-                  >
-                    <path d="M180-80q-24 0-42-18t-18-42v-620q0-24 18-42t42-18h65v-60h65v60h340v-60h65v60h65q24 0 42 18t18 42v620q0 24-18 42t-42 18H180Zm0-60h600v-430H180v430Zm0-490h600v-130H180v130Zm0 0v-130 130Zm300 230q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z" />
-                  </svg>
-                </span>
-                {isCalendarOpen && (
-                  <div className="absolute bg-LightText text-primaryColor shadow-md p-2 mt-2 ">
-                    <Calendar
-                      onChange={handleInputChange}
-                      value={date}
-                      minDate={new Date("2023-08-10")}
-                      maxDate={new Date("2023-11-29")}
-                      tileDisabled={({ activeStartDate, date, view }) => {
-                        const dateString = date.toISOString().split("T")[0];
-                        return !allowedDates.includes(dateString);
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
           </section>
           {/* //- Fin Filter bar ---------> */}
 
           <SearchBar returnToFirstPage={returnToFirstPage} />
+
+          {/* //- Search by dates */}
+          <div className="flex flex-col md:flex-row items-center mt-8 gap-4 text-primaryColor w-fit">
+            <span className="text-lg">Busca tu evento por fecha</span>
+            <LiaArrowRightSolid size={22} className="hidden md:block" />
+            <LiaArrowDownSolid size={22} className="md:hidden" />
+            <div className="relative inline-block z-10">
+              <input
+                id="fecha"
+                className="bg-transparent border-b border-secondaryColor outline-none focus:border-blue-700 cursor-pointer"
+                type="text"
+                value={date.toISOString().split("T")[0]}
+                name="Fecha"
+                onChange={() => {}}
+                onClick={handleToggleCalendar}
+                readOnly
+                required
+              />
+              {/* Icono de calendario al lado del input */}
+              <span className="absolute inset-y-0 right-0 flex items-center pr-0 mb-1 pointer-events-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="18"
+                  width="18"
+                  viewBox="0 -960 960 960"
+                  className="fill-secondaryColor"
+                >
+                  <path d="M180-80q-24 0-42-18t-18-42v-620q0-24 18-42t42-18h65v-60h65v60h340v-60h65v60h65q24 0 42 18t18 42v620q0 24-18 42t-42 18H180Zm0-60h600v-430H180v430Zm0-490h600v-130H180v130Zm0 0v-130 130Zm300 230q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z" />
+                </svg>
+              </span>
+              {isCalendarOpen && (
+                <div className="absolute bg-LightText text-primaryColor shadow-md p-2 mt-2 ">
+                  <Calendar
+                    onChange={handleInputChange}
+                    value={date}
+                    minDate={new Date("2023-08-10")}
+                    maxDate={new Date("2023-11-29")}
+                    tileDisabled={({ activeStartDate, date, view }) => {
+                      const dateString = date.toISOString().split("T")[0];
+                      return !allowedDates.includes(dateString);
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
 
           {/* Title & order by events */}
           <section className="w-full md:flex-wrap max-w-5xl md:mx-auto px-7 mt-20 flex items-center lg:justify-between md:flex-row flex-col justify-center">
@@ -344,12 +350,13 @@ const Home = () => {
           {/* Fin Title & order by events */}
 
           {/* Card section */}
-          <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full overflow-y-hidden">
-          {currentEvents.length === 0 ? (
-    <p className="text-xl text-gray-500">No hay eventos disponibles</p>
-  ) : (
-            currentEvents?.map((cu) => (
-              
+          <section className="w-full h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center overflow-y-hidden scrollbar-hide">
+            {currentEvents.length === 0 ? (
+              <p className="text-xl text-gray-500">
+                No hay eventos disponibles
+              </p>
+            ) : (
+              currentEvents?.map((cu) => (
                 <Card
                   id={cu.id}
                   name={cu.name}
@@ -363,8 +370,6 @@ const Home = () => {
                 />
               ))
             )}
-
-          
           </section>
           {/* Fin Card section */}
 
