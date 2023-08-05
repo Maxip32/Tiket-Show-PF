@@ -64,48 +64,53 @@ const CreateEvent = () => {
     if (!eventInfo.description) {
       errors.description = "Resumen requerido";
     }
+
+    if (!eventInfo.date) {
+      errors.date = 'El campo "Fecha" es obligatorio.';
+    }
+
+    if (!eventInfo.start) {
+      errors.start = 'El campo "Hora de inicio" es obligatorio.';
+    }
+
+    if (!eventInfo.end) {
+      errors.end = 'El campo "Hora de finalizacion" es obligatorio.';
+    }
+
+    if (typeof eventInfo.price !== "number") {
+      errors.price = 'El campo "Precio" debe ser un número.';
+    }
+
+    if (!eventInfo.quotas || !eventInfo.quotas.trim()) {
+      errors.quotas = 'El campo "Stock de Entradas" es obligatorio.';
+    } else {
+      if (typeof eventInfo.quotas !== "number") {
+        errors.quotas = 'El campo "Stock de Entradas" debe ser un número.';
+      } else if (eventInfo.quotas < 1 || eventInfo.quotas > 100) {
+        errors.quotas =
+          'El campo "Stock de Entradas" debe ser un número entre 1 y 100.';
+      }
+    }
+
+    if (!eventInfo.image) {
+      errors.image = "Se debe cargar una Imagen";
+    }
+
+    if (!eventInfo.address) {
+      errors.address = "El campo direccion es obligatorio";
+    }
+
+    if (!eventInfo.city) {
+      errors.city = "El campo ciudad es obligatorio";
+    }
+
+    if (!eventInfo.genre) {
+      errors.city = "El campo Genero obligatorio";
+    }
+
     return errors;
   };
-    // if (typeof dataForm.healthScore === "undefined") {
-    //   errors.healthScore = 'El campo "Health Score" es obligatorio.';
-    // } else {
-    //   if (!dataForm.healthScore) {
-    //     errors.healthScore = 'El campo "Health Score" no puede estar vacío.';
-    //   } else {
-    //     dataForm.healthScore = parseInt(dataForm.healthScore);
-
-    //     if (dataForm.healthScore < 0 || dataForm.healthScore > 100) {
-    //       errors.healthScore =
-    //         'El campo "healthScore" debe estar entre 0 y 100.';
-    //     }
-    //   }
-    // }
-
-    // if (dataForm.steps.length === 1) {
-    //   errors.steps = "Hace falta agregar este campo.";
-    // } else {
-    //   errors.steps = "";
-    // }
-
-    // if (!form.diets.length) {
-    //   errors.diets = "Elige al menos una dieta";
-    // }
-
-    // if (!dataForm.diets || dataForm.diets.length === 0) {
-    //   errors.diets = 'El campo " tipos de dietas" es obligatorio.';
-    // }
-
-    // if (!dataForm.image || !dataForm.image.trim()) {
-    //   errors.image = 'El campo "Imagen Url" es obligatorio.';
-    // } else {
-    //   const trimmedImage = dataForm.image.trim();
-    //   const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
-    //   if (!urlPattern.test(trimmedImage)) {
-    //     errors.image = 'El campo "Imagen Url" debe ser una URL válida.';
-    //   }
-    // }
-
-   
+ 
 
   const handleUploadImage = async (e) => {
     const file = await uploadImage(e);
@@ -123,28 +128,28 @@ const CreateEvent = () => {
     }));
   };
 
-  const handleSubmit =  (e) => {
-  e.preventDefault();
-  const validationErrors = validateForm(eventInfo);
-  setErrors(validationErrors);
-  if (Object.keys(validationErrors).length === 0) {
-    try {
-      dispatch(createEvent(eventInfo));
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Evento Creado Exitosamente!",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-      navigate("/");
-    } catch (error) {
-      console.error("No se pudo crear el evento:", error);
-    }
-  } else {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validateForm(eventInfo);
     setErrors(validationErrors);
-  }
-};
+    if (Object.keys(validationErrors).length === 0) {
+      try {
+        dispatch(createEvent(eventInfo));
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Evento Creado Exitosamente!",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        navigate("/");
+      } catch (error) {
+        console.error("No se pudo crear el evento:", error);
+      }
+    } else {
+      setErrors(validationErrors);
+    }
+  };
   if (!user) {
     // Si el usuario no está autenticado, mostrar un mensaje o redireccionar a la página de inicio de sesión.
 
@@ -183,7 +188,6 @@ const CreateEvent = () => {
             className="flex flex-col gap-4 w-full justify-center items-center"
             onSubmit={handleSubmit}
           >
-            
             <input
               placeholder="Nombre Evento"
               type="text"
@@ -202,7 +206,7 @@ const CreateEvent = () => {
               name={"description"}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-             <p>{errors.description}</p>
+            <p>{errors.description}</p>
 
             <input
               placeholder="Fecha del Evento"
@@ -212,7 +216,7 @@ const CreateEvent = () => {
               onChange={handleChange}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-
+               <p>{errors.date}</p>
             <input
               placeholder="Horario de Inicio"
               onChange={handleChange}
@@ -222,7 +226,7 @@ const CreateEvent = () => {
               //onChange= {(e)=> setNameBand(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-
+               <p>{errors.start}</p>
             <input
               placeholder="Horario de Finalizacion"
               onChange={handleChange}
@@ -233,7 +237,7 @@ const CreateEvent = () => {
               // onChange={(e) => setnameArtist(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-
+               <p>{errors.end}</p>
             <input
               placeholder="Precio por Entrada"
               onChange={handleChange}
@@ -243,6 +247,7 @@ const CreateEvent = () => {
               //onChange={(e) => setyearCreation(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
+             <p>{errors.price}</p>
             <input
               placeholder="Stock de Entradas"
               onChange={handleChange}
@@ -252,13 +257,14 @@ const CreateEvent = () => {
               //onChange={(e) => setyearCreation(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
+    
             <input
               className=""
               type="file"
               id="formFile"
               onChange={handleUploadImage} // Pasa el evento 'e' como argument
             />
-
+                     <p>{errors.quotas}</p>
             <input
               placeholder="Direccion de Lugar"
               onChange={handleChange}
@@ -268,6 +274,7 @@ const CreateEvent = () => {
               //onChange={(e) => setyearCreation(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
+              <p>{errors.address}</p>
             <input
               placeholder="Ciudad"
               onChange={handleChange}
