@@ -62,7 +62,7 @@ const CreateEvent = () => {
     }
 
     if (!eventInfo.description) {
-      errors.description = "Resumen requerido";
+      errors.description = "Descripcion del evento obligatoria";
     }
 
     if (!eventInfo.date) {
@@ -196,7 +196,7 @@ const CreateEvent = () => {
               name={"name"}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-            <p>{errors.name}</p>
+            <p className=" text-red-600 text-xs">{errors.name}</p>
 
             <input
               placeholder="Descripcion del evento"
@@ -206,7 +206,7 @@ const CreateEvent = () => {
               name={"description"}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-            <p>{errors.description}</p>
+            <p className="text-red-600 text-xs">{errors.description}</p>
 
             <input
               placeholder="Fecha del Evento"
@@ -216,7 +216,7 @@ const CreateEvent = () => {
               onChange={handleChange}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-               <p>{errors.date}</p>
+               <p className="text-red-600 text-xs">{errors.date}</p>
             <input
               placeholder="Horario de Inicio"
               onChange={handleChange}
@@ -226,7 +226,7 @@ const CreateEvent = () => {
               //onChange= {(e)=> setNameBand(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-               <p>{errors.start}</p>
+               <p className="text-red-600 text-xs">{errors.start}</p>
             <input
               placeholder="Horario de Finalizacion"
               onChange={handleChange}
@@ -237,7 +237,7 @@ const CreateEvent = () => {
               // onChange={(e) => setnameArtist(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-               <p>{errors.end}</p>
+               <p className="text-red-600 text-xs">{errors.end}</p>
             <input
               placeholder="Precio por Entrada"
               onChange={handleChange}
@@ -247,7 +247,7 @@ const CreateEvent = () => {
               //onChange={(e) => setyearCreation(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-             <p>{errors.price}</p>
+             <p className="text-red-600 text-xs">{errors.price}</p>
             <input
               placeholder="Stock de Entradas"
               onChange={handleChange}
@@ -264,7 +264,7 @@ const CreateEvent = () => {
               id="formFile"
               onChange={handleUploadImage} // Pasa el evento 'e' como argument
             />
-                     <p>{errors.quotas}</p>
+                     <p className="text-red-600 text-xs">{errors.quotas}</p>
             <input
               placeholder="Direccion de Lugar"
               onChange={handleChange}
@@ -274,7 +274,7 @@ const CreateEvent = () => {
               //onChange={(e) => setyearCreation(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-              <p>{errors.address}</p>
+              <p className="text-red-600 text-xs">{errors.address}</p>
             <input
               placeholder="Ciudad"
               onChange={handleChange}
@@ -318,7 +318,7 @@ const CreateEvent = () => {
                 <option value="whole 30">Indie</option>
                 <option value="whole 30">Alternativo</option>
               </select>
-              <p>{errors.diets}</p>
+              <p className="text-red-600 text-xs">{errors.genre}</p>
             </div>
             <button
               type="submit"
