@@ -29,6 +29,43 @@ import { LiaArrowRightSolid, LiaArrowDownSolid } from "react-icons/lia";
 import Reviews from "../../components/Reviews/Reviews";
 
 const Home = () => {
+
+  const allowedDates = [
+    "2023-08-10",
+    "2023-08-16",
+    "2023-08-17",
+    "2023-08-18",
+    "2023-08-23",
+    "2023-08-26",
+    "2023-08-27",
+    "2023-09-01",
+    "2023-09-07",
+    "2023-09-09",
+    "2023-09-13",
+    "2023-09-15",
+    "2023-09-20",
+    "2023-09-23",
+    "2023-09-24",
+    "2023-09-26",
+    "2023-09-30",
+    "2023-10-03",
+    "2023-10-13",
+    "2023-10-17",
+    "2023-10-18",
+    "2023-10-20",
+    "2023-10-28",
+    "2023-11-04",
+    "2023-11-05",
+    "2023-11-07",
+    "2023-11-09",
+    "2023-11-13",
+    "2023-11-15",
+    "2023-11-21",
+    "2023-11-24",
+    "2023-11-28",
+    "2023-11-29"
+  ];
+  
   //const navigate = useNavigate();
   const dispatch = useDispatch();
   const allEvents = useSelector((state) => state.Events);
@@ -91,6 +128,7 @@ const Home = () => {
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
 
+  
   const handleToggleCalendar = () => {
     setIsCalendarOpen((prevIsCalendarOpen) => !prevIsCalendarOpen); // Cambia el estado al valor opuesto
   };
@@ -113,6 +151,7 @@ const Home = () => {
     });
     setEvents(sortedEvents);
     setCurrentPage(1);
+    
   };
 
   const handleOrderByName = () => {
