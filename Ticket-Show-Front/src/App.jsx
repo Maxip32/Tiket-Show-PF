@@ -14,7 +14,7 @@ import { ShoppingCartProvider } from "./components/Shoppingcart/shoppingCartCont
 import UserProfile from "./components/UserProfile/Profileuser";
 import Dashboard from '../src/Dashboard/Dashboard'
 import CreateEvent from "./components/CreateEvent/CreateEvent";
-
+import EditEvent from "./components/CreateEvent/EdiEvent"
 function App() {
   //const location = useLocation();
   return (
@@ -34,7 +34,7 @@ function App() {
           <Route path="/createEvent" element={<CreateEvent />} />
           <Route path="/" element={<Home />} />
           <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/approved" element={<CompraPaypal/>}/>
+          <Route path="/editEvent/:eventId" element={<EditEvent/>} />
           <Route path="/about" element={<About />} />
           <Route path="/PanelAdmin" element={<Dashboard/>} />
         </Routes>

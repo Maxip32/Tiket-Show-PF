@@ -33,12 +33,27 @@ import {
   CREATE_MAIL_SUCCESS,
   CREATE_MIAL_FAILURE,
   CREATE_EVENT_SUCCESS,
-  CREATE_EVENT_FAILURE,  
+  CREATE_EVENT_FAILURE, 
+  UPDATE_EVENT_SUCCESS,
+  UPDATE_EVENT_FAILURE, 
+  DELETE_EVENT_SUCCESS,
+  DELETE_EVENT_FAILURE,
+  RESTORE_EVENT_SUCCESS,
+  RESTORE_EVENT_FAILURE, 
   UPDATE_QUOTAS
+
 } from "../redux/actions";
 
 const initialState = {
-  Events: [],
+  Events: [{
+    id: "",
+    name: "",
+    // Otros datos del evento
+    deleted: false, // Agregar esta propiedad a cada evento
+  },],
+  
+  loading: false,
+  error: null,
   allEvents: [],
   genres: [],
   detail: {},
@@ -278,6 +293,63 @@ const rootReducer = (state = initialState, action) => {
             loading: false,
             error: action.payload,
           };
+
+    ///////////// UPDATE EVENT //////////////////////  
+    case UPDATE_EVENT_SUCCESS:
+        return {
+          ...state,
+          user: action.payload,
+          loading: false,
+          error: null,
+        };
+
+        case UPDATE_EVENT_FAILURE:
+          return {
+            ...state,
+            user: null,
+            loading: false,
+            error: action.payload,
+          };
+
+
+          ///////////// DELETE EVENT ////////////
+
+          case DELETE_EVENT_SUCCESS:
+            return {
+              ...state,
+              Events: state.Events.map((event) =>
+                event.id === action.payload ? { ...event, deleted: true } : event
+              ),
+              loading: false,
+              error: null,
+            };
+
+            case DELETE_EVENT_FAILURE:
+              return {
+                ...state,
+                loading: false,
+                error: action.payload,
+              };
+
+
+    //////////// RESTORE EVENT ////////////////
+    case RESTORE_EVENT_SUCCESS:
+            return {
+              ...state,
+              Events: state.Events.map((event) =>
+                event.id === action.payload ? { ...event, deleted: true } : event
+              ),
+              loading: false,
+              error: null,
+            };
+
+            case RESTORE_EVENT_FAILURE:
+              return {
+                ...state,
+                loading: false,
+                error: action.payload,
+              };          
+    
 
     ///////////// GET USER BY EMAIL Y UPDATE ///////////
 
