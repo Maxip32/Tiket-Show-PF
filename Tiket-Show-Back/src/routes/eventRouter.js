@@ -10,6 +10,8 @@ const {
     deleteEvent,
     restoreEvent,
     updateEventdatos,
+    updateEvent,
+
 } = require('../controllers/eventControllers/getControllers')
 
 
@@ -28,4 +30,5 @@ router.put('/restoreEvent/:id', restoreEvent);
 
 router.put('/upeventos/:id', updateEventdatos);
 
+router.put('/updateEvent/:id', updateEvent)
 module.exports = router;

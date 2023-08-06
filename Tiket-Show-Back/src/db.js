@@ -41,17 +41,21 @@ sequelize.models = Object.fromEntries(capsEntries);
 //const CartItem = require("./models/cart");
 
 
-const { Artist, Event, Genre, Place, User, City, Date, CartItem} = sequelize.models;
-console.log(CartItem, " esta son constantes")
+
+const { Artist, Event, Genre, Place, User, City, Date, CartItem, Comment} = sequelize.models;
 
 
 Event.belongsToMany(Artist, { through: "events_artists" });
 Artist.belongsToMany(Event, { through: "events_artists" });
 Artist.belongsToMany(Genre, { through: "artist_genres" });
 Genre.belongsToMany(Artist, { through: "artist_genres" });
+User.belongsToMany(Comment, { through: "comment_user" });
+Comment.belongsToMany(User, { through: "comment_user" });
 Place.belongsToMany(User, { through: "place_user", as: "places" });
 User.hasMany(Place, { as: "places", foreignKey: "userId" });
 
+Event.belongsToMany(Genre, { through: "events_genres" });
+Genre.belongsToMany(Event, { through: "events_genres" });
 
 User.hasMany(CartItem, { as: "cart" });
 CartItem.belongsTo(User, { as: "cart"  });
