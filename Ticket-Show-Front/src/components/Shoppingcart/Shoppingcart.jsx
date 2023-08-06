@@ -2,7 +2,7 @@
 import { useContext} from "react";
 import { CartContext } from "./shoppingCartContext";
 import { useAuth } from "../../context/AuthContext";
-
+import axios from "axios"
 
 export const CartPage = () => {
   const [cart, setCart] = useContext(CartContext);
@@ -53,30 +53,27 @@ export const CartPage = () => {
     try {
 
       //const response = await fetch("http://localhost:3001/create-order", {
-            const response = await fetch(
-           "https://tiket-show-pf-production.up.railway.app/create-order",{
-      //   {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
-          },
-          //PARA QUE ME LLEGUE Y TOME EL PRECIO DE CADA EVENTO AL BACK
-          body: JSON.stringify({
+        const response = await axios.post(
+          "https://tiket-show-pf-production.up.railway.app/create-order",
+          {
             value: (totalPrice + totalPrice * 0.18).toFixed(2),
-          }), // Enviar el precio en el cuerpo de la solicitud
-        }
-      )
-      
-      // Verificar si la solicitud fue exitosa (código de estado 200)
-      if (response.status === 200) {
-        const data = await response.json();
+          },
+          {
+            headers: {
+              "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
+            },
+          }
+        );
         
-        // Verificar si 'links' existe en data
-        if (!data.links || data.links.length < 2) {
-          console.error(
-            "La propiedad 'links' no existe o no tiene suficientes elementos"
-            );
+        // Verificar si la solicitud fue exitosa (código de estado 200)
+        if (response.status === 200) {
+          const data = response.data;
+        
+          // Verificar si 'links' existe en data
+          if (!data.links || data.links.length < 2) {
+            console.error("La propiedad 'links' no existe o no tiene suficientes elementos");
             return;
+          
           }
 
           
