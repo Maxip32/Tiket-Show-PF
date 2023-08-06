@@ -27,6 +27,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { LiaArrowRightSolid, LiaArrowDownSolid } from "react-icons/lia";
 import Reviews from "../../components/Reviews/Reviews";
+import SelectFilter from "../../components/SelectFilter/SelectFilter";
 
 const Home = () => {
 
