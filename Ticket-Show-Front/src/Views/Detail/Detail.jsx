@@ -35,53 +35,62 @@ const Detail = ({ image, name,price }) => {
   }, [id, dispatch]);
 
   const [cart, setCart] = useContext(CartContext);
-
-  const addToCart = () => {
-    setCart((currItems) => {
-      const isItemsFound = currItems.find((item) => item.id === id);
-
-      if (isItemsFound) {
-        return currItems.map((item) => {
-          if (item.id === id) {
-            
-            const updatedQuantity = item.quantity + 1;
-          const updateStock = item.stock - 1; // Disminuir el stock
-            return { ...item, quantity: updatedQuantity, stock: updateStock };
-          } else {
-            return item;
-          }
-        });
-      } else {
-        const itemAdded = {
-          id: event.id,
-          name: event.name,
-          quantity: 1,
-          price: event.price,
-          image: event.image,
-          stock: event.quotas,
-        }
-        return [...currItems, itemAdded];
-      }
-    });
+  
+  const itemAdded = {
+    id: event.id,
+    name: event.name,
+    quantity: 1,
+    price: event.price,
+    image: event.image,
+    stock: event.quotas > 0 ? event.quotas - 1 : 0,
   };
+  const isItemsFound = cart.find((item) => item.id === id);
+  const existingCartItem = cart.find((item) => item.id === id);
+  const stockFromCart = existingCartItem ? existingCartItem.stock : itemAdded.stock;
+  const addToCart = () => {
+
+    
+  setCart((currItems) => {
+    if (isItemsFound) {
+      return currItems.map((item) => {
+        if (item.id === id) {
+          const updatedQuantity = item.quantity + 1;
+          const updateStock = Math.max(item.stock - 1, 0);
+          console.log(updateStock, 'soy el stock');
+          return { ...item, quantity: updatedQuantity, stock: updateStock };
+        } else {
+          return item;
+        }
+      });
+    } else {
+      return [...currItems, itemAdded];
+    }
+  });
+};
 
   const removeItem = (id) => {
     setCart((currItems) => {
-      if (currItems.find((item) => item.id === id)?.quantity === 1) {
-        return currItems.filter((item) => item.id !== id);
-      } else {
-        return currItems.map((item) => {
+      const existingCartItem = currItems.find((item) => item.id === id);
+    
+  
+      if (existingCartItem) {
+        const updatedCart = currItems.map((item) => {
           if (item.id === id) {
-            return { ...item, quantity: item.quantity - 1 };
-          } else {
-            return item;
+            const updatedQuantity = item.quantity - 1;
+            const updateStock = Math.min(item.stock + 1, event.quotas);
+            return { ...item, quantity: updatedQuantity, stock: updateStock };
           }
+          return item;
         });
+  
+        return updatedCart;
       }
+  
+      return currItems;
     });
   };
 
-  const getQuantityById = () => {
+  const getQuantityById = (id) => {
     return cart.find((item) => item.id === id)?.quantity || 0;
   };
 
@@ -136,7 +145,7 @@ const Detail = ({ image, name,price }) => {
             <div className="pl-8 flex-1 text-3xl text-white">
             
                     <dt className="inline">Entradas disponibles </dt>
-                    <dd className="inline">{event.quotas}</dd>
+                    <dd className="inline">{stockFromCart}</dd>
                     </div>
           </div>
         <div className="flex items-center gap-2 h-2/4">

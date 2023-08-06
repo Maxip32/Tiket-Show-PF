@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc"; // Suponiendo que el ícono FcGoogle proviene de react-icons
 import registerPublic from "../../assets/image/registerPublic.jpg";
 import { useParams } from 'react-router-dom';
-
+import Swal from "sweetalert2";
 const EditEvent = ({ selectedEvent }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,16 +52,53 @@ const EditEvent = ({ selectedEvent }) => {
     console.log(eventInfo, "IFNROMACION DEL EVNETO POR PROPS");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedEventInfo = {
       id: eventId,
       ...eventData,
     };
-    console.log(updatedEventInfo, " INFORMACION DEL EVENTO")
-    dispatch(editEvent(updatedEventInfo));
-    dispatch(getUserById());
+  
+    try {
+     
+      await dispatch(editEvent(updatedEventInfo));
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Evento editado Exitosamente!",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+      navigate("/");
+      dispatch(getUserById());
+    } catch (error) {
+      console.error("Error al editar el evento:", error);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Error al editar el evento",
+        text: "Hubo un problema al editar el evento. Inténtalo nuevamente.",
+      });
+    }
+  
+
+
   };
+
+  if (!user) {
+    // Si el usuario no está autenticado, mostrar un mensaje o redireccionar a la página de inicio de sesión.
+
+    Swal.fire({
+      position: "center",
+      icon: "warning",
+      title: "Tienes que estar autenticado",
+      showConfirmButton: false,
+      timer: 2500,
+    });
+    navigate("/");
+  }
+
+
   return (
     <div className="w-full flex justify-center items-center mt-2">
       <div className="bg-white rounded-2xl shadow-lg flex w-4/6">
@@ -202,8 +239,8 @@ const EditEvent = ({ selectedEvent }) => {
     <input
       type="text"
       name="genres"
-      value={eventData?.genres ? eventData.genres.join(", "): "null"}
-      onChange={(e) => setEventData({ ...eventData, genres: e.target.value.split(", ") })}
+      value={eventData?.genres}
+      onChange={(e) => setEventData({ ...eventData, genres: e.target.value })}
       className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
     />
   </div>

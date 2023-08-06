@@ -1,17 +1,13 @@
 /* CheckOut */
-import { useContext, useEffect, } from "react";
+import { useContext} from "react";
 import { CartContext } from "./shoppingCartContext";
 import { useAuth } from "../../context/AuthContext";
-import { useDispatch, useSelector } from "react-redux"
-import { updateQuotas } from "../../redux/actions";
+
+
 export const CartPage = () => {
   const [cart, setCart] = useContext(CartContext);
 
   const { user } = useAuth(); 
-  const dispatch = useDispatch()
-  const quotas = useSelector(state => state.quotas)
-
- 
   
   const quantity = cart.reduce((acc, curr) => {
     return acc + curr.quantity;
@@ -22,13 +18,14 @@ export const CartPage = () => {
     0
   );
 
-  const handleIncrement = (itemId) => {
+  const handleIncrement = (id) => {
     setCart((prevCart) => {
       return prevCart.map((item) => {
-        if (item.id === itemId) {
+        if (item.id === id && item.stock > 0) {
           return {
             ...item,
             quantity: item.quantity + 1,
+            stock: item.stock -1,
           };
         }
         return item;
@@ -36,13 +33,14 @@ export const CartPage = () => {
     });
   };
 
-  const handleDecrement = (itemId) => {
+  const handleDecrement = (id) => {
     setCart((prevCart) => {
       return prevCart.map((item) => {
-        if (item.id === itemId && item.quantity > 0) {
+        if (item.id === id && item.quantity > 0) {
           return {
             ...item,
             quantity: item.quantity - 1,
+            stock: item.stock +1,
           };
         }
         return item;
@@ -50,30 +48,14 @@ export const CartPage = () => {
     });
   };
 
-  
-  // useEffect(() => {
-  //   // Actualizar el carrito en función de las nuevas quotas
-  //   const updatedCart = cart.map((item) => {
-  //     const updatedItem = { ...item };
-  //     const updatedQuota = quotas.find((quota) => quota.eventId === item.id);
-  //     if (updatedQuota) {
-  //       // Actualizar la cantidad en el carrito según las nuevas quotas
-  //       updatedItem.quota = updatedQuota.availableQuantity;
-  //     }
-  //     return updatedItem;
-  //   });
-  
-    // Usar el dispatcher para actualizar el carrito en el contexto
-  //   setCart(updatedCart);
-  // }, [quotas, cart]);
   const handleAdquirirEntrada = async () => {
     
     try {
 
-      //const response = await fetch("http://localhost:3001/create-order", {
-      const response = await fetch(
-        "https://tiket-show-pf-production.up.railway.app/create-order",
-        {
+      const response = await fetch("http://localhost:3001/create-order", {
+      // const response = await fetch(
+      //   "https://tiket-show-pf-production.up.railway.app/create-order",
+      //   {
           method: "POST",
           headers: {
             "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
@@ -83,8 +65,8 @@ export const CartPage = () => {
             value: (totalPrice + totalPrice * 0.18).toFixed(2),
           }), // Enviar el precio en el cuerpo de la solicitud
         }
-      );
-
+      )
+      
       // Verificar si la solicitud fue exitosa (código de estado 200)
       if (response.status === 200) {
         const data = await response.json();
