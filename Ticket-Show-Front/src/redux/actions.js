@@ -229,6 +229,77 @@ export const getArtistById = () => {
     }
   };
 };
+
+export const UPDATE_EVENT_SUCCESS = "UPDATE_EVENT_SUCCESS";
+export const UPDATE_EVENT_FAILURE = "UPDATE_EVENT_FAILURE";
+export const editEvent = (eventInfo) => {
+  return async (dispatch) => {
+    try {
+      const { id, ...data } = eventInfo; // Assuming "id" is the event ID to update
+      const { data: responseData } = await axios.put(`/event/upeventos/${id}`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      dispatch({ type: UPDATE_EVENT_SUCCESS, payload: responseData });
+    } catch (error) {
+      // Handle specific error cases or display a generic error message
+      dispatch({ type: UPDATE_EVENT_FAILURE, payload: error.message });
+    }
+  };
+};
+
+
+export const DELETE_EVENT_SUCCESS = "DELETE_ARTIST_SUCCESS";
+export const DELETE_EVENT_FAILURE = "DELETE_ARTIST_FAILURE";
+export const deleteEvent = (eventId, disabled) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`/event/deleteEvent/${eventId}`, {disabled: true}, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      dispatch({ type: DELETE_EVENT_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: DELETE_EVENT_FAILURE, payload: error.message });
+    }
+  };
+};
+
+export const RESTORE_EVENT_SUCCESS = "RESTORE_EVENT_SUCCESS";
+export const RESTORE_EVENT_FAILURE = "RESTORE_EVENT_FAILURE";
+export const RestoreEvent = (eventId, disabled) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`/event/restoreEvent/${eventId}`, {disabled: false}, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      dispatch({ type: RESTORE_EVENT_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: RESTORE_EVENT_FAILURE, payload: error.message });
+    }
+  };
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ////nodemailer
 export const CREATE_MAIL_SUCCESS = "CREATE_ARTIST_SUCCESS";
 export const CREATE_MIAL_FAILURE = "CREATE_ARTIST_FAILURE";
@@ -335,3 +406,17 @@ export const getCancelOrder = () => {
     });
   };
 };
+
+export const UPDATE_QUOTAS = 'UPDATE_QUOTAS'
+
+export const updateQuotas = (id) => {
+
+  return async (dispatch) => {
+    const apiDate = await axios.put(`/event/updateEvent/${id}`, quotas)
+    const allDate = apiDate.data
+    return dispatch({
+      type: UPDATE_QUOTAS,
+      payload:allDate
+    })
+  }
+}
