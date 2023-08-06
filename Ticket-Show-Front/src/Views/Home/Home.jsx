@@ -35,6 +35,9 @@ const Home = () => {
   const [order, setOrder] = useState(true);
   const allEventsDates = useSelector((state) => state.date);
   const ciudades = useSelector((state) => state.city);
+  const [deletedEvents, setdeletedEvents] = useState(new Set());
+  const activeEvents = allEvents.filter((event) => !event.deleted);
+
   const [filters, setFilters] = useState({
     genre: "",
     city: "",
@@ -296,24 +299,25 @@ const Home = () => {
           </section>
           {/* Fin Title & order by events */}
 
-          {/* Card section */}
           <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full overflow-y-hidden">
-            {currentEvents?.map((cu) => {
-              return (
-                <Card
-                  id={cu.id}
-                  name={cu.name}
-                  image={cu.image}
-                  genres={cu.genre}
-                  date={cu.date}
-                  location={cu.location}
-                  city={cu.city}
-                  price={cu.price}
-                  key={cu.id}
-                />
-              );
-            })}
-          </section>
+  {activeEvents &&
+    activeEvents.map((cu) =>
+      !cu.disabled ? (
+        <Card
+          id={cu.id}
+          name={cu.name}
+          image={cu.image}
+          genres={cu.genre}
+          date={cu.date}
+          location={cu.location}
+          city={cu.city}
+          price={cu.price}
+          key={cu.id}
+          deletedEvents={deletedEvents}
+        />
+      ) : null
+    )}
+</section>
           {/* Fin Card section */}
 
           {/* Pagination */}
