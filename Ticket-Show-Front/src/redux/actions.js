@@ -335,3 +335,17 @@ export const getCancelOrder = () => {
     });
   };
 };
+
+export const UPDATE_QUOTAS = 'UPDATE_QUOTAS'
+
+export const updateQuotas = (id) => {
+
+  return async (dispatch) => {
+    const apiDate = await axios.put(`/event/updateEvent/${id}`, quotas)
+    const allDate = apiDate.data
+    return dispatch({
+      type: UPDATE_QUOTAS,
+      payload:allDate
+    })
+  }
+}

@@ -48,6 +48,42 @@ const getEvent = async (req, res = response) => {
   }
 };
 
+const updateEvent = async (req, res = response) => {
+    const { id } = req.params;
+    const { quotas } = req.body;
+    
+    try {
+      if (isNaN(quotas) || quotas < 0) {
+        return res.status(400).json({
+          ok: false,
+          msg: "La cuota debe ser un número positivo.",
+        });
+      }
+  
+      const event = await Event.findByPk(id);
+  
+      if (!event || !event.state) {
+        return res.status(404).json({
+          ok: false,
+          msg: "No se encontró el evento con ese ID.",
+        });
+      }
+  
+      await event.update({ quotas });
+  
+      res.status(200).json({
+        ok: true,
+        msg: "Evento modificado exitosamente.",
+      });
+    } catch (error) {
+      console.error("Error al actualizar el evento:", error);
+      res.status(500).json({
+        ok: false,
+        msg: "Ocurrió un error al intentar actualizar el evento. Por favor, hable con el administrador.",
+      });
+    }
+  };
+
 const getEventByName = async (req, res) => {
   const { name } = req.params;
   const event = await Event.findAll({
@@ -264,13 +300,13 @@ const createEvent = async (req, res) => {
       msg: "Evento creado",
       event,
     });
-  } catch (error) {
+  
     console.log(error);
     res.status(500).json({
       msg: "Por favor hable con el administrador",
     });
   }
-};
+
 
 const deleteEvent = async (req, res = response) => {
   const { id } = req.params;
@@ -298,9 +334,10 @@ const deleteEvent = async (req, res = response) => {
 };
 
 module.exports = {
-  getEvents,
-  getEvent,
-  getEventByName,
-  createEvent,
-  deleteEvent,
+    getEvents,
+    getEvent,
+    getEventByName,
+    createEvent,
+    deleteEvent,
+    updateEvent
 };
