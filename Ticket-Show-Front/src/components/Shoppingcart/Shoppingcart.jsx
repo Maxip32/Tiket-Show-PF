@@ -53,8 +53,8 @@ export const CartPage = () => {
     try {
 
       //const response = await fetch("http://localhost:3001/create-order", {
-        const response = await axios.post(
-              "/create-order",
+        const response = await axios.get(
+              "https://tiket-show-pf-production.up.railway.app/create-order",
           {
             value: (totalPrice + totalPrice * 0.18).toFixed(2),
           },
