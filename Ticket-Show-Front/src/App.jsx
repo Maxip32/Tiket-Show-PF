@@ -12,29 +12,35 @@ import { AuthProvider } from "../src/context/AuthContext";
 import CompraPaypal from "./components/Paypal/Paypal.compra.jsx";
 import { ShoppingCartProvider } from "./components/Shoppingcart/shoppingCartContext";
 import UserProfile from "./components/UserProfile/Profileuser";
+import Dashboard from '../src/Dashboard/Dashboard'
+import CreateEvent from "./components/CreateEvent/CreateEvent";
+
+import EditEvent from "./components/CreateEvent/EdiEvent"
 function App() {
   //const location = useLocation();
   return (
     <ShoppingCartProvider>
-
-    <AuthProvider>
-    <div className="App">
-    <NavBar />
+      <AuthProvider>
+        <div className="App">
+        <NavBar />
           <Routes>
-          <Route path="/registerUser" element={<RegisterForm />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/registerArtist" element={<Artist />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/approved" element={<CompraPaypal/>}/>
-          <Route path="/about" element={<About />} />
-        </Routes>
-      </div>
-    </AuthProvider>
+            <Route path="/registerUser" element={<RegisterForm />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/registerArtist" element={<Artist />} />
+            <Route path="/createEvent" element={<CreateEvent />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/detail/:id" element={<Detail />} />
+            <Route path="/editEvent/:eventId" element={<EditEvent/>} />
+            <Route path="/approved" element={<CompraPaypal/>}/>
+            <Route path="/about" element={<About />} />
+            <Route path="/PanelAdmin" element={<Dashboard/>} />
+          </Routes>
+        </div>
+      </AuthProvider>
+
     </ShoppingCartProvider>
   );
 }
-
 export default App;

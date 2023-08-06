@@ -7,9 +7,11 @@ import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc'; // Suponiendo que el ícono FcGoogle proviene de react-icons
 import registerPublic from "../../assets/image/registerPublic.jpg";
 import Swal from "sweetalert2";
+//import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
 const FormFirebase = () => {
+  const [imageFile, setImageFile] = useState(null);
   const auth = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,7 +23,8 @@ const FormFirebase = () => {
   const [emailToDB, setEmailToDB] = useState("");
   const [emailRegister, setEmailRegister] = useState("");
   const [passwordRegister, setPasswordRegister] = useState("");
-  const validRegister = usuario?.filter(usr => usr.email === emailRegister);
+  const validRegister = Array.isArray(usuario) ? usuario.filter(usr => usr.email === emailRegister) : [];
+
   const [email, setEmail] = useState("");
   const [ name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -32,6 +35,7 @@ const FormFirebase = () => {
     email: "",
     password: "",
     address: "",
+    image:"",
     verified: true,
     role: "customer"
   });
@@ -42,7 +46,8 @@ const FormFirebase = () => {
     setUserInfo(prevUserInfo => ({
       ...prevUserInfo,
       name: nombreToDB || prevUserInfo.name,
-      email: emailToDB || emailRegister || prevUserInfo.email
+      email: emailToDB || emailRegister || prevUserInfo.email,
+      image: null,
     }));
     
   }, [user?.displayName, user?.email, emailToDB, nombreToDB, emailRegister, dispatch]);
@@ -64,6 +69,18 @@ const FormFirebase = () => {
     });
   };
 
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+  
+    // Agregar la imagen al estado userInfo
+    setUserInfo(prevUserInfo => ({
+      ...prevUserInfo,
+      image: file,
+    }));
+  };
+
   const handleRegister = async (e) => {
     e.preventDefault();
     if (validRegister?.length > 0) {
@@ -71,7 +88,7 @@ const FormFirebase = () => {
         Swal.fire({
           position: 'center',
           icon: 'warning',
-          title: 'Usuario existente!',
+          title: 'Correo en uso!, Si pruebas con otro?',
           showConfirmButton: false,
           timer: 2500
         })
@@ -79,19 +96,35 @@ const FormFirebase = () => {
     }
 
     try {
-      await auth.register(emailRegister, passwordRegister, name);
-      dispatch(createUser(userInfo));
-      clearState(); // Limpiar el estado
+
       
+      // Establecer la imagen predeterminada (puedes cambiar esta URL por la que desees)
+      const defaultImageUrl = 'https://res.cloudinary.com/dhickjcbz/image/upload/v1690770100/user_r20d1h.png';
+  
+      // Asignar la URL de la imagen predeterminada al objeto userInfo
+      const userInfoWithImage = {
+        ...userInfo,
+        image: defaultImageUrl,
+      };
+  
+      // Crear el usuario en Firebase (asumiendo que esto funciona correctamente)
+      await auth.register(emailRegister, passwordRegister, name);
+      dispatch(createUser(userInfoWithImage));
+      clearState();
+  
+      
+      
+  
       Swal.fire({
         position: 'center',
         icon: 'success',
         title: 'Usuario registrado correctamente!',
         showConfirmButton: false,
         timer: 2500
-      })
+      });
 
       dispatch(getUserById());
+      console.log(getUserById, "users de la db")
       navigate("/"); // Redireccionar al usuario a la página de inicio
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
@@ -110,6 +143,7 @@ const FormFirebase = () => {
           email: respGoogle.user.email
         }));
         clearState(); // Limpiar el estado
+        dispatch(getUserById());
         redirectLogin(respGoogle.user);
       }
     } catch (error) {
@@ -155,8 +189,8 @@ const FormFirebase = () => {
   // };
 
   return (
-    <div className="w-full flex justify-center items-center mt-10">
-      <div className="bg-white rounded-2xl shadow-lg flex w-3/4">
+    <div className="w-full flex justify-center items-center mt-10 max-w-4xl md:mx-auto">
+      <div className="bg-white rounded-2xl shadow-lg flex w-full">
         {/* image section */}
         <section className="w-2/4">
           <img
@@ -203,6 +237,12 @@ const FormFirebase = () => {
             onChange={(e) => setPasswordRegister(e.target.value)}
             className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
           />
+          {/* <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+        /> */}
           <button
             type="submit"
             className="w-3/4 bg-primaryColor text-Color200 hover:bg-Color200 hover:text-primaryColor border hover:border-secondaryColor focus:outline-none px-10 py-3.5 text-base font-medium 

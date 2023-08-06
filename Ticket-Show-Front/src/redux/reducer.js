@@ -31,11 +31,29 @@ import {
   GET_CAPTURE_ORDER,
   GET_CANCEL_ORDER,
   CREATE_MAIL_SUCCESS,
-  CREATE_MIAL_FAILURE
+  CREATE_MIAL_FAILURE,
+  CREATE_EVENT_SUCCESS,
+  CREATE_EVENT_FAILURE, 
+  UPDATE_EVENT_SUCCESS,
+  UPDATE_EVENT_FAILURE, 
+  DELETE_EVENT_SUCCESS,
+  DELETE_EVENT_FAILURE,
+  RESTORE_EVENT_SUCCESS,
+  RESTORE_EVENT_FAILURE, 
+  UPDATE_QUOTAS
+
 } from "../redux/actions";
 
 const initialState = {
-  Events: [],
+  Events: [{
+    id: "",
+    name: "",
+    // Otros datos del evento
+    deleted: false, // Agregar esta propiedad a cada evento
+  },],
+  
+  loading: false,
+  error: null,
   allEvents: [],
   genres: [],
   detail: {},
@@ -48,6 +66,7 @@ const initialState = {
   user: null,
   loading: true,
   error: null,
+  quotas: []
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -59,9 +78,9 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         genres: action.payload,
       };
+      
     case GET_EVENT_ID:
       return { ...state, detail: action.payload };
-      
     case FILTER_BY_GENRES:
       let eventos;
       if (action.payload === "all") {
@@ -124,6 +143,12 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         cart: [],
       };
+      case UPDATE_QUOTAS:
+        return {
+          ...state,
+          quotas: action.payload
+
+        }
     case GET_ORDER_BY_NAME:
       const EventsSorted =
         action.payload === "asc"
@@ -252,8 +277,83 @@ const rootReducer = (state = initialState, action) => {
         error: action.payload,
       };
 
+      ////////////// CREATE EVENT ///////////////
+      case CREATE_EVENT_SUCCESS:
+        return {
+          ...state,
+          user: action.payload,
+          loading: false,
+          error: null,
+        };
+
+        case CREATE_EVENT_FAILURE:
+          return {
+            ...state,
+            user: null,
+            loading: false,
+            error: action.payload,
+          };
+
+    ///////////// UPDATE EVENT //////////////////////  
+    case UPDATE_EVENT_SUCCESS:
+        return {
+          ...state,
+          user: action.payload,
+          loading: false,
+          error: null,
+        };
+
+        case UPDATE_EVENT_FAILURE:
+          return {
+            ...state,
+            user: null,
+            loading: false,
+            error: action.payload,
+          };
+
+
+          ///////////// DELETE EVENT ////////////
+
+          case DELETE_EVENT_SUCCESS:
+            return {
+              ...state,
+              Events: state.Events.map((event) =>
+                event.id === action.payload ? { ...event, deleted: true } : event
+              ),
+              loading: false,
+              error: null,
+            };
+
+            case DELETE_EVENT_FAILURE:
+              return {
+                ...state,
+                loading: false,
+                error: action.payload,
+              };
+
+
+    //////////// RESTORE EVENT ////////////////
+    case RESTORE_EVENT_SUCCESS:
+            return {
+              ...state,
+              Events: state.Events.map((event) =>
+                event.id === action.payload ? { ...event, deleted: true } : event
+              ),
+              loading: false,
+              error: null,
+            };
+
+            case RESTORE_EVENT_FAILURE:
+              return {
+                ...state,
+                loading: false,
+                error: action.payload,
+              };          
+    
+
     ///////////// GET USER BY EMAIL Y UPDATE ///////////
 
+    
     case GET_USER_BY_EMAIL_SUCCESS:
       return {
         ...state,

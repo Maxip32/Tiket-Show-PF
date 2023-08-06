@@ -67,9 +67,7 @@ export const GET_SEARCH_BY_NAME = "GET_SEARCH_BY_NAME";
 
 export const searchByName = (name) => {
   return async (dispatch) => {
-    const apiData = await axios.get(
-      `/event/getEvent/name/${name}`
-    );
+    const apiData = await axios.get(`/event/getEvent/name/${name}`);
     const Events = apiData.data;
     return dispatch({
       type: GET_SEARCH_BY_NAME,
@@ -170,7 +168,7 @@ export const getUserByEmail = (email) => {
 export const getUserById = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get('/user/');
+      const response = await axios.get("/user/");
 
       dispatch({ type: GET_USER_SUCCESS, payload: response.data });
     } catch (error) {
@@ -185,19 +183,34 @@ export const CREATE_ARTIST_FAILURE = "CREATE_ARTIST_FAILURE";
 export const createArtist = (userData) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(
-        "/artist/createArtist",
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post("/artist/createArtist", userData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       dispatch({ type: CREATE_ARTIST_SUCCESS, payload: response.data });
     } catch (error) {
       dispatch({ type: CREATE_ARTIST_FAILURE, payload: error.message });
+    }
+  };
+};
+
+export const CREATE_EVENT_SUCCESS = "GET_ARTIST_SUCCESS";
+export const CREATE_EVENT_FAILURE = "GET_ARTIST_FAILURE";
+export const createEvent = (eventInfo) => {
+  console.log(eventInfo)
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post("/event/createEvent", eventInfo, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      dispatch({ type: CREATE_EVENT_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: CREATE_EVENT_FAILURE, payload: error.message });
     }
   };
 };
@@ -208,7 +221,7 @@ export const GET_ARTIST_FAILURE = "GET_ARTIST_FAILURE";
 export const getArtistById = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get('/artist/allArtist');
+      const response = await axios.get("/artist/allArtist");
 
       dispatch({ type: GET_ARTIST_SUCCESS, payload: response.data });
     } catch (error) {
@@ -216,21 +229,88 @@ export const getArtistById = () => {
     }
   };
 };
-////nodemailer 
+
+export const UPDATE_EVENT_SUCCESS = "UPDATE_EVENT_SUCCESS";
+export const UPDATE_EVENT_FAILURE = "UPDATE_EVENT_FAILURE";
+export const editEvent = (eventInfo) => {
+  return async (dispatch) => {
+    try {
+      const { id, ...data } = eventInfo; // Assuming "id" is the event ID to update
+      const { data: responseData } = await axios.put(`/event/upeventos/${id}`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      dispatch({ type: UPDATE_EVENT_SUCCESS, payload: responseData });
+    } catch (error) {
+      // Handle specific error cases or display a generic error message
+      dispatch({ type: UPDATE_EVENT_FAILURE, payload: error.message });
+    }
+  };
+};
+
+
+export const DELETE_EVENT_SUCCESS = "DELETE_ARTIST_SUCCESS";
+export const DELETE_EVENT_FAILURE = "DELETE_ARTIST_FAILURE";
+export const deleteEvent = (eventId, disabled) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`/event/deleteEvent/${eventId}`, {disabled: true}, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      dispatch({ type: DELETE_EVENT_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: DELETE_EVENT_FAILURE, payload: error.message });
+    }
+  };
+};
+
+export const RESTORE_EVENT_SUCCESS = "RESTORE_EVENT_SUCCESS";
+export const RESTORE_EVENT_FAILURE = "RESTORE_EVENT_FAILURE";
+export const RestoreEvent = (eventId, disabled) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`/event/restoreEvent/${eventId}`, {disabled: false}, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      dispatch({ type: RESTORE_EVENT_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: RESTORE_EVENT_FAILURE, payload: error.message });
+    }
+  };
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////nodemailer
 export const CREATE_MAIL_SUCCESS = "CREATE_ARTIST_SUCCESS";
 export const CREATE_MIAL_FAILURE = "CREATE_ARTIST_FAILURE";
 export const sendMail = (userData) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(
-        "/send/mail",
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post("/send/mail", userData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       dispatch({ type: CREATE_ARTIST_SUCCESS, payload: response.data });
     } catch (error) {
@@ -239,28 +319,28 @@ export const sendMail = (userData) => {
   };
 };
 
-
 ////// TERMINO DE CREAR ARTISTAS Y LOS REQUIERO ////////////
 
 export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
 export const UPDATE_USER_FAILURE = "UPDATE_USER_FAILURE";
-export const updateUser = (email, userData) => async (dispatch) => {
+export const updateUser = (updateData) => async (dispatch) => {
   try {
-    // Realizar la petición al backend para buscar al usuario por su email y actualizarlo
-    const response = await axios.put(`/cart/users/${email}`, userData, {
+    const response = await axios.put(`/user/stateUser/${updateData.email}`, updateData, {
       headers: {
         "Content-Type": "application/json",
       },
     });
 
-    if (!response.status === 200) {
+    if (response.status !== 200) {
       throw new Error("Error al actualizar el usuario");
     }
 
     const updatedUser = response.data;
 
-    // Si la actualización es exitosa, actualizamos el estado en Redux
     dispatch(updateUserSuccess(updatedUser.user));
+
+    // ¡No necesitas dispatch(getUserById()); aquí!
+    // En su lugar, actualiza el estado de users en updateUserSuccess
   } catch (error) {
     dispatch(updateUserFailure(error.message));
   }
@@ -297,7 +377,6 @@ export const postPaypal = () => {
     return dispatch({
       type: POST_PAYPAL,
       payload: allData,
-
     });
   };
 };
@@ -327,3 +406,17 @@ export const getCancelOrder = () => {
     });
   };
 };
+
+export const UPDATE_QUOTAS = 'UPDATE_QUOTAS'
+
+export const updateQuotas = (id) => {
+
+  return async (dispatch) => {
+    const apiDate = await axios.put(`/event/updateEvent/${id}`, quotas)
+    const allDate = apiDate.data
+    return dispatch({
+      type: UPDATE_QUOTAS,
+      payload:allDate
+    })
+  }
+}

@@ -12,9 +12,11 @@ const cartRouter = require("./routes/cartRoutes");
 const findCityRoute = require("./routes/cityRouter");
 const dateRouter = require("./routes/dateRouter");
 const nodemailerRouter = require("./routes/nodemailerRouter");
-const userRouter = require("./routes/userRouter");
+const userRouter = require('./routes/userRouter');
+const commentsRouter = require('./routes/commentRouter')
 const paymentRoutes = require("./routes/paymentRoutes");
 const path = require("path");
+
 
 require("./db.js");
 
@@ -29,8 +31,8 @@ server.use(morgan("dev"));
 
 server.use((req, res, next) => {
 
-/*  comentate esta de abajo, la 34 */
-  res.header('Access-Control-Allow-Origin', 'https://tiket-show-pf.vercel.app/'); // update to match the domain you will make the request from
+/*  comentate esta de abajo */
+  //res.header('Access-Control-Allow-Origin', 'https://tiket-show-pf.vercel.app/'); // update to match the domain you will make the request from
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
@@ -41,6 +43,7 @@ server.use((req, res, next) => {
 server.use(cors());
 
 // Rutas y middlewares restantes...
+
 server.use("/artist", artistRouter);
 server.use("/genres", genrestRouter);
 server.use("/event", event);
@@ -50,10 +53,12 @@ server.use("/city", findCityRoute);
 server.use("/date", dateRouter);
 server.use("/user", userRouter);
 server.use("/send", nodemailerRouter);
+server.use('/comment', commentsRouter)
 server.use(paymentRoutes);
 server.use(
   express.static(path.resolve(__dirname, "Ticket-Show-Front/src/Views/Detail"))
 );
+
 
 server.use((err, req, res, next) => {
   const status = err.status || 500;

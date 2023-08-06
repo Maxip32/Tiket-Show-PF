@@ -36,13 +36,13 @@ const Hero = () => {
 
 
   return (
-    <div className="mt-4 mb-10 w-full max-w-5xl mx-auto h-96 relative flex flex-col items-center justify-center ">
+    <div className="mt-3 mb-4 md:mb-10 w-full max-w-5xl mx-auto h-44 md:h-96 relative flex flex-col items-center justify-center md:px-6 lg:px-0">
       <img
-        className="rounded-3xl object-cover w-full h-96 "
+        className="md:rounded-3xl object-cover w-full h-full md:h-96"
         src={selectedImage}
         alt="Imagen"
       />
-      <div className="absolute flex justify-between transform -translate-y-1/2 left-10 right-10 top-1/2">
+      <div className="hidden absolute md:flex justify-between transform -translate-y-1/2 left-10 right-10 top-1/2">
         <button
           onClick={previous}
           type="button"
