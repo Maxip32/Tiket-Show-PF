@@ -341,7 +341,7 @@ const deleteEvent =async (req, res = response) => {
 
   const updateEventdatos = async (req, res = response) => {
     const { id } = req.params;
-    const { name, description,start, end, price, quotas, image, address, city, time } = req.body;
+    const { name, description,start, end, price, quotas, image, address, city, time, genre } = req.body;
   
     try {
       const event = await Event.findByPk(id);
@@ -387,9 +387,9 @@ const deleteEvent =async (req, res = response) => {
       if (time) {
         event.time = time;
       }
-      // if (genres !== undefined) {
-      //   event.genres = genres;
-      // }
+      if (genre) {
+        event.genre = genre;
+      }
   
       // Guarda los cambios en la base de datos
       await event.save();

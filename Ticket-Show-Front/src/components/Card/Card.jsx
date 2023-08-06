@@ -8,7 +8,7 @@ import { CartContext } from "../Shoppingcart/shoppingCartContext";
 import { LiaCartPlusSolid, LiaCartArrowDownSolid, LiaTicketAltSolid } from "react-icons/lia";
 //import { addToCartBackend } from "../Shoppingcart/CartContext"
 
-const Card = ({ id, image, name, date, price, genres, city, }) => {
+const Card = ({ id, image, name, date, price, genre, city, }) => {
  
   const { user } = useAuth(); // Obtén el usuario autenticado desde el contexto de autenticación
 
