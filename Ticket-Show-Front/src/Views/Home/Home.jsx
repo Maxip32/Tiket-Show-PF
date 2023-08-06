@@ -27,9 +27,9 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { LiaArrowRightSolid, LiaArrowDownSolid } from "react-icons/lia";
 import Reviews from "../../components/Reviews/Reviews";
+import SelectFilter from "../../components/SelectFilter/SelectFilter";
 
 const Home = () => {
-
   const allowedDates = [
     "2023-08-10",
     "2023-08-16",
@@ -63,9 +63,9 @@ const Home = () => {
     "2023-11-21",
     "2023-11-24",
     "2023-11-28",
-    "2023-11-29"
+    "2023-11-29",
   ];
-  
+
   //const navigate = useNavigate();
   const dispatch = useDispatch();
   const allEvents = useSelector((state) => state.Events);
@@ -114,16 +114,15 @@ const Home = () => {
     setEvents(filteredEvents);
     setCurrentPage(1);
   };
-  
-  
+
   const handleFiltroCiudades = (event) => {
     const cityValue = event.target.value;
     setFilters((prev) => ({ ...prev, city: cityValue }));
     setCurrentPage(1);
   };
-  
+
   const [date, setDate] = useState(new Date());
-  
+
   useEffect(() => {
     const eventosFiltrados = allEvents.filter((evento) => {
       const matchesGenre =
@@ -139,7 +138,6 @@ const Home = () => {
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
 
-  
   const handleToggleCalendar = () => {
     setIsCalendarOpen((prevIsCalendarOpen) => !prevIsCalendarOpen); // Cambia el estado al valor opuesto
   };
@@ -364,8 +362,8 @@ const Home = () => {
           </section>
           {/* Fin Title & order by events */}
 
-
-          <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full overflow-y-hidden">
+        {/* Inicio Card section */}
+       <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full overflow-y-hidden scrollbar-hide">
         {currentEvents.length > 0 ? (
           currentEvents?.map((cu) =>
             // Filtramos los eventos en el momento de renderizar el componente usando los filtros actuales
@@ -388,7 +386,6 @@ const Home = () => {
           <p>No hay eventos que coincidan con los filtros.</p>
         )}
       </section>
-
           {/* Fin Card section */}
 
           {/* Pagination */}
