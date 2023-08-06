@@ -33,7 +33,8 @@ import {
   CREATE_MAIL_SUCCESS,
   CREATE_MIAL_FAILURE,
   CREATE_EVENT_SUCCESS,
-  CREATE_EVENT_FAILURE  
+  CREATE_EVENT_FAILURE,  
+  UPDATE_QUOTAS
 } from "../redux/actions";
 
 const initialState = {
@@ -50,6 +51,7 @@ const initialState = {
   user: null,
   loading: true,
   error: null,
+  quotas: []
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -126,6 +128,12 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         cart: [],
       };
+      case UPDATE_QUOTAS:
+        return {
+          ...state,
+          quotas: action.payload
+
+        }
     case GET_ORDER_BY_NAME:
       const EventsSorted =
         action.payload === "asc"

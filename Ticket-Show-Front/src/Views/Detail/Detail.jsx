@@ -4,8 +4,11 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getEventId } from "../../redux/actions";
 import Loading from "../../components/Loading/Loading";
-
-const Detail = () => {
+import { CartContext } from "../../components/Shoppingcart/shoppingCartContext";
+import { useContext } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { LiaCartPlusSolid, LiaCartArrowDownSolid, LiaTicketAltSolid } from "react-icons/lia";
+const Detail = ({ image, name,price }) => {
   /* const monthsMap = {
     "01": "ENE",
     "02": "FEB",
@@ -21,6 +24,7 @@ const Detail = () => {
     "12": "DIC",
   }; */
 
+  const { user } = useAuth();
   const { id } = useParams();
 
   const { event } = useSelector((state) => state.detail);
@@ -30,8 +34,61 @@ const Detail = () => {
     dispatch(getEventId(id));
   }, [id, dispatch]);
 
+  const [cart, setCart] = useContext(CartContext);
+
+  const addToCart = () => {
+    setCart((currItems) => {
+      const isItemsFound = currItems.find((item) => item.id === id);
+
+      if (isItemsFound) {
+        return currItems.map((item) => {
+          if (item.id === id) {
+            
+            const updatedQuantity = item.quantity + 1;
+          const updateStock = item.stock - 1; // Disminuir el stock
+            return { ...item, quantity: updatedQuantity, stock: updateStock };
+          } else {
+            return item;
+          }
+        });
+      } else {
+        const itemAdded = {
+          id: event.id,
+          name: event.name,
+          quantity: 1,
+          price: event.price,
+          image: event.image,
+          stock: event.quotas,
+        }
+        return [...currItems, itemAdded];
+      }
+    });
+  };
+
+  const removeItem = (id) => {
+    setCart((currItems) => {
+      if (currItems.find((item) => item.id === id)?.quantity === 1) {
+        return currItems.filter((item) => item.id !== id);
+      } else {
+        return currItems.map((item) => {
+          if (item.id === id) {
+            return { ...item, quantity: item.quantity - 1 };
+          } else {
+            return item;
+          }
+        });
+      }
+    });
+  };
+
+  const getQuantityById = () => {
+    return cart.find((item) => item.id === id)?.quantity || 0;
+  };
+
+  const quantityPerItem = getQuantityById(id);
   /* const [ year month, day] = event.date.split("-"); // Dividimos la fecha en año, mes y día
   const formattedMonth = monthsMap[month]; */
+  
 
   return (
     <div className=" mt-15 flex flex-col mx-auto ">
@@ -76,7 +133,34 @@ const Detail = () => {
             <div className="pl-8 flex-1 text-3xl text-white">
               <h1>Precio ${event.price}</h1>
             </div>
+            <div className="pl-8 flex-1 text-3xl text-white">
+            
+                    <dt className="inline">Entradas disponibles </dt>
+                    <dd className="inline">{event.quotas}</dd>
+                    </div>
           </div>
+        <div className="flex items-center gap-2 h-2/4">
+        {user && (
+          <>
+            {quantityPerItem > 0 && <div>Total: {quantityPerItem}</div>}
+            {quantityPerItem === 0 ? (
+              <button onClick={() => addToCart()}>
+                <LiaCartPlusSolid size={26} color="#ed4690" />
+              </button>
+            ) : (
+              <button onClick={() => addToCart()}>
+                <LiaCartPlusSolid size={26} color="#ed4690"/>
+              </button>
+            )}
+            {/* <span>Total: </span> */}
+            {quantityPerItem > 0 && (
+              <button onClick={() => removeItem(id)}>
+                <LiaCartArrowDownSolid size={26} color="#5522CC"/>
+              </button>
+            )}
+          </>
+        )}
+      </div>
         </>
       ) : (
         <Loading/>
