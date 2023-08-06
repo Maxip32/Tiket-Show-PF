@@ -266,7 +266,7 @@ const createEvent = async (req, res) => {
       where: artistName, // Usar la propiedad 'name'
     });
 
-
+  }
 
 const deleteEvent =async (req, res = response) => {
     const { id } = req.params;
@@ -408,79 +408,8 @@ const deleteEvent =async (req, res = response) => {
     }
   };
   
-  
 
 
-
-    const genresDb = await Genre.findAll({
-      where: { name: genre }, // Usar 'genre' directamente sin map
-    });
-
-    if (!genresDb || genresDb.length === 0) {
-      return res.status(400).json({
-        msg: "El genero no existe",
-      });
-    }
-
-    if (!artist) {
-      return res.status(404).json({
-        msg: "No se encontro artista con ese nombre",
-      });
-    }
-
-    const event = await Event.create({
-      name,
-      description,
-      date,
-      start,
-      end,
-      price,
-      quotas,
-      image,
-      address,
-      city,
-    });
-
-    await event.addArtist(artist);
-    await event.addGenres(genresDb); // Asegúrate de que la relación se llame 'addGenres'
-
-    res.status(201).json({
-      msg: "Evento creado",
-      event,
-    });
-  
-    console.log(error);
-    res.status(500).json({
-      msg: "Por favor hable con el administrador",
-    });
-  }
-
-
-const deleteEvent = async (req, res = response) => {
-  const { id } = req.params;
-  try {
-    const event = await Event.findByPk(id);
-
-    if (!event || !event.state) {
-      return res.status(404).json({
-        msg: "No se encontro evento con ese Id",
-      });
-    }
-
-
-    await event.update({ state: false });
-
-    res.status(200).json({
-      ok: true,
-      msg: "Evento eliminado",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      msg: "Por favor hable con el administrador",
-    });
-  }
-};
 
 module.exports = {
     getEvents,
