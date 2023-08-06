@@ -27,9 +27,9 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { LiaArrowRightSolid, LiaArrowDownSolid } from "react-icons/lia";
 import Reviews from "../../components/Reviews/Reviews";
+import SelectFilter from "../../components/SelectFilter/SelectFilter";
 
 const Home = () => {
-
   const allowedDates = [
     "2023-08-10",
     "2023-08-16",
@@ -63,9 +63,9 @@ const Home = () => {
     "2023-11-21",
     "2023-11-24",
     "2023-11-28",
-    "2023-11-29"
+    "2023-11-29",
   ];
-  
+
   //const navigate = useNavigate();
   const dispatch = useDispatch();
   const allEvents = useSelector((state) => state.Events);
@@ -75,13 +75,13 @@ const Home = () => {
   const ciudades = useSelector((state) => state.city);
   const [deletedEvents, setdeletedEvents] = useState(new Set());
   const activeEvents = allEvents.filter((event) => !event.deleted);
-
+  const [filteredEvents, setFilteredEvents] = useState(activeEvents);
   const [filters, setFilters] = useState({
-    genre: "",
+    genres: "",
     city: "",
     date: "",
   });
-  const [events, setEvents] = useState(allEvents);
+  const [events, setEvents] = useState(activeEvents);
 
   const [orderType, setOrderType] = useState("asc");
 
@@ -103,26 +103,33 @@ const Home = () => {
 
   const handleFilterGenres = (event) => {
     const genreValue = event.target.value;
-    setFilters((prev) => ({ ...prev, genre: genreValue }));
+    setFilters((prev) => ({ ...prev, genres: genreValue }));
+  
+    const filteredEvents = activeEvents.filter((event) => {
+      const matchesGenre = !genreValue || event.genre.includes(genreValue);
+      const matchesCity = !filters.city || event.city.includes(filters.city);
+      return matchesGenre && matchesCity;
+    });
+  
+    setEvents(filteredEvents);
     setCurrentPage(1);
   };
-  
-  
+
   const handleFiltroCiudades = (event) => {
     const cityValue = event.target.value;
     setFilters((prev) => ({ ...prev, city: cityValue }));
     setCurrentPage(1);
   };
-  
+
   const [date, setDate] = useState(new Date());
-  
+
   useEffect(() => {
     const eventosFiltrados = allEvents.filter((evento) => {
       const matchesGenre =
-        !filters.genre || evento.genre.includes(filters.genre);
+        !filters.genres || evento.genre.includes(filters.genres);
       const matchesCity = !filters.city || evento.city.includes(filters.city);
-      return matchesGenre && matchesCity
-      
+      const matchesDate = !filters.date || evento.date === filters.date;
+      return matchesGenre && matchesCity && matchesDate;
     });
     setEvents(eventosFiltrados);
     setCurrentPage(1);
@@ -131,7 +138,6 @@ const Home = () => {
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
 
-  
   const handleToggleCalendar = () => {
     setIsCalendarOpen((prevIsCalendarOpen) => !prevIsCalendarOpen); // Cambia el estado al valor opuesto
   };
@@ -147,19 +153,18 @@ const Home = () => {
 
   const handleOrderDate = () => {
     setOrderType(orderType === "asc" ? "desc" : "asc");
-    const sortedEvents = [...events].sort((a, b) => {
+    const sortedEvents = [...activeEvents].sort((a, b) => {
       return orderType === "asc"
         ? new Date(a.date) - new Date(b.date)
         : new Date(b.date) - new Date(a.date);
     });
     setEvents(sortedEvents);
     setCurrentPage(1);
-    
   };
 
   const handleOrderByName = () => {
     setOrderType(orderType === "asc" ? "desc" : "asc");
-    const sortedEvents = [...events].sort((a, b) => {
+    const sortedEvents = [...activeEvents].sort((a, b) => {
       return orderType === "asc"
         ? a.name.localeCompare(b.name)
         : b.name.localeCompare(a.name);
@@ -180,9 +185,10 @@ const Home = () => {
     setCurrentPage(1);
   };
 
+  
   console.log(filters);
   const [currentPage, setCurrentPage] = useState(1);
-  const [eventsPerPage] = useState(12);
+  const [eventsPerPage] = useState(6);
   const indexOfLastEvents = currentPage * eventsPerPage;
   const indexOfFirstEvents = indexOfLastEvents - eventsPerPage;
   const currentEvents = events.slice(indexOfFirstEvents, indexOfLastEvents);
@@ -200,11 +206,12 @@ const Home = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2800);
+    }, 2800)
     return () => {
       clearTimeout(timer);
-    };
-  }, []);
+    }
+  }, [])
+  
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
@@ -262,6 +269,8 @@ const Home = () => {
             </div>
           </section>
           {/* //- Fin Filter bar ---------> */}
+
+          
 
           <SearchBar returnToFirstPage={returnToFirstPage} />
 
@@ -353,27 +362,30 @@ const Home = () => {
           </section>
           {/* Fin Title & order by events */}
 
-
-          <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full overflow-y-hidden">
-  {activeEvents &&
-    activeEvents.map((cu) =>
-      !cu.disabled ? (
-        <Card
-          id={cu.id}
-          name={cu.name}
-          image={cu.image}
-          genres={cu.genre}
-          date={cu.date}
-          location={cu.location}
-          city={cu.city}
-          price={cu.price}
-          key={cu.id}
-          deletedEvents={deletedEvents}
-        />
-      ) : null
-    )}
-</section>
-
+        {/* Inicio Card section */}
+       <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full overflow-y-hidden scrollbar-hide">
+        {currentEvents.length > 0 ? (
+          currentEvents?.map((cu) =>
+            // Filtramos los eventos en el momento de renderizar el componente usando los filtros actuales
+            (!cu.disabled && (!filters.genres || cu.genre.includes(filters.genres)) && (!filters.city || cu.city.includes(filters.city))) ? (
+              <Card
+                id={cu.id}
+                name={cu.name}
+                image={cu.image}
+                genre={cu.genre}
+                date={cu.date}
+                location={cu.location}
+                city={cu.city}
+                price={cu.price}
+                key={cu.id}
+                deletedEvents={deletedEvents}
+              />
+            ) : null
+          )
+        ) : (
+          <p>No hay eventos que coincidan con los filtros.</p>
+        )}
+      </section>
           {/* Fin Card section */}
 
           {/* Pagination */}

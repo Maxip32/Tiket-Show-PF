@@ -13,16 +13,16 @@ const CardsContainer = () => {
           <Link key={evento.id} to={`/editEvent/${evento.id}`}>
           <Card
             event={evento}
-            // key={evento.id}
-            // id={evento.id}
-            // name={evento.name}
-            // image={evento.image}
-            // summary={evento.description}
-            // date={evento.date}
-            // genre={evento.genre}
-            // lugar={evento.address}
-            // city={evento.city}
-            // cost={evento.price}
+            key={evento.id}
+            id={evento.id}
+            name={evento.name}
+            image={evento.image}
+            summary={evento.description}
+            date={evento.date}
+            genre={evento.genres}
+            lugar={evento.address}
+            city={evento.city}
+            cost={evento.price}
           />
           </Link>
         );
