@@ -71,8 +71,8 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="w-full flex justify-center items-center mt-10">
-      <div className="bg-white rounded-2xl shadow-lg flex w-3/4">
+    <div className="w-full flex justify-center items-center mt-10 max-w-4xl md:mx-auto">
+      <div className="bg-white rounded-2xl shadow-lg flex w-full">
         {/* image section */}
         <section className="w-2/4">
           <img

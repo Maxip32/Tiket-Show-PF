@@ -41,7 +41,7 @@ const NavBar = () => {
 
 
   return (
-    <nav className="md:flex md:justify-between md:items-center md:bg-transparent w-full py-5 text-md font-light max-w-5xl md:mx-auto">
+    <nav className="md:flex md:justify-between md:items-center md:bg-transparent w-full py-5 md:px-6 lg:px-0 text-md font-light max-w-5xl md:mx-auto">
       <ul>
         <NavLink to="/" className="ml-6 md:ml-0 flex md:items-center gap-3">
           <li>

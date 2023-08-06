@@ -1,11 +1,9 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
 
 const Landing = () => {
   return (
-    <section className="  bg-primaryColor/95 background-radial-gradient mb-40 w-full">
-  
-
+    <section className="  bg-primaryColor/95 background-radial-gradient mb-10 w-full">
       <div className="w-full py-12 text-center md:px-12 lg:text-left ">
         <div className=" mx-auto sm:max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl ">
           <div className="grid items-center gap-12 lg:grid-cols-2 ">
@@ -15,7 +13,7 @@ const Landing = () => {
                 <span className="text-white text-"></span>
               </h1>
               <h1 className="mt-0 mb-12 text-5xl tracking-tight md:text-4xl xl:text-5xl text-white">
-                ¡Crea tu Evento!: Facil, Rápido y Seguro. <br />
+                ¡Crea tu Evento!: Fácil, Rápido y Seguro. <br />
               </h1>
               <Link to="/registerArtist">
                 <a
