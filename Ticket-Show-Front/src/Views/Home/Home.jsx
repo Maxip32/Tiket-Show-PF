@@ -30,7 +30,6 @@ import Reviews from "../../components/Reviews/Reviews";
 import SelectFilter from "../../components/SelectFilter/SelectFilter";
 
 const Home = () => {
-
   const allowedDates = [
     "2023-08-10",
     "2023-08-16",
@@ -64,9 +63,9 @@ const Home = () => {
     "2023-11-21",
     "2023-11-24",
     "2023-11-28",
-    "2023-11-29"
+    "2023-11-29",
   ];
-  
+
   //const navigate = useNavigate();
   const dispatch = useDispatch();
   const allEvents = useSelector((state) => state.Events);
@@ -74,6 +73,9 @@ const Home = () => {
   const [order, setOrder] = useState(true);
   const allEventsDates = useSelector((state) => state.date);
   const ciudades = useSelector((state) => state.city);
+  const [deletedEvents, setdeletedEvents] = useState(new Set());
+  const activeEvents = allEvents.filter((event) => !event.deleted);
+
   const [filters, setFilters] = useState({
     genre: "",
     city: "",
@@ -104,23 +106,21 @@ const Home = () => {
     setFilters((prev) => ({ ...prev, genre: genreValue }));
     setCurrentPage(1);
   };
-  
-  
+
   const handleFiltroCiudades = (event) => {
     const cityValue = event.target.value;
     setFilters((prev) => ({ ...prev, city: cityValue }));
     setCurrentPage(1);
   };
-  
+
   const [date, setDate] = useState(new Date());
-  
+
   useEffect(() => {
     const eventosFiltrados = allEvents.filter((evento) => {
       const matchesGenre =
         !filters.genre || evento.genre.includes(filters.genre);
       const matchesCity = !filters.city || evento.city.includes(filters.city);
-      return matchesGenre && matchesCity
-      
+      return matchesGenre && matchesCity;
     });
     setEvents(eventosFiltrados);
     setCurrentPage(1);
@@ -129,7 +129,6 @@ const Home = () => {
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
 
-  
   const handleToggleCalendar = () => {
     setIsCalendarOpen((prevIsCalendarOpen) => !prevIsCalendarOpen); // Cambia el estado al valor opuesto
   };
@@ -152,7 +151,6 @@ const Home = () => {
     });
     setEvents(sortedEvents);
     setCurrentPage(1);
-    
   };
 
   const handleOrderByName = () => {
@@ -351,28 +349,26 @@ const Home = () => {
           </section>
           {/* Fin Title & order by events */}
 
-          {/* Card section */}
-          <section className="w-full h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center overflow-y-hidden scrollbar-hide">
-            {currentEvents.length === 0 ? (
-              <p className="text-xl text-gray-500">
-                No hay eventos disponibles
-              </p>
-            ) : (
-              currentEvents?.map((cu) => (
-                <Card
-                  id={cu.id}
-                  name={cu.name}
-                  image={cu.image}
-                  genres={cu.genre}
-                  date={cu.date}
-                  location={cu.location}
-                  city={cu.city}
-                  price={cu.price}
-                  key={cu.id}
-                />
-              ))
-            )}
+          <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full overflow-y-hidden">
+            {activeEvents &&
+              activeEvents.map((cu) =>
+                !cu.disabled ? (
+                  <Card
+                    id={cu.id}
+                    name={cu.name}
+                    image={cu.image}
+                    genres={cu.genre}
+                    date={cu.date}
+                    location={cu.location}
+                    city={cu.city}
+                    price={cu.price}
+                    key={cu.id}
+                    deletedEvents={deletedEvents}
+                  />
+                ) : null
+              )}
           </section>
+
           {/* Fin Card section */}
 
           {/* Pagination */}

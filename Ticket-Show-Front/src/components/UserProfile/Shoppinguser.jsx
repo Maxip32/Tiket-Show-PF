@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 
 export default function MyShopping() {
@@ -40,13 +40,17 @@ export default function MyShopping() {
       <h2>Mis Compras</h2>
       <div className="p-10 m-6 flex flex-wrap justify-center">
         {visiblePurchases.length > 0 ? (
+
           visiblePurchases?.map((purchase) => (
+
             <div className="bg-white w-100 h-60 m-4 border shadow-md rounded-2xl flex flex-col" key={purchase.id}>
               <p className="text-sm">Fecha de compra: {new Date(purchase.date).toLocaleDateString()}</p>
               <p className="text-sm">Cantidad de boletos: {purchase.quantity}</p>
               <p className="text-sm">Monto total de compras realizadas: {purchase.total}</p>
+
               <h1 className="text-sm">{purchase.name}</h1>
               <img src={purchase.image} to="" className="w-40"/>
+
               {/* Aquí puedes mostrar otros detalles relevantes de la compra */}
             </div>
           ))
@@ -78,3 +82,4 @@ export default function MyShopping() {
     </div>
   );
 }
+
