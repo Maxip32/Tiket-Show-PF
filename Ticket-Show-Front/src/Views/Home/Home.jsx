@@ -26,6 +26,7 @@ import Paginate from "../../components/Paginate/Paginate";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { LiaArrowRightSolid, LiaArrowDownSolid } from "react-icons/lia";
+import Reviews from "../../components/Reviews/Reviews";
 
 const Home = () => {
 
@@ -384,6 +385,7 @@ const Home = () => {
             />
           </section>
           <Landing />
+          <Reviews />
           <Footer />
         </>
       )}
