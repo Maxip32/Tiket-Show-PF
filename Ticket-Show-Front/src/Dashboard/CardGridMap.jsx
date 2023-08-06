@@ -27,29 +27,37 @@ const data = [
         deltaType: 'moderateDecrease'
     },
 ]
-const CardGridMap = () => {
-  return (
-    <Grid numColsMd={2} numColsLg={3} marginTop='mt-6' gapX='gap-x-6' gapY='gap-y-6'>
-        {
-            data.map( (item) => (
-                <Card key={item.title}>
-                    <Flex alignItems='items-start'>
-                        <div>
-                            <Text>{item.title}</Text>
-                            <Metric>{item.metric}</Metric>
-                        </div>
-                        <BadgeDelta text={item.delta}></BadgeDelta>
-                    </Flex>
-                    <Flex marginTop='mt-4' spaceX='space-x-2'>
-                        <Text>{`${item.progress}% (${item.metric})`}</Text>
-                    </Flex>
-                    <ProgressBar percentageValue={item.progress} marginTop='mt-3'/>
-
-                </Card>
-            ))
-        }
-    </Grid>
-  )
-}
-
-export default CardGridMap
+const CardGridMap = ({ purchases, totalBoletosVendidos, totalIngresos }) => {
+    return (
+        <Grid numColsMd={2} numColsLg={3} marginTop='mt-6' gapX='gap-x-6' gapY='gap-y-6'>
+          <Card>
+            <Flex alignItems='items-start'>
+              <div>
+                <Text>Total Boletos Vendidos</Text>
+                <Metric>{totalBoletosVendidos}</Metric>
+              </div>
+              <BadgeDelta text="Porcentaje de cambio respecto al objetivo"></BadgeDelta>
+            </Flex>
+            <Flex marginTop='mt-4' spaceX='space-x-2'>
+              <Text>Progresso: {totalBoletosVendidos}% ({totalBoletosVendidos})</Text>
+            </Flex>
+            <ProgressBar percentageValue={totalBoletosVendidos} marginTop='mt-3'/>
+          </Card>
+          <Card>
+            <Flex alignItems='items-start'>
+              <div>
+                <Text>Total Ingresos</Text>
+                <Metric>{totalIngresos}</Metric>
+              </div>
+              <BadgeDelta text="Porcentaje de cambio respecto al objetivo"></BadgeDelta>
+            </Flex>
+            <Flex marginTop='mt-4' spaceX='space-x-2'>
+              <Text>Progresso: {totalIngresos}% ({totalIngresos})</Text>
+            </Flex>
+            <ProgressBar percentageValue={totalIngresos} marginTop='mt-3'/>
+          </Card>
+        </Grid>
+      );
+    };
+    
+    export default CardGridMap;

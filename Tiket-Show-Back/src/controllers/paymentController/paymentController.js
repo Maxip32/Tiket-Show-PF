@@ -3,6 +3,8 @@ const {PAYPAL_API, PAYPAL_API_CLIENT, PAYPAL_API_SECRET, HOST} = require('../../
 const getControllers = require('../eventControllers/getControllers')
 const createOrder = async(req,res) => {
 
+    
+
     try {
         const { value } = req.body
         const order = {
@@ -11,8 +13,9 @@ const createOrder = async(req,res) => {
                 {
                     amount: {
                         currency_code: 'USD',
-                        value: value
+                        value: value,
                     },
+                    
                     description: 'venta Ticket Show',
                 },
             ],

@@ -26,8 +26,46 @@ import Paginate from "../../components/Paginate/Paginate";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { LiaArrowRightSolid, LiaArrowDownSolid } from "react-icons/lia";
+import Reviews from "../../components/Reviews/Reviews";
 
 const Home = () => {
+
+  const allowedDates = [
+    "2023-08-10",
+    "2023-08-16",
+    "2023-08-17",
+    "2023-08-18",
+    "2023-08-23",
+    "2023-08-26",
+    "2023-08-27",
+    "2023-09-01",
+    "2023-09-07",
+    "2023-09-09",
+    "2023-09-13",
+    "2023-09-15",
+    "2023-09-20",
+    "2023-09-23",
+    "2023-09-24",
+    "2023-09-26",
+    "2023-09-30",
+    "2023-10-03",
+    "2023-10-13",
+    "2023-10-17",
+    "2023-10-18",
+    "2023-10-20",
+    "2023-10-28",
+    "2023-11-04",
+    "2023-11-05",
+    "2023-11-07",
+    "2023-11-09",
+    "2023-11-13",
+    "2023-11-15",
+    "2023-11-21",
+    "2023-11-24",
+    "2023-11-28",
+    "2023-11-29"
+  ];
+  
   //const navigate = useNavigate();
   const dispatch = useDispatch();
   const allEvents = useSelector((state) => state.Events);
@@ -35,6 +73,9 @@ const Home = () => {
   const [order, setOrder] = useState(true);
   const allEventsDates = useSelector((state) => state.date);
   const ciudades = useSelector((state) => state.city);
+  const [deletedEvents, setdeletedEvents] = useState(new Set());
+  const activeEvents = allEvents.filter((event) => !event.deleted);
+
   const [filters, setFilters] = useState({
     genre: "",
     city: "",
@@ -90,6 +131,7 @@ const Home = () => {
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Estado para controlar si el calendario está abierto o cerrado
 
+  
   const handleToggleCalendar = () => {
     setIsCalendarOpen((prevIsCalendarOpen) => !prevIsCalendarOpen); // Cambia el estado al valor opuesto
   };
@@ -112,6 +154,7 @@ const Home = () => {
     });
     setEvents(sortedEvents);
     setCurrentPage(1);
+    
   };
 
   const handleOrderByName = () => {
@@ -310,28 +353,27 @@ const Home = () => {
           </section>
           {/* Fin Title & order by events */}
 
-          {/* Card section */}
-          <section className="w-full h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center overflow-y-hidden scrollbar-hide">
-            {currentEvents.length === 0 ? (
-              <p className="text-xl text-gray-500">
-                No hay eventos disponibles
-              </p>
-            ) : (
-              currentEvents?.map((cu) => (
-                <Card
-                  id={cu.id}
-                  name={cu.name}
-                  image={cu.image}
-                  genres={cu.genre}
-                  date={cu.date}
-                  location={cu.location}
-                  city={cu.city}
-                  price={cu.price}
-                  key={cu.id}
-                />
-              ))
-            )}
-          </section>
+
+          <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full overflow-y-hidden">
+  {activeEvents &&
+    activeEvents.map((cu) =>
+      !cu.disabled ? (
+        <Card
+          id={cu.id}
+          name={cu.name}
+          image={cu.image}
+          genres={cu.genre}
+          date={cu.date}
+          location={cu.location}
+          city={cu.city}
+          price={cu.price}
+          key={cu.id}
+          deletedEvents={deletedEvents}
+        />
+      ) : null
+    )}
+</section>
+
           {/* Fin Card section */}
 
           {/* Pagination */}
@@ -345,6 +387,7 @@ const Home = () => {
             />
           </section>
           <Landing />
+          <Reviews />
           <Footer />
         </>
       )}

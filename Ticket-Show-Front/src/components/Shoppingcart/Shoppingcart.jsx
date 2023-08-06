@@ -1,11 +1,18 @@
 /* CheckOut */
-import { useContext } from "react";
+import { useContext, useEffect, } from "react";
 import { CartContext } from "./shoppingCartContext";
 import { useAuth } from "../../context/AuthContext";
-
+import { useDispatch, useSelector } from "react-redux"
+import { updateQuotas } from "../../redux/actions";
 export const CartPage = () => {
   const [cart, setCart] = useContext(CartContext);
-  const { user } = useAuth();
+
+  const { user } = useAuth(); 
+  const dispatch = useDispatch()
+  const quotas = useSelector(state => state.quotas)
+
+ 
+  
   const quantity = cart.reduce((acc, curr) => {
     return acc + curr.quantity;
   }, 0);
@@ -42,8 +49,27 @@ export const CartPage = () => {
       });
     });
   };
+
+  
+  // useEffect(() => {
+  //   // Actualizar el carrito en función de las nuevas quotas
+  //   const updatedCart = cart.map((item) => {
+  //     const updatedItem = { ...item };
+  //     const updatedQuota = quotas.find((quota) => quota.eventId === item.id);
+  //     if (updatedQuota) {
+  //       // Actualizar la cantidad en el carrito según las nuevas quotas
+  //       updatedItem.quota = updatedQuota.availableQuantity;
+  //     }
+  //     return updatedItem;
+  //   });
+  
+    // Usar el dispatcher para actualizar el carrito en el contexto
+  //   setCart(updatedCart);
+  // }, [quotas, cart]);
   const handleAdquirirEntrada = async () => {
+    
     try {
+
       //const response = await fetch("http://localhost:3001/create-order", {
       const response = await fetch(
         "https://tiket-show-pf-production.up.railway.app/create-order",
@@ -58,34 +84,38 @@ export const CartPage = () => {
           }), // Enviar el precio en el cuerpo de la solicitud
         }
       );
+
       // Verificar si la solicitud fue exitosa (código de estado 200)
       if (response.status === 200) {
         const data = await response.json();
-
+        
         // Verificar si 'links' existe en data
         if (!data.links || data.links.length < 2) {
           console.error(
             "La propiedad 'links' no existe o no tiene suficientes elementos"
-          );
-          return;
-        }
+            );
+            return;
+          }
 
+          
+        
         const detailsShopping = {
           date: new Date().toISOString(), // Agregar la fecha de compra
           total: totalPrice,
-          cantidad: quantity, // Agregar el precio total
-          name: "Nombre del Evento",
+          cantidad: cart.map((item) => item.quantity).join(" , "), // Agregar el precio total
+          name: cart.map((item) => item.name).join(" , "),
+          image: cart?.map((item) => item.image).join(","),
           userId: user.uid,
           // Agregar otros detalles relevantes, como nombres de eventos, cantidades, etc. si es necesario
         };
-
+        
         // Obtener compras existentes desde localStorage o crear un array vacío
         const savedPurchases =
-          JSON.parse(localStorage.getItem("userPurchases")) || [];
-
+        JSON.parse(localStorage.getItem("userPurchases")) || [];
+        
         // Agregar la nueva compra a las compras existentes
         savedPurchases.push(detailsShopping);
-
+        
         // Guardar las compras actualizadas en localStorage
         localStorage.setItem("userPurchases", JSON.stringify(savedPurchases));
         console.log(
@@ -96,23 +126,25 @@ export const CartPage = () => {
         // Realizar la re dirección a la pasarela de pago
         window.location.href = data.links[1].href;
         //lo hice yo = Darwin, acá inicia
-        const sendMail = await fetch(
-          "https://tiket-show-pf-production.up.railway.app/send/mail",
-          //const sendMail = await fetch('http://localhost:3001/send/mail',
-          {
-            method: "POST",
-            headers: {
-              "Contend-Type": "application/json",
-            },
-            body: JSON.stringify({
-              date: new Date().toISOString(),
-              total: totalPrice,
-              cantidad: quantity,
-              name: "Nombre del Evento",
-            }),
-          }
-        );
-        await sendMail.json();
+
+        const sendMail = await fetch('https://tiket-show-pf-production.up.railway.app/send/mail',
+        //const sendMail = await fetch('http://localhost:3001/send/mail',
+        { method: 'POST',
+          headers: {
+            "Contend-Type": "application/json"
+          },
+          body: JSON.stringify(
+            { 
+            date: new Date().toISOString(),
+          total: totalPrice,
+          cantidad: cart.map((item) => item.quantity).join(" , "), 
+          name: cart.map((item) => item.name).join(" , "),
+          image: cart?.map((item) => item.image).join(","),
+        })
+        })
+        await sendMail.json()
+
+
         //lo hice yo = Darwin, acá termina
       } else {
         // La compra fue cancelada o hubo un error
@@ -147,7 +179,7 @@ export const CartPage = () => {
             </h1>
           </header>
           {/* Mostrar los elementos del carrito */}
-          {cart.map((item) => (
+          {cart?.map((item) => (
             <div key={item.id} className="mt-8">
               <ul className="space-y-4">
                 <li className="flex items-center gap-4">
@@ -161,6 +193,10 @@ export const CartPage = () => {
                     <h3 className="text-sm text-gray-900">{item.name}</h3>
 
                     <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">
+                    <div>
+                    <dt className="inline">Stock:</dt>
+                    <dd className="inline">{item.stock}</dd>
+                    </div>
                       <div>
                         <dt className="inline">Costo: </dt>
                         <dd className="inline">${item.price}</dd>
@@ -271,4 +307,6 @@ export const CartPage = () => {
       </div>
     </div>
   );
+
 };
+
