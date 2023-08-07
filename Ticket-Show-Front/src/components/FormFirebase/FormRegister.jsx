@@ -143,6 +143,7 @@ const FormFirebase = () => {
           email: respGoogle.user.email
         }));
         clearState(); // Limpiar el estado
+        dispatch(getUserById());
         redirectLogin(respGoogle.user);
       }
     } catch (error) {
