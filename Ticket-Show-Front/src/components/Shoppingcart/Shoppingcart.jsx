@@ -2,7 +2,11 @@
 import { useContext } from "react";
 import { CartContext } from "./shoppingCartContext";
 import { useAuth } from "../../context/AuthContext";
-import axios from "axios"
+import axios from "axios";
+import { BsCaretDownSquareFill } from "react-icons/bs";
+
+import { BsCaretUpSquareFill } from "react-icons/bs";
+import { LiaCheckSolid } from "react-icons/lia";
 
 export const CartPage = () => {
   const [cart, setCart] = useContext(CartContext);
@@ -50,25 +54,21 @@ export const CartPage = () => {
 
   const handleAdquirirEntrada = async () => {
     try {
-
-
       //const response = await fetch("http://localhost:3001/create-order", {
-       const response = await fetch(
-         "https://tiket-show-pf-production.up.railway.app/create-order",
-         {
-
+      const response = await fetch(
+        "https://tiket-show-pf-production.up.railway.app/create-order",
+        {
           method: "POST",
           headers: {
             "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
-
           },
           //PARA QUE ME LLEGUE Y TOME EL PRECIO DE CADA EVENTO AL BACK
           body: JSON.stringify({
             value: (totalPrice + totalPrice * 0.18).toFixed(2),
           }), // Enviar el precio en el cuerpo de la solicitud
         }
-      )
-      
+      );
+
       // Verificar si la solicitud fue exitosa (código de estado 200)
       if (response.status === 200) {
         const data = await response.json();
@@ -174,9 +174,7 @@ export const CartPage = () => {
                   />
 
                   <div className="">
-                    <h3 className="text-sm  flex font-bold ">
-                      {item.name}
-                    </h3>
+                    <h3 className="text-sm  flex font-bold ">{item.name}</h3>
 
                     <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">
                       <div>
@@ -245,7 +243,7 @@ export const CartPage = () => {
                     <p className="">Cantidad de Tickets: {quantity}</p>
                   </span>
                 </div>
-                  
+
                 <div className="flex  justify-between">
                   <dt>Subtotal</dt>
                   <dd>{totalPrice}</dd>
@@ -261,7 +259,7 @@ export const CartPage = () => {
                   <dd>${(totalPrice + totalPrice * 0.18).toFixed(2)}</dd>
                 </div>
               </dl>
-             
+
               <div className="flex justify-end">
                 <a
                   onClick={handleAdquirirEntrada}
