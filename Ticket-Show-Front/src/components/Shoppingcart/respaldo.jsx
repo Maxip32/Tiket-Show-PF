@@ -1,14 +1,14 @@
 /* CheckOut */
-import { useContext } from "react";
+import { useContext} from "react";
 import { CartContext } from "./shoppingCartContext";
 import { useAuth } from "../../context/AuthContext";
-import axios from "axios"
+
 
 export const CartPage = () => {
   const [cart, setCart] = useContext(CartContext);
 
-  const { user } = useAuth();
-
+  const { user } = useAuth(); 
+  
   const quantity = cart.reduce((acc, curr) => {
     return acc + curr.quantity;
   }, 0);
@@ -25,7 +25,7 @@ export const CartPage = () => {
           return {
             ...item,
             quantity: item.quantity + 1,
-            stock: item.stock - 1,
+            stock: item.stock -1,
           };
         }
         return item;
@@ -40,7 +40,7 @@ export const CartPage = () => {
           return {
             ...item,
             quantity: item.quantity - 1,
-            stock: item.stock + 1,
+            stock: item.stock +1,
           };
         }
         return item;
@@ -49,18 +49,16 @@ export const CartPage = () => {
   };
 
   const handleAdquirirEntrada = async () => {
+    
     try {
 
-
-      //const response = await fetch("http://localhost:3001/create-order", {
-       const response = await fetch(
-         "https://tiket-show-pf-production.up.railway.app/create-order",
-         {
-
+      const response = await fetch("http://localhost:3001/create-order", {
+      // const response = await fetch(
+      //   "https://tiket-show-pf-production.up.railway.app/create-order",
+      //   {
           method: "POST",
           headers: {
             "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
-
           },
           //PARA QUE ME LLEGUE Y TOME EL PRECIO DE CADA EVENTO AL BACK
           body: JSON.stringify({
@@ -72,15 +70,17 @@ export const CartPage = () => {
       // Verificar si la solicitud fue exitosa (código de estado 200)
       if (response.status === 200) {
         const data = await response.json();
-
+        
         // Verificar si 'links' existe en data
         if (!data.links || data.links.length < 2) {
           console.error(
             "La propiedad 'links' no existe o no tiene suficientes elementos"
-          );
-          return;
-        }
+            );
+            return;
+          }
 
+          
+        
         const detailsShopping = {
           date: new Date().toISOString(), // Agregar la fecha de compra
           total: totalPrice,
@@ -90,14 +90,14 @@ export const CartPage = () => {
           userId: user.uid,
           // Agregar otros detalles relevantes, como nombres de eventos, cantidades, etc. si es necesario
         };
-
+        
         // Obtener compras existentes desde localStorage o crear un array vacío
         const savedPurchases =
-          JSON.parse(localStorage.getItem("userPurchases")) || [];
-
+        JSON.parse(localStorage.getItem("userPurchases")) || [];
+        
         // Agregar la nueva compra a las compras existentes
         savedPurchases.push(detailsShopping);
-
+        
         // Guardar las compras actualizadas en localStorage
         localStorage.setItem("userPurchases", JSON.stringify(savedPurchases));
         console.log(
@@ -109,24 +109,23 @@ export const CartPage = () => {
         window.location.href = data.links[1].href;
         //lo hice yo = Darwin, acá inicia
 
-        const sendMail = await fetch(
-          "https://tiket-show-pf-production.up.railway.app/send/mail",
-          //const sendMail = await fetch('http://localhost:3001/send/mail',
-          {
-            method: "POST",
-            headers: {
-              "Contend-Type": "application/json",
-            },
-            body: JSON.stringify({
-              date: new Date().toISOString(),
-              total: totalPrice,
-              cantidad: cart.map((item) => item.quantity).join(" , "),
-              name: cart.map((item) => item.name).join(" , "),
-              image: cart?.map((item) => item.image).join(","),
-            }),
-          }
-        );
-        await sendMail.json();
+        const sendMail = await fetch('https://tiket-show-pf-production.up.railway.app/send/mail',
+        //const sendMail = await fetch('http://localhost:3001/send/mail',
+        { method: 'POST',
+          headers: {
+            "Contend-Type": "application/json"
+          },
+          body: JSON.stringify(
+            { 
+            date: new Date().toISOString(),
+          total: totalPrice,
+          cantidad: cart.map((item) => item.quantity).join(" , "), 
+          name: cart.map((item) => item.name).join(" , "),
+          image: cart?.map((item) => item.image).join(","),
+        })
+        })
+        await sendMail.json()
+
 
         //lo hice yo = Darwin, acá termina
       } else {
@@ -154,68 +153,63 @@ export const CartPage = () => {
 
   return cart.length > 0 ? (
     <section>
-      <div className="max-w-6xl mx-auto mt-5 bg-grey shadow-2xl sm:px-6 sm:py-12 lg:px-3">
+      <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-3xl">
           <header className="text-center">
-            <h1 className=" text-purple  font-bold sm:text-1xl">Tu Carrito</h1>
+            <h1 className="text-xl font-bold text-gray-900 sm:text-3xl">
+              Tu carrito
+            </h1>
           </header>
           {/* Mostrar los elementos del carrito */}
           {cart?.map((item) => (
-            <div
-              key={item.id}
-              className="mt-8 border-b rounded-md border-b-red bg-white shadow-md  border-grey-100 py-2"
-            >
+            <div key={item.id} className="mt-8">
               <ul className="space-y-4">
-                <li className="flex  items-center gap-4">
+                <li className="flex items-center gap-4">
                   <img
                     src={item.image}
                     alt=""
-                    className="h-16 w-16 object-cover"
+                    className="h-16 w-16 rounded object-cover"
                   />
 
-                  <div className="">
-                    <h3 className="text-sm  flex font-bold ">
-                      {item.name}
-                    </h3>
+                  <div>
+                    <h3 className="text-sm text-gray-900">{item.name}</h3>
 
                     <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">
+                    <div>
+                    <dt className="inline">Stock:</dt>
+                    <dd className="inline">{item.stock}</dd>
+                    </div>
                       <div>
-                        <dt className="inline font-bold">-Stock: </dt>
-                        <dd className="inline">{item.stock}</dd>
-                      </div>
-                      <div>
-                        <dt className="inline font-bold">Costo: </dt>
+                        <dt className="inline">Costo: </dt>
                         <dd className="inline">${item.price}</dd>
+                      </div>
+
+                      <div>
+                        <dt className="inline">Color:</dt>
+                        <dd className="inline">White</dd>
                       </div>
                     </dl>
                   </div>
 
-                  <div className="flex flex-1 items-center justify-end  mr-10 gap-2">
-                    <button
-                      className="text-gray-600 transition hover:text-secondaryColor"
-                      onClick={() => handleDecrement(item.id)}
-                    >
-                      <span className="sr-only">Remove item</span>{" "}
-                      <BsCaretDownSquareFill />
-                    </button>
-
+                  <div className="flex flex-1 items-center justify-end gap-2">
                     <form>
                       <label htmlFor="Line1Qty" className="sr-only"></label>
-                      <h3
-                        className="h-4 w-10 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs
-     text-gray-600 [-moz-appearance:_textfield] focus:outline-none [&::-webkit-inner-spin-button]:m-0
-      [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
-                      >
+                      <h3 className="h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 [-moz-appearance:_textfield] focus:outline-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none">
                         {item.quantity}
                       </h3>
                     </form>
 
                     <button
-                      className="text-gray-600 transition hover:text-secondaryColor"
+                      className="text-gray-600 transition hover:text-red-600"
+                      onClick={() => handleDecrement(item.id)}
+                    >
+                      <span className="sr-only">Remove item</span>-
+                    </button>
+                    <button
+                      className="text-gray-600 transition hover:text-red-600"
                       onClick={() => handleIncrement(item.id)}
                     >
-                      <span className="sr-only ">Add item</span>{" "}
-                      <BsCaretUpSquareFill />
+                      <span className="sr-only">Remove item</span>+
                     </button>
                   </div>
                 </li>
@@ -223,7 +217,7 @@ export const CartPage = () => {
             </div>
           ))}
 
-          <div className="mt-4 flex justify-end  pt-8">
+          <div className="mt-8 flex justify-end border-t border-gray-100 pt-8">
             <div className="w-screen max-w-lg space-y-4">
               <dl className="space-y-0.5 text-sm text-gray-700">
                 <div className="flex justify-end">
@@ -233,7 +227,7 @@ export const CartPage = () => {
                       fill="none"
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
-                      stroke="purple"
+                      stroke="currentColor"
                       className="-ms-1 me-1.5 h-4 w-4"
                     >
                       <path
@@ -242,11 +236,10 @@ export const CartPage = () => {
                         d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z"
                       />
                     </svg>
-                    <p className="">Cantidad de Tickets: {quantity}</p>
+                    <p>Cantidad de Tickets: {quantity}</p>
                   </span>
                 </div>
-                  
-                <div className="flex  justify-between">
+                <div className="flex justify-between">
                   <dt>Subtotal</dt>
                   <dd>{totalPrice}</dd>
                 </div>
@@ -261,13 +254,13 @@ export const CartPage = () => {
                   <dd>${(totalPrice + totalPrice * 0.18).toFixed(2)}</dd>
                 </div>
               </dl>
-             
+
               <div className="flex justify-end">
                 <a
                   onClick={handleAdquirirEntrada}
                   id="AdquirirEntrada"
                   href="#"
-                  className="block rounded bg-gray-700 px-4 py-2 text-sm text-gray-100 transition hover:bg-gray-600"
+                  className="block rounded bg-gray-700 px-5 py-3 text-sm text-gray-100 transition hover:bg-gray-600"
                 >
                   Ir a Pagar
                 </a>
@@ -296,4 +289,5 @@ export const CartPage = () => {
       </div>
     </div>
   );
+
 };

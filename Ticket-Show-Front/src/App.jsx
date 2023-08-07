@@ -32,7 +32,7 @@ function App() {
             <Route path="/createEvent" element={<CreateEvent />} />
             <Route path="/" element={<Home />} />
             <Route path="/detail/:id" element={<Detail />} />
-             <Route path="/editEvent/:eventId" element={<EditEvent/>} />
+            <Route path="/editEvent/:eventId" element={<EditEvent/>} />
             <Route path="/approved" element={<CompraPaypal/>}/>
             <Route path="/about" element={<About />} />
             <Route path="/PanelAdmin" element={<Dashboard/>} />
