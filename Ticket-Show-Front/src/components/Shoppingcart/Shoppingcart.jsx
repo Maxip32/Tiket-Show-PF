@@ -52,10 +52,10 @@ export const CartPage = () => {
     
     try {
 
-      const response = await fetch("http://localhost:3001/create-order", {
-      // const response = await fetch(
-      //   "https://tiket-show-pf-production.up.railway.app/create-order",
-      //   {
+      //const response = await fetch("http://localhost:3001/create-order", {
+       const response = await fetch(
+         "https://tiket-show-pf-production.up.railway.app/create-order",
+         {
           method: "POST",
           headers: {
             "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
