@@ -104,8 +104,8 @@ const Detail = ({ image, name, price }) => {
     <div className="flex flex-col mx-auto w-full max-w-5xl">
       {event ? (
         <>
-          <div className="flex w-full justify-between mb-10">
-            <div className="flex items-start flex-col gap-4">
+          <div className="flex flex-col md:flex-row w-full justify-between mb-10">
+            <div className="flex items-center md:items-start flex-col gap-4">
               <p className="text-4xl text-primaryColor font-bold">
                 {event.name}
               </p>
@@ -115,8 +115,8 @@ const Detail = ({ image, name, price }) => {
                 alt="foto del artista"
               />
             </div>
-            <div className="flex flex-col text-center px-4 gap-4 mx-8">
-              <span className="text-3xl text-DarkTextPurple font-semibold mb-4">
+            <div className="flex flex-col items-center md:items-start text-center px-4 gap-4 mx-8">
+              <span className="text-3xl text-DarkTextPurple font-semibold mb-4 mt-10 md:mt-0">
                 Información general
               </span>
               <p className="flex items-center gap-2">
@@ -145,7 +145,8 @@ const Detail = ({ image, name, price }) => {
                 {event.price}
               </p>
             </div>
-            <div className="flex flex-col items-center justify-center gap-4 w-48">
+
+            <div className="flex flex-col items-center justify-center mx-auto gap-4 w-48 mt-8 md:mt-0">
               <span className="flex items-center text-xl text-DarkTextPurple"> Tickets a comprar: {quantityPerItem}</span>
               <div>
                 <button 
