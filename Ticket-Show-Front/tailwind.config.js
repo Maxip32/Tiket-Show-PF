@@ -27,7 +27,7 @@ export default {
         Color300: "#F9F9FF",
         Color200: "#F9F9FF",
         White: "#FFFFFF",
-
+        
         // Colores de Tremor
         'tremor-brand-faint': "#eff6ff",
         'tremor-brand-muted': "#bfdbfe",

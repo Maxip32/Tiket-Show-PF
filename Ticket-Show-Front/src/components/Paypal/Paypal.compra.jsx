@@ -1,4 +1,4 @@
-import React from "react";
+
 import { useState, useEffect } from "react";
 //import { sendMail } from "../../redux/actions";
 import { useDispatch } from "react-redux";
