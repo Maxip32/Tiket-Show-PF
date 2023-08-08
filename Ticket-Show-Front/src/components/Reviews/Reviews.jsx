@@ -16,8 +16,8 @@ const Reviews = () => {
     speed: 500,
     slidesToScroll: 2,
     initialSlide: 1,
-    prevArrow: <FiArrowLeftCircle size={28} color="#ed4690"/>,
-    nextArrow: <FiArrowRightCircle size={28} color="#ed4690"/>,
+    prevArrow: <FiArrowLeftCircle color="#ed4690"/>,
+    nextArrow: <FiArrowRightCircle color="#ed4690"/>,
     responsive: [
       {
         breakpoint: 1024,

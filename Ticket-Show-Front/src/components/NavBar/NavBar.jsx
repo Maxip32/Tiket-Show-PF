@@ -91,7 +91,7 @@ const NavBar = () => {
         {/* //- Botón de carrito (solo se muestra si el usuario está autenticado) */}
         {/* Enlace del carrito */}
         {user && (
-          <li className="ml-3">
+          <li className="ml-3 w-9">
             <NavLink to="/cart" className="flex items-center">
               <LiaShoppingCartSolid size={26} />
               {quantity}

@@ -23,7 +23,7 @@ const Landing = () => {
                   href="#!"
                   role="button"
                 >
-                  Ingresar
+                  <strong>Ingresar</strong>
                 </a>{" "}
               </Link>
             </div>

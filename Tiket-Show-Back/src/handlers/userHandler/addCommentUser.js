@@ -5,10 +5,10 @@ const changeUser = require('../../controllers/userControllers/addComment');
     const {body, stars} = req.body
 
     try {
-        const updatetomments = await changeUser(id, body, stars);
-        res.status(200).json(updatetomments);
+        const updateComments = await changeUser(id, body, stars);
+        res.status(201).json(updateComments);
     } catch (error) {
-        res.status(404).json({msg: error.message});
+        res.status(400).json({msg: error.message});
     }
 }
 
