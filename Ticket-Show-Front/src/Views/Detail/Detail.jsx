@@ -139,7 +139,7 @@ const Detail = ({ image, name, price }) => {
               </p>
               <p className="flex items-center gap-2">
                 <BsTicketPerforated size="20" color="#ed4690" /> Tickets
-                disponibles: {event.quotas}
+                disponibles: {stockFromCart}
               </p>
               <p className="flex items-center gap-2">
                 <BsCurrencyDollar size="20" color="#ed4690" /> Precio: $
