@@ -22,13 +22,13 @@ import {
 import { BsTicketPerforated, BsCurrencyDollar } from "react-icons/bs";
 
 const Detail = ({ image, name, price }) => {
-  const { user } = useAuth();
   const { id } = useParams();
-
-  const { event } = useSelector((state) => state.detail);
-  console.log(event, "el evento");
+  const { user } = useAuth();
+  const  evento  = useSelector((state) => state.detail);
+  const event = evento.event
+  // console.log(event.event, "el evento");
   const dispatch = useDispatch();
-
+if(!event) return null
   useEffect(() => {
     dispatch(getEventId(id));
   }, [id, dispatch]);
@@ -183,4 +183,5 @@ const Detail = ({ image, name, price }) => {
 };
 
 export default Detail;
+
 
