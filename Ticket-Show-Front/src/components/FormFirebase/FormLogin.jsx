@@ -5,19 +5,63 @@ import Swal from "sweetalert2";
 import loginForm from "../../assets/image/login.jpg"
 import { FcGoogle } from "react-icons/fc";
 
+const validate = (form) => {
+  let errors = {};
+  if (!form.email) {
+    errors.email = "Debes colocar un email";
+  } else if (
+    !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(form.email)
+  ) {
+    errors.email = "Debes colocar un email valido";
+  }
+  if (!form.password) {
+    errors.password = "Debes colocar una contraseña";
+  } else if (!/^(?=.*\d)(?=.*[!@#$%^&*])(.{7,})$/.test(form.password)) {
+    errors.password =
+      "Debe tener un Numero, un Símbolo y ser mayor de 6 caracteres";
+  }
+  return errors;
+};
+
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const { login, loginWithGoogle, checkUserDisabled  } = useAuth(); // Asegúrate de que el contexto tenga las funciones de inicio de sesión
   const [ name, setName] = useState("");
   const navigate= useNavigate()
+  
+  /* const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+ */
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  // errores en el formularios
+  const [errors, setErrors] = useState({
+    email: true,
+    password: true,
+  });
+
+  const handlerInputChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+    setErrors(
+      validate({
+        ...form,
+        [e.target.name]: e.target.value,
+      })
+    );
+  };
+
 
   const handleSignIn = async (e) => {
     e.preventDefault();
 
     // Validación de campos vacíos
-    if (!email || !password) {
+    if (!form.email || !form.password) {
       setError("Por favor, ingresa tu correo electrónico y contraseña.");
       
       return;
@@ -25,7 +69,7 @@ const LoginForm = () => {
 
     try {
       // Verificar si el usuario está deshabilitado en alguna de las tablas antes de permitir el inicio de sesión
-      const userDisabled = await checkUserDisabled(email);
+      const userDisabled = await checkUserDisabled(form.email);
       if (userDisabled) {
         console.log("Usuario deshabilitado. No se permite el inicio de sesión.");
         setError("Usuario deshabilitado. No se permite el inicio de sesión.");
@@ -39,7 +83,7 @@ const LoginForm = () => {
       }
 
       // Si el usuario no está deshabilitado, intentar iniciar sesión con Firebase
-      await login(email, password, name);
+      await login(form.email, form.password, name);
       Swal.fire({
         position: "center",
         icon: "success",
@@ -71,18 +115,18 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="w-full flex justify-center items-center mt-10 max-w-4xl md:mx-auto">
-      <div className="bg-white rounded-2xl shadow-lg flex w-full">
+    <div className="w-full flex justify-center items-center mt-10 max-w-4xl md:mx-auto md:mb-6">
+      <div className="bg-white rounded-2xl shadow-lg flex flex-col-reverse md:flex-row w-full justify-center mx-10 md:mx-0">
         {/* image section */}
         <section className="w-2/4">
           <img
             src={loginForm}
             alt="Register image"
-            className="rounded-l-2xl object-cover h-full"
+            className="rounded-l-2xl hidden md:flex md:object-cover h-full"
           />
         </section>
 
-        <section className="p-6 flex flex-col justify-center items-center w-2/4 text-left">
+        <section className="p-6 flex flex-col justify-center items-center w-full md:w-2/4 text-left">
           <div className="my-4 text-base text-Color1000 flex flex-col gap-3">
             <h2 className="text-4xl font-bold text-primaryColor text-left">
               Ingresa 
@@ -91,7 +135,7 @@ const LoginForm = () => {
               para que no te pierdas de ningún evento.
             </p>
           </div>
-          <form className="flex flex-col gap-6 w-full justify-center items-center" onSubmit={handleSignIn}>
+          <form className="flex flex-col gap-6 w-full justify-center items-center px-3" onSubmit={handleSignIn}>
             {/* <input
             placeholder="Nombre completo"
               type="text"
@@ -99,26 +143,37 @@ const LoginForm = () => {
               onChange={(e) => setName(e.target.value)}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             /> */}
+            <section className="w-full px-5">
+              <input
+                placeholder="Correo electrónico"
+                type="email"
+                name="email"
+                onChange={handlerInputChange}
+                value={form.email}
+                className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+              />
+              {errors.email && (
+                <p className="text-xs text-red-500">{errors.email}</p>
+              )}
+            </section>
 
-            <input
-              placeholder="Correo electrónico"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-            />
-
-            <input
-              placeholder="Contraseña"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-            />
+            <section className="w-full px-5">
+              <input
+                placeholder="Contraseña"
+                type="password"
+                name="password"
+                onChange={handlerInputChange}
+                value={form.password}
+                className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+              />
+              {errors.password && (
+                <p className="text-xs text-red-500">{errors.password}</p>
+              )}
+            </section>
 
             <button
               type="submit"
-              className="w-3/4 bg-primaryColor text-Color200 hover:bg-Color200 hover:text-primaryColor border hover:border-secondaryColor focus:outline-none px-10 py-3.5 text-base font-medium 
+              className="w-4/5 bg-primaryColor text-Color200 hover:bg-Color200 hover:text-primaryColor border hover:border-secondaryColor focus:outline-none px-10 py-3.5 text-base font-medium 
               transition duration-500 ease-in-out transform shadow-md rounded-xl"
             >
               Ingresa
