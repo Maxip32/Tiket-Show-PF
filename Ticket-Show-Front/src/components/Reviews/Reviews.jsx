@@ -46,8 +46,8 @@ const Reviews = () => {
     "Darwin",
     "Juan",
     "Daniel",
-    "el",
-    "Resto",
+    "Emmanuel",
+    "Rodrigo",
   ];
 
   return (

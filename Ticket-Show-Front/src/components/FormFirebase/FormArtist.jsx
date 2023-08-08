@@ -8,8 +8,41 @@ import registerArtist from '../../assets/image/registerArtist1.jpg'
 import Swal from "sweetalert2";
 //import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
+const validate = (form) =>{
+  let errors = {}
+  if (!form.name) {
+    errors.name = 'Debes colocar tu nombre'
+  } else if (!/^[a-zA-Z\s]+$/.test(form.name)) {
+    errors.name = 'El nombre solo puede tener letras y espacios';
+  }
+  if (!form.emailRegister) {
+    errors.emailRegister = 'Debes colocar un email'
+  } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(form.emailRegister)) {
+    errors.emailRegister = 'Debes colocar un email valido';
+  }
+  if (!form.passwordRegister) {
+    errors.passwordRegister = 'Debes colocar una contraseña'
+  } else if (!/^(?=.*\d)(?=.*[a-zA-Z])(.{7,})$/.test(form.passwordRegister)) {
+    errors.passwordRegister = 'Debe tener un Numero, una letra y ser mayor de 6 caracteres';
+  }
+  if (!form.nameBand) {
+    errors.nameBand = 'Debes colocar el nombre de tu banda'
+  } else if (!/^[a-zA-Z\s]+$/.test(form.nameBand)) {
+    errors.nameBand = 'El nombre solo puede tener letras y espacios';
+  }
+  if (!form.nameArtist) {
+    errors.nameArtist = 'Debes colocar tu nombre de artista'
+  } else if (!/^[a-zA-Z\s]+$/.test(form.nameArtist)) {
+    errors.nameArtist = 'El nombre solo puede tener letras y espacios';
+  }
+  if (!form.yearCreation) {
+    errors.yearCreation = 'Debes colocar tu nombre de artista'
+  }
+  return errors;
+}
+
 const ArtistForm = () => {
- const [imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const auth = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,17 +53,50 @@ const ArtistForm = () => {
 
   const [nombreToDB, setNombreToDB] = useState("");
   const [emailToDB, setEmailToDB] = useState("");
-  const [emailRegister, setEmailRegister] = useState("");
-  const [ nameBand, setNameBand] = useState("");
   const [ nameBandToDB, setNameBandToDB] = useState("");
-  const [ nameArtist, setnameArtist] = useState("");
-  const [ yearCreation, setyearCreation] = useState("");
-  const [ name, setName] = useState("");
-  const [passwordRegister, setPasswordRegister] = useState("");
+  
+  
+  
   const validRegister = usuario?.filter(usr => usr.email === emailRegister);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const validLogin = usuario?.filter(usr => usr.email === email);
+  
+  //-Nuevo
+  const [form, setForm] = useState({
+    name: '',
+    emailRegister: '',
+    passwordRegister: '',
+    nameBand: '',
+    nameArtist: '',
+    yearCreation: '',
+  });
+  const [errors, setErrors] = useState({
+    name: true,
+    emailRegister: true,
+    passwordRegister: true,
+    nameBand: true,
+    nameArtist: true,
+    yearCreation: true,
+  });
+
+  const handlerInputChange= (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    })
+    setErrors(validate({
+      ...form, 
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  /* const [ name, setName] = useState("");
+  const [emailRegister, setEmailRegister] = useState("");
+  const [passwordRegister, setPasswordRegister] = useState("");
+  const [ nameBand, setNameBand] = useState("");
+  const [ nameArtist, setnameArtist] = useState("");
+  const [ yearCreation, setyearCreation] = useState(""); */
 
 /// INFO DEL ESTADO ///
   const [userInfo, setUserInfo] = useState({
@@ -52,34 +118,34 @@ const ArtistForm = () => {
     setUserInfo(prevUserInfo => ({
       ...prevUserInfo,
       name: nombreToDB || prevUserInfo.name,
-      email: emailToDB || emailRegister || prevUserInfo.email,
-      nameBand: nameBand ||prevUserInfo.nameBand,
-      nameArtist: nameArtist || prevUserInfo.nameArtist,
-      yearCreation: yearCreation || prevUserInfo.yearCreation,
+      email: emailToDB || form.emailRegister || prevUserInfo.email,
+      nameBand: form.nameBand ||prevUserInfo.nameBand,
+      nameArtist: form.nameArtist || prevUserInfo.nameArtist,
+      yearCreation: form.yearCreation || prevUserInfo.yearCreation,
       image: null,
     }));
     
   },[user?.displayName,
       user?.email,
-      nameBand,
-      nameArtist,
-      yearCreation,
+      form.nameBand,
+      form.nameArtist,
+      form.yearCreation,
       emailToDB,
       nombreToDB,
       nameBandToDB,
-      emailRegister,
+      form.emailRegister,
       dispatch]);
 
   const clearState = () => {
     setNombreToDB("");
     setEmailToDB("");
-    setEmailRegister("");
-    setPasswordRegister("");
+    setForm.emailRegister("");
+    setForm.passwordRegister("");
     setEmail("");
     setPassword("");
-    setNameBand(""),
-    setnameArtist(""),
-    setyearCreation(""),
+    setForm.nameBand(""),
+    setForm.nameArtist(""),
+    setForm.yearCreation(""),
     setUserInfo({
       name: "",
       nameBand: "",
@@ -104,6 +170,7 @@ const ArtistForm = () => {
       image: file,
     }));
   };
+
   const handleRegister = async (e) => {
     e.preventDefault();
     if (validRegister?.length > 0) {
@@ -121,7 +188,7 @@ const ArtistForm = () => {
         image: defaultImageUrl,
       };
 
-          await auth.register(emailRegister, passwordRegister, name);
+          await auth.register(form.emailRegister, form.passwordRegister, name);
           //console.log(userInfo, " esto necesito ahora")
           dispatch(createArtist(userInfoWithImage));
           clearState(); // Limpiar el estado
@@ -142,23 +209,23 @@ const ArtistForm = () => {
       // Manejar el error aquí
     }
   };
-// console.log(userInfo, " informacion q quiero ver")
-//   console.log(bandName, " informacion de nombre de banda")
+// console.log(userInfo, " información q quiero ver")
+//   console.log(bandName, " información de nombre de banda")
 
 
   return (
-    <div className="w-full flex justify-center items-center mt-2 max-w-4xl md:mx-auto">
-      <div className="bg-white rounded-2xl shadow-lg flex w-full">
+    <div className="w-full flex justify-center items-center mt-2 max-w-4xl md:mx-auto md:mb-6">
+      <div className="bg-white rounded-2xl shadow-lg flex flex-col-reverse md:flex-row w-full justify-center mx-10 md:mx-0">
       {/* image section */}
       <section className="w-2/4">
         <img
           src={registerArtist}
           alt="Register image"
-          className="rounded-l-2xl object-cover h-full"
+          className="rounded-l-2xl hidden md:flex md:object-cover h-full"
         />
       </section>
 
-      <section className="p-4 flex flex-col justify-center items-center w-2/4 text-left">
+      <section className="p-4 flex flex-col justify-center items-center w-full md:w-2/4 text-left">
         <div className="my-4 text-base text-Color1000 flex flex-col gap-4">
           <h2 className="text-4xl font-bold text-primaryColor text-left">
             Regístrate
@@ -168,56 +235,80 @@ const ArtistForm = () => {
           </p>
         </div>
 
-        <form className="flex flex-col gap-6 w-full justify-center items-center" onSubmit={handleRegister}>
-          <input
-            placeholder='Nombre completo'
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-          />
+        <form className="flex flex-col gap-6 w-full justify-center items-center px-3" onSubmit={handleRegister}>
+          <section className="w-full">
+            <input
+              placeholder='Nombre completo'
+              type="text"
+              name='name'
+              onChange={handlerInputChange}
+              value={form.name}
+              className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+            />
+            { errors.name && (<p className='text-xs text-red-500'>{errors.name}</p>) }
+          </section>
 
-          <input
-            placeholder='Correo electrónico'
-            type="email"
-            value={emailRegister}
-            onChange={(e) => setEmailRegister(e.target.value)}
-            className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-          />
+          <section className="w-full">
+            <input
+              placeholder='Correo electrónico'
+              type="email"
+              name='emailRegister'
+              value={form.emailRegister}
+              onChange={handlerInputChange}
+              className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+            />
+            { errors.emailRegister && (<p className='text-xs text-red-500'>{errors.emailRegister}</p>) }
+          </section>
 
-          <input
-            placeholder='Contraseña'
-            type="password"
-            value={passwordRegister}
-            onChange={(e) => setPasswordRegister(e.target.value)}
-            className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-          />
+          <section className="w-full">
+            <input
+              placeholder='Contraseña'
+              type="password"
+              name='passwordRegister'
+              onChange={handlerInputChange}
+              value={form.passwordRegister}
+              className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+            />
+            { errors.passwordRegister && (<p className='text-xs text-red-500'>{errors.passwordRegister}</p>) }
+          </section>
 
+          <section className="w-full">
           <input
             placeholder='Nombre de la banda'
-            name= "nameBand"
             type="text"
-            value={nameBand}
-            onChange= {(e)=> setNameBand(e.target.value)}
-            className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+            name='nameBand'
+            onChange= {handlerInputChange}
+            value={form.nameBand}
+            className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
           />
+          { errors.nameBand && (<p className='text-xs text-red-500'>{errors.nameBand}</p>) }
+          </section>
 
-          <input
-            placeholder='Nombre de artista'
-            type="text"
-            value={nameArtist}
-            onChange={(e) => setnameArtist(e.target.value)}
-            className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-          />
+          <section className="w-full">
+            <input
+              placeholder='Nombre de artista'
+              type="text"
+              name='nameArtist'
+              onChange={handlerInputChange}
+              value={form.nameArtist}
+              className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+            />
+            { errors.nameArtist && (<p className='text-xs text-red-500'>{errors.nameArtist}</p>) }
+          </section>
 
-          <input
-            placeholder='Año de creación de tu banda'
-            type="text"
-            value={yearCreation}
-            onChange={(e) => setyearCreation(e.target.value)}
-            className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-          />
-           {/* <input
+          <section className="w-full">
+            <input
+              placeholder='Año de creación de tu banda'
+              type="text"
+              name='yearCreation'
+              onChange={handlerInputChange}
+              value={form.yearCreation}
+              className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+            />
+            { errors.yearCreation && (<p className='text-xs text-red-500'>{errors.yearCreation}</p>) }
+          </section>
+
+          {/* <input
           type="file"
           accept="image/*"
           onChange={handleImageChange}
