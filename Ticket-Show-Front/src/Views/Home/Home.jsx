@@ -363,7 +363,7 @@ const Home = () => {
           {/* Fin Title & order by events */}
 
         {/* Inicio Card section */}
-        <section className="w-auto h-full overflow-x-auto overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center md:w-full overflow-y-hidden scrollbar-hide">
+        <section className="w-full md:w-auto h-full overflow-x-scroll overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center overflow-y-hidden scrollbar-hide">
         {currentEvents.length > 0 ? (
           currentEvents?.map((cu) =>
             // Filtramos los eventos en el momento de renderizar el componente usando los filtros actuales
