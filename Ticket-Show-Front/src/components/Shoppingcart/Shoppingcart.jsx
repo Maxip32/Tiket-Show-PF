@@ -55,9 +55,11 @@ export const CartPage = () => {
   const handleAdquirirEntrada = async () => {
     try {
 
+
            //const response = await fetch("http://localhost:3001/create-order", {
              const response = await fetch(
            "https://ticketshow-n0gj.onrender.com/create-order",
+
          {
           method: "POST",
           headers: {
