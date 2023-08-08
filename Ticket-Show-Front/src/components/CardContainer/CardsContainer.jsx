@@ -12,7 +12,6 @@ const CardsContainer = () => {
         return (
           <Link key={evento.id} to={`/editEvent/${evento.id}`}>
           <Card
-            event={evento}
             key={evento.id}
             id={evento.id}
             name={evento.name}
