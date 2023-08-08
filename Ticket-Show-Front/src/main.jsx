@@ -14,7 +14,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 import axios from "axios";
    //axios.defaults.baseURL = "http://localhost:3001/";
- axios.defaults.baseURL = "https://ticketshow-n0gj.onrender.com/";
+ axios.defaults.baseURL = "https://tiket-show-pf-production.up.railway.app/";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
