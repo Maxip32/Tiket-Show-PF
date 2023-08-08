@@ -1,25 +1,23 @@
 const { User } = require('../../db');
 
- const changeUser = async (email, body = null, stars = null) => {
+const changeUser = async (email, body = null, stars = null) => {
+  const updateUser = await User.findOne({ where: { email: email } });
 
-        const updateUser = await User.findAll(email);
+  if (!updateUser) {
+    return 'Usuario no encontrado';
+  }
 
-        if(!updateUser){
-            return 'usuario no encontrado';
-        }
-    
-        if(body){
-            updateUser.body = body;
-        }
-       
-        if(stars){
-            updateUser.stars = stars;
-        }
+  if (body) {
+    updateUser.body = body;
+  }
 
-        await updateUser.save();
+  if (stars) {
+    updateUser.stars = stars;
+  }
 
-        return updateUser;
+  await updateUser.save();
 
-    } 
-    
-    module.exports = changeUser
+  return updateUser;
+};
+
+module.exports = changeUser;

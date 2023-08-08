@@ -67,13 +67,13 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       allowNull: true,
   },
-  date: {
-      type: DataTypes.STRING,
-      allowNull: true
-  },
-  stars: {
-      type: DataTypes.INTEGER,
-      allowNull: true
+    date: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    stars: {
+        type: DataTypes.INTEGER,
+        allowNull: true
   },
     role: { type: DataTypes.STRING, defaultValue: "customer" },
 
