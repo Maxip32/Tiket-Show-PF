@@ -26,7 +26,7 @@ const CreateEvent = () => {
     image: "",
     address: "",
     city: "",
-    genre: [],
+    genre: "",
   });
 
   const [errors, setErrors] = useState({
@@ -40,7 +40,7 @@ const CreateEvent = () => {
     image: "",
     address: "",
     city: "",
-    genre: [],
+    genre: "",
   });
 
    const validateForm = (eventInfo) => {
@@ -120,12 +120,12 @@ const CreateEvent = () => {
   };
   console.log(eventInfo);
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setEventInfo((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: name === "genre" ? prev.genre.concat(value) : value,
     }));
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -256,26 +256,12 @@ const CreateEvent = () => {
                 <p className="text-red-600 text-xs">{errors.end}</p> 
               </div>
               <div className="w-1/3">
-                <select
-                  value={eventInfo.genre}
-                  name={"genre"}
-                  className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-                  onChange={(event) => {
-                    if (!eventInfo.genre.includes(event.target.value)) {
-                      setEventInfo((prev) => ({
-                        ...prev,
-                        genre: [...prev.genre, event.target.value],
-                      }));
-                    } else {
-                      setEventInfo((prev) => ({
-                        ...prev,
-                        genre: prev.genre.filter(
-                          (gen) => gen !== event.target.value
-                        ),
-                      }));
-                    }
-                  }}
-                >
+              <select
+              value={eventInfo.genre}
+              name="genre"
+              className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+              onChange={handleChange}
+                  >
                   <option value="rock">Rock</option>
                   <option value="pop">Pop</option>
                   <option value="Reggae">Reggae</option>
@@ -289,7 +275,14 @@ const CreateEvent = () => {
                   <option value="whole 30">Indie</option>
                   <option value="whole 30">Alternativo</option>
                 </select>
+
+                {/* <p className="text-red-600 text-xs">{errors.genre}</p> */}
+                {eventInfo.genre.split(',').map((selectedGenre) => (
+                 <div key={selectedGenre}>{selectedGenre}</div>
+                    ))}
+
                  <p className="text-red-600 text-xs">{errors.genre}</p> 
+
               </div>
             </div>
 

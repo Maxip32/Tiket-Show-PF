@@ -37,11 +37,11 @@ export function AuthProvider({ children }) {
         setUserData(null); // Reiniciar los datos adicionales del usuario al cerrar sesión
       } else {
         setUser(currentUser);
-        loadUserData(currentUser.uid); // Cargar los datos adicionales del usuario al loguearse
+        loadUserData(currentUser.uid); // Cargar los datos adicionales del usuario al loquearse
         const userData = {
           email: currentUser.email,
           displayName: currentUser.displayName,
-         
+        
         };
 
         set(ref(database, "usuarios/" + currentUser.uid), userData)
@@ -60,7 +60,7 @@ export function AuthProvider({ children }) {
     return () => unsubscribe();
   }, []);
    // Nueva función para actualizar el nombre del usuario
-   const updateUserDisplayName = async (newDisplayName) => {
+    const updateUserDisplayName = async (newDisplayName) => {
     setError(null);
     try {
       await updateProfile(auth.currentUser, {
