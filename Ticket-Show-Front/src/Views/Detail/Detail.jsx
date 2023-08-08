@@ -36,7 +36,7 @@ const Detail = ({ image, name, price }) => {
   const [cart, setCart] = useContext(CartContext);
 
   const itemAdded = {
-    id: id,
+    id: event.id,
     name: event.name,
     quantity: 1,
     price: event.price,
@@ -101,81 +101,79 @@ const Detail = ({ image, name, price }) => {
   
 
   return (
-    <div className="flex flex-col mx-auto w-full max-w-5xl">
+    <div className=" mt-15 flex flex-col mx-auto ">
       {event ? (
         <>
-          <div className="flex flex-col md:flex-row w-full justify-between mb-10">
-            <div className="flex items-center md:items-start flex-col gap-4">
-              <p className="text-4xl text-primaryColor font-bold">
-                {event.name}
-              </p>
-              <img
-                className="w-80 h-72 rounded-xl"
-                src={event.image}
-                alt="foto del artista"
-              />
-            </div>
-            <div className="flex flex-col items-center md:items-start text-center px-4 gap-4 mx-8">
-              <span className="text-3xl text-DarkTextPurple font-semibold mb-4 mt-10 md:mt-0">
-                Información general
-              </span>
-              <p className="flex items-center gap-2">
-                <MdMap size="20" color="#ed4690" /> Ciudad: {event.city}
-              </p>
-              <p className="flex items-center gap-2">
-                <MdLocationOn size="20" color="#ed4690" /> Lugar:{" "}
-                {event.address}
-              </p>
-              <p className="flex items-center gap-2">
-                <MdDateRange size="20" color="#ed4690" /> Fecha: {event.date}
-              </p>
-              <p className="flex items-center gap-2">
-                <MdWatch size="20" color="#ed4690" /> Hora: {event.start}
-              </p>
-              <p className="flex items-center gap-2">
-                <MdMusicVideo size="20" color="#ed4690" /> Genero Musical:{" "}
-                {event.genre}
-              </p>
-              <p className="flex items-center gap-2">
-                <BsTicketPerforated size="20" color="#ed4690" /> Tickets
-                disponibles: {stockFromCart}
-              </p>
-              <p className="flex items-center gap-2">
-                <BsCurrencyDollar size="20" color="#ed4690" /> Precio: $
-                {event.price}
-              </p>
-            </div>
-
-            <div className="flex flex-col items-center justify-center mx-auto gap-4 w-48 mt-8 md:mt-0">
-              <span className="flex items-center text-xl text-DarkTextPurple"> Tickets a comprar: {quantityPerItem}</span>
-              <div>
-                <button 
-                  onClick={() => addToCart()}
-                  className="py-1 px-5 mx-2 rounded-md bg-primaryColor/90 hover:bg-DarkTextPurple border hover:border-secondaryColor transition duration-500 ease-in-out transform shadow-md"
-                >
-                  <LiaCartPlusSolid size={26} color="#F0F0FF" />
-                </button>
-                <button 
-                  onClick={() => removeItem(id)}
-                  className="py-1 px-5 mx-2 rounded-md bg-primaryColor/90 hover:bg-DarkTextPurple border hover:border-secondaryColor transition duration-500 ease-in-out transform shadow-md"
-                >
-                  <LiaCartArrowDownSolid size={26} color="#F0F0FF" />
-                </button>
+          <div className="bg-primaryColor/80 w-full shadow-lg p-4">
+            <div className="flex items-start flex-col sm:flex-row">
+              <div className="w-60 max-h-fit bg-primaryColor mb-4 sm:mb-0 sm:mr-4">
+                <img src={event.image} alt="foto del artista" />
               </div>
-              <NavLink to="/cart">
-                <button
-                  className="py-2 px-3 w-40 rounded-md bg-secondaryColor/90 text-White hover:text-black hover:bg-white border hover:border-primaryColor transition duration-500 ease-in-out transform shadow-md"
-                > Ir a pagar
-                </button>
-              </NavLink>
+              <div>
+                <h2 className="text-5xl text-white font-bold">{event.name}</h2>
+                <div className="text-3xl text-white font-bold">
+                  <h2>{event.city}</h2>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="mx-auto text-black bg-white shadow-lg p-4 rounded-2xl mb-10">
-            <span>{event.description}</span>
+          <div
+            className=" mx-auto text-xl px-10 py-10 text-black  bg-white max-h-90 
+          shadow-lg p-4 overflow-y-auto  "
+          >
+            <h2
+              style={{
+                whiteSpace: "pre-line",
+                textAlign: "justify",
+                width: "100rem",
+              }}
+            >
+              {event.description}
+            </h2>
           </div>
+          <div className="mx-auto items-center bg-primaryColor border-white h-40 m-5 max-w-4xl min-w-0 flex justify-center">
+            <div className=" flex- text-4xl  h-40 text-white font-bold p-5 first:bg-secondaryColor">
+              <h2 className="mt-5">{/* {formattedMonth} */}</h2>
+              <h2 className="items-center justify-center flex ">{/* {day} */}</h2>
+            </div>
+            <div className="pl-8 flex-1 text-3xl text-white">
+              <h2>-{event.start}hs</h2>
+              <h2 className="font-bold">{event.address}</h2>
+            </div>
+            <div className="pl-8 flex-1 text-3xl text-white">
+              <h1>Precio ${event.price}</h1>
+            </div>
+            <div className="pl-8 flex-1 text-3xl text-white">
+            
+                    <dt className="inline">Entradas disponibles </dt>
+                    <dd className="inline">{stockFromCart}</dd>
+                    </div>
+          </div>
+        <div className="flex items-center gap-2 h-2/4">
+        {user && (
+          <>
+            {quantityPerItem > 0 && <div>Total: {quantityPerItem}</div>}
+            {quantityPerItem === 0 ? (
+              <button onClick={() => addToCart()}>
+                <LiaCartPlusSolid size={26} color="#ed4690" />
+              </button>
+            ) : (
+              <button onClick={() => addToCart()}>
+                <LiaCartPlusSolid size={26} color="#ed4690"/>
+              </button>
+            )}
+            {/* <span>Total: </span> */}
+            {quantityPerItem > 0 && (
+              <button onClick={() => removeItem(id)}>
+                <LiaCartArrowDownSolid size={26} color="#5522CC"/>
+              </button>
+            )}
+          </>
+        )}
+      </div>
         </>
       ) : (
-        <Loading />
+        <Loading/>
       )}
     </div>
   );
@@ -183,50 +181,3 @@ const Detail = ({ image, name, price }) => {
 
 export default Detail;
 
-// Lógica para el carrito que aparase y desaparece anterior
-            {/* <div className="flex flex-col items-center justify-center mx-8">
-              {user && (
-                <>
-                  <div className="flex items-center">Total de tickets: {quantityPerItem}</div>
-                  <div>
-                    {quantityPerItem === 0 ? (
-                      <button 
-                        className=""
-                        onClick={() => addToCart()}
-                      >
-                        <LiaCartPlusSolid size={26} color="#ed4690" />
-                      </button>
-                    ) : (
-                      <button onClick={() => addToCart()}>
-                        <LiaCartPlusSolid size={26} color="#ed4690" />
-                      </button>
-                    )}
-                    {quantityPerItem > 0 && (
-                      <button onClick={() => removeItem(id)}>
-                        <LiaCartArrowDownSolid size={26} color="#5522CC" />
-                      </button>
-                    )}
-                  </div>
-                </>
-              )}
-            </div> */}
-
-  //tarjeta anterior del precio, hecho por juan
-  {/* <div className="mx-auto items-center bg-primaryColor border-white h-40 m-5 max-w-4xl min-w-0 flex justify-center">
-            <div className=" flex- text-4xl  h-40 text-white font-bold p-5 first:bg-secondaryColor">
-              <h2 className="items-center justify-center flex ">
-                
-              </h2>
-            </div>
-            <div className="pl-8 flex-1 text-3xl text-white">
-              <h2>-{event.start}hs</h2>
-              <h2 className="font-bold"></h2>
-            </div>
-            <div className="pl-8 flex-1 text-3xl text-white">
-              <h1>Precio ${event.price}</h1>
-            </div>
-            <div className="pl-8 flex-1 text-3xl text-white">
-              <dt className="inline">Entradas disponibles </dt>
-              <dd className="inline">{stockFromCart}</dd>
-            </div>
-          </div> */}
