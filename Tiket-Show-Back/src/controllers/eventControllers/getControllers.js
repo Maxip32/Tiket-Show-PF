@@ -20,7 +20,7 @@ const getEvents = async (req, res = response) => {
 
     return res.status(200).json(events);
   } catch (error) {
-    console.log(error);
+    
     res.status(500).json({
       msg: "Por favor hable con el administrador",
     });
@@ -43,7 +43,7 @@ const getEvent = async (req, res = response) => {
       event,
     });
   } catch (error) {
-    console.log(error);
+    
     res.status(500).json({
       msg: "Por favor hable con el administrador",
     });
@@ -121,6 +121,7 @@ const createEvent = async (req, res) => {
   } = req.body;
 
 
+  
     try {
         let eventExis = await Event.findOne({
             where: { name },
@@ -190,8 +191,9 @@ const createEvent = async (req, res) => {
         });
     }
 
+  }
 
-  const deleteEvent = async (req, res = response) => {
+const deleteEvent = async (req, res = response) => {
   const { id } = req.params;
   const { disabled } = req.body;
 
