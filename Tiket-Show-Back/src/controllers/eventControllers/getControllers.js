@@ -101,80 +101,6 @@ const getEventByName = async (req, res) => {
   }
 };
 
-// const createEvent = async (req, res) => {
-//     const {
-//         name,
-//         description,
-//         date,
-//         start,
-//         end,
-//         price,
-//         quotas,
-//         artistName,
-//         genres,
-//         image,
-//         city,
-//         address,
-//     } = req.body;
-
-//     try {
-//         let eventExis = await Event.findOne({
-//             where: { name, state: true },
-//         });
-
-//         if (eventExis) {
-//             return res.status(400).json({
-//                 msg: 'El evento ya existe con ese nombre',
-//             });
-//         }
-
-//         const artist = await Artist.findOne({
-//             where:  artistName ,
-//         });
-
-//         const genresDb = await Genre.findAll({
-//             where: { name: genres },
-//         });
-
-//         if (genresDb === null || genresDb.length === 0) {
-//             return res.status(400).json({
-//                 msg: 'El genero no existe',
-//             });
-//         }
-
-//         if (!artist) {
-//             return res.status(404).json({
-//                 msg: 'No se encontro artista con ese nombre',
-//             });
-//         }
-
-//         const event = await Event.create({
-//             name,
-//             description,
-//             date,
-//             start,
-//             end,
-//             price,
-//             quotas,
-//             image,
-//             address,
-//             city,
-//         });
-//          await event.addArtist(artist);
-//          await event.addGenre(genresDb);
-
-//         res.status(201).json({
-//             msg: 'Evento creado',
-//             event,
-//         });
-
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({
-//             msg: 'Por favor hable con el administrador',
-//         });
-//     }
-// };
 
 const createEvent = async (req, res) => {
 
@@ -240,6 +166,7 @@ const createEvent = async (req, res) => {
             end,
             price,
             quotas,
+            genre,
             image,
             address,
             city,
