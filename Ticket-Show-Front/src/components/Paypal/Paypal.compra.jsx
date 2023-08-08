@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 //import { sendMail } from "../../redux/actions";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";

@@ -26,7 +26,7 @@ const CreateEvent = () => {
     image: "",
     address: "",
     city: "",
-    genre: [],
+    genre: "",
   });
 
   const [errors, setErrors] = useState({
@@ -40,75 +40,75 @@ const CreateEvent = () => {
     image: "",
     address: "",
     city: "",
-    genre: [],
+    genre: "",
   });
 
-  // const validateForm = (eventInfo) => {
-  //   let errors = {};
+   const validateForm = (eventInfo) => {
+     let errors = {};
 
-  //   if (!eventInfo.name || !eventInfo.name.trim()) {
-  //     errors.name = 'El campo "Nombre del Evento" es obligatorio.';
-  //   } else {
-  //     const trimmedName = eventInfo.name.trim();
+     if (!eventInfo.name || !eventInfo.name.trim()) {
+       errors.name = 'El campo "Nombre del Evento" es obligatorio.';
+     } else {
+       const trimmedName = eventInfo.name.trim();
 
-  //     if (/\d/.test(trimmedName)) {
-  //       errors.name = 'El campo "Nombre del Evento" no puede contener números.';
-  //     }
+       if (/\d/.test(trimmedName)) {
+         errors.name = 'El campo "Nombre del Evento" no puede contener números.';
+       }
 
-  //     if (trimmedName.length > 60) {
-  //       errors.name =
-  //         'El campo "Nombre del Evento" puede tener más de 60 caracteres.';
-  //     }
-  //   }
+       if (trimmedName.length > 60) {
+         errors.name =
+           'El campo "Nombre del Evento" puede tener más de 60 caracteres.';
+       }
+     }
 
-  //   if (!eventInfo.description) {
-  //     errors.description = "Este campo es obligatorio";
-  //   }
+     if (!eventInfo.description) {
+       errors.description = "Este campo es obligatorio";
+     }
 
-  //   if (!eventInfo.date) {
-  //     errors.date = "Este campo es obligatorio.";
-  //   }
+     if (!eventInfo.date) {
+       errors.date = "Este campo es obligatorio.";
+     }
 
-  //   if (!eventInfo.start) {
-  //     errors.start = "Este campo  es obligatorio";
-  //   }
+     if (!eventInfo.start) {
+       errors.start = "Este campo  es obligatorio";
+     }
 
-  //   if (!eventInfo.end) {
-  //     errors.end = "Este campo  es obligatorio";
-  //   }
+     if (!eventInfo.end) {
+       errors.end = "Este campo  es obligatorio";
+     }
 
-  //   if (typeof eventInfo.price !== "number") {
-  //     errors.price = 'El campo "Precio" debe ser un número.';
-  //   }
+     if (!eventInfo.price) {
+       errors.price = 'El campo "Precio" debe ser un número.';
+     }
 
-  //   if (!eventInfo.quotas || !eventInfo.quotas.trim()) {
-  //     errors.quotas = "Este campo  es obligatorio";
-  //   } else {
-  //     if (typeof eventInfo.quotas !== "number") {
-  //       errors.quotas = "Solo puede ingresar un número.";
-  //     } else if (eventInfo.quotas < 1 || eventInfo.quotas > 100) {
-  //       errors.quotas = "Debe ser un número entre 1 y 100.";
-  //     }
-  //   }
+     if (!eventInfo.quotas || !eventInfo.quotas.trim()) {
+       errors.quotas = "Este campo  es obligatorio";
+    //  } else {
+    //    if (typeof eventInfo.quotas !== "number") {
+    //      errors.quotas = "Solo puede ingresar un número.";
+    //    } else if (eventInfo.quotas < 1 || eventInfo.quotas > 100) {
+    //      errors.quotas = "Debe ser un número entre 1 y 100.";
+    //    }
+     }
 
-  //   if (!eventInfo.image) {
-  //     errors.image = "Este campo  es obligatorio";
-  //   }
+     if (!eventInfo.image) {
+       errors.image = "Este campo  es obligatorio";
+     }
 
-  //   if (!eventInfo.address) {
-  //     errors.address = "Eeste campo  es obligatorio";
-  //   }
+     if (!eventInfo.address) {
+       errors.address = "Eeste campo  es obligatorio";
+     }
 
-  //   if (!eventInfo.city) {
-  //     errors.city = "Eeste campo  es obligatorio";
-  //   }
+     if (!eventInfo.city) {
+       errors.city = "Eeste campo  es obligatorio";
+     }
 
-  //   if (!eventInfo.genre) {
-  //     errors.city = "Eeste campo  es obligatorio";
-  //   }
+     if (!eventInfo.genre) {
+       errors.city = "Eeste campo  es obligatorio";
+     }
 
-  //   return errors;
-  // };
+     return errors;
+   };
 
   const handleUploadImage = async (e) => {
     const file = await uploadImage(e);
@@ -120,31 +120,34 @@ const CreateEvent = () => {
   };
   console.log(eventInfo);
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setEventInfo((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: name === "genre" ? prev.genre.concat(value) : value,
     }));
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const validationErrors = validateForm(eventInfo);
-    // setErrors(validationErrors);
-    //if (Object.keys(validationErrors).length === 0) {
-    try {
-      dispatch(createEvent(eventInfo));
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Evento Creado Exitosamente!",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-      navigate("/");
-    } catch (error) {
-      console.error("No se pudo crear el evento:", error);
+    
+    const validationErrors = validateForm(eventInfo);
+    setErrors(validationErrors);
+    
+    if (Object.keys(validationErrors).length === 0) {
+      try {
+        dispatch(createEvent(eventInfo));
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Evento Creado Exitosamente!",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        navigate("/");
+      } catch (error) {
+        console.error("No se pudo crear el evento:", error);
+      }
     }
-  };
+  }
   if (!user) {
     // Si el usuario no está autenticado, mostrar un mensaje o redireccionar a la página de inicio de sesión.
 
@@ -191,7 +194,7 @@ const CreateEvent = () => {
               name={"name"}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-            {/* <p className=" text-red-600 text-xs">{errors.name}</p> */}
+             <p className=" text-red-600 text-xs">{errors.name}</p> 
 
             <input
               placeholder="Información del evento"
@@ -201,7 +204,7 @@ const CreateEvent = () => {
               name={"description"}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-            {/* <p className="text-red-600 text-xs">{errors.description}</p> */}
+             <p className="text-red-600 text-xs">{errors.description}</p> 
 
             <input
               placeholder="Fecha del Evento"
@@ -211,7 +214,7 @@ const CreateEvent = () => {
               onChange={handleChange}
               className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
             />
-            {/* <p className="text-red-600 text-xs">{errors.date}</p> */}
+             <p className="text-red-600 text-xs">{errors.date}</p> 
 
             <div className="relative">
               <label
@@ -239,7 +242,7 @@ const CreateEvent = () => {
                   value={eventInfo.start}
                   className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
                 />
-                {/* <p className="text-red-600 text-xs">{errors.start}</p> */}
+                 <p className="text-red-600 text-xs">{errors.start}</p> 
               </div>
               <div className="w-full md:w-1/3">
                 <input
@@ -250,29 +253,15 @@ const CreateEvent = () => {
                   name={"end"}
                   className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
                 />
-                {/* <p className="text-red-600 text-xs">{errors.end}</p> */}
+                <p className="text-red-600 text-xs">{errors.end}</p> 
               </div>
               <div className="w-1/3">
-                <select
-                  value={eventInfo.genre}
-                  name={"genre"}
-                  className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-                  onChange={(event) => {
-                    if (!eventInfo.genre.includes(event.target.value)) {
-                      setEventInfo((prev) => ({
-                        ...prev,
-                        genre: [...prev.genre, event.target.value],
-                      }));
-                    } else {
-                      setEventInfo((prev) => ({
-                        ...prev,
-                        genre: prev.genre.filter(
-                          (gen) => gen !== event.target.value
-                        ),
-                      }));
-                    }
-                  }}
-                >
+              <select
+              value={eventInfo.genre}
+              name="genre"
+              className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+              onChange={handleChange}
+                  >
                   <option value="rock">Rock</option>
                   <option value="pop">Pop</option>
                   <option value="Reggae">Reggae</option>
@@ -286,7 +275,14 @@ const CreateEvent = () => {
                   <option value="whole 30">Indie</option>
                   <option value="whole 30">Alternativo</option>
                 </select>
+
                 {/* <p className="text-red-600 text-xs">{errors.genre}</p> */}
+                {eventInfo.genre.split(',').map((selectedGenre) => (
+                 <div key={selectedGenre}>{selectedGenre}</div>
+                    ))}
+
+                 <p className="text-red-600 text-xs">{errors.genre}</p> 
+
               </div>
             </div>
 
@@ -300,7 +296,7 @@ const CreateEvent = () => {
                   name={"price"}
                   className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
                 />
-                {/* <p className="text-red-600 text-xs">{errors.price}</p> */}
+                 <p className="text-red-600 text-xs">{errors.price}</p> 
               </div>
               <div className="w-1/2">
                 <input
@@ -311,13 +307,13 @@ const CreateEvent = () => {
                   name={"quotas"}
                   className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
                 />
-                {/* <p className="text-red-600 text-xs">{errors.quotas}</p> */}
+             <p className="text-red-600 text-xs">{errors.quotas}</p> 
               </div>
             </div>
 
             <div className="flex space-x-4">
               <div className="w-1/2">
-                {/* <p className="text-red-600 text-xs">{errors.quotas}</p> */}
+               <p className="text-red-600 text-xs">{errors.quotas}</p> 
                 <input
                   placeholder="Dirección de Lugar"
                   onChange={handleChange}
@@ -326,7 +322,7 @@ const CreateEvent = () => {
                   name={"address"}
                   className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
                 />
-                {/* <p className="text-red-600 text-xs">{errors.address}</p> */}
+               <p className="text-red-600 text-xs">{errors.address}</p> 
               </div>
               <div className="w-1/2">
                 <input
@@ -337,7 +333,7 @@ const CreateEvent = () => {
                   name={"city"}
                   className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
                 />
-                {/* <p className="text-red-600 text-xs">{errors.city}</p> */}
+                <p className="text-red-600 text-xs">{errors.city}</p> 
               </div>
             </div>
 
