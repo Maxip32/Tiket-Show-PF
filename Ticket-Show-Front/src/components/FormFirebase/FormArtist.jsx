@@ -22,8 +22,8 @@ const validate = (form) =>{
   }
   if (!form.passwordRegister) {
     errors.passwordRegister = 'Debes colocar una contraseña'
-  } else if (!/^(?=.*\d)(?=.*[!@#$%^&*])(.{7,})$/.test(form.passwordRegister)) {
-    errors.passwordRegister = 'Debe tener un Numero, un Símbolo y ser mayor de 6 caracteres';
+  } else if (!/^(?=.*\d)(?=.*[a-zA-Z])(.{7,})$/.test(form.passwordRegister)) {
+    errors.passwordRegister = 'Debe tener un Numero, una letra y ser mayor de 6 caracteres';
   }
   if (!form.nameBand) {
     errors.nameBand = 'Debes colocar el nombre de tu banda'
@@ -37,8 +37,6 @@ const validate = (form) =>{
   }
   if (!form.yearCreation) {
     errors.yearCreation = 'Debes colocar tu nombre de artista'
-  } else if (!/^[a-zA-Z\s]+$/.test(form.yearCreation)) {
-    errors.yearCreation = 'El nombre solo puede tener letras y espacios';
   }
   return errors;
 }

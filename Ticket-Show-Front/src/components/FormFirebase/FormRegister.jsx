@@ -30,9 +30,9 @@ const validate = (form) => {
   }
   if (!form.passwordRegister) {
     errors.passwordRegister = "Debes colocar una contraseña";
-  } else if (!/^(?=.*\d)(?=.*[!@#$%^&*])(.{7,})$/.test(form.passwordRegister)) {
+  } else if (!/^(?=.*\d)(?=.*[a-zA-Z])(.{7,})$/.test(form.passwordRegister)) {
     errors.passwordRegister =
-      "Debe tener un Numero, un Símbolo y ser mayor de 6 caracteres";
+      "Debe tener un Numero, una letra y ser mayor de 6 caracteres";
   }
   return errors;
 };
@@ -167,7 +167,7 @@ const FormFirebase = () => {
       };
 
       // Crear el usuario en Firebase (asumiendo que esto funciona correctamente)
-      await auth.register(form.emailRegister, form.passwordRegister, name);
+      await auth.register(form.emailRegister, form.passwordRegister, form.name);
       dispatch(createUser(userInfoWithImage));
       clearState();
 

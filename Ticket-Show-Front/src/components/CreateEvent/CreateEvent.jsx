@@ -158,10 +158,10 @@ const CreateEvent = () => {
     navigate("/");
   }
   return (
-    <div className="w-full flex justify-center items-center mt-10">
-      <div className="bg-white rounded-2xl shadow-lg flex flex-col md:flex-row w-full md:w-4/6">
+    <div className="w-full flex justify-center items-center mt-4 mb-6 max-w-4xl mx-auto">
+      <div className="bg-white rounded-2xl shadow-lg flex flex-col-reverse md:flex-row w-full">
         {/* image section */}
-        <section className="md:w-2/4">
+        <section className="md:w-2/5">
           <img
             src={registerPublic}
             alt="Register image"
@@ -169,13 +169,13 @@ const CreateEvent = () => {
           />
         </section>
 
-        <section className="p-2 flex flex-col justify-center items-center md:w-2/4 text-center md:text-left">
+        <section className="p-2 flex flex-col justify-center items-center md:w-3/5 text-center md:text-left">
           <div className="my-4 text-base text-Color1000 flex flex-col gap-4">
             <h2 className="text-3xl font-bold text-primaryColor">
-              Regístra tu Evento
+              Registra tu Evento
             </h2>
             <p className="text-base text-Color1000">
-              Deja los detalles de tu evento y publícalo en el Inicio.
+              Deja los detalles de tu evento y publicado en la aplicación.
             </p>
           </div>
 
@@ -194,7 +194,7 @@ const CreateEvent = () => {
             {/* <p className=" text-red-600 text-xs">{errors.name}</p> */}
 
             <input
-              placeholder="Informacion del evento. ej: Estilos o quienes va dirigido "
+              placeholder="Información del evento"
               onChange={handleChange}
               type="text"
               value={eventInfo.description}
@@ -243,7 +243,7 @@ const CreateEvent = () => {
               </div>
               <div className="w-full md:w-1/3">
                 <input
-                  placeholder="Horario de Finalizacion"
+                  placeholder="Horario de Finalización"
                   onChange={handleChange}
                   type="time"
                   value={eventInfo.end}
@@ -319,7 +319,7 @@ const CreateEvent = () => {
               <div className="w-1/2">
                 {/* <p className="text-red-600 text-xs">{errors.quotas}</p> */}
                 <input
-                  placeholder="Direccion de Lugar"
+                  placeholder="Dirección de Lugar"
                   onChange={handleChange}
                   type="text"
                   value={eventInfo.address}
@@ -341,6 +341,7 @@ const CreateEvent = () => {
               </div>
             </div>
 
+            <p className="text-base text-red-400 px-10 text-center">El costo de la publicación de tu evento tendrá un costo del 20% del total de la venta de cada entrada</p>
             <button
               type="submit"
               className="w-full md:w-3/4 bg-primaryColor text-Color200 hover:bg-Color200 hover:text-primaryColor 

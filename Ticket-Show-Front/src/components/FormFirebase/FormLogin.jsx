@@ -16,9 +16,9 @@ const validate = (form) => {
   }
   if (!form.password) {
     errors.password = "Debes colocar una contraseña";
-  } else if (!/^(?=.*\d)(?=.*[!@#$%^&*])(.{7,})$/.test(form.password)) {
+  } else if (!/^(?=.*\d)(?=.*[a-zA-Z])(.{7,})$/.test(form.password)) {
     errors.password =
-      "Debe tener un Numero, un Símbolo y ser mayor de 6 caracteres";
+      "Debe tener un Numero, una letra y ser mayor de 6 caracteres";
   }
   return errors;
 };
