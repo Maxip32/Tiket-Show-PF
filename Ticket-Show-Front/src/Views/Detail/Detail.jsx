@@ -36,7 +36,7 @@ const Detail = ({ image, name, price }) => {
   const [cart, setCart] = useContext(CartContext);
 
   const itemAdded = {
-    id: event.id,
+    id: id,
     name: event.name,
     quantity: 1,
     price: event.price,
