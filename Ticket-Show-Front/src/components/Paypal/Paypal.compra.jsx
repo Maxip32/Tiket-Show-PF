@@ -2,10 +2,11 @@
 
 import {useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { postComment } from "../../redux/actions";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 
 const CompraPaypal = () => {
@@ -36,7 +37,14 @@ const CompraPaypal = () => {
     axios.post(`/comment/postComments`, payload)
       .then((response) => {
         // Hacer algo con la respuesta si es necesario
-        alert('reviews successfully')
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: " ¡Valoramos tu opinion, muchas gracias!",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+          Navigate("/");
       })
       .catch((err) => {
         // Manejar el error si ocurre
