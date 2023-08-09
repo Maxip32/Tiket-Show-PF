@@ -42,7 +42,7 @@ const Reviews = () => {
   const cards = [
     "HOLA",
     "KennyGi",
-    "maxi",
+    "Maxi",
     "Darwin",
     "Juan",
     "Daniel",
