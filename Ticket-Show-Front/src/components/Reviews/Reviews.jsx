@@ -70,11 +70,6 @@ const Reviews = () => {
             <div className="relative items-center w-full py-4 mx-auto px-4 max-w-7xl ">
               <div className="grid grid-cols-1">
                 <div className="w-full max-w-lg mx-auto my-4 bg-white shadow-xl rounded-xl h-72">
-                  {/* <img
-                    alt="team"
-                    className="flex-shrink-0 object-cover object-center w-16 h-16 mx-auto -mt-8 rounded-full shadow-xl"
-                    src="https://storage.googleapis.com/indie-hackers.appspot.com/avatars/300x300_DUFTlhOdmSdoT9F4r1Woo40pyML2.webp"
-                  /> */}
                   <div className="p-6 lg:text-center">
                     <div className="mb-4 text-xs font-semibold tracking-widest text-blue-600 uppercase">
                       {Array.from({ length: element.stars }, (_, index) => (

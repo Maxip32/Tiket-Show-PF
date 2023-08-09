@@ -2,7 +2,7 @@ const { User, Artist } = require('../../db');
 
 const stateUser = async (req, res) => {
     const { email } = req.params;
-    const { role, disabled } = req.body;
+    const { role, disabled, admin } = req.body;
 
     try {
         const user = await User.findOne({
@@ -28,6 +28,9 @@ const stateUser = async (req, res) => {
             if (disabled !== undefined) {
                 await user.update({ disabled });
             }
+            if (admin !== undefined) {
+                await user.update({ admin });
+            }
         }
 
         if (artist) {
@@ -38,6 +41,9 @@ const stateUser = async (req, res) => {
             }
             if (disabled !== undefined) {
                 await artist.update({ disabled });
+            }
+            if (admin !== undefined) {
+                await artist.update({ admin });
             }
         }
 
