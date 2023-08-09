@@ -118,8 +118,8 @@ const FormFirebase = () => {
   const clearState = () => {
     setNombreToDB("");
     setEmailToDB("");
-    setForm.emailRegister("");
-    setForm.passwordRegister("");
+/*     setForm.emailRegister("");
+    setForm.passwordRegister(""); */
     setEmail("");
     setPassword("");
     setUserInfo({
