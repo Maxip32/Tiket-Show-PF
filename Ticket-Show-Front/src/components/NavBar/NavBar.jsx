@@ -75,7 +75,7 @@ const NavBar = () => {
             Acerca de
           </NavLink>
         </li>
-        <li className="ml-4">
+        {/* <li className="ml-4">
           <NavLink
             to="/approved"
             onClick={closeDropdown}
@@ -83,7 +83,7 @@ const NavBar = () => {
           >
             Calificanos
           </NavLink>
-        </li>
+        </li> */}
 
         {/* //- Botón de carrito (solo se muestra si el usuario está autenticado) */}
         {/* Enlace del carrito */}
