@@ -1,3 +1,4 @@
+
 /* eslint-disable no-unused-vars */
 
 import {useState } from "react";
@@ -85,10 +86,8 @@ export default CompraPaypal;
 
 
 
-
-
-
 /* import { sendMail } from "../../redux/actions";
+
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { NavLink } from "react-router-dom";

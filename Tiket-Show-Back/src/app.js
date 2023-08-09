@@ -32,7 +32,7 @@ server.use(morgan("dev"));
 server.use((req, res, next) => {
 
 /*  comentate esta de abajo */
-  //res.header('Access-Control-Allow-Origin', 'https://tiket-show-pf.vercel.app/'); // update to match the domain you will make the request from
+  res.header('Access-Control-Allow-Origin', 'https://tiket-show-pf.vercel.app/'); // update to match the domain you will make the request from
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
@@ -54,7 +54,7 @@ server.use("/date", dateRouter);
 server.use("/user", userRouter);
 server.use("/send", nodemailerRouter);
 server.use('/comment', commentsRouter)
-server.use(paymentRoutes);
+server.use('/payment', paymentRoutes);
 server.use(
   express.static(path.resolve(__dirname, "Ticket-Show-Front/src/Views/Detail"))
 );
