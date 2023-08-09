@@ -421,3 +421,37 @@ export const updateQuotas = (id) => {
     })
   }
 }
+
+//comentarios
+export const POST_USER_COMMENT = "POST_USER_COMMENT";
+
+export function postComment() {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(`/comment/postComments`);
+
+      // Aquí dispatch la acción que actualiza el estado en Redux
+      dispatch({
+        type: POST_USER_COMMENT,
+        payload: response.data, // Actualiza el estado con los datos de la respuesta
+      });
+
+      return response;
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
+export const GET_COMMENT = "GET_COMMENT";
+
+export function getComment() {
+  return async function (dispatch) {
+      const response = await axios.get(`/comment/getComments/`);
+      const comentario = response.data
+      return dispatch({
+        type: GET_COMMENT,
+        payload: comentario, // Actualiza el estado con los datos de la respuesta
+      });
+    }
+  }

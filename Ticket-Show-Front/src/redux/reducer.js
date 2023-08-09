@@ -40,7 +40,9 @@ import {
   DELETE_EVENT_FAILURE,
   RESTORE_EVENT_SUCCESS,
   RESTORE_EVENT_FAILURE, 
-  UPDATE_QUOTAS
+  UPDATE_QUOTAS,
+  POST_USER_COMMENT,
+  GET_COMMENT
 
 } from "../redux/actions";
 
@@ -66,7 +68,8 @@ const initialState = {
   user: null,
   loading: true,
   error: null,
-  quotas: []
+  quotas: [],
+  comment: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -406,6 +409,16 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         cancelOrderData: action.payload,
+      };
+    case POST_USER_COMMENT:
+      return {
+        ...state,
+        comment: action.payload // Actualiza tu estado con los datos de la acción
+      };
+    case GET_COMMENT:
+      return {
+        ...state,
+        comment: action.payload // Actualiza tu estado con los datos de la acción
       };
     default:
       return state;
