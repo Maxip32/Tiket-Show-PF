@@ -8,17 +8,25 @@ module.exports = (sequelize) => {
             primaryKey: true,
             allowNull: false,
         },
+        email: {
+            type: DataTypes.TEXT,
+            allowNull: true,
+        },
         body: {
             type: DataTypes.TEXT,
             allowNull: true,
+        },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: true
         },
         date: {
             type: DataTypes.STRING,
             allowNull: true
         },
-        parent: {
-            type: DataTypes.INTEGER,
-            defaultValue: 1,
+        disabled: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
         },
         enabled: {
             type: DataTypes.BOOLEAN,

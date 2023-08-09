@@ -50,7 +50,7 @@ Artist.belongsToMany(Event, { through: "events_artists" });
 Artist.belongsToMany(Genre, { through: "artist_genres" });
 Genre.belongsToMany(Artist, { through: "artist_genres" });
 User.belongsToMany(Comment, { through: "comment_user" });
-Comment.belongsToMany(User, { through: "comment_user" });
+//Comment.hasMany(User, {as: "comentario", foreignKey: "user_comment" });
 Place.belongsToMany(User, { through: "place_user", as: "places" });
 User.hasMany(Place, { as: "places", foreignKey: "userId" });
 

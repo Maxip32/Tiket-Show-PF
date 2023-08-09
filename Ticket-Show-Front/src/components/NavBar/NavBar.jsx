@@ -5,11 +5,10 @@ import logoTicketShow from "../../assets/logos/logoTicketShow.svg";
 import { useAuth } from "../../context/AuthContext"; // Importa el useAuth del contexto
 import { CartContext } from "../Shoppingcart/shoppingCartContext";
 import { useSelector } from "react-redux";
-import CreateEvent from "../CreateEvent/CreateEvent";
+//import CreateEvent from "../CreateEvent/CreateEvent";
 import { LiaShoppingCartSolid, LiaUserSolid } from "react-icons/lia";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-//import {getUserById } from '../../redux/actions';
-//import { useDispatch } from 'react-redux';
+
 
 const NavBar = () => {
   //const dispatch = useDispatch();
@@ -22,8 +21,6 @@ const NavBar = () => {
   const usersFinder = users?.length
     ? users?.find((rol) => rol.email === user?.email)
     : null;
-  console.log(usersFinder, "aquí user Roles");
-  //console.log(Roles, " roles de usuarios y artistas")
   const activeStyle = "underline-offset-5 border-b-2 border-secondaryColor";
 
   const toggleDropdown = () => {
@@ -80,11 +77,11 @@ const NavBar = () => {
         </li>
         <li className="ml-4">
           <NavLink
-            to="/contact"
+            to="/approved"
             onClick={closeDropdown}
             className={({ isActive }) => (isActive ? activeStyle : "")}
           >
-            Contáctenos
+            Calificanos
           </NavLink>
         </li>
 
@@ -210,8 +207,9 @@ const NavBar = () => {
                         >
                           Crear Evento
                         </NavLink>
-                      ) : null}
-                      {usersFinder?.role === "admin" ? (
+                      ) : null
+                      }
+                      {usersFinder?.role === "customer" ? (
                         <NavLink
                           to="/PanelAdmin"
                           className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
@@ -248,63 +246,6 @@ const NavBar = () => {
                 Ingresa
               </button>
             </NavLink>
-          </li>
-        )}
-
-        {/* //- Si el usuario está autenticado, muestra el botón desplegable */}
-        {user && (
-          <li className="relative mt-8">
-            {/* //-Menu desplegable Usuario autenticado -------- */}
-            {isDropdownOpen && (
-              <div
-                className="absolute end-0 z-10 mt-2 w-36 divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg"
-                role="menu"
-              >
-                <div className="p-2">
-                  <NavLink
-                    to="/profile"
-                    className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
-                    role="menuitem"
-                    onClick={closeDropdown}
-                  >
-                    Perfil
-                  </NavLink>
-                  {
-                  usersFinder?.role === 'artista'?
-                  <NavLink
-                    to="/createEvent"
-                    className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
-                    role="menuitem"
-                    onClick={closeDropdown}
-                  >
-                    Crear Evento
-                  </NavLink> : null
-                  } 
-                  {
-                  usersFinder?.role === 'customer'?
-                  <NavLink
-                    to="/PanelAdmin"
-                    className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
-                    role="menuitem"
-                    onClick={closeDropdown}
-                  >
-                    Panel admin
-                  </NavLink> : null
-                  }  
-
-                  <button
-                    className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"
-                    role="menuitem"
-                    onClick={() => {
-                      logout();
-                      closeDropdown();
-                    }}
-                  >
-                    Cerrar sesión
-                  </button>
-                </div>
-              </div>
-            )}
           </li>
         )}
       </ul>

@@ -1,58 +1,29 @@
-const Comment = require('../../db');
-const User = require('../../db')
+const { Comment } = require('../../db');
 
-const commentPost = ()=>{
+const createCommentAndAssociateUser = async (req, res) => {
+    const { body, stars, email, name } = req.body;
 
-const commentControllerPost = async( body, date, stars, email)=>
-{
-    const [commentPost, comment] = await Comment.findOrCreate({
-        where: {email},
-        defaults:{
-            body,
-            date,
-            stars
-        }
-    })
-
-    const idUser = await User.findAll({
-        where: {email}
-    })
-
-    await commentPost.addUser(idUser);
-
-    const commentPostDB = await Comment.findOne({
-        where:{
-            email: commentPost.email
-        },
-        include: [{
-            model: User,
-            attributes: ['email'],
-            through: {
-                attributes: []
-            }
-        }]
-    })
-
-    // let newCommentPost = {
-    //     body: commentPostDB.body, 
-    //     date: commentPostDB.date, 
-    //     stars: commentPostDB.stars 
-
-    // }
-    return commentPostDB;
-}
-
-async(req, res)=>{
-    const {email} = req.params
-    const {body, date, stars} = req.body
     try {
-        const commentRes = await commentControllerPost(email, body, date, stars);
-        res.status(201).json(commentRes);
-    } catch (error) {
-        res.status(400).json({msg: error.message})
-    }
+    //const { email } = req.params;
 
-}
+    // Si no existe el usuario, lo creamos
 
-}
-module.exports = commentPost;
+    // Crear un nuevo comentario en la base de datos y asociarlo con el usuario
+    const createdComment = await Comment.create({
+        body,
+        stars,
+        email,
+        name,
+      //userId: user.id // Asociar el comentario con el usuario
+    });
+
+    console.log(createdComment, "creando comentario");
+
+    res.json({ comentario_creado: createdComment });
+  } catch (error) {
+    console.error("Error al verificar el estado del usuario:", error);
+    res.status(500).json({ error: 'Error al verificar el estado del usuario', message: error.message });
+  }
+};
+
+module.exports = createCommentAndAssociateUser;
