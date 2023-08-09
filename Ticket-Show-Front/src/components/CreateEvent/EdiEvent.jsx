@@ -223,6 +223,7 @@ const EditEvent = ({ selectedEvent }) => {
                 />
               </div>
 
+
               <div className="w-3/4">
                 <label>Dirección de Lugar:</label>
                 <input
@@ -236,31 +237,47 @@ const EditEvent = ({ selectedEvent }) => {
                 />
               </div>
 
-              <div className="w-3/4">
-                <label>Ciudad:</label>
-                <input
-                  type="text"
-                  name="city"
-                  value={eventData?.city}
-                  onChange={(e) =>
-                    setEventData({ ...eventData, city: e.target.value })
-                  }
-                  className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-                />
-              </div>
+              
 
-              <div className="w-3/4">
-                <label>Género musical:</label>
-                <input
-                  type="text"
-                  name="genres"
-                  value={eventData?.genres}
-                  onChange={(e) =>
-                    setEventData({ ...eventData, genres: e.target.value })
-                  }
-                  className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-                />
-              </div>
+              <div lassName="w-3/4">
+              <label>Ciudad:</label>
+              <select
+                name="city"
+                value={eventData?.city}
+                onChange={(e) => setEventData({ ...eventData, city: e.target.value })}
+                className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+              >
+                <option value="">Selecciona una ciudad</option>
+                <option value="Buenos Aires">Buenos Aires</option>
+                <option value="Mendoza">Mendoza</option>
+                <option value="Rosario">Rosario</option>
+                <option value="San Juan">San Juan</option>
+              </select>
+            </div>
+
+            <div className="w-3/4">
+            <label>Género musical:</label>
+            <select
+              name="genres"
+              value={eventData?.genre}
+              onChange={(e) => setEventData({ ...eventData, genre: e.target.value })}
+              className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+            >
+              <option value="">Selecciona un género</option>
+              <option value="Rock">Rock</option>
+              <option value="Pop">Pop</option>
+              <option value="Reggae">Reggae</option>
+              <option value="Reggaeton">Reggaeton</option>
+              <option value="Cuarteto">Cuarteto</option>
+              <option value="Cumbia">Cumbia</option>
+              <option value="Trap">Trap</option>
+              <option value="Rap">Rap</option>
+              <option value="Heavy Metal">Heavy Metal</option>
+              <option value="Hard Rock">Hard Rock</option>
+              <option value="Indie">Indie</option>
+              <option value="Alternativo">Alternativo</option>
+            </select>
+          </div>
             </section>
 
             <button
