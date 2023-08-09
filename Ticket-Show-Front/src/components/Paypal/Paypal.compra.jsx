@@ -5,7 +5,7 @@ import {useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { postComment } from "../../redux/actions";
+/* import { postComment } from "../../redux/actions"; */
 
 const CompraPaypal = () => {
   const [reviews, setReviews] = useState('');
@@ -21,7 +21,7 @@ const CompraPaypal = () => {
     setReviews(e.target.value); //el comentario
   };
 
-  const handleReviews = (e) => {
+  /* const handleReviews = (e) => {
     e.preventDefault();
     const payload = {
       name: nameUser,
@@ -43,7 +43,7 @@ const CompraPaypal = () => {
     setReviews('');
     setNameUser('')
   };
-
+ */
   return (
     <div>
       <div className="flex flex-col items-center justify-center mt-16 max-w-lg mx-auto">
@@ -65,7 +65,7 @@ const CompraPaypal = () => {
           </label>
           <NavLink to="/">
             <button
-              onClick={handleReviews}
+              /* onClick={handleReviews} */
               className="mt-6 block text-center bg-ChryslerBlue text-white py-2 px-4 rounded-md hover:bg-primaryColor transition duration-500"
             >
               Comenta y vuelve al inicio
