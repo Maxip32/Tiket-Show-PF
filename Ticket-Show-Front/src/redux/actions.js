@@ -64,15 +64,23 @@ export const orderByDate = (payload) => {
 };
 
 export const GET_SEARCH_BY_NAME = "GET_SEARCH_BY_NAME";
-
+export const NO_EVENTS = "NO_EVENTS";
 export const searchByName = (name) => {
   return async (dispatch) => {
-    const apiData = await axios.get(`/event/getEvent/name/${name}`);
-    const Events = apiData.data;
-    return dispatch({
-      type: GET_SEARCH_BY_NAME,
-      payload: Events,
-    });
+    try {
+      const apiData = await axios.get(`/event/getEvent/name/${name}`);
+      const Events = apiData.data;
+      return dispatch({
+        type: GET_SEARCH_BY_NAME,
+        payload: Events,
+      });
+    } catch (e) {
+      console.log(e.response.data);
+      return dispatch({
+        type: NO_EVENTS,
+        payload: e.response.data,
+      });
+    }
   };
 };
 
@@ -421,3 +429,36 @@ export const updateQuotas = (id) => {
     })
   }
 }
+
+export const POST_USER_COMMENT = "POST_USER_COMMENT";
+
+export function postComment() {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(`/comment/postComments`);
+
+      // Aquí dispatch la acción que actualiza el estado en Redux
+      dispatch({
+        type: POST_USER_COMMENT,
+        payload: response.data, // Actualiza el estado con los datos de la respuesta
+      });
+
+      return response;
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+}
+
+export const GET_COMMENT = "GET_COMMENT";
+
+export function getComment() {
+  return async function (dispatch) {
+      const response = await axios.get(`/comment/getComments/`);
+      const comentario = response.data
+      return dispatch({
+        type: GET_COMMENT,
+        payload: comentario, // Actualiza el estado con los datos de la respuesta
+      });
+    }
+  }

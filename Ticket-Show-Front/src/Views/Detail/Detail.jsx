@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getEventId } from "../../redux/actions";
 import Loading from "../../components/Loading/Loading";
 import { CartContext } from "../../components/Shoppingcart/shoppingCartContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import {
   LiaCartPlusSolid,
@@ -24,9 +24,8 @@ import { BsTicketPerforated, BsCurrencyDollar } from "react-icons/bs";
 const Detail = ({ image, name, price }) => {
   const { user } = useAuth();
   const { id } = useParams();
-
-  const { event } = useSelector((state) => state.detail);
-  console.log(event, "el evento");
+  const [loading, setLoading] = useState(true) 
+  const  event = useSelector((state) => state.detail);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -90,7 +89,8 @@ const Detail = ({ image, name, price }) => {
 
       return currItems;
     });
-  };
+  }
+
 
   const getQuantityById = (id) => {
     return cart.find((item) => item.id === id)?.quantity || 0;
@@ -98,10 +98,26 @@ const Detail = ({ image, name, price }) => {
 
   const quantityPerItem = getQuantityById(id);
 
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2800)
+    return () => {
+      clearTimeout(timer);
+    }
+  }, [])
+
   
 
   return (
     <div className="flex flex-col mx-auto w-full max-w-5xl">
+      {loading ? (
+        <Loading/>
+      ):(
+        <>
+        
+      
       {event ? (
         <>
           <div className="flex flex-col md:flex-row w-full justify-between mb-10">
@@ -138,7 +154,7 @@ const Detail = ({ image, name, price }) => {
               </p>
               <p className="flex items-center gap-2">
                 <BsTicketPerforated size="20" color="#ed4690" /> Tickets
-                disponibles: {event.quotas}
+                disponibles: {stockFromCart}
               </p>
               <p className="flex items-center gap-2">
                 <BsCurrencyDollar size="20" color="#ed4690" /> Precio: $
@@ -148,6 +164,7 @@ const Detail = ({ image, name, price }) => {
 
             <div className="flex flex-col items-center justify-center mx-auto gap-4 w-48 mt-8 md:mt-0">
               <span className="flex items-center text-xl text-DarkTextPurple"> Tickets a comprar: {quantityPerItem}</span>
+              
               <div>
                 <button 
                   onClick={() => addToCart()}
@@ -177,56 +194,11 @@ const Detail = ({ image, name, price }) => {
       ) : (
         <Loading />
       )}
+      </>
+      )}
     </div>
+    
   );
 };
 
 export default Detail;
-
-// Lógica para el carrito que aparase y desaparece anterior
-            {/* <div className="flex flex-col items-center justify-center mx-8">
-              {user && (
-                <>
-                  <div className="flex items-center">Total de tickets: {quantityPerItem}</div>
-                  <div>
-                    {quantityPerItem === 0 ? (
-                      <button 
-                        className=""
-                        onClick={() => addToCart()}
-                      >
-                        <LiaCartPlusSolid size={26} color="#ed4690" />
-                      </button>
-                    ) : (
-                      <button onClick={() => addToCart()}>
-                        <LiaCartPlusSolid size={26} color="#ed4690" />
-                      </button>
-                    )}
-                    {quantityPerItem > 0 && (
-                      <button onClick={() => removeItem(id)}>
-                        <LiaCartArrowDownSolid size={26} color="#5522CC" />
-                      </button>
-                    )}
-                  </div>
-                </>
-              )}
-            </div> */}
-
-  //tarjeta anterior del precio, hecho por juan
-  {/* <div className="mx-auto items-center bg-primaryColor border-white h-40 m-5 max-w-4xl min-w-0 flex justify-center">
-            <div className=" flex- text-4xl  h-40 text-white font-bold p-5 first:bg-secondaryColor">
-              <h2 className="items-center justify-center flex ">
-                
-              </h2>
-            </div>
-            <div className="pl-8 flex-1 text-3xl text-white">
-              <h2>-{event.start}hs</h2>
-              <h2 className="font-bold"></h2>
-            </div>
-            <div className="pl-8 flex-1 text-3xl text-white">
-              <h1>Precio ${event.price}</h1>
-            </div>
-            <div className="pl-8 flex-1 text-3xl text-white">
-              <dt className="inline">Entradas disponibles </dt>
-              <dd className="inline">{stockFromCart}</dd>
-            </div>
-          </div> */}

@@ -40,8 +40,10 @@ import {
   DELETE_EVENT_FAILURE,
   RESTORE_EVENT_SUCCESS,
   RESTORE_EVENT_FAILURE, 
-  UPDATE_QUOTAS
-
+  UPDATE_QUOTAS,
+  NO_EVENTS,
+  POST_USER_COMMENT,
+  GET_COMMENT,
 } from "../redux/actions";
 
 const initialState = {
@@ -56,7 +58,7 @@ const initialState = {
   error: null,
   allEvents: [],
   genres: [],
-  detail: {},
+  detail: [],
   cart: [],
   city: [],
   date: [],
@@ -66,13 +68,15 @@ const initialState = {
   user: null,
   loading: true,
   error: null,
-  quotas: []
+  quotas: [],
+  noEvents: "",
+  comment: [],
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_EVENTS:
-      return { ...state, Events: action.payload, allEvents: action.payload };
+      return { ...state, Events: action.payload, allEvents: action.payload, noEvents: "" };
     case GET_GENRES:
       return {
         ...state,
@@ -120,6 +124,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         Events: action.payload,
+        noEvents: "",
       };
 
     /////// CARRITO DE COMPRA //////
@@ -407,6 +412,22 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         cancelOrderData: action.payload,
       };
+      case NO_EVENTS:
+      return {
+        ...state,
+        noEvents: action.payload,
+      };
+      case POST_USER_COMMENT:
+      return {
+        ...state,
+        comment: action.payload // Actualiza tu estado con los datos de la acción
+      };
+    case GET_COMMENT:
+      return {
+        ...state,
+        comment: action.payload // Actualiza tu estado con los datos de la acción
+      };
+      
     default:
       return state;
   }

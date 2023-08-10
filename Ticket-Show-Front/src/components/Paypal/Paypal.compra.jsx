@@ -1,56 +1,116 @@
-//import { sendMail } from "../../redux/actions";
-import { useEffect, useState } from "react";
+/* eslint-disable no-unused-vars */
+
+import {useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getUserById } from "../../redux/actions";
+import { postComment } from "../../redux/actions";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { useNavigate} from "react-router-dom";
 
 const CompraPaypal = () => {
- // const [compraConfirmada, setCompraConfirmada] = useState(false);
-  // useEffect(() => {
-  //     dispatch(sendMail({
-  //       email: "prueba345@yopmail.com",
-  //     }))
-  // }, []);
-
-  const [reviews, setReviews] = useState('')
+  const navigate = useNavigate();
+  const [reviews, setReviews] = useState('');
+  const [stars, setStars] = useState('');
   const dispatch = useDispatch();
-
-  const {user }= useAuth();
-  const userEmail = user && user.email ? user.email : "";
-  console.log(userEmail, 'usuario email');
-
-  const handlerInputChange= (e) => {
-    e.preventDefault();
-    setReviews(e.target.value)
-  }
-
-  const handleReviews = (e)=> {
-    e.preventDefault();
-    axios.put(`http://localhost:3001/comment/comment/${userEmail}`, reviews)
-      .then(res=>alert('reviews successfully'))
-      .catch(err=>alert('Please fill the reviews'));
-      dispatch(getUserById())
-      setReviews('')
-  }
+  const { user } = useAuth();
   
-  return ( <div>
+  const userEmail = user && user.email ? user.email : ''; //mail
+  const userName = user && user.displayName ? user.displayName : ""; //nombre
+  
+  
+  const handlerInputChange = (e) => {
+    e.preventDefault();
+    setReviews(e.target.value); //el comentario
+  };
+
+    const handleReviews = (e) => {
+    e.preventDefault();
+    const payload = {
+      email: userEmail,
+      name: userName,
+      body: reviews,
+      stars: stars, // Puedes ajustar esto según lo necesario
+      // email: user.email
+    };
+
+    //dispatch(postComment(payload)) // Llama a la función con el correo electrónico y el payload
+    axios.post(`/comment/postComments`, payload)
+      .then((response) => {
+        // Hacer algo con la respuesta si es necesario
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: " ¡Valoramos tu opinion, muchas gracias!",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+          navigate("/");
+      
+      })
+      .catch((err) => {
+        // Manejar el error si ocurre
+        alert('Please fill the reviews')
+      });
+
+    setReviews('');
+    //setNameUser('')
+  };
+
+  const handlerStars = (e)=> {
+    e.preventDefault
+    setStars(e.target.value);
+  }
+
+
+
+
+  return (
+    <div>
       <div className="flex flex-col items-center justify-center mt-16 max-w-lg mx-auto">
-        <div className=" p-8 bg-white rounded-lg shadow-lg">
+        <div className=" flex flex-col items-center p-8 bg-white rounded-lg shadow-lg">
           <h2 className="text-2xl text-primaryColor font-bold mb-4">Gracias por su compra</h2>
           <p className="text-DarkTextPurple mb-6">
-            Hemos recibido su compra y estamos procesando su pedido. Le
-            enviaremos una confirmación por correo electrónico en breve.
+            Hemos recibido su compra y estamos procesando su pedido. Le enviaremos una confirmación por correo electrónico en breve.
           </p>
           <label className="text-DarkTextPurple">
-            Valoramos tu opinion sobre tu compra:
-            <textarea 
-              className="w-full border-2 border-secondaryColor rounded-lg p-2 focus:outline-none focus:border-ChryslerBlue" name="postContent" rows={4} cols={40} 
+            Valoramos tu opinión sobre tu compra:
+            <textarea
+              className="w-full border-2 border-secondaryColor rounded-lg p-2 focus:outline-none focus:border-ChryslerBlue"
+              name="postContent"
+              rows={4}
+              cols={40}
               value={reviews}
               onChange={handlerInputChange}
             />
+
           </label>
+          <spam className="text-DarkTextBlack">Calificanos</spam>
+          <input
+            className="block text-center w-44 border"
+            type="range"
+            name="stars"
+            id="stars"
+            min="1"
+            max="5"
+            step="1"
+            value={stars}
+            onChange={handlerStars}
+          />
+          <div className="ml-2 flex">
+          {[1, 2, 3, 4, 5].map((value) => (
+            <span
+              key={value}
+              className={ `mr-3 text-xl ${value <= stars ? 'text-red-500' : 'text-gray-400'} ${
+                value <= parseInt(stars, 10) ? 'visible' : 'invisible'
+              } cursor-pointer`}
+              onClick={() => handlerStars({ target: { value } })}
+            >
+              ⭐️
+            </span>
+          ))}
+        </div>
           <NavLink to="/">
             <button
               onClick={handleReviews}
@@ -61,27 +121,8 @@ const CompraPaypal = () => {
           </NavLink>
         </div>
       </div>
-    </div> );
+    </div>
+  );
 };
 
 export default CompraPaypal;
-
-
-
-  /* const validEmail = email ? email.email : null;
-  const userEmail = email?.filter((reviews) => reviews.email === validEmail).join(''); */
-  /* 
-  const handleReviews = await fetch(`http://localhost:3001/comment/comment/:${userEmail}`, {
-      // const response = await fetch(
-      //   "https://tiket-show-pf-production.up.railway.app/create-order",
-      //   {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json", // Indicar que los datos se envían en formato JSON
-          },
-          //PARA QUE ME LLEGUE Y TOME EL PRECIO DE CADA EVENTO AL BACK
-          body: JSON.stringify({
-            value: reviews,
-          }), // Enviar el precio en el cuerpo de la solicitud
-        }
-      ) */

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 //import { FcGoogle } from 'react-icons/fc';
 import registerArtist from '../../assets/image/registerArtist1.jpg'
 import Swal from "sweetalert2";
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 //import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const ArtistForm = () => {
@@ -31,7 +32,7 @@ const ArtistForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const validLogin = usuario?.filter(usr => usr.email === email);
-
+  const [showPassword, setShowPassword] = useState(false);
 /// INFO DEL ESTADO ///
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -147,8 +148,8 @@ const ArtistForm = () => {
 
 
   return (
-    <div className="w-full flex justify-center items-center mt-2 max-w-4xl md:mx-auto">
-      <div className="bg-white rounded-2xl shadow-lg flex w-full">
+    <div className="w-full flex justify-center items-center mt-2">
+      <div className="bg-white rounded-2xl shadow-lg flex w-5/6">
       {/* image section */}
       <section className="w-2/4">
         <img
@@ -185,14 +186,25 @@ const ArtistForm = () => {
             className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
           />
 
-          <input
-            placeholder='Contraseña'
-            type="password"
-            value={passwordRegister}
-            onChange={(e) => setPasswordRegister(e.target.value)}
-            className="w-3/4 rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-          />
-
+<div className="relative w-3/4">
+  <input
+    placeholder='Contraseña'
+    type={showPassword ? 'text' : 'password'}
+    value={passwordRegister}
+    onChange={(e) => setPasswordRegister(e.target.value)}
+    className='w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor'
+    style={{
+      paddingRight: '40px',
+    }}
+  />
+  <button
+    type='button'
+    onClick={() => setShowPassword(!showPassword)}
+    className='absolute right-2 top-1/2 transform -translate-y-1/2 text-secondaryColor focus:outline-none'
+  >
+    {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+  </button>
+  </div>
           <input
             placeholder='Nombre de la banda'
             name= "nameBand"

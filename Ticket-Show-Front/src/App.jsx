@@ -36,6 +36,7 @@ function App() {
             <Route path="/approved" element={<CompraPaypal/>}/>
             <Route path="/about" element={<About />} />
             <Route path="/PanelAdmin" element={<Dashboard/>} />
+            <Route path="*" element={<CompraPaypal/>} />
           </Routes>
         </div>
       </AuthProvider>

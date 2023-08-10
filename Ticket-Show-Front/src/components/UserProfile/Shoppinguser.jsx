@@ -19,7 +19,7 @@ export default function MyShopping() {
 
     // Actualizar el estado con las compras del usuario actual
     setPurchases(userPurchases);
-    console.log("userPurchases:", userPurchases);
+    
   }, [user]);
 
   // Calcular el número total de páginas
@@ -36,50 +36,62 @@ export default function MyShopping() {
   };
 
   return (
-    <div className="w-full max-w-9xl mx-auto flex flex-wrap justify-center">
-      <h2>Mis Compras</h2>
-      <div className="p-10 m-6 flex flex-wrap justify-center">
+    <div className="">
+    <div className="max-w-7xl w-full">
+      <h2 className="text-1xl font-semibold text-gray-400  mb-4">Mis Compras</h2>
+      <div className="w-full max-w-7xl">
         {visiblePurchases.length > 0 ? (
-
           visiblePurchases?.map((purchase) => (
-
-            <div className="bg-white w-100 h-60 m-4 border shadow-md rounded-2xl flex flex-col" key={purchase.id}>
-              <p className="text-sm">Fecha de compra: {new Date(purchase.date).toLocaleDateString()}</p>
-              <p className="text-sm">Cantidad de boletos: {purchase.quantity}</p>
-              <p className="text-sm">Monto total de compras realizadas: {purchase.total}</p>
-
-              <h1 className="text-sm">{purchase.name}</h1>
-              <img src={purchase.image} to="" className="w-40"/>
-
-              {/* Aquí puedes mostrar otros detalles relevantes de la compra */}
+            <div className="bg-white max-w-7xl   flex justify-center items-center text-sm md:flex w-full md:max-w-xs md:m-2 border shadow-md rounded-lg">
+              <div className="w-1/3 md:w-40">
+                <img
+                  src={purchase.image}
+                  alt=""
+                  className="w-full flex justify-center items-center h-auto w-full object-cover rounded-lg"
+                />
+              </div>
+              <div className="md:ml-4 md:text-left  flex flex-col mt-2 md:mt-0">
+                <h1 className="font-bold text-primaryColor">{purchase.name}</h1>
+                <p className="text-gray-400 font-medium">
+                  Fecha de compra:{" "}
+                  {new Date(purchase.date).toLocaleDateString()}
+                </p>
+                <p className="text-gray-400 font-medium">
+                  Cantidad de boletos: {purchase.quantity}
+                </p>
+                <p className="text-gray-400 font-medium">
+                  Monto total de compras: {purchase.total}
+                </p>
+              </div>
             </div>
           ))
         ) : (
-          <p>No se han realizado compras aún.</p>
+          <p className="text-center">No se han realizado compras aún.</p>
         )}
-      </div>
-
-      <div className="flex justify-center">
-        <p>Página {currentPage} de {totalPages}</p>
-      </div>
-
-      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2">
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="mr-2 bg-primaryColor text-white px-4 py-2 rounded-lg"
-        >
-          Prev
-        </button>
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="bg-primaryColor text-white px-4 py-2 rounded-lg"
-        >
-          Next
-        </button>
+        <div className="flex justify-center text-xs mt-4">
+          <p>
+            Página {currentPage} de {totalPages}
+          </p>
+        </div>
+        <div className="flex justify-center items-center mt-2">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="mr-2 text-sm bg-primaryColor text-white px-4 py-2 rounded-lg"
+          >
+            Prev
+          </button>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="bg-primaryColor text-sm text-white px-4 py-2 rounded-lg"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
+  </div>
   );
 }
 
