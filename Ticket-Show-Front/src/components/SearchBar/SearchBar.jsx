@@ -15,10 +15,12 @@ const SearchBar = ({returnToFirstPage}) => {
     event.preventDefault();
     setName(value);
 
-    if (value.trim() !== '') {
-      dispatch(searchByName(value))
-      .then(() => {returnToFirstPage()})
-    }
+    if(value){
+      dispatch(searchByName(value)).then(() => {
+        returnToFirstPage();
+      })} else{
+        dispatch(getEvents())
+      }
   };
 
   return (

@@ -6,7 +6,9 @@ const About = () => {
           Development team
         </p>
         <h1 className="text-4xl mt-5 mb-10 font-bold leadi text-center sm:text-5xl">
+
           Las talentosas personas detrás de escena!
+
         </h1>
         <div className="flex bg-red flex-row flex-wrap-reverse justify-center mt-8 ">
         <div className="flex flex-col justify-center  w-full px-8 mx-6 my-12 text-center rounded-md md:w-96 lg:w-80 xl:w-64 dark:bg-gray-100 dark:text-gray-800">
@@ -84,11 +86,13 @@ const About = () => {
             </div>
           </div>
           <div className="flex flex-col justify-center w-full px-8 mx-6 my-12 text-center rounded-md md:w-96 lg:w-80 xl:w-64 dark:bg-gray-100 dark:text-gray-800">
-            {/* <img
+
+            <img
               alt="imagen"
               className="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src=""
-            /> */}
+              src="https://media.licdn.com/dms/image/D4D35AQEDcPtcwTorgQ/profile-framedphoto-shrink_200_200/0/1647297750413?e=1692241200&v=beta&t=N4I_J7mGJrcnXsrKx6QD8dl2gUCdDgv4JO2kFNS3OK8"
+            />
+
             <div className="flex-1 my-4">
               <p className="text-xl font-semibold leadi">Rodrigo Ignacio Gonzalez Oliver</p>
               <p>Full Stack Developer</p>
@@ -127,7 +131,9 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="https://www.linkedin.com/in/diamela-lares-/"
+
+                href="https://www.linkedin.com/in/rodrigogonzalezoliver/"
+
                 title="LinkedIn"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -142,7 +148,9 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="https://www.linkedin.com/in/juan-toledo-53b256245/"
+
+                href="https://github.com/RodrigoGonzalezOliver"
+
                 title="GitHub"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -161,7 +169,9 @@ const About = () => {
             <img
               alt=""
               className="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src="https://media.licdn.com/dms/image/D4E35AQHnU7E_TPeu8Q/profile-framedphoto-shrink_400_400/0/1675443101532?e=1691600400&v=beta&t=Dy7wmSP_qvom8HyiXTLDDpW1lUAHicYGgIGC0djRXBE"
+
+              src="https://media.licdn.com/dms/image/D4E35AQHnU7E_TPeu8Q/profile-framedphoto-shrink_200_200/0/1675443101532?e=1692241200&v=beta&t=OYd9RB2eqCurBxmvA9aCgYMf7zEtc0DUpaWm4ZMgXZU"
+
             />
             <div className="flex-1 my-4">
               <p className="text-xl font-semibold leadi">Emanuel Ivan Robledo</p>
@@ -235,7 +245,9 @@ const About = () => {
             <img
               alt=""
               className="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src="https://media.licdn.com/dms/image/D4D35AQGmD0xXtTmvgg/profile-framedphoto-shrink_400_400/0/1686180327561?e=1691600400&v=beta&t=-EaVXS5V0HI6w1EImc3aqzin1yJg3luEowRL3lPxzuA"
+
+              src="https://media.licdn.com/dms/image/D4D35AQGmD0xXtTmvgg/profile-framedphoto-shrink_200_200/0/1686180327561?e=1692241200&v=beta&t=HweChKyAHFwZMbFoMqVuLtTxw9jZSq59vnAKRwiPy5g"
+
             />
             <div className="flex-1 my-4">
               <p className="text-xl font-semibold leadi">Kenny Gabriel Perez Rosales</p>
@@ -349,7 +361,9 @@ const About = () => {
               </a>
               <a
                 rel="noopener noreferrer"
-                href="https://www.linkedin.com/in/darwin-hern%C3%A1ndez-9b0387244/"
+
+                href="https://www.linkedin.com/in/darwin-hernández-9b0387244"
+
                 title="LinkedIn"
                 className="dark:text-gray-900 hover:dark:text-violet-400"
               >
@@ -383,7 +397,9 @@ const About = () => {
             <img
               alt=""
               className="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src="https://media.licdn.com/dms/image/D5635AQEPLtJ0X1LgxQ/profile-framedphoto-shrink_400_400/0/1681351981824?e=1691596800&v=beta&t=E6h5i-3bGWvRTKVP3FF844MwOWnmZRrCOGm3QvoNkiE"
+
+              src="https://media.licdn.com/dms/image/D5635AQEPLtJ0X1LgxQ/profile-framedphoto-shrink_200_200/0/1681351981824?e=1692241200&v=beta&t=XEzy7rDFjlrBgybBcAg3B9fKzzZSp9sefG6h8Iudk-I"
+
             />
             <div className="flex-1 my-4">
               <p className="text-xl font-semibold leadi">Maximiliano Emanuel Piolatto</p>

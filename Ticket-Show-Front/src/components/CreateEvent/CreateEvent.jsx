@@ -96,15 +96,15 @@ const CreateEvent = () => {
      }
 
      if (!eventInfo.address) {
-       errors.address = "Eeste campo  es obligatorio";
+       errors.address = "Este campo  es obligatorio";
      }
 
      if (!eventInfo.city) {
-       errors.city = "Eeste campo  es obligatorio";
+       errors.city = "Este campo  es obligatorio";
      }
 
      if (!eventInfo.genre) {
-       errors.city = "Eeste campo  es obligatorio";
+       errors.genre = "Este campo  es obligatorio";
      }
 
      return errors;

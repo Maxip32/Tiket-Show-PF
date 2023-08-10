@@ -64,15 +64,23 @@ export const orderByDate = (payload) => {
 };
 
 export const GET_SEARCH_BY_NAME = "GET_SEARCH_BY_NAME";
-
+export const NO_EVENTS = "NO_EVENTS";
 export const searchByName = (name) => {
   return async (dispatch) => {
-    const apiData = await axios.get(`/event/getEvent/name/${name}`);
-    const Events = apiData.data;
-    return dispatch({
-      type: GET_SEARCH_BY_NAME,
-      payload: Events,
-    });
+    try {
+      const apiData = await axios.get(`/event/getEvent/name/${name}`);
+      const Events = apiData.data;
+      return dispatch({
+        type: GET_SEARCH_BY_NAME,
+        payload: Events,
+      });
+    } catch (e) {
+      console.log(e.response.data);
+      return dispatch({
+        type: NO_EVENTS,
+        payload: e.response.data,
+      });
+    }
   };
 };
 
@@ -422,7 +430,10 @@ export const updateQuotas = (id) => {
   }
 }
 
+
+=======
 //comentarios
+
 export const POST_USER_COMMENT = "POST_USER_COMMENT";
 
 export function postComment() {
@@ -454,4 +465,6 @@ export function getComment() {
         payload: comentario, // Actualiza el estado con los datos de la respuesta
       });
     }
+
   }
+

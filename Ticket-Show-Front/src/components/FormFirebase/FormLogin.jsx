@@ -4,6 +4,24 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import loginForm from "../../assets/image/login.jpg"
 import { FcGoogle } from "react-icons/fc";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+const validate = (form) => {
+  let errors = {};
+  if (!form.email) {
+    errors.email = "Debes colocar un email";
+  } else if (
+    !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(form.email)
+  ) {
+    errors.email = "Debes colocar un email valido";
+  }
+  if (!form.password) {
+    errors.password = "Debes colocar una contraseña";
+  } else if (!/^(?=.*\d)(?=.*[a-zA-Z])(.{7,})$/.test(form.password)) {
+    errors.password =
+      "Debe tener un Numero, una letra y ser mayor de 6 caracteres";
+  }
+  return errors;
+};
 
 const validate = (form) => {
   let errors = {};
@@ -28,7 +46,9 @@ const LoginForm = () => {
   const { login, loginWithGoogle, checkUserDisabled  } = useAuth(); // Asegúrate de que el contexto tenga las funciones de inicio de sesión
   const [ name, setName] = useState("");
   const navigate= useNavigate()
-  
+
+  const [showPassword, setShowPassword] = useState(false);
+
   /* const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
  */
@@ -157,19 +177,31 @@ const LoginForm = () => {
               )}
             </section>
 
+
+            
             <section className="w-full px-5">
-              <input
-                placeholder="Contraseña"
-                type="password"
-                name="password"
-                onChange={handlerInputChange}
-                value={form.password}
-                className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-              />
-              {errors.password && (
-                <p className="text-xs text-red-500">{errors.password}</p>
-              )}
-            </section>
+  <div className="relative">
+    <input
+      placeholder="Contraseña"
+      type={showPassword ? "text" : "password"}
+      name="password"
+      onChange={handlerInputChange}
+      value={form.password}
+      className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
+    />
+    <button
+      type="button"
+      onClick={() => setShowPassword(!showPassword)}
+      className="absolute right-2 top-1/2 transform -translate-y-1/2 text-secondaryColor focus:outline-none"
+    >
+      {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+    </button>
+  </div>
+  {errors.password && (
+    <p className="text-xs text-red-500">{errors.password}</p>
+  )}
+</section>
+
 
             <button
               type="submit"

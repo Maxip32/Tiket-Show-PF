@@ -1,3 +1,5 @@
+import React from "react";
+
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { updateProfile } from "firebase/auth";
@@ -8,7 +10,14 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { getFirestore, doc, updateDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
-import { BsPlusSquareFill } from "react-icons/bs";
+import {
+  MdMap,
+  MdLocationOn,
+  MdDateRange,
+  MdWatch,
+  MdMusicVideo,
+} from "react-icons/md";
+import { BiSolidPlusSquare } from "react-icons/bi";
 
 export default function UserProfile() {
   const navigate = useNavigate();
@@ -29,10 +38,10 @@ export default function UserProfile() {
   //const RolesUsers= useSelector((state)=> state?.user)
 
   const [preview, setPreview] = useState(null);
-  console.log(users, "aquí user redux");
+  
 
   const handleImageChange = (e) => {
-    console.log(handleImageChange, " esta es la nueva imagen");
+    
     const file = e.target.files[0];
     if (!file) {
       // El usuario canceló la selección de la imagen, así que borramos la URL temporal
@@ -41,84 +50,9 @@ export default function UserProfile() {
     }
     setImageFile(file);
     setPreview(URL.createObjectURL(file));
-    // Subir la nueva imagen al servicio Firebase Storage
-    // const storageRef = ref(getStorage(), "imagenesUsuarios/" + file.name);
-    // uploadBytes(storageRef, file)
-    //   .then(() => getDownloadURL(storageRef))
-    //   .then((url) => {
-    //     // Obtener la URL de la nueva imagen almacenada en Firebase Storage
-    //     console.log(url, "URL de la imagen");
-    //     // Almacenar la URL temporal en el estado
-    //     setNewImageUrl(url);
-    //     console.log(url, " NUEVA URL DE LA NUEVA imagen")
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error al subir la imagen:", error);
-    //     setError("Error al subir la imagen. Por favor, inténtelo de nuevo más tarde.");
-    //   });
+    
   };
 
-  const handleSaveChanges = async () => {
-    setError(null);
-    try {
-      if (!user || typeof user !== "object") {
-        setError("Usuario no autenticado.");
-        return;
-      }
-
-      // console.log(imageFile, " este es el image file ")
-
-      if (imageFile) {
-        // Subir la nueva imagen al servicio Firebase Storage
-        const storageRef = ref(
-          getStorage(),
-          "imagenesUsuarios/" + imageFile.name
-        );
-        await uploadBytes(storageRef, imageFile);
-
-        // Obtener la URL de la nueva imagen almacenada en Firebase Storage
-        const url = await getDownloadURL(storageRef);
-        // console.log({url}, "direccion de imagen de firebase")
-        // Actualizar la URL de la imagen en Firebase Auth
-        try {
-          await updateUserPhotoURL(url);
-          //alert("cambie imagen")
-        } catch (error) {
-          console.error(
-            "Error al actualizar la imagen de perfil en Firebase Auth:",
-            error
-          );
-          setError(
-            "Error al actualizar la imagen de perfil. Por favor, inténtelo de nuevo más tarde."
-          );
-          return;
-        }
-
-        // // Actualizar la URL de la imagen en la base de datos (tabla "users")
-        // const userRef = doc(getFirestore(), "users", user.uid);
-        // await updateDoc(userRef, { image: url });
-
-        // // Actualizar la URL de la imagen en el estado local
-        // setImageFile(null); // Reiniciar el archivo seleccionado
-
-        console.log(url, "ESTO QUIERO VER AHORA DE LA URL");
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Imagen de perfil actualizada correctamente!",
-          showConfirmButton: false,
-          timer: 2500,
-        });
-      } else {
-        setError("Error a subir la imagen.");
-      }
-    } catch (error) {
-      console.error("Error al guardar la imagen de perfil:", error);
-      setError(
-        "Error al guardar la imagen de perfil. Por favor, inténtelo de nuevo más tarde."
-      );
-    }
-  };
 
   function upperLetter(inputString) {
     if (!inputString) {
@@ -135,157 +69,172 @@ export default function UserProfile() {
     return formattedArray.join(" ");
   }
 
-  const handleChangeName = () => {
+  const handleSAVEe = async () => {
     setError(null);
-    if (newDisplayName.trim() === "") {
-      setError("El nombre no puede estar vacío.");
-      return;
-    }
 
     if (!user) {
       setError("Usuario no autenticado.");
       return;
     }
 
-    updateProfile(user, { displayName: newDisplayName })
-      .then(() => {
-        console.log("Nombre actualizado exitosamente.");
+    try {
+      if (imageFile) {
+        const storageRef = ref(
+          getStorage(),
+          "imagenesUsuarios/" + imageFile.name
+        );
+        await uploadBytes(storageRef, imageFile);
+
+        const url = await getDownloadURL(storageRef);
+
+        try {
+          await updateUserPhotoURL(url);
+        } catch (error) {
+          console.error(
+            "Error al actualizar la imagen de perfil en Firebase Auth:",
+            error
+          );
+          setError(
+            "Error al actualizar la imagen de perfil. Por favor, inténtelo de nuevo más tarde."
+          );
+          return;
+        }
+
+        if (newDisplayName.trim() !== "") {
+          await updateProfile(user, { displayName: newDisplayName });
+          updateUserDisplayName(newDisplayName);
+        }
+
+        
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Imagen de perfil actualizada correctamente!",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      } else if (newDisplayName.trim() !== "") {
+        await updateProfile(user, { displayName: newDisplayName });
         updateUserDisplayName(newDisplayName);
-      })
-      .catch((error) => {
-        console.error("Error al actualizar el nombre:", error);
-        setError("Error al actualizar el nombre.");
-      });
+
+        
+      } else {
+        setError("No se realizaron cambios.");
+      }
+    } catch (error) {
+      console.error("Error al guardar los cambios:", error);
+      setError(
+        "Error al guardar los cambios. Por favor, inténtelo de nuevo más tarde."
+      );
+    }
   };
 
+  
   if (!user) {
     // Si el usuario no está autenticado, mostrar un mensaje o redireccionar a la página de inicio de sesión.
-    
-      Swal.fire({
-        position: 'center',
-        icon: 'warning',
-        title: 'Tienes que estar autenticado',
-        showConfirmButton: false,
-        timer: 2500
-      })
-      navigate("/");
-     
-    }
+
+    Swal.fire({
+      position: "center",
+      icon: "warning",
+      title: "Tienes que estar autenticado",
+      showConfirmButton: false,
+      timer: 2500,
+    });
+    navigate("/");
+  }
 
   return (
     <>
-
-      <section className="max-w-6xl mx-auto mt-10 bg-white shadow-2xl">
-        <div className="flex flex-col md:flex-row">
-          <div className="md:flex-shrink-0 flex justify-center items-center h-60 md:w-1/6">
+    <section className="max-w-7xl  mx-auto mt-10 ">
+      <div className="bg-white relative shadow rounded-lg rounded-b-none w-full md:w-5/2 lg:w-4/6 xl:w-3/2 mx-auto">
+        <div className="flex justify-center">
+          <img
+            id="imagenPrevia"
+            src={
+              preview ||
+              user?.photoURL ||
+              "https://res.cloudinary.com/dhickjcbz/image/upload/v1690770100/user_r20d1h.png"
+            }
+            className="rounded-full mx-auto absolute -top-10 w-32 h-32 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"
+            alt=""
+          />
+        </div>
+        <div className="flex flex-col justify-between text-xs md:flex-row md:justify-between">
+          {usersFinder?.role === "artista" && (
+            <div className="md:ml-10 mt-2 md:mt-0">
+              <p className="font-bold">Nombre Artístico :</p>
+              <p className="text-gray-400 font-medium">{upperLetter(datosartist?.nameBand)}</p>
+            </div>
+          )}
+          {usersFinder?.role === "artista" && (
+            <div className="mt-2">
+              <p className="font-bold">Año de Creación:</p>
+              <p className="text-gray-400 font-medium">{datosartist?.yearCreation}</p>
+            </div>
+          )}
+        </div>
+        <div className="h-50 mt-10 py-14 md:w-1/8">
+          <div className="flex text-center justify-center">
             <button
-              onClick={() =>
-                document.querySelector('input[type="file"]').click()
-              }
-              className="absolute left-30 top-40 uppercase bg-white text-primaryColor font-bold hover:shadow-md shadow text-lg rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+              data-te-toggle="tooltip"
+              title="Cambiar foto de Perfil"
+              onClick={() => document.querySelector('input[type="file"]').click()}
+              className="ml-2 flex hover:bg-secondaryColor text-white font-bold rounded text-xs"
             >
-              <BsPlusSquareFill />
+              <BiSolidPlusSquare size="20" color="#242565" />
             </button>
-            <input
-              type="file"
-              onChange={handleImageChange}
-              className="hidden"
-            />
-            <img
-              id="imagenPrevia"
-              src={
-                preview ||
-                user.photoURL ||
-                "https://res.cloudinary.com/dhickjcbz/image/upload/v1690770100/user_r20d1h.png"
-              }
-              className="shadow-xl w-40 ml-14 rounded-full align-middle border-none"
-              alt=""
-            />
+            <input type="file" onChange={handleImageChange} className="hidden" />
           </div>
-          <div className="md:ml-20 h-50 py-16 md:w-1/8">
-            <h1 className="text-3xl font-bold  text-primaryColor ">
-              {upperLetter(user.displayName)}
-            </h1>
-            <h1 className="text-md"> {user.email}</h1>
-            <h1>
-              <button onClick={handleSaveChanges} className="">
+          {error && <p className="text-red-600 text-base">Error: {error}</p>}
+          <h1 className="font-bold text-center text-3xl text-gray-900">{upperLetter(user?.displayName)}</h1>
+          <h1 className="text-center text-sm text-gray-400 font-medium">{user?.email}</h1>
+          <span className="mt-15 text-white"> holis </span>
+          <p className="flex text-center justify-center text-xs text-gray-400 font-medium">
+            <MdLocationOn size="15" color="#ed4690" /> Rosario
+          </p>
+        </div>
+        <div className="flex flex-col text-sm items-center">
+          <p className="mb-2">Cambiar Nombre:</p>
+          {user?.displayName ? (
+            <div className="flex flex-col items-center">
+              <input
+                placeholder="nuevo nombre"
+                type="text"
+                className="placeholder-indigo-400 text-center text-sm border-b border-primaryColor focus:outline-none focus:border-black"
+                value={newDisplayName}
+                onChange={(e) => setNewDisplayName(e.target.value)}
+              />
+              <button
+                onClick={handleSAVEe}
+                className="mt-1 mb-2 bg-primaryColor hover:bg-secondaryColor text-white font-bold py-2 px-4 rounded text-xs"
+              >
                 Guardar Cambios
               </button>
-              {error && (
-                <p className="text-red-600 text-base">Error: {error}</p>
-              )}
-            </h1>
-          </div>
-          {usersFinder?.role === "artista" ? (
-            <div className=" w-20 h-10  basis-1/4">
-              <p className="text-xs font-bold flex text-primaryColor justify-center items-center">
-                Nombre Artístico :
-              </p>
-              <p className="flex text-LightGrayText justify-center items-center">
-                {upperLetter(datosartist?.nameBand)}
-              </p>
             </div>
-          ) : null}
-          {usersFinder?.role === "artista" ? (
-            <div className="w-20 h-10  basis-1/4 ">
-              <p className="text-xs font-bold flex text-primaryColor justify-center items-center ">
-                Año de Creacion:
-              </p>
-              <p className="flex  justify-center items-center ">
-                {datosartist?.yearCreation}
-              </p>
-            </div>
-          ) : null}
-
+          ) : (
+            <p>Cargando...</p>
+          )}
+          {error && <p className="text-red-600 text-base">Error: {error}</p>}
         </div>
-        <div className=" flex flex-col border-0   ml-10 md:flex-row">
-          <div className=" md:h-20   md:w-1/8">
-            <p className=" flex justify-center  text-primaryColor items-center  font-bold text-xs">
-              Cambiar Nombre:
-            </p>
-            {user?.displayName ? (
-              <>
-                <input
-                  type="text"
-                  className="ml-2 w-2/8 text-xs bg-LightText rounded-xl text-black"
-                  value={newDisplayName}
-                  onChange={(e) => setNewDisplayName(e.target.value)}
-                />
-                <button
-                  onClick={handleChangeName}
-                  className="px-5  ml-10  shadow-xl flex rounded-xl bg-primaryColor text-white justify-end items-center text-xs"
-                >
-                  Guardar
-                </button>
-              </>
-              
-            ) : (
-              <p>Cargando...</p>
-            )}
-            {error && <p className="text-red-600 text-base">Error: {error}</p>}
-          </div>
-          <div className="md:w-1/4"></div>
-          <div className="md:w-1/4"></div>
-        </div>
-        <div>
-          <div>
-            <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
-              <div className="flex flex-wrap justify-center">
-
-                <div className="flex flex-row w-full">
-                  <div className="flex-1 px-4">
-                    <p className="mb-4 text-lg leading-relaxed text-blueGray-700 flex">
-                      {<MyShopping user_id={user} />}
-                    </p>
-                    <a href="#pablo" className="font-normal text-pink-500"></a>
-
-                  </div>
+      </div>
+      <div>
+        <div className="flex  justify-center items-center">
+          <div className="py-10 w-full md:w-2/4 border-t border-blueGray-200 bg-white text-center">
+            <div className="flex flex-wrap justify-center">
+              <div className="justify-center items-center">
+                <div className="flex-1 px-4">
+                  <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
+                    {<MyShopping user_id={user} />}
+                  </p>
+                  <a href="#pablo" className="font-normal text-pink-500"></a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
+  </>
   );
 }
+

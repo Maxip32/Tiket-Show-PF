@@ -3,7 +3,6 @@ import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 import { FiArrowLeftCircle, FiArrowRightCircle } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -57,6 +56,7 @@ const Reviews = () => {
       },
     ],
   };
+
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-92 mt-8 mb-6 max-w-6xl">

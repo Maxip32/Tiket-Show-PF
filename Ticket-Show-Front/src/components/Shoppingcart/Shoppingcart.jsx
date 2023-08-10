@@ -1,16 +1,15 @@
-/* CheckOut */
 import { useContext } from "react";
 import { CartContext } from "./shoppingCartContext";
 import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
 import { BsCaretDownSquareFill } from "react-icons/bs";
-
+import Swal from "sweetalert2";
 import { BsCaretUpSquareFill } from "react-icons/bs";
 import { LiaCheckSolid } from "react-icons/lia";
-
+import { useNavigate } from "react-router-dom";
 export const CartPage = () => {
+  const navigate = useNavigate();
   const [cart, setCart] = useContext(CartContext);
-
   const { user } = useAuth();
 
   const quantity = cart.reduce((acc, curr) => {
@@ -112,9 +111,9 @@ export const CartPage = () => {
         window.location.href = data.links[1].href;
         //lo hice yo = Darwin, acá inicia
 
-        const sendMail = await fetch(
-          "https://tiket-show-pf-production.up.railway.app/send/mail",
-          //const sendMail = await fetch('http://localhost:3001/send/mail',
+           const sendMail = await fetch(
+            "https://ticketshow-n0gj.onrender.com/create-order",
+         // const sendMail = await fetch('http://localhost:3001/send/mail',
           {
             method: "POST",
             headers: {
@@ -155,12 +154,26 @@ export const CartPage = () => {
     }
   };
 
+  
+  if (!user) {
+    // Si el usuario no está autenticado, mostrar un mensaje o redireccionar a la página de inicio de sesión.
+
+    Swal.fire({
+      position: "center",
+      icon: "warning",
+      title: "Tienes que estar autenticado",
+      showConfirmButton: false,
+      timer: 2500,
+    });
+    navigate("/");
+  }
+
   return cart.length > 0 ? (
     <section>
       <div className="max-w-6xl mx-auto mt-5 bg-grey shadow-2xl sm:px-6 sm:py-12 lg:px-3">
         <div className="mx-auto max-w-3xl">
           <header className="text-center">
-            <h1 className=" text-purple  font-bold sm:text-1xl">Tu Carrito</h1>
+            <h1 className=" text-gray-400 font-medium font-bold sm:text-1xl">Tu Carrito</h1>
           </header>
           {/* Mostrar los elementos del carrito */}
           {cart?.map((item) => (
@@ -169,26 +182,26 @@ export const CartPage = () => {
               className="mt-8 border-b rounded-md border-b-red bg-white shadow-md  border-grey-100 py-2"
             >
               <ul className="space-y-4">
-                <li className="flex  items-center gap-4">
+                <li className="flex  items-center gap-2">
                   <img
                     src={item.image}
                     alt=""
-                    className="h-16 w-16 object-cover"
+                    className="h-20 w-16 object-cover"
                   />
 
-                  <div className="">
-                    <h3 className="text-sm  flex font-bold ">{item.name}</h3>
+                  <div className=" ">
+                    <h3 className="font-bold text-primaryColor">{item.name}</h3>
 
-                    <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">
+                    <div className=" ">
                       <div>
-                        <dt className="inline font-bold">-Stock: </dt>
-                        <dd className="inline">{item.stock}</dd>
+                        <p className="inline text-xs text-gray-400 font-medium font-bold "> Stock: </p>
+                        <p className="inline text-indigo-400 ">{item.stock}</p>
                       </div>
                       <div>
-                        <dt className="inline font-bold">Costo: </dt>
-                        <dd className="inline">${item.price}</dd>
+                        <dt className="inline text-xs text-gray-400 font-medium font-bold">Costo: </dt>
+                        <dd className="inline text-indigo-400 ">${item.price}</dd>
                       </div>
-                    </dl>
+                    </div>
                   </div>
 
                   <div className="flex flex-1 items-center justify-end  mr-10 gap-2">

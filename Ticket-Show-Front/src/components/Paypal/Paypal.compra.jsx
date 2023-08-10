@@ -7,16 +7,20 @@ import { useDispatch } from "react-redux";
 import { postComment } from "../../redux/actions";
 import axios from "axios";
 import Swal from "sweetalert2";
-
+import { useNavigate} from "react-router-dom";
 
 const CompraPaypal = () => {
+  const navigate = useNavigate();
   const [reviews, setReviews] = useState('');
   const [stars, setStars] = useState('');
   const dispatch = useDispatch();
   const { user } = useAuth();
 
+  
   const userEmail = user && user.email ? user.email : ''; //mail
   const userName = user && user.displayName ? user.displayName : ""; //nombre
+  
+  
 
   const handlerInputChange = (e) => {
     e.preventDefault();
@@ -44,7 +48,10 @@ const CompraPaypal = () => {
           showConfirmButton: false,
           timer: 2500,
         });
-          Navigate("/");
+
+          navigate("/");
+      
+
       })
       .catch((err) => {
         // Manejar el error si ocurre
@@ -59,6 +66,9 @@ const CompraPaypal = () => {
     e.preventDefault
     setStars(e.target.value);
   }
+
+
+
 
   return (
     <div>
@@ -78,7 +88,11 @@ const CompraPaypal = () => {
               value={reviews}
               onChange={handlerInputChange}
             />
+
           </label>
+
+          <spam className="text-DarkTextBlack">Calificanos</spam>
+
           <input
             className="block text-center w-44 border"
             type="range"

@@ -16,13 +16,13 @@ const NavBar = () => {
   const [ open, setOpen ] = useState(false);
   const { user, logout } = useAuth(); // Extrae el usuario y la función de logout del contexto
   const users = useSelector((state) => state?.user);
+  const userEmail = user && user.email ? user.email : ''; //mail
   
-
   const usersFinder = users?.length
-    ? users?.find((rol) => rol.email === user?.email)
+    ? users?.find((rol) => rol.email?.toLowerCase() === userEmail?.toLowerCase())
     : null;
   const activeStyle = "underline-offset-5 border-b-2 border-secondaryColor";
-
+ 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -208,8 +208,10 @@ const NavBar = () => {
                           Crear Evento
                         </NavLink>
                       ) : null
-                      }
-                      {usersFinder?.role === "customer" ? (
+
+                       }
+                      {usersFinder?.role === "admin" ? (
+
                         <NavLink
                           to="/PanelAdmin"
                           className="block rounded-lg px-4 py-2 text-sm hover:text-secondaryColor hover:bg-BackgroundLight"

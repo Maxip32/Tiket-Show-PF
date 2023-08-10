@@ -14,6 +14,8 @@ import registerPublic from "../../assets/image/registerPublic.jpg";
 import Swal from "sweetalert2";
 //import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+
 const validate = (form) => {
   let errors = {};
   if (!form.name) {
@@ -79,10 +81,12 @@ const FormFirebase = () => {
     );
   };
 
+
+
   const validRegister = Array.isArray(usuario)
     ? usuario.filter((usr) => usr.email === form.emailRegister)
     : [];
-
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   //const validLogin = usuario?.filter(usr => usr.email === email);// NO DESCOMENTAR
@@ -118,8 +122,10 @@ const FormFirebase = () => {
   const clearState = () => {
     setNombreToDB("");
     setEmailToDB("");
-/*     setForm.emailRegister("");
-    setForm.passwordRegister(""); */
+
+    // setForm.emailRegister("");
+    // setForm.passwordRegister("");
+
     setEmail("");
     setPassword("");
     setUserInfo({
@@ -238,15 +244,7 @@ const FormFirebase = () => {
     }
   };
 
-  // const handleOnChange = (e) => {
-  //   e.preventDefault();
-  //   setUserInfo({
-  //     ...userInfo,
-  //     [e.target.name]: e.target.value,
-  //     verified: true,
-  //     role: "customer"
-  //   });
-  // };
+  
 
   return (
     <div className="w-full flex justify-center items-center mt-10 max-w-4xl md:mx-auto md:mb-6">
@@ -302,20 +300,26 @@ const FormFirebase = () => {
             </section>
 
             <section className="w-full">
-              <input
-                placeholder="Contraseña"
-                type="password"
-                name="passwordRegister"
-                onChange={handlerInputChange}
-                value={form.passwordRegister}
-                className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor"
-              />
-              {errors.passwordRegister && (
-                <p className="text-xs text-red-500">
-                  {errors.passwordRegister}
-                </p>
-              )}
-            </section>
+
+  <div className="relative">
+    <input
+      placeholder="Contraseña"
+      type={showPassword ? "text" : "password"}
+      name="passwordRegister"
+      onChange={handlerInputChange}
+      value={form.passwordRegister}
+      className="w-full rounded-lg border bg-BackgroundLight px-4 py-2 focus:outline-none focus:border-secondaryColor pr-12"
+    />
+    <button
+      type="button"
+      onClick={() => setShowPassword(!showPassword)}
+      className="absolute top-1/2 right-2 transform -translate-y-1/2 text-secondaryColor focus:outline-none"
+    >
+      {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+    </button>
+  </div>
+</section>
+
             {/* <input
           type="file"
           accept="image/*"
