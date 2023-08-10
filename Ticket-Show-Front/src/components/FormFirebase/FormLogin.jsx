@@ -23,12 +23,32 @@ const validate = (form) => {
   return errors;
 };
 
+const validate = (form) => {
+  let errors = {};
+  if (!form.email) {
+    errors.email = "Debes colocar un email";
+  } else if (
+    !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(form.email)
+  ) {
+    errors.email = "Debes colocar un email valido";
+  }
+  if (!form.password) {
+    errors.password = "Debes colocar una contraseña";
+  } else if (!/^(?=.*\d)(?=.*[a-zA-Z])(.{7,})$/.test(form.password)) {
+    errors.password =
+      "Debe tener un Numero, una letra y ser mayor de 6 caracteres";
+  }
+  return errors;
+};
+
 const LoginForm = () => {
   const [error, setError] = useState(null);
   const { login, loginWithGoogle, checkUserDisabled  } = useAuth(); // Asegúrate de que el contexto tenga las funciones de inicio de sesión
   const [ name, setName] = useState("");
   const navigate= useNavigate()
+
   const [showPassword, setShowPassword] = useState(false);
+
   /* const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
  */
@@ -157,6 +177,7 @@ const LoginForm = () => {
               )}
             </section>
 
+
             
             <section className="w-full px-5">
   <div className="relative">
@@ -180,6 +201,7 @@ const LoginForm = () => {
     <p className="text-xs text-red-500">{errors.password}</p>
   )}
 </section>
+
 
             <button
               type="submit"

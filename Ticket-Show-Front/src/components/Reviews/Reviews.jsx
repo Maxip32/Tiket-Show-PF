@@ -8,14 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getComment } from "../../redux/actions";
 
-
-
-
 const Reviews = () => {
   const comment = useSelector((state) => state.comment);
   console.log(comment, "este es el estado comment");
- 
-
 
   const comentario = {
     name: comment.name,
@@ -61,7 +56,6 @@ const Reviews = () => {
       },
     ],
   };
-
 
 
   return (

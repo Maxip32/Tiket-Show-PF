@@ -44,6 +44,7 @@ import {
   NO_EVENTS,
   POST_USER_COMMENT,
   GET_COMMENT,
+
 } from "../redux/actions";
 
 const initialState = {
@@ -70,6 +71,7 @@ const initialState = {
   error: null,
   quotas: [],
   noEvents: "",
+
   comment: [],
 };
 
@@ -412,12 +414,14 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         cancelOrderData: action.payload,
       };
+
       case NO_EVENTS:
       return {
         ...state,
         noEvents: action.payload,
       };
       case POST_USER_COMMENT:
+
       return {
         ...state,
         comment: action.payload // Actualiza tu estado con los datos de la acción
@@ -427,7 +431,7 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         comment: action.payload // Actualiza tu estado con los datos de la acción
       };
-      
+
     default:
       return state;
   }

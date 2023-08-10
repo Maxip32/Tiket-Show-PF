@@ -23,7 +23,7 @@ const Paginate = ({
   };
 
   return (
-    <div className="flex mb-6 gap-2 h-9">
+    <div className="flex mb-6 md:gap-2 h-9">
       <button
         className=" px-3 py-1.5 text-sm text-primaryColor cursor-pointer" 
         onClick={handlePrevPage}

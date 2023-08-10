@@ -13,7 +13,9 @@ import { FcGoogle } from "react-icons/fc"; // Suponiendo que el ícono FcGoogle 
 import registerPublic from "../../assets/image/registerPublic.jpg";
 import Swal from "sweetalert2";
 //import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+
 const validate = (form) => {
   let errors = {};
   if (!form.name) {
@@ -79,6 +81,8 @@ const FormFirebase = () => {
     );
   };
 
+
+
   const validRegister = Array.isArray(usuario)
     ? usuario.filter((usr) => usr.email === form.emailRegister)
     : [];
@@ -118,8 +122,10 @@ const FormFirebase = () => {
   const clearState = () => {
     setNombreToDB("");
     setEmailToDB("");
+
     // setForm.emailRegister("");
     // setForm.passwordRegister("");
+
     setEmail("");
     setPassword("");
     setUserInfo({
@@ -294,6 +300,7 @@ const FormFirebase = () => {
             </section>
 
             <section className="w-full">
+
   <div className="relative">
     <input
       placeholder="Contraseña"
@@ -312,6 +319,7 @@ const FormFirebase = () => {
     </button>
   </div>
 </section>
+
             {/* <input
           type="file"
           accept="image/*"

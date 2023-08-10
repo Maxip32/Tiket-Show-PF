@@ -251,3 +251,36 @@ const ArtistForm = () => {
 };
 
 export default ArtistForm;
+
+
+/* const validate = (form) =>{
+  let errors = {}
+  if (!form.name) {
+    errors.name = 'Debes colocar tu nombre'
+  }
+
+  if (!form.emailRegister) {
+    errors.emailRegister = 'Debes colocar un email'
+  } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(form.emailRegister)) {
+    errors.emailRegister = 'Debes colocar un email valido';
+  }
+  if (!form.passwordRegister) {
+    errors.passwordRegister = 'Debes colocar una contraseña'
+  } else if (!/^(?=.*\d)(?=.*[a-zA-Z])(.{7,})$/.test(form.passwordRegister)) {
+    errors.passwordRegister = 'Debe tener un Numero, una letra y ser mayor de 6 caracteres';
+  }
+  if (!form.nameBand) {
+    errors.nameBand = 'Debes colocar el nombre de tu banda'
+  } else if (!/^[a-zA-Z\s]+$/.test(form.nameBand)) {
+    errors.nameBand = 'El nombre solo puede tener letras y espacios';
+  }
+  if (!form.nameArtist) {
+    errors.nameArtist = 'Debes colocar tu nombre de artista'
+  } else if (!/^[a-zA-Z\s]+$/.test(form.nameArtist)) {
+    errors.nameArtist = 'El nombre solo puede tener letras y espacios';
+  }
+  if (!form.yearCreation) {
+    errors.yearCreation = 'Debes colocar tu nombre de artista'
+  }
+  return errors;
+} */

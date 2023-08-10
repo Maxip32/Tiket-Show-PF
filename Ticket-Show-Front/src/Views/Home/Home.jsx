@@ -365,6 +365,7 @@ const Home = () => {
 
         {/* Inicio Card section */}
         <section className="w-full md:w-auto h-full overflow-x-scroll overscroll-x-contain max-w-7xl mx-auto p-10 m-6 flex flex-nowrap space-x-6 md:flex-wrap md:justify-center overflow-y-hidden scrollbar-hide">
+
         {noEvents ? <p>No hay evento con ese nombre</p> : (
               (
                 currentEvents.length > 0 ? (
@@ -391,6 +392,7 @@ const Home = () => {
                 )
               )
             )}
+
       </section>
           {/* Fin Card section */}
 

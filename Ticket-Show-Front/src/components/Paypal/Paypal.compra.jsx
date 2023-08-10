@@ -2,7 +2,7 @@
 
 import {useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { postComment } from "../../redux/actions";
 import axios from "axios";
@@ -15,11 +15,13 @@ const CompraPaypal = () => {
   const [stars, setStars] = useState('');
   const dispatch = useDispatch();
   const { user } = useAuth();
+
   
   const userEmail = user && user.email ? user.email : ''; //mail
   const userName = user && user.displayName ? user.displayName : ""; //nombre
   
   
+
   const handlerInputChange = (e) => {
     e.preventDefault();
     setReviews(e.target.value); //el comentario
@@ -46,8 +48,10 @@ const CompraPaypal = () => {
           showConfirmButton: false,
           timer: 2500,
         });
+
           navigate("/");
       
+
       })
       .catch((err) => {
         // Manejar el error si ocurre
@@ -86,7 +90,9 @@ const CompraPaypal = () => {
             />
 
           </label>
+
           <spam className="text-DarkTextBlack">Calificanos</spam>
+
           <input
             className="block text-center w-44 border"
             type="range"

@@ -430,6 +430,10 @@ export const updateQuotas = (id) => {
   }
 }
 
+
+=======
+//comentarios
+
 export const POST_USER_COMMENT = "POST_USER_COMMENT";
 
 export function postComment() {
@@ -461,4 +465,6 @@ export function getComment() {
         payload: comentario, // Actualiza el estado con los datos de la respuesta
       });
     }
+
   }
+
